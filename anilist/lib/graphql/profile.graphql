@@ -1,0 +1,91 @@
+query Profile {
+  Viewer {
+    id
+    name
+    about
+    avatar {
+      large
+      medium
+    }
+    bannerImage
+    statistics {
+      anime {
+        count
+        meanScore
+        standardDeviation
+        minutesWatched
+        episodesWatched
+      }
+      manga {
+        count
+        episodesWatched
+        chaptersRead
+        volumesRead
+      }
+    }
+    favourites {
+      characters {
+        pageInfo {
+          total
+          perPage
+          currentPage
+          lastPage
+          hasNextPage
+        }
+        nodes {
+          id
+          name {
+            full
+          }
+          image {
+            medium
+            large
+          }
+        }
+      }
+      anime {
+        pageInfo {
+          total
+          perPage
+          currentPage
+          lastPage
+          hasNextPage
+        }
+        nodes {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            medium
+            large
+            color
+          }
+        }
+      }
+      manga {
+        pageInfo {
+          total
+          perPage
+          currentPage
+          lastPage
+          hasNextPage
+        }
+        nodes {
+          id
+          title {
+            romaji
+            english
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+        }
+      }
+    }
+    unreadNotificationCount
+  }
+}

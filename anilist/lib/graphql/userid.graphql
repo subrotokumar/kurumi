@@ -1,0 +1,6 @@
+query UserID {
+  Viewer {
+    id
+    name
+  }
+}

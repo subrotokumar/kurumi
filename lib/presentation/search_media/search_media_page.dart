@@ -1,0 +1,302 @@
+import 'package:anilist/graphql/__generated__/SearchAnimeQuery.req.gql.dart';
+import 'package:anilist/medialist_collection.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ferry_flutter/ferry_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/config/app_route_constant.dart';
+import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/main.dart';
+import 'package:kurumi/utils/utils.functions.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:lottie/lottie.dart';
+
+enum SearchView { LIST, GRID }
+
+class SearchMedia extends StatefulWidget {
+  const SearchMedia({super.key});
+
+  @override
+  State<SearchMedia> createState() => _SearchMediaState();
+}
+
+class _SearchMediaState extends State<SearchMedia> {
+  TextEditingController textEditingController = TextEditingController();
+  List<GMediaType> a = [GMediaType.ANIME, GMediaType.MANGA];
+  int pageIndex = 0;
+
+  SearchView view = SearchView.LIST;
+
+  @override
+  void dispose() {
+    textEditingController.clear();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: AppTheme.background,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppTheme.secondaryColor,
+        scrolledUnderElevation: 0,
+        actions: [
+          IconButton(
+            visualDensity: VisualDensity(horizontal: -4, vertical: -2),
+            onPressed: () async {
+              SearchView viewChanger = view;
+              await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: Text('ANIME'),
+                          onTap: () {
+                            if (pageIndex != 0) setState(() => pageIndex = 0);
+                            context.pop();
+                          },
+                        ),
+                        ListTile(
+                          title: Text('Manga'),
+                          onTap: () {
+                            if (pageIndex != 1) setState(() => pageIndex = 1);
+                            context.pop();
+                          },
+                        ),
+                        Divider(),
+                        StatefulBuilder(
+                          builder: (context, newState) {
+                            return ListTile(
+                              title: Text('GRID VIEW'),
+                              trailing: Switch(
+                                onChanged: (v) => newState(() {
+                                  if (viewChanger == SearchView.LIST)
+                                    viewChanger = SearchView.GRID;
+                                  else
+                                    viewChanger = SearchView.LIST;
+                                }),
+                                value: viewChanger == SearchView.LIST,
+                              ),
+                            );
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: Text('Apply Changes'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+              setState(() {
+                view = viewChanger;
+              });
+            },
+            style: IconButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              backgroundColor: Colors.green,
+              side: BorderSide(color: Colors.green),
+            ),
+            icon: Icon(
+              view == SearchView.LIST ? Icons.menu : Icons.grid_4x4_rounded,
+              size: 20,
+            ),
+          ),
+          SizedBox(width: 16),
+        ],
+        title: TextField(
+          controller: textEditingController,
+          onSubmitted: (v) => setState(() {}),
+          decoration: InputDecoration(
+            hintText: 'What are you looking for?',
+            border: InputBorder.none,
+            // suffixIcon:
+          ),
+        ),
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          width: size.width,
+          color: Colors.black87,
+          child: Consumer(
+            builder: (context, ref, error) {
+              final client = ref.watch(clientProvider);
+              return Operation(
+                client: client!,
+                operationRequest: GSearchAnimeQueryReq(
+                  (b) => b
+                    ..vars.search = textEditingController.text
+                    ..vars.page = 1,
+                ),
+                builder: (context, response, error) {
+                  if (response == null || response.loading) {
+                    return Center(
+                      child: LottieBuilder.asset(
+                        'assets/lotties/loading-gif-animation.json',
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else {
+                    final res = response.data?.Page?.media;
+                    if (view == SearchView.GRID) {
+                      return GridView.builder(
+                        padding: EdgeInsets.all(10),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 2 / 4,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 0,
+                        ),
+                        itemCount: res?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final data = res?.elementAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              print((data?.id ?? 0).toString());
+                              HapticFeedback.lightImpact();
+                              context.pushNamed(
+                                AppRouteConstant.MediaScreen.name,
+                                params: {
+                                  'id': (data?.id ?? 0).toString(),
+                                  'title': data?.title?.userPreferred ?? '',
+                                },
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: CachedNetworkImage(
+                                    height: 170,
+                                    fit: BoxFit.fitHeight,
+                                    imageUrl: data?.coverImage?.large ?? '',
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  data?.title?.userPreferred ?? '',
+                                  maxLines: 2,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: res?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final data = res?.elementAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              print((data?.id ?? 0).toString());
+                              HapticFeedback.lightImpact();
+                              context.pushNamed(
+                                AppRouteConstant.MediaScreen.name,
+                                params: {
+                                  'id': (data?.id ?? 0).toString(),
+                                  'title': data?.title?.userPreferred ?? '',
+                                },
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                width: size.width,
+                                margin: EdgeInsets.only(
+                                    left: 12, right: 12, top: 12),
+                                height: 140,
+                                color: Colors.white10,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      flex: 1,
+                                      child: CachedNetworkImage(
+                                        imageUrl: data?.coverImage?.large ?? '',
+                                        height: 140,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 8,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data?.title?.userPreferred ?? '',
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 17),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              '${data?.startDate?.year} • ${data?.format?.name}',
+                                              style: TextStyle(
+                                                color: Colors.blue.shade200,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            // Text(
+                                            //   '${data?.format?.name ?? ''}',
+                                            //   style: TextStyle(
+                                            //     color: Colors.green.shade200,
+                                            //     fontSize: 15,
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }
+                },
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

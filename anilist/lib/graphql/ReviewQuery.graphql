@@ -1,0 +1,26 @@
+query ReviewQuery($page: Int, $perPage: Int, $type: MediaType!) {
+  Page(page: $page, perPage: $perPage) {
+    reviews(mediaType: $type, sort: CREATED_AT_DESC) {
+      userId
+      user {
+        name
+      }
+      score
+      summary
+      ratingAmount
+      rating
+      media {
+        id
+        title {
+          userPreferred
+        }
+        bannerImage
+        coverImage {
+          extraLarge
+          large
+          color
+        }
+      }
+    }
+  }
+}

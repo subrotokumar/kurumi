@@ -1,0 +1,37 @@
+query MediaListCollection(
+  $userId: Int
+  $type: MediaType
+  $status: MediaListStatus
+) {
+  MediaListCollection(userId: $userId, type: $type, status: $status) {
+    lists {
+      entries {
+        id
+        status
+        progress
+        progressVolumes
+        score
+        mediaId
+        media {
+          id
+          title {
+            romaji
+            english
+            userPreferred
+          }
+          coverImage {
+            medium
+            large
+            extraLarge
+            color
+          }
+          bannerImage
+          episodes
+          chapters
+          volumes
+          format
+        }
+      }
+    }
+  }
+}

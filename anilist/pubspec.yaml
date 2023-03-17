@@ -1,0 +1,22 @@
+name: anilist
+description: anilist_client
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ">=2.19.2 <3.0.0"
+
+# dependencies:
+#   path: ^1.8.0
+
+dev_dependencies:
+  build_runner: ^2.3.3
+  ferry_generator: ^0.8.0+1
+  lints: ^2.0.0
+  test: ^1.21.0
+dependencies:
+  ferry: ^0.14.0+1
+  # gql_code_builder: ^0.7.1
+  ferry_hive_store: ^0.5.1
+  gql_http_link: ^0.4.5
+  hive: ^2.2.3

@@ -1,0 +1,33 @@
+query trendingAnime($pageNum: Int, $perPage: Int) {
+  Page(page: $pageNum, perPage: $perPage) {
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(
+      status: RELEASING
+      type: ANIME
+      episodes_lesser: 50
+      countryOfOrigin: JP
+      sort: [POPULARITY_DESC, TRENDING]
+    ) {
+      id
+      idMal
+      title {
+        romaji
+        english
+        userPreferred
+      }
+      bannerImage
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+    }
+  }
+}

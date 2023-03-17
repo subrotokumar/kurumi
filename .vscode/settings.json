@@ -1,0 +1,32 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "macos": true,
+    "test": true,
+    "**/windows": true,
+    "windows": true,
+    "**/.idea": true,
+    ".idea": true,
+    ".vscode": true,
+    ".dart_tool": true,
+    "linux": true,
+    ".flutter-plugins": true,
+    ".metadata": true,
+    "analysis_options.yaml": true,
+    ".flutter-plugins-dependencies": true,
+    "kurumi.iml": true,
+    "build": true,
+    "web": true
+  },
+  "explorerExclude.backup": {},
+  "java.configuration.updateBuildConfiguration": "interactive"
+}
