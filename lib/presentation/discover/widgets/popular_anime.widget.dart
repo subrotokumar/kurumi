@@ -95,7 +95,7 @@ class PopularAnime extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Hero(
-                                tag: 'coverImage',
+                                tag: '${data?.elementAt(index)?.id ?? ''}',
                                 child: CachedNetworkImage(
                                   height: 120,
                                   width: 100,

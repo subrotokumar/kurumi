@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/presentation/home/homepage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -42,7 +43,7 @@ class MediaListBuilderWidget extends StatelessWidget {
                     highlightColor: Colors.black12,
                     child: Container(
                       margin: EdgeInsets.all(10),
-                      height: 120,
+                      height: index == 0 ? 45 : 120,
                       color: Colors.white24,
                     ),
                   );
@@ -50,10 +51,22 @@ class MediaListBuilderWidget extends StatelessWidget {
               );
             }
             if (response.data?.MediaListCollection?.lists?.isEmpty ?? true) {
-              return Center(
-                child: LottieBuilder.asset(
-                  'assets/lotties/gibli-tribute.json',
-                ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LottieBuilder.asset(
+                    'assets/lotties/ufo.json',
+                    fit: BoxFit.contain,
+                  ),
+                  Text(
+                    'Nothing Found',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               );
             } else {
               final data = response.data?.MediaListCollection?.lists
@@ -61,9 +74,53 @@ class MediaListBuilderWidget extends StatelessWidget {
                   ?.entries;
               return ListView.builder(
                 padding: EdgeInsets.all(0),
-                itemCount: data?.length ?? 0,
+                itemCount: (data?.length ?? 0) + 1,
                 itemBuilder: (context, index) {
-                  final mediaData = data?.elementAt(index);
+                  if (index == 0) {
+                    return Container(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Consumer(builder: (context, ref, child) {
+                            int pageIndex = type == GMediaType.ANIME
+                                ? ref.watch(animeTabProvider)
+                                : ref.watch(mangaTabProvider);
+                            return Text(
+                              '${[
+                                'Ongoing',
+                                'Planning',
+                                'Completed',
+                                'On Hold',
+                                'Dropped'
+                              ][pageIndex]}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 30,
+                                color: [
+                                  Colors.green,
+                                  Colors.orange,
+                                  Colors.blue,
+                                  Colors.pinkAccent,
+                                  Colors.yellow,
+                                ][pageIndex],
+                              ),
+                            );
+                          }),
+                          Text(
+                            ' ${type == GMediaType.ANIME ? 'Anime' : 'Manga'}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                        ],
+                      ),
+                    );
+                  }
+                  final mediaData = data?.elementAt(index - 1);
                   String col =
                       mediaData?.media?.coverImage?.color?.toString() ??
                           '#ffffff';
@@ -76,7 +133,7 @@ class MediaListBuilderWidget extends StatelessWidget {
                         params: {
                           'id': (response.data?.MediaListCollection?.lists
                                       ?.first?.entries
-                                      ?.elementAt(index)
+                                      ?.elementAt(index - 1)
                                       ?.media
                                       ?.id ??
                                   0)
@@ -89,11 +146,7 @@ class MediaListBuilderWidget extends StatelessWidget {
                       margin: EdgeInsets.all(10),
                       height: 120,
                       decoration: BoxDecoration(
-                        color: true
-                            ? Colors.white10
-                            : Color(int.parse(col.substring(1, 7), radix: 16) +
-                                    0xFF000000)
-                                .withOpacity(0.2),
+                        color: Colors.white10,
                         border: Border.all(color: color, width: 1),
                         // borderRadius: BorderRadius.circular(10),
                       ),
@@ -102,13 +155,16 @@ class MediaListBuilderWidget extends StatelessWidget {
                         children: [
                           Flexible(
                             flex: 3,
-                            child: CachedNetworkImage(
-                              height: 120,
-                              fit: BoxFit.cover,
-                              width: 100,
-                              imageUrl: mediaData?.media?.coverImage?.large ??
-                                  mediaData?.media?.coverImage?.medium ??
-                                  '',
+                            child: Hero(
+                              tag: '${mediaData?.media?.id ?? ''}',
+                              child: CachedNetworkImage(
+                                height: 120,
+                                fit: BoxFit.cover,
+                                width: 100,
+                                imageUrl: mediaData?.media?.coverImage?.large ??
+                                    mediaData?.media?.coverImage?.medium ??
+                                    '',
+                              ),
                             ),
                           ),
                           Flexible(

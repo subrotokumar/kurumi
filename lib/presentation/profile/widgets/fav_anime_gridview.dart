@@ -30,6 +30,7 @@ class FavAnimeGridview extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 10,
+          childAspectRatio: 1,
         ),
         // scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
@@ -50,13 +51,14 @@ class FavAnimeGridview extends StatelessWidget {
               },
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 5),
-                height: 100,
-                width: 100,
-                child: CachedNetworkImage(
-                  height: 100,
-                  width: 100,
-                  imageUrl: data?.coverImage?.large ?? '',
-                  fit: BoxFit.fitWidth,
+                child: SizedBox.square(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: CachedNetworkImage(
+                      imageUrl: data?.coverImage?.large ?? '',
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ),
               ),
             ),

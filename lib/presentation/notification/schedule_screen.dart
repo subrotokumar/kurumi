@@ -59,8 +59,8 @@ class ScheduleScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         Colors.black,
-                        Colors.black26,
-                        Colors.black26,
+                        Colors.black54,
+                        Colors.black54,
                         Colors.black
                       ],
                       begin: Alignment.topCenter,

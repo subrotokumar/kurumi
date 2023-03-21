@@ -63,83 +63,37 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                 width: size.width - 40,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: SafeArea(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Consumer(builder: (context, ref, child) {
-                              int pageIndex = ref.watch(mangaTabProvider);
-                              return Text(
-                                '${[
-                                  'Ongoing',
-                                  'Planning',
-                                  'Completed',
-                                  'On Hold',
-                                  'Dropped'
-                                ][pageIndex].toUpperCase()}',
-                                style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: [
-                                    Colors.green,
-                                    Colors.orange,
-                                    Colors.blue,
-                                    Colors.pinkAccent,
-                                    Colors.yellow,
-                                  ][pageIndex],
-                                ),
-                              );
-                            }),
-                            Text(
-                              ' MANGA',
-                              style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                          ],
+                  child: Consumer(
+                    builder: (context, ref, child) => PageView(
+                      controller: controller,
+                      onPageChanged: (value) => {
+                        ref
+                            .read(mangaTabProvider.notifier)
+                            .update((state) => value)
+                      },
+                      children: [
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.CURRENT,
+                          type: GMediaType.MANGA,
                         ),
-                      ),
-                      Flexible(
-                        child: Consumer(
-                          builder: (context, ref, child) => PageView(
-                            controller: controller,
-                            onPageChanged: (value) => {
-                              ref
-                                  .read(mangaTabProvider.notifier)
-                                  .update((state) => value)
-                            },
-                            children: [
-                              MediaListBuilderWidget(
-                                status: GMediaListStatus.CURRENT,
-                                type: GMediaType.MANGA,
-                              ),
-                              MediaListBuilderWidget(
-                                status: GMediaListStatus.PLANNING,
-                                type: GMediaType.MANGA,
-                              ),
-                              MediaListBuilderWidget(
-                                status: GMediaListStatus.COMPLETED,
-                                type: GMediaType.MANGA,
-                              ),
-                              MediaListBuilderWidget(
-                                status: GMediaListStatus.PAUSED,
-                                type: GMediaType.MANGA,
-                              ),
-                              MediaListBuilderWidget(
-                                status: GMediaListStatus.DROPPED,
-                                type: GMediaType.MANGA,
-                              ),
-                            ],
-                          ),
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.PLANNING,
+                          type: GMediaType.MANGA,
                         ),
-                      ),
-                    ],
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.COMPLETED,
+                          type: GMediaType.MANGA,
+                        ),
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.PAUSED,
+                          type: GMediaType.MANGA,
+                        ),
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.DROPPED,
+                          type: GMediaType.MANGA,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

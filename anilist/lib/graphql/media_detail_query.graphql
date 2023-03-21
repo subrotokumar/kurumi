@@ -48,6 +48,7 @@ query MediaDetailQuery($id: Int!, $limit: Int, $page: Int, $perPage: Int) {
     format
     popularity
     favourites
+    isFavourite
     tags {
       id
       name

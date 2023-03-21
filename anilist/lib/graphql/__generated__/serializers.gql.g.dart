@@ -202,6 +202,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GSubmissionStatus.serializer)
       ..add(GThreadCommentSort.serializer)
       ..add(GThreadSort.serializer)
+      ..add(GToggleFavouriteData.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_anime.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_anime_nodes.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_characters.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_characters_edges.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_characters_pageInfo.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_manga.serializer)
+      ..add(GToggleFavouriteData_ToggleFavourite_manga_nodes.serializer)
+      ..add(GToggleFavouriteReq.serializer)
+      ..add(GToggleFavouriteVars.serializer)
       ..add(GUserIDData.serializer)
       ..add(GUserIDData_Viewer.serializer)
       ..add(GUserIDReq.serializer)
@@ -391,6 +402,27 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () =>
               new ListBuilder<GSearchMangaQueryData_Page_media_staff_edges?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GToggleFavouriteData_ToggleFavourite_anime_nodes)
+          ]),
+          () => new ListBuilder<
+              GToggleFavouriteData_ToggleFavourite_anime_nodes?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GToggleFavouriteData_ToggleFavourite_characters_edges)
+          ]),
+          () => new ListBuilder<
+              GToggleFavouriteData_ToggleFavourite_characters_edges?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GToggleFavouriteData_ToggleFavourite_manga_nodes)
+          ]),
+          () => new ListBuilder<
+              GToggleFavouriteData_ToggleFavourite_manga_nodes?>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType.nullable(GtrendingAnimeData_Page_media)]),

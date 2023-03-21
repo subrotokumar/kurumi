@@ -55,8 +55,10 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         defaultHeaders: {'Authorization': 'Bearer $accessToken'},
       );
     }
-    final client = Client(link: httpLink, cache: cache);
-
+    final client = Client(
+      link: httpLink,
+      cache: cache,
+    );
     ref.read(accessTokenProvider.notifier).update((state) => accessToken);
     ref.read(clientProvider.notifier).update((state) => client);
     client.request(GUserIDReq()).listen((event) {

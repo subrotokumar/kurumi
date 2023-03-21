@@ -54,46 +54,46 @@ class _AnimeScreenState extends State<AnimeScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
-                    Container(
-                      height: 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Consumer(builder: (context, ref, child) {
-                            int pageIndex = ref.watch(animeTabProvider);
-                            return Text(
-                              '${[
-                                'Ongoing',
-                                'Planning',
-                                'Completed',
-                                'On Hold',
-                                'Dropped'
-                              ][pageIndex].toUpperCase()}',
-                              style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color: [
-                                  Colors.green,
-                                  Colors.orange,
-                                  Colors.blue,
-                                  Colors.pinkAccent,
-                                  Colors.yellow,
-                                ][pageIndex],
-                              ),
-                            );
-                          }),
-                          Text(
-                            ' ANIME',
-                            style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   height: 60,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       Consumer(builder: (context, ref, child) {
+                    //         int pageIndex = ref.watch(animeTabProvider);
+                    //         return Text(
+                    //           '${[
+                    //             'Ongoing',
+                    //             'Planning',
+                    //             'Completed',
+                    //             'On Hold',
+                    //             'Dropped'
+                    //           ][pageIndex].toUpperCase()}',
+                    //           style: GoogleFonts.roboto(
+                    //             fontWeight: FontWeight.bold,
+                    //             fontSize: 22,
+                    //             color: [
+                    //               Colors.green,
+                    //               Colors.orange,
+                    //               Colors.blue,
+                    //               Colors.pinkAccent,
+                    //               Colors.yellow,
+                    //             ][pageIndex],
+                    //           ),
+                    //         );
+                    //       }),
+                    //       Text(
+                    //         ' ANIME',
+                    //         style: GoogleFonts.roboto(
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 22,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //       SizedBox(width: 10),
+                    //     ],
+                    //   ),
+                    // ),
                     Flexible(
                       child: Consumer(
                         builder: (context, ref, child) => PageView(

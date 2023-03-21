@@ -52,10 +52,11 @@ class _BackgroundImageState extends State<BackgroundImage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       controller: scrollController,
-      child: widget.data?.bannerImage == null
+      child: widget.data?.bannerImage == null || true
           ? Column(
               children: [
                 Align(
@@ -66,7 +67,15 @@ class _BackgroundImageState extends State<BackgroundImage> {
                     imageUrl: widget.data?.coverImage?.extraLarge ??
                         widget.data?.coverImage?.large ??
                         '',
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => CachedNetworkImage(
+                      height: 120,
+                      width: 100,
+                      imageUrl: widget.data?.coverImage?.large ??
+                          widget.data?.coverImage?.extraLarge ??
+                          '',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Align(
@@ -80,6 +89,14 @@ class _BackgroundImageState extends State<BackgroundImage> {
                       imageUrl: widget.data?.coverImage?.extraLarge ??
                           widget.data?.coverImage?.large ??
                           '',
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        height: 120,
+                        width: 100,
+                        imageUrl: widget.data?.coverImage?.large ??
+                            widget.data?.coverImage?.extraLarge ??
+                            '',
+                        fit: BoxFit.cover,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -93,7 +110,15 @@ class _BackgroundImageState extends State<BackgroundImage> {
                   child: CachedNetworkImage(
                     height: size.height * 0.5,
                     imageUrl: widget.data?.bannerImage ?? '',
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => CachedNetworkImage(
+                      height: 120,
+                      width: 100,
+                      imageUrl: widget.data?.coverImage?.extraLarge ??
+                          widget.data?.coverImage?.large ??
+                          '',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Align(
@@ -105,6 +130,14 @@ class _BackgroundImageState extends State<BackgroundImage> {
                       height: size.height * 0.5,
                       imageUrl: widget.data?.bannerImage ?? '',
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        height: 120,
+                        width: 100,
+                        imageUrl: widget.data?.coverImage?.extraLarge ??
+                            widget.data?.coverImage?.large ??
+                            '',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

@@ -51,7 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
             client: client!,
             operationRequest: GProfileReq(),
             builder: (context, response, error) {
-              print(response?.data);
               if (response!.loading) {
                 return Center(
                   child: LottieBuilder.asset(

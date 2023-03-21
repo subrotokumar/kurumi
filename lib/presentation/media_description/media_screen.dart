@@ -1,20 +1,21 @@
 import 'package:anilist/discover_media.dart';
 import 'package:anilist/graphql/__generated__/media_detail_query.data.gql.dart';
 import 'package:anilist/graphql/__generated__/media_detail_query.req.gql.dart';
+import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kurumi/config/app_theme.dart';
-import 'package:line_icons/line_icon.dart';
+import 'package:kurumi/presentation/media_description/widgets/anilist_tracking.widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/config/app_theme.dart';
 import 'package:kurumi/main.dart';
 import 'package:kurumi/presentation/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/utils/utils.functions.dart';
@@ -29,10 +30,23 @@ class MediaScreen extends ConsumerStatefulWidget {
 }
 
 class _MediaScreenState extends ConsumerState<MediaScreen> {
+  final _loading = StateProvider<bool>((ref) => false);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: Consumer(builder: (context, ref, child) {
+        final flag = ref.watch(_loading);
+        return flag
+            ? LottieBuilder.asset(
+                'assets/lotties/loading-gif-animation.json',
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              )
+            : Container();
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: AppTheme.background,
       body: Consumer(
         builder: (context, ref, child) {
@@ -65,7 +79,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                   child: SingleChildScrollView(
                     child: Stack(
                       children: [
-                        BannerAppBar(data: data, size: size),
+                        BannerAppBar(data: data, size: size, loading: _loading),
                         SafeArea(
                           child: Column(
                             children: [
@@ -78,7 +92,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                 child: Row(
                                   children: [
                                     Hero(
-                                      tag: 'coverImage',
+                                      tag: '${data?.id ?? ''}',
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: CachedNetworkImage(
@@ -88,6 +102,16 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                           fit: BoxFit.cover,
                                           height: 160,
                                           width: 120,
+                                          errorWidget: (context, url, error) =>
+                                              CachedNetworkImage(
+                                            imageUrl:
+                                                data?.coverImage?.extraLarge ??
+                                                    data?.coverImage?.large ??
+                                                    '',
+                                            fit: BoxFit.cover,
+                                            height: 160,
+                                            width: 120,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -147,7 +171,15 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                   .iconTheme
                                                   .color,
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              showBottomSheet(
+                                                context: context,
+                                                backgroundColor:
+                                                    AppTheme.secondaryColor,
+                                                builder: (context) =>
+                                                    AnilistTrackingWidget(),
+                                              );
+                                            },
                                             child: Text('ADD'),
                                           )
                                         ],
@@ -217,7 +249,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                               child: Hero(
-                                                tag: 'Character',
+                                                tag:
+                                                    '${characterData?.id ?? ''}',
                                                 child: CachedNetworkImage(
                                                   height: 80,
                                                   width: 80,
@@ -579,10 +612,12 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       padding: const EdgeInsets.only(right: 10),
                                       child: OutlinedButton.icon(
                                         style: OutlinedButton.styleFrom(
-                                            backgroundColor: Colors.white30,
-                                            foregroundColor: iconColor,
-                                            side: BorderSide(color: iconColor)),
+                                          backgroundColor: Colors.white12,
+                                          foregroundColor: iconColor,
+                                          side: BorderSide(color: Colors.white),
+                                        ),
                                         icon: CachedNetworkImage(
+                                          height: 18,
                                           color: iconColor,
                                           imageUrl: data?.externalLinks
                                                   ?.elementAt(i)
@@ -611,11 +646,13 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                   ?.elementAt(i)
                                                   ?.site ??
                                               '',
-                                          style: TextStyle(shadows: [
-                                            Shadow(
-                                                color: Colors.black,
-                                                blurRadius: 1)
-                                          ]),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              shadows: [
+                                                Shadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 1)
+                                              ]),
                                         ),
                                       ),
                                     );
@@ -725,18 +762,21 @@ class MediaGenreSection extends StatelessWidget {
   }
 }
 
-class BannerAppBar extends StatelessWidget {
+class BannerAppBar extends ConsumerWidget {
   const BannerAppBar({
     super.key,
     required this.data,
     required this.size,
+    required this.loading,
   });
 
   final GMediaDetailQueryData_Media? data;
   final Size size;
+  final StateProvider<bool> loading;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final client = ref.watch(clientProvider);
     return Column(
       children: [
         Stack(
@@ -793,6 +833,12 @@ class BannerAppBar extends StatelessWidget {
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 25,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 5,
+                        )
+                      ],
                     ),
                   ),
                   Spacer(),
@@ -809,13 +855,62 @@ class BannerAppBar extends StatelessWidget {
                           )
                         ]),
                   ),
-                  IconButton(
-                    style: IconButton.styleFrom(
-                      foregroundColor: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {},
-                    icon: LineIcon.heartAlt(size: 25),
-                  ),
+                  Consumer(builder: (context, ref, child) {
+                    return IconButton(
+                      style: IconButton.styleFrom(
+                        foregroundColor: Theme.of(context).iconTheme.color,
+                      ),
+                      onPressed: () {
+                        print((data?.isFavourite ?? false));
+                        ref.read(loading.notifier).update((state) => true);
+                        try {
+                          client!
+                              .request(
+                            GToggleFavouriteReq(
+                                (b) => b..vars.animeId = data?.id),
+                          )
+                              .listen((event) {
+                            print(event.data?.ToggleFavourite?.toJson());
+
+                            final req = GMediaDetailQueryReq(
+                              (b) => b
+                                ..vars.id = data?.id
+                                ..vars.limit = 5
+                                ..vars.page = 1
+                                ..vars.perPage = 10,
+                            );
+                            final cache = client.cache.readQuery(req);
+                            // client.cache.clear();
+                            // client.request(req);
+                            client.cache.writeQuery(
+                              req,
+                              cache!.rebuild(
+                                (p) => p
+                                  ..Media.isFavourite =
+                                      !(data?.isFavourite ?? false),
+                              ),
+                            );
+                            ref.read(loading.notifier).update((state) => false);
+                          });
+                        } catch (e) {
+                          ref.read(loading.notifier).update((state) => false);
+                        }
+                      },
+                      icon: Icon(
+                        CupertinoIcons.heart_fill,
+                        size: 25,
+                        color: (data?.isFavourite ?? false)
+                            ? Colors.redAccent
+                            : Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 5,
+                          )
+                        ],
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

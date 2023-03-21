@@ -87,7 +87,7 @@ class TrendingAnime extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               child: InkWell(
                                 child: Hero(
-                                  tag: 'coverImage',
+                                  tag: '${data?.elementAt(index)?.id ?? ''}',
                                   child: CachedNetworkImage(
                                     height: 120,
                                     width: 100,
@@ -95,7 +95,26 @@ class TrendingAnime extends StatelessWidget {
                                             ?.elementAt(index)
                                             ?.coverImage
                                             ?.large ??
+                                        data
+                                            ?.elementAt(index)
+                                            ?.coverImage
+                                            ?.medium ??
                                         '',
+                                    errorWidget: (context, url, error) =>
+                                        CachedNetworkImage(
+                                      height: 120,
+                                      width: 100,
+                                      imageUrl: data
+                                              ?.elementAt(index)
+                                              ?.coverImage
+                                              ?.extraLarge ??
+                                          data
+                                              ?.elementAt(index)
+                                              ?.coverImage
+                                              ?.medium ??
+                                          '',
+                                      fit: BoxFit.cover,
+                                    ),
                                     fit: BoxFit.cover,
                                   ),
                                 ),

@@ -204,6 +204,9 @@ class _$GMediaDetailQueryData_MediaSerializer
           specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'isFavourite',
+      serializers.serialize(object.isFavourite,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.idMal;
@@ -584,6 +587,10 @@ class _$GMediaDetailQueryData_MediaSerializer
         case 'favourites':
           result.favourites = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
+          break;
+        case 'isFavourite':
+          result.isFavourite = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
         case 'tags':
           result.tags.replace(serializers.deserialize(value,
@@ -3642,6 +3649,8 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
   @override
   final int? favourites;
   @override
+  final bool isFavourite;
+  @override
   final BuiltList<GMediaDetailQueryData_Media_tags?>? tags;
   @override
   final GMediaDetailQueryData_Media_relations? relations;
@@ -3689,6 +3698,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
       this.format,
       this.popularity,
       this.favourites,
+      required this.isFavourite,
       this.tags,
       this.relations,
       this.characters,
@@ -3701,6 +3711,8 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
         G__typename, r'GMediaDetailQueryData_Media', 'G__typename');
     BuiltValueNullFieldError.checkNotNull(
         id, r'GMediaDetailQueryData_Media', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        isFavourite, r'GMediaDetailQueryData_Media', 'isFavourite');
   }
 
   @override
@@ -3744,6 +3756,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
         format == other.format &&
         popularity == other.popularity &&
         favourites == other.favourites &&
+        isFavourite == other.isFavourite &&
         tags == other.tags &&
         relations == other.relations &&
         characters == other.characters &&
@@ -3784,6 +3797,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
     _$hash = $jc(_$hash, format.hashCode);
     _$hash = $jc(_$hash, popularity.hashCode);
     _$hash = $jc(_$hash, favourites.hashCode);
+    _$hash = $jc(_$hash, isFavourite.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, relations.hashCode);
     _$hash = $jc(_$hash, characters.hashCode);
@@ -3826,6 +3840,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
           ..add('format', format)
           ..add('popularity', popularity)
           ..add('favourites', favourites)
+          ..add('isFavourite', isFavourite)
           ..add('tags', tags)
           ..add('relations', relations)
           ..add('characters', characters)
@@ -3968,6 +3983,10 @@ class GMediaDetailQueryData_MediaBuilder
   int? get favourites => _$this._favourites;
   set favourites(int? favourites) => _$this._favourites = favourites;
 
+  bool? _isFavourite;
+  bool? get isFavourite => _$this._isFavourite;
+  set isFavourite(bool? isFavourite) => _$this._isFavourite = isFavourite;
+
   ListBuilder<GMediaDetailQueryData_Media_tags?>? _tags;
   ListBuilder<GMediaDetailQueryData_Media_tags?> get tags =>
       _$this._tags ??= new ListBuilder<GMediaDetailQueryData_Media_tags?>();
@@ -4047,6 +4066,7 @@ class GMediaDetailQueryData_MediaBuilder
       _format = $v.format;
       _popularity = $v.popularity;
       _favourites = $v.favourites;
+      _isFavourite = $v.isFavourite;
       _tags = $v.tags?.toBuilder();
       _relations = $v.relations?.toBuilder();
       _characters = $v.characters?.toBuilder();
@@ -4108,6 +4128,8 @@ class GMediaDetailQueryData_MediaBuilder
               format: format,
               popularity: popularity,
               favourites: favourites,
+              isFavourite: BuiltValueNullFieldError.checkNotNull(
+                  isFavourite, r'GMediaDetailQueryData_Media', 'isFavourite'),
               tags: _tags?.build(),
               relations: _relations?.build(),
               characters: _characters?.build(),

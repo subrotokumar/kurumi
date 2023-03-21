@@ -213,6 +213,21 @@ import 'package:anilist/graphql/__generated__/SearchMangaQuery.req.gql.dart'
     show GSearchMangaQueryReq;
 import 'package:anilist/graphql/__generated__/SearchMangaQuery.var.gql.dart'
     show GSearchMangaQueryVars;
+import 'package:anilist/graphql/__generated__/ToggleFavourite.data.gql.dart'
+    show
+        GToggleFavouriteData,
+        GToggleFavouriteData_ToggleFavourite,
+        GToggleFavouriteData_ToggleFavourite_anime,
+        GToggleFavouriteData_ToggleFavourite_anime_nodes,
+        GToggleFavouriteData_ToggleFavourite_characters,
+        GToggleFavouriteData_ToggleFavourite_characters_edges,
+        GToggleFavouriteData_ToggleFavourite_characters_pageInfo,
+        GToggleFavouriteData_ToggleFavourite_manga,
+        GToggleFavouriteData_ToggleFavourite_manga_nodes;
+import 'package:anilist/graphql/__generated__/ToggleFavourite.req.gql.dart'
+    show GToggleFavouriteReq;
+import 'package:anilist/graphql/__generated__/ToggleFavourite.var.gql.dart'
+    show GToggleFavouriteVars;
 import 'package:anilist/graphql/__generated__/trending_anime.data.gql.dart'
     show
         GtrendingAnimeData,
@@ -418,6 +433,17 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSubmissionStatus,
   GThreadCommentSort,
   GThreadSort,
+  GToggleFavouriteData,
+  GToggleFavouriteData_ToggleFavourite,
+  GToggleFavouriteData_ToggleFavourite_anime,
+  GToggleFavouriteData_ToggleFavourite_anime_nodes,
+  GToggleFavouriteData_ToggleFavourite_characters,
+  GToggleFavouriteData_ToggleFavourite_characters_edges,
+  GToggleFavouriteData_ToggleFavourite_characters_pageInfo,
+  GToggleFavouriteData_ToggleFavourite_manga,
+  GToggleFavouriteData_ToggleFavourite_manga_nodes,
+  GToggleFavouriteReq,
+  GToggleFavouriteVars,
   GUserIDData,
   GUserIDData_Viewer,
   GUserIDReq,

@@ -77,6 +77,7 @@ abstract class GMediaDetailQueryData_Media
   _i2.GMediaFormat? get format;
   int? get popularity;
   int? get favourites;
+  bool get isFavourite;
   BuiltList<GMediaDetailQueryData_Media_tags?>? get tags;
   GMediaDetailQueryData_Media_relations? get relations;
   GMediaDetailQueryData_Media_characters? get characters;

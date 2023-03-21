@@ -1,19 +1,27 @@
+import 'package:anilist/graphql/__generated__/ToggleFavourite.data.gql.dart';
 import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/main.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:anilist/toggle_favourite.dart';
 
 class CharacterScreen extends StatelessWidget {
-  CharacterScreen(
-      {required this.id, required this.name, this.characterData, super.key});
-  final id;
-  final name;
+  CharacterScreen({
+    required this.id,
+    required this.name,
+    this.characterData,
+    super.key,
+  });
+  final int id;
+  final String name;
   final GMediaDetailQueryData_Media_characters_edges? characterData;
 
   @override
@@ -31,18 +39,33 @@ class CharacterScreen extends StatelessWidget {
               elevation: 0,
               backgroundColor: AppTheme.background,
               actions: [
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                  ),
-                  onPressed: () {},
-                  icon: LineIcon.heartAlt(
-                    color: (characterData?.node?.isFavourite ?? false)
-                        ? Colors.redAccent
-                        : null,
-                  ),
-                  label: Text('${characterData?.node?.favourites ?? 0}'),
-                ),
+                Consumer(builder: (context, ref, child) {
+                  final client = ref.watch(clientProvider);
+
+                  return TextButton.icon(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                    ),
+                    onPressed: () async {
+                      print(id);
+                      client!
+                          .request(
+                        GToggleFavouriteReq(
+                          (b) => b..vars.characterId = id,
+                        ),
+                      )
+                          .listen((event) {
+                        print(event.data?.ToggleFavourite?.toJson());
+                      });
+                    },
+                    icon: LineIcon.heartAlt(
+                      color: (characterData?.node?.isFavourite ?? false)
+                          ? Colors.redAccent
+                          : null,
+                    ),
+                    label: Text('${characterData?.node?.favourites ?? 0}'),
+                  );
+                }),
               ],
             ),
             Container(
@@ -132,7 +155,7 @@ class CharacterScreen extends StatelessWidget {
                     ],
                   ),
                   Hero(
-                    tag: 'Character',
+                    tag: '${characterData?.id ?? ''}',
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: CachedNetworkImage(

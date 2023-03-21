@@ -89,7 +89,7 @@ class ReviewSection extends StatelessWidget {
                         ),
                         FadingWidget1(),
                         FadingWidget1(),
-                        FadingWidget2(),
+                        // FadingWidget2(),
                         Positioned(
                           bottom: 4,
                           child: Container(
@@ -104,20 +104,14 @@ class ReviewSection extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.all(20),
-                                  padding: EdgeInsets.all(8),
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 20,
+                                    horizontal: 40,
+                                  ),
+                                  padding: EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.horizontal(
-                                      left: Radius.circular(20),
-                                    ),
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.white70,
-                                        Colors.transparent,
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.black26,
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black12,
