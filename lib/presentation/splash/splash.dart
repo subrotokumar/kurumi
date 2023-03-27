@@ -43,8 +43,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
     await box.clear();
-    final store = HiveStore(box);
-    final cache = Cache(store: store, possibleTypes: possibleTypesMap);
+    final mediaListBox = await Hive.openBox('mediaListBox');
+    await mediaListBox.clear();
 
     late HttpLink httpLink;
     if (accessToken == null) {
@@ -55,12 +55,27 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         defaultHeaders: {'Authorization': 'Bearer $accessToken'},
       );
     }
+
+    final store = HiveStore(box);
+    final cache = Cache(store: store, possibleTypes: possibleTypesMap);
     final client = Client(
       link: httpLink,
       cache: cache,
     );
     ref.read(accessTokenProvider.notifier).update((state) => accessToken);
     ref.read(clientProvider.notifier).update((state) => client);
+
+    final store1 = HiveStore(mediaListBox);
+    final cache1 = Cache(store: store1, possibleTypes: possibleTypesMap);
+    final client1 = Client(
+      link: httpLink,
+      cache: cache1,
+    );
+    ref.read(mediaListClientProvider.notifier).update((state) => client1);
+    // await ref
+    //     .read(mediaListClientProvider.notifier)
+    //     .setClient(accessToken, 'mediaListBox');
+    // await ref.read(mediaListClientProvider.notifier).reset();
     client.request(GUserIDReq()).listen((event) {
       ref.watch(userId.notifier).update((state) => event.data?.Viewer?.id ?? 0);
     });

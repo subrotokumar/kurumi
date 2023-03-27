@@ -206,6 +206,13 @@ class _$GSearchAnimeQueryVarsSerializer
         ..add('popularityLesser')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.type;
+    if (value != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.GMediaType)));
+    }
     return result;
   }
 
@@ -347,6 +354,10 @@ class _$GSearchAnimeQueryVarsSerializer
           result.popularityLesser = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(_i1.GMediaType)) as _i1.GMediaType?;
+          break;
       }
     }
 
@@ -407,6 +418,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
   final int? popularityGreater;
   @override
   final int? popularityLesser;
+  @override
+  final _i1.GMediaType? type;
 
   factory _$GSearchAnimeQueryVars(
           [void Function(GSearchAnimeQueryVarsBuilder)? updates]) =>
@@ -438,7 +451,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
       this.averageScoreGreater,
       this.averageScoreLesser,
       this.popularityGreater,
-      this.popularityLesser})
+      this.popularityLesser,
+      this.type})
       : super._();
 
   @override
@@ -479,7 +493,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
         averageScoreGreater == other.averageScoreGreater &&
         averageScoreLesser == other.averageScoreLesser &&
         popularityGreater == other.popularityGreater &&
-        popularityLesser == other.popularityLesser;
+        popularityLesser == other.popularityLesser &&
+        type == other.type;
   }
 
   @override
@@ -511,6 +526,7 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
     _$hash = $jc(_$hash, averageScoreLesser.hashCode);
     _$hash = $jc(_$hash, popularityGreater.hashCode);
     _$hash = $jc(_$hash, popularityLesser.hashCode);
+    _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -543,7 +559,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
           ..add('averageScoreGreater', averageScoreGreater)
           ..add('averageScoreLesser', averageScoreLesser)
           ..add('popularityGreater', popularityGreater)
-          ..add('popularityLesser', popularityLesser))
+          ..add('popularityLesser', popularityLesser)
+          ..add('type', type))
         .toString();
   }
 }
@@ -685,6 +702,10 @@ class GSearchAnimeQueryVarsBuilder
   set popularityLesser(int? popularityLesser) =>
       _$this._popularityLesser = popularityLesser;
 
+  _i1.GMediaType? _type;
+  _i1.GMediaType? get type => _$this._type;
+  set type(_i1.GMediaType? type) => _$this._type = type;
+
   GSearchAnimeQueryVarsBuilder();
 
   GSearchAnimeQueryVarsBuilder get _$this {
@@ -716,6 +737,7 @@ class GSearchAnimeQueryVarsBuilder
       _averageScoreLesser = $v.averageScoreLesser;
       _popularityGreater = $v.popularityGreater;
       _popularityLesser = $v.popularityLesser;
+      _type = $v.type;
       _$v = null;
     }
     return this;
@@ -765,7 +787,8 @@ class GSearchAnimeQueryVarsBuilder
               averageScoreGreater: averageScoreGreater,
               averageScoreLesser: averageScoreLesser,
               popularityGreater: popularityGreater,
-              popularityLesser: popularityLesser);
+              popularityLesser: popularityLesser,
+              type: type);
     } catch (_) {
       late String _$failedField;
       try {

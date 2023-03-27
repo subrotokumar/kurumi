@@ -272,6 +272,15 @@ const SearchAnimeQuery = _i1.OperationDefinitionNode(
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],
     ),
+    _i1.VariableDefinitionNode(
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'type')),
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MediaType'),
+        isNonNull: false,
+      ),
+      defaultValue: _i1.DefaultValueNode(value: null),
+      directives: [],
+    ),
   ],
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
@@ -335,7 +344,7 @@ const SearchAnimeQuery = _i1.OperationDefinitionNode(
           arguments: [
             _i1.ArgumentNode(
               name: _i1.NameNode(value: 'type'),
-              value: _i1.EnumValueNode(name: _i1.NameNode(value: 'ANIME')),
+              value: _i1.VariableNode(name: _i1.NameNode(value: 'type')),
             ),
             _i1.ArgumentNode(
               name: _i1.NameNode(value: 'search'),
@@ -514,12 +523,7 @@ const SearchAnimeQuery = _i1.OperationDefinitionNode(
             _i1.FieldNode(
               name: _i1.NameNode(value: 'status'),
               alias: null,
-              arguments: [
-                _i1.ArgumentNode(
-                  name: _i1.NameNode(value: 'version'),
-                  value: _i1.IntValueNode(value: '2'),
-                )
-              ],
+              arguments: [],
               directives: [],
               selectionSet: null,
             ),

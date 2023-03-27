@@ -71,6 +71,29 @@ query MediaDetailQuery($id: Int!, $limit: Int, $page: Int, $perPage: Int) {
         format
       }
     }
+    mediaListEntry {
+      id
+      mediaId
+      userId
+      status
+      score
+      progress
+      progressVolumes
+      repeat
+      priority
+      private
+      notes
+      startedAt {
+        year
+        month
+        day
+      }
+      completedAt {
+        year
+        month
+        day
+      }
+    }
     characters {
       edges {
         id

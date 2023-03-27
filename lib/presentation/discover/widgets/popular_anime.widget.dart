@@ -15,7 +15,6 @@ class PopularAnime extends StatelessWidget {
 
   GMediaSeason season({int? month}) {
     if (month == null) month = DateTime.now().month;
-    print('month ${month}');
     if (month <= 3) {
       return GMediaSeason.WINTER;
     } else if (month <= 6) {

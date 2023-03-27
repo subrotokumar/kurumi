@@ -23,277 +23,301 @@ class SearchMedia extends StatefulWidget {
 }
 
 class _SearchMediaState extends State<SearchMedia> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   TextEditingController textEditingController = TextEditingController();
   List<GMediaType> a = [GMediaType.ANIME, GMediaType.MANGA];
-  int pageIndex = 0;
-
-  SearchView view = SearchView.LIST;
+  Set<GMediaType> seg = {GMediaType.ANIME};
+  Set<SearchView> view = {SearchView.LIST};
 
   @override
   void dispose() {
-    textEditingController.clear();
+    textEditingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppTheme.secondaryColor,
-        scrolledUnderElevation: 0,
-        actions: [
-          IconButton(
-            visualDensity: VisualDensity(horizontal: -4, vertical: -2),
-            onPressed: () async {
-              SearchView viewChanger = view;
-              await showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          title: Text('ANIME'),
-                          onTap: () {
-                            if (pageIndex != 0) setState(() => pageIndex = 0);
-                            context.pop();
-                          },
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        key: _key,
+        backgroundColor: AppTheme.background,
+        endDrawer: Drawer(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/lotties/giphy.gif'),
+                fit: BoxFit.fitHeight,
+                opacity: 0.2,
+              ),
+            ),
+            child: SafeArea(
+              child: StatefulBuilder(builder: (context, newState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 20),
+                    SegmentedButton(
+                      segments: [
+                        ButtonSegment(
+                            value: GMediaType.ANIME, label: Text('Anime')),
+                        ButtonSegment(
+                            value: GMediaType.MANGA, label: Text('Manga')),
+                      ],
+                      selected: seg,
+                      multiSelectionEnabled: false,
+                      showSelectedIcon: true,
+                      emptySelectionAllowed: false,
+                      onSelectionChanged: (p) {
+                        seg = p;
+                        newState(() {});
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    SegmentedButton(
+                      segments: [
+                        ButtonSegment(
+                            value: SearchView.LIST, label: Text('LIST')),
+                        ButtonSegment(
+                            value: SearchView.GRID, label: Text('GRID')),
+                      ],
+                      selected: view,
+                      multiSelectionEnabled: false,
+                      showSelectedIcon: true,
+                      emptySelectionAllowed: false,
+                      onSelectionChanged: (p) {
+                        view = p;
+                        newState(() {});
+                      },
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: Text('Apply Changes'),
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ),
+        ),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppTheme.secondaryColor,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            padding: EdgeInsets.all(0),
+            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () => context.pop(),
+          ),
+          actions: [
+            IconButton(
+              visualDensity: VisualDensity(horizontal: -4, vertical: -2),
+              onPressed: () async {
+                _key.currentState!.openEndDrawer();
+              },
+              style: IconButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                backgroundColor: Colors.green,
+                side: BorderSide(color: Colors.green),
+              ),
+              icon: Icon(
+                view.first == SearchView.LIST
+                    ? Icons.menu
+                    : Icons.grid_4x4_rounded,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
+          title: TextField(
+            controller: textEditingController,
+            onSubmitted: (v) => setState(() {}),
+            decoration: InputDecoration(
+              hintText: 'What are you looking for?',
+              border: InputBorder.none,
+              isDense: false,
+              // suffixIcon:
+            ),
+          ),
+        ),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Container(
+            width: size.width,
+            color: Colors.black87,
+            child: Consumer(
+              builder: (context, ref, error) {
+                final client = ref.watch(clientProvider);
+                return Operation(
+                  client: client!,
+                  operationRequest: GSearchAnimeQueryReq(
+                    (b) => b
+                      ..vars.search = textEditingController.text
+                      ..vars.page = 1
+                      ..vars.type = seg.first,
+                  ),
+                  builder: (context, response, error) {
+                    if (response == null || response.loading) {
+                      return Center(
+                        child: LottieBuilder.asset(
+                          'assets/lotties/loading-gif-animation.json',
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.cover,
                         ),
-                        ListTile(
-                          title: Text('Manga'),
-                          onTap: () {
-                            if (pageIndex != 1) setState(() => pageIndex = 1);
-                            context.pop();
-                          },
-                        ),
-                        Divider(),
-                        StatefulBuilder(
-                          builder: (context, newState) {
-                            return ListTile(
-                              title: Text('GRID VIEW'),
-                              trailing: Switch(
-                                onChanged: (v) => newState(() {
-                                  if (viewChanger == SearchView.LIST)
-                                    viewChanger = SearchView.GRID;
-                                  else
-                                    viewChanger = SearchView.LIST;
-                                }),
-                                value: viewChanger == SearchView.LIST,
+                      );
+                    } else {
+                      final res = response.data?.Page?.media;
+                      if (view.first == SearchView.GRID) {
+                        return GridView.builder(
+                          padding: EdgeInsets.all(10),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 2 / 4,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 0,
+                          ),
+                          itemCount: res?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final data = res?.elementAt(index);
+                            return GestureDetector(
+                              onTap: () {
+                                print((data?.id ?? 0).toString());
+                                HapticFeedback.lightImpact();
+                                context.pushNamed(
+                                  AppRouteConstant.MediaScreen.name,
+                                  params: {
+                                    'id': (data?.id ?? 0).toString(),
+                                    'title': data?.title?.userPreferred ?? '',
+                                  },
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: CachedNetworkImage(
+                                      height: 170,
+                                      fit: BoxFit.fitHeight,
+                                      imageUrl: data?.coverImage?.large ?? '',
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    data?.title?.userPreferred ?? '',
+                                    maxLines: 2,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           },
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          child: Text('Apply Changes'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-              setState(() {
-                view = viewChanger;
-              });
-            },
-            style: IconButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              backgroundColor: Colors.green,
-              side: BorderSide(color: Colors.green),
-            ),
-            icon: Icon(
-              view == SearchView.LIST ? Icons.menu : Icons.grid_4x4_rounded,
-              size: 20,
-            ),
-          ),
-          SizedBox(width: 16),
-        ],
-        title: TextField(
-          controller: textEditingController,
-          onSubmitted: (v) => setState(() {}),
-          decoration: InputDecoration(
-            hintText: 'What are you looking for?',
-            border: InputBorder.none,
-            // suffixIcon:
-          ),
-        ),
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Container(
-          width: size.width,
-          color: Colors.black87,
-          child: Consumer(
-            builder: (context, ref, error) {
-              final client = ref.watch(clientProvider);
-              return Operation(
-                client: client!,
-                operationRequest: GSearchAnimeQueryReq(
-                  (b) => b
-                    ..vars.search = textEditingController.text
-                    ..vars.page = 1,
-                ),
-                builder: (context, response, error) {
-                  if (response == null || response.loading) {
-                    return Center(
-                      child: LottieBuilder.asset(
-                        'assets/lotties/loading-gif-animation.json',
-                        width: 150,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  } else {
-                    final res = response.data?.Page?.media;
-                    if (view == SearchView.GRID) {
-                      return GridView.builder(
-                        padding: EdgeInsets.all(10),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 2 / 4,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 0,
-                        ),
-                        itemCount: res?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final data = res?.elementAt(index);
-                          return GestureDetector(
-                            onTap: () {
-                              print((data?.id ?? 0).toString());
-                              HapticFeedback.lightImpact();
-                              context.pushNamed(
-                                AppRouteConstant.MediaScreen.name,
-                                params: {
-                                  'id': (data?.id ?? 0).toString(),
-                                  'title': data?.title?.userPreferred ?? '',
-                                },
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: CachedNetworkImage(
-                                    height: 170,
-                                    fit: BoxFit.fitHeight,
-                                    imageUrl: data?.coverImage?.large ?? '',
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  data?.title?.userPreferred ?? '',
-                                  maxLines: 2,
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: res?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final data = res?.elementAt(index);
-                          return GestureDetector(
-                            onTap: () {
-                              print((data?.id ?? 0).toString());
-                              HapticFeedback.lightImpact();
-                              context.pushNamed(
-                                AppRouteConstant.MediaScreen.name,
-                                params: {
-                                  'id': (data?.id ?? 0).toString(),
-                                  'title': data?.title?.userPreferred ?? '',
-                                },
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Container(
-                                width: size.width,
-                                margin: EdgeInsets.only(
-                                    left: 12, right: 12, top: 12),
-                                height: 140,
-                                color: Colors.white10,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      flex: 1,
-                                      child: CachedNetworkImage(
-                                        imageUrl: data?.coverImage?.large ?? '',
-                                        height: 140,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      flex: 2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 8,
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: res?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final data = res?.elementAt(index);
+                            return GestureDetector(
+                              onTap: () {
+                                print((data?.id ?? 0).toString());
+                                HapticFeedback.lightImpact();
+                                context.pushNamed(
+                                  AppRouteConstant.MediaScreen.name,
+                                  params: {
+                                    'id': (data?.id ?? 0).toString(),
+                                    'title': data?.title?.userPreferred ?? '',
+                                  },
+                                );
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  width: size.width,
+                                  margin: EdgeInsets.only(
+                                      left: 12, right: 12, top: 12),
+                                  height: 140,
+                                  color: Colors.white10,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        flex: 1,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              data?.coverImage?.large ?? '',
+                                          height: 140,
+                                          width: 100,
+                                          fit: BoxFit.cover,
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data?.title?.userPreferred ?? '',
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 17),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Text(
-                                              '${data?.startDate?.year} • ${data?.format?.name}',
-                                              style: TextStyle(
-                                                color: Colors.blue.shade200,
-                                                fontSize: 15,
+                                      ),
+                                      Flexible(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 5,
+                                            horizontal: 8,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data?.title?.userPreferred ??
+                                                    '',
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 17),
                                               ),
-                                            ),
-                                            SizedBox(height: 5),
-                                            // Text(
-                                            //   '${data?.format?.name ?? ''}',
-                                            //   style: TextStyle(
-                                            //     color: Colors.green.shade200,
-                                            //     fontSize: 15,
-                                            //   ),
-                                            // ),
-                                          ],
+                                              SizedBox(height: 5),
+                                              Text(
+                                                '${data?.startDate?.year} • ${data?.format?.name}',
+                                                style: TextStyle(
+                                                  color: Colors.blue.shade200,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5),
+                                              // Text(
+                                              //   '${data?.format?.name ?? ''}',
+                                              //   style: TextStyle(
+                                              //     color: Colors.green.shade200,
+                                              //     fontSize: 15,
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
                     }
-                  }
-                },
-              );
-            },
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

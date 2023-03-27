@@ -25,6 +25,7 @@ query SearchAnimeQuery(
   $averageScoreLesser: Int
   $popularityGreater: Int
   $popularityLesser: Int
+  $type: MediaType
 ) {
   Page(page: $page) {
     pageInfo {
@@ -35,7 +36,7 @@ query SearchAnimeQuery(
       hasNextPage
     }
     media(
-      type: ANIME
+      type: $type
       search: $search
       sort: $sort
       format_in: $formatIn
@@ -72,7 +73,7 @@ query SearchAnimeQuery(
       }
       type
       format
-      status(version: 2)
+      status
       episodes
       averageScore
       favourites

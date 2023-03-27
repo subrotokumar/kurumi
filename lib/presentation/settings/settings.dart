@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/functions/helper.functions.dart';
 import 'package:kurumi/presentation/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -79,6 +81,22 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
               ),
+              Consumer(builder: (context, ref, child) {
+                return ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  onTap: () async {
+                    await clearMediaListCache(ref);
+                  },
+                  leading: Text(
+                    'Clear Cache',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+                );
+              }),
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
                 onTap: () async {},

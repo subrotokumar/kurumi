@@ -80,6 +80,7 @@ abstract class GMediaDetailQueryData_Media
   bool get isFavourite;
   BuiltList<GMediaDetailQueryData_Media_tags?>? get tags;
   GMediaDetailQueryData_Media_relations? get relations;
+  GMediaDetailQueryData_Media_mediaListEntry? get mediaListEntry;
   GMediaDetailQueryData_Media_characters? get characters;
   GMediaDetailQueryData_Media_studios? get studios;
   bool? get isAdult;
@@ -415,6 +416,114 @@ abstract class GMediaDetailQueryData_Media_relations_nodes_coverImage
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GMediaDetailQueryData_Media_relations_nodes_coverImage.serializer,
+        json,
+      );
+}
+
+abstract class GMediaDetailQueryData_Media_mediaListEntry
+    implements
+        Built<GMediaDetailQueryData_Media_mediaListEntry,
+            GMediaDetailQueryData_Media_mediaListEntryBuilder> {
+  GMediaDetailQueryData_Media_mediaListEntry._();
+
+  factory GMediaDetailQueryData_Media_mediaListEntry(
+      [Function(GMediaDetailQueryData_Media_mediaListEntryBuilder b)
+          updates]) = _$GMediaDetailQueryData_Media_mediaListEntry;
+
+  static void _initializeBuilder(
+          GMediaDetailQueryData_Media_mediaListEntryBuilder b) =>
+      b..G__typename = 'MediaList';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get id;
+  int get mediaId;
+  int get userId;
+  _i2.GMediaListStatus? get status;
+  double? get score;
+  int? get progress;
+  int? get progressVolumes;
+  int? get repeat;
+  int? get priority;
+  bool? get private;
+  String? get notes;
+  GMediaDetailQueryData_Media_mediaListEntry_startedAt? get startedAt;
+  GMediaDetailQueryData_Media_mediaListEntry_completedAt? get completedAt;
+  static Serializer<GMediaDetailQueryData_Media_mediaListEntry>
+      get serializer => _$gMediaDetailQueryDataMediaMediaListEntrySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaDetailQueryData_Media_mediaListEntry? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry.serializer,
+        json,
+      );
+}
+
+abstract class GMediaDetailQueryData_Media_mediaListEntry_startedAt
+    implements
+        Built<GMediaDetailQueryData_Media_mediaListEntry_startedAt,
+            GMediaDetailQueryData_Media_mediaListEntry_startedAtBuilder> {
+  GMediaDetailQueryData_Media_mediaListEntry_startedAt._();
+
+  factory GMediaDetailQueryData_Media_mediaListEntry_startedAt(
+      [Function(GMediaDetailQueryData_Media_mediaListEntry_startedAtBuilder b)
+          updates]) = _$GMediaDetailQueryData_Media_mediaListEntry_startedAt;
+
+  static void _initializeBuilder(
+          GMediaDetailQueryData_Media_mediaListEntry_startedAtBuilder b) =>
+      b..G__typename = 'FuzzyDate';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int? get year;
+  int? get month;
+  int? get day;
+  static Serializer<GMediaDetailQueryData_Media_mediaListEntry_startedAt>
+      get serializer =>
+          _$gMediaDetailQueryDataMediaMediaListEntryStartedAtSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry_startedAt.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaDetailQueryData_Media_mediaListEntry_startedAt? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry_startedAt.serializer,
+        json,
+      );
+}
+
+abstract class GMediaDetailQueryData_Media_mediaListEntry_completedAt
+    implements
+        Built<GMediaDetailQueryData_Media_mediaListEntry_completedAt,
+            GMediaDetailQueryData_Media_mediaListEntry_completedAtBuilder> {
+  GMediaDetailQueryData_Media_mediaListEntry_completedAt._();
+
+  factory GMediaDetailQueryData_Media_mediaListEntry_completedAt(
+      [Function(GMediaDetailQueryData_Media_mediaListEntry_completedAtBuilder b)
+          updates]) = _$GMediaDetailQueryData_Media_mediaListEntry_completedAt;
+
+  static void _initializeBuilder(
+          GMediaDetailQueryData_Media_mediaListEntry_completedAtBuilder b) =>
+      b..G__typename = 'FuzzyDate';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int? get year;
+  int? get month;
+  int? get day;
+  static Serializer<GMediaDetailQueryData_Media_mediaListEntry_completedAt>
+      get serializer =>
+          _$gMediaDetailQueryDataMediaMediaListEntryCompletedAtSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry_completedAt.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaDetailQueryData_Media_mediaListEntry_completedAt? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMediaDetailQueryData_Media_mediaListEntry_completedAt.serializer,
         json,
       );
 }

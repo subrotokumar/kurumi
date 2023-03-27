@@ -22,10 +22,11 @@ class MediaListBuilderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final client = ref.watch(clientProvider);
         final anilistUserId = ref.watch(userId);
+        final mediaListClient = ref.watch(mediaListClientProvider);
         return Operation(
-          client: client!,
+          client: mediaListClient!,
+          // initClient(accessToken: token),
           operationRequest: GMediaListCollectionReq(
             (b) => b
               ..vars.status = status
@@ -58,12 +59,18 @@ class MediaListBuilderWidget extends StatelessWidget {
                     'assets/lotties/ufo.json',
                     fit: BoxFit.contain,
                   ),
-                  Text(
-                    'Nothing Found',
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.indigoAccent.shade400,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'Nothing Found',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],

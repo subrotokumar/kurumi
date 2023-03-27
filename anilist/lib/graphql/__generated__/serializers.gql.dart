@@ -15,6 +15,14 @@ import 'package:anilist/graphql/__generated__/airing_schedule_query.req.gql.dart
     show GAiringScheduleQueryReq;
 import 'package:anilist/graphql/__generated__/airing_schedule_query.var.gql.dart'
     show GAiringScheduleQueryVars;
+import 'package:anilist/graphql/__generated__/deleteMediaListMutation.data.gql.dart'
+    show
+        GDeleteMediaListEntryMutationData,
+        GDeleteMediaListEntryMutationData_DeleteMediaListEntry;
+import 'package:anilist/graphql/__generated__/deleteMediaListMutation.req.gql.dart'
+    show GDeleteMediaListEntryMutationReq;
+import 'package:anilist/graphql/__generated__/deleteMediaListMutation.var.gql.dart'
+    show GDeleteMediaListEntryMutationVars;
 import 'package:anilist/graphql/__generated__/discover_media.data.gql.dart'
     show
         GDiscoverMediaData,
@@ -47,6 +55,9 @@ import 'package:anilist/graphql/__generated__/media_detail_query.data.gql.dart'
         GMediaDetailQueryData_Media_coverImage,
         GMediaDetailQueryData_Media_endDate,
         GMediaDetailQueryData_Media_externalLinks,
+        GMediaDetailQueryData_Media_mediaListEntry,
+        GMediaDetailQueryData_Media_mediaListEntry_completedAt,
+        GMediaDetailQueryData_Media_mediaListEntry_startedAt,
         GMediaDetailQueryData_Media_relations,
         GMediaDetailQueryData_Media_relations_nodes,
         GMediaDetailQueryData_Media_relations_nodes_coverImage,
@@ -82,6 +93,16 @@ import 'package:anilist/graphql/__generated__/medialist_collection.req.gql.dart'
     show GMediaListCollectionReq;
 import 'package:anilist/graphql/__generated__/medialist_collection.var.gql.dart'
     show GMediaListCollectionVars;
+import 'package:anilist/graphql/__generated__/medialist_entry_mutation.data.gql.dart'
+    show
+        GMediaListEntryMutationData,
+        GMediaListEntryMutationData_SaveMediaListEntry,
+        GMediaListEntryMutationData_SaveMediaListEntry_completedAt,
+        GMediaListEntryMutationData_SaveMediaListEntry_startedAt;
+import 'package:anilist/graphql/__generated__/medialist_entry_mutation.req.gql.dart'
+    show GMediaListEntryMutationReq;
+import 'package:anilist/graphql/__generated__/medialist_entry_mutation.var.gql.dart'
+    show GMediaListEntryMutationVars;
 import 'package:anilist/graphql/__generated__/profile.data.gql.dart'
     show
         GProfileData,
@@ -278,6 +299,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GCharacterRole,
   GCharacterSort,
   GCountryCode,
+  GDeleteMediaListEntryMutationData,
+  GDeleteMediaListEntryMutationData_DeleteMediaListEntry,
+  GDeleteMediaListEntryMutationReq,
+  GDeleteMediaListEntryMutationVars,
   GDiscoverMediaData,
   GDiscoverMediaData_Page,
   GDiscoverMediaData_Page_media,
@@ -311,6 +336,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMediaDetailQueryData_Media_coverImage,
   GMediaDetailQueryData_Media_endDate,
   GMediaDetailQueryData_Media_externalLinks,
+  GMediaDetailQueryData_Media_mediaListEntry,
+  GMediaDetailQueryData_Media_mediaListEntry_completedAt,
+  GMediaDetailQueryData_Media_mediaListEntry_startedAt,
   GMediaDetailQueryData_Media_relations,
   GMediaDetailQueryData_Media_relations_nodes,
   GMediaDetailQueryData_Media_relations_nodes_coverImage,
@@ -342,6 +370,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMediaListCollectionData_MediaListCollection_lists_entries_media_title,
   GMediaListCollectionReq,
   GMediaListCollectionVars,
+  GMediaListEntryMutationData,
+  GMediaListEntryMutationData_SaveMediaListEntry,
+  GMediaListEntryMutationData_SaveMediaListEntry_completedAt,
+  GMediaListEntryMutationData_SaveMediaListEntry_startedAt,
+  GMediaListEntryMutationReq,
+  GMediaListEntryMutationVars,
   GMediaListOptionsInput,
   GMediaListSort,
   GMediaListStatus,

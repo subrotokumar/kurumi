@@ -7,14 +7,14 @@ import 'package:kurumi/config/app_theme.dart';
 import 'package:kurumi/presentation/anime/widget/media_list_builder.widget.dart';
 import 'package:kurumi/presentation/home/homepage.dart';
 
-class AnimeScreen extends StatefulWidget {
+class AnimeScreen extends ConsumerStatefulWidget {
   AnimeScreen({super.key});
 
   @override
-  State<AnimeScreen> createState() => _AnimeScreenState();
+  ConsumerState<AnimeScreen> createState() => _AnimeScreenState();
 }
 
-class _AnimeScreenState extends State<AnimeScreen> {
+class _AnimeScreenState extends ConsumerState<AnimeScreen> {
   PageController controller = PageController(keepPage: true);
 
   @override

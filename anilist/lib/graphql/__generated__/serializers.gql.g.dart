@@ -30,6 +30,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCharacterRole.serializer)
       ..add(GCharacterSort.serializer)
       ..add(GCountryCode.serializer)
+      ..add(GDeleteMediaListEntryMutationData.serializer)
+      ..add(GDeleteMediaListEntryMutationData_DeleteMediaListEntry.serializer)
+      ..add(GDeleteMediaListEntryMutationReq.serializer)
+      ..add(GDeleteMediaListEntryMutationVars.serializer)
       ..add(GDiscoverMediaData.serializer)
       ..add(GDiscoverMediaData_Page.serializer)
       ..add(GDiscoverMediaData_Page_media.serializer)
@@ -70,6 +74,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GMediaDetailQueryData_Media_coverImage.serializer)
       ..add(GMediaDetailQueryData_Media_endDate.serializer)
       ..add(GMediaDetailQueryData_Media_externalLinks.serializer)
+      ..add(GMediaDetailQueryData_Media_mediaListEntry.serializer)
+      ..add(GMediaDetailQueryData_Media_mediaListEntry_completedAt.serializer)
+      ..add(GMediaDetailQueryData_Media_mediaListEntry_startedAt.serializer)
       ..add(GMediaDetailQueryData_Media_relations.serializer)
       ..add(GMediaDetailQueryData_Media_relations_nodes.serializer)
       ..add(GMediaDetailQueryData_Media_relations_nodes_coverImage.serializer)
@@ -111,6 +118,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
               .serializer)
       ..add(GMediaListCollectionReq.serializer)
       ..add(GMediaListCollectionVars.serializer)
+      ..add(GMediaListEntryMutationData.serializer)
+      ..add(GMediaListEntryMutationData_SaveMediaListEntry.serializer)
+      ..add(
+          GMediaListEntryMutationData_SaveMediaListEntry_completedAt.serializer)
+      ..add(GMediaListEntryMutationData_SaveMediaListEntry_startedAt.serializer)
+      ..add(GMediaListEntryMutationReq.serializer)
+      ..add(GMediaListEntryMutationVars.serializer)
       ..add(GMediaListOptionsInput.serializer)
       ..add(GMediaListSort.serializer)
       ..add(GMediaListStatus.serializer)
@@ -466,7 +480,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<String?>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType.nullable(String)]),
-          () => new ListBuilder<String?>()))
+          () => new ListBuilder<String?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType.nullable(String)]),
+          () => new ListBuilder<String?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType.nullable(double)]),
+          () => new ListBuilder<double?>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

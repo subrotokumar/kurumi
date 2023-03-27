@@ -7,6 +7,9 @@ import 'package:kurumi/config/app_router.dart';
 final accessTokenProvider = StateProvider<String?>((ref) => null);
 final clientProvider = StateProvider<Client?>((ref) => null);
 final userId = StateProvider<int>((ref) => 0);
+
+final mediaListClientProvider = StateProvider<Client?>((ref) => null);
+
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }

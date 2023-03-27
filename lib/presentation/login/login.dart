@@ -34,32 +34,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Kurumi',
-                style: GoogleFonts.poppins(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.yellow,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Powered by AniList',
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const Spacer(),
             AnimatedSlide(
               duration: const Duration(milliseconds: 300),
               offset: !isVisible ? Offset.zero : const Offset(0, 2),
@@ -69,27 +45,80 @@ class _LoginPageState extends State<LoginPage> {
                 child: Card(
                   elevation: 20,
                   margin: const EdgeInsets.all(0),
-                  color: isVisible ? Colors.transparent : Colors.black26,
+                  color: isVisible
+                      ? Colors.transparent
+                      : Colors.black.withOpacity(0.7),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Welcome to Kurumi',
-                          style: GoogleFonts.poppins(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
+                                'Kurumi',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.yellow,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Text(
+                                'Powered by AniList',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // Text(
+                        //   'Welcome to Kurumi',
+                        //   style: GoogleFonts.poppins(
+                        //     fontSize: 22,
+                        //     fontWeight: FontWeight.w600,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 10),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size.fromHeight(50),
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue.withOpacity(0.7),
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              isVisible = true;
+                            });
+                            await Future.delayed(
+                                const Duration(milliseconds: 300));
+                            await showLoginDialog(context);
+                            setState(() {
+                              isVisible = false;
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
                                 'Get Started',
                                 style: GoogleFonts.poppins(
                                   fontSize: 18,
@@ -98,25 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                                   shadows: [const Shadow(color: Colors.grey)],
                                 ),
                               ),
-                            ),
-                            IconButton(
-                              style: IconButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                shape: const CircleBorder(),
-                                backgroundColor: Colors.blue.withOpacity(0.7),
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  isVisible = true;
-                                });
-                                await Future.delayed(
-                                    const Duration(milliseconds: 300));
-                                await showLoginDialog(context);
-                                setState(() {
-                                  isVisible = false;
-                                });
-                              },
-                              icon: const Icon(
+                              SizedBox(width: 8),
+                              const Icon(
                                 Icons.arrow_forward_ios_rounded,
                                 size: 30,
                                 shadows: [
@@ -126,8 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                                   )
                                 ],
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -213,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size.fromWidth(100),
                         backgroundColor: const Color(0xfff7f2f9),
-                        foregroundColor: Colors.blueGrey,
+                        foregroundColor: Colors.indigo,
                       ),
                       onPressed: () async {
                         String? accessToken = await Oauth().auth();
