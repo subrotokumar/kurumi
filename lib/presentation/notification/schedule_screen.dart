@@ -10,7 +10,6 @@ import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/config/app_theme.dart';
 
 import 'package:kurumi/main.dart';
-import 'package:kurumi/utils/utils.functions.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../config/app_route_constant.dart';

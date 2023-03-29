@@ -77,6 +77,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GMediaDetailQueryData_Media_mediaListEntry.serializer)
       ..add(GMediaDetailQueryData_Media_mediaListEntry_completedAt.serializer)
       ..add(GMediaDetailQueryData_Media_mediaListEntry_startedAt.serializer)
+      ..add(GMediaDetailQueryData_Media_nextAiringEpisode.serializer)
       ..add(GMediaDetailQueryData_Media_relations.serializer)
       ..add(GMediaDetailQueryData_Media_relations_nodes.serializer)
       ..add(GMediaDetailQueryData_Media_relations_nodes_coverImage.serializer)
@@ -122,6 +123,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GMediaListEntryMutationData_SaveMediaListEntry.serializer)
       ..add(
           GMediaListEntryMutationData_SaveMediaListEntry_completedAt.serializer)
+      ..add(GMediaListEntryMutationData_SaveMediaListEntry_media.serializer)
+      ..add(GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry
+          .serializer)
+      ..add(
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt
+              .serializer)
+      ..add(
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt
+              .serializer)
       ..add(GMediaListEntryMutationData_SaveMediaListEntry_startedAt.serializer)
       ..add(GMediaListEntryMutationReq.serializer)
       ..add(GMediaListEntryMutationVars.serializer)

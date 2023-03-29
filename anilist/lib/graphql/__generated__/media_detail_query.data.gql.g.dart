@@ -16,6 +16,9 @@ Serializer<GMediaDetailQueryData_Media_title>
 Serializer<GMediaDetailQueryData_Media_coverImage>
     _$gMediaDetailQueryDataMediaCoverImageSerializer =
     new _$GMediaDetailQueryData_Media_coverImageSerializer();
+Serializer<GMediaDetailQueryData_Media_nextAiringEpisode>
+    _$gMediaDetailQueryDataMediaNextAiringEpisodeSerializer =
+    new _$GMediaDetailQueryData_Media_nextAiringEpisodeSerializer();
 Serializer<GMediaDetailQueryData_Media_startDate>
     _$gMediaDetailQueryDataMediaStartDateSerializer =
     new _$GMediaDetailQueryData_Media_startDateSerializer();
@@ -245,6 +248,14 @@ class _$GMediaDetailQueryData_MediaSerializer
         ..add(serializers.serialize(value,
             specifiedType:
                 const FullType(GMediaDetailQueryData_Media_coverImage)));
+    }
+    value = object.nextAiringEpisode;
+    if (value != null) {
+      result
+        ..add('nextAiringEpisode')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GMediaDetailQueryData_Media_nextAiringEpisode)));
     }
     value = object.type;
     if (value != null) {
@@ -502,6 +513,12 @@ class _$GMediaDetailQueryData_MediaSerializer
                   specifiedType:
                       const FullType(GMediaDetailQueryData_Media_coverImage))!
               as GMediaDetailQueryData_Media_coverImage);
+          break;
+        case 'nextAiringEpisode':
+          result.nextAiringEpisode.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      GMediaDetailQueryData_Media_nextAiringEpisode))!
+              as GMediaDetailQueryData_Media_nextAiringEpisode);
           break;
         case 'type':
           result.type = serializers.deserialize(value,
@@ -824,6 +841,60 @@ class _$GMediaDetailQueryData_Media_coverImageSerializer
         case 'color':
           result.color = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GMediaDetailQueryData_Media_nextAiringEpisodeSerializer
+    implements
+        StructuredSerializer<GMediaDetailQueryData_Media_nextAiringEpisode> {
+  @override
+  final Iterable<Type> types = const [
+    GMediaDetailQueryData_Media_nextAiringEpisode,
+    _$GMediaDetailQueryData_Media_nextAiringEpisode
+  ];
+  @override
+  final String wireName = 'GMediaDetailQueryData_Media_nextAiringEpisode';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers,
+      GMediaDetailQueryData_Media_nextAiringEpisode object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+      'airingAt',
+      serializers.serialize(object.airingAt,
+          specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GMediaDetailQueryData_Media_nextAiringEpisode deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GMediaDetailQueryData_Media_nextAiringEpisodeBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'airingAt':
+          result.airingAt = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -3966,6 +4037,8 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
   @override
   final GMediaDetailQueryData_Media_coverImage? coverImage;
   @override
+  final GMediaDetailQueryData_Media_nextAiringEpisode? nextAiringEpisode;
+  @override
   final _i2.GMediaType? type;
   @override
   final _i2.GMediaStatus? status;
@@ -4039,6 +4112,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
       this.title,
       this.bannerImage,
       this.coverImage,
+      this.nextAiringEpisode,
       this.type,
       this.status,
       this.description,
@@ -4098,6 +4172,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
         title == other.title &&
         bannerImage == other.bannerImage &&
         coverImage == other.coverImage &&
+        nextAiringEpisode == other.nextAiringEpisode &&
         type == other.type &&
         status == other.status &&
         description == other.description &&
@@ -4140,6 +4215,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, bannerImage.hashCode);
     _$hash = $jc(_$hash, coverImage.hashCode);
+    _$hash = $jc(_$hash, nextAiringEpisode.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
@@ -4184,6 +4260,7 @@ class _$GMediaDetailQueryData_Media extends GMediaDetailQueryData_Media {
           ..add('title', title)
           ..add('bannerImage', bannerImage)
           ..add('coverImage', coverImage)
+          ..add('nextAiringEpisode', nextAiringEpisode)
           ..add('type', type)
           ..add('status', status)
           ..add('description', description)
@@ -4253,6 +4330,15 @@ class GMediaDetailQueryData_MediaBuilder
           new GMediaDetailQueryData_Media_coverImageBuilder();
   set coverImage(GMediaDetailQueryData_Media_coverImageBuilder? coverImage) =>
       _$this._coverImage = coverImage;
+
+  GMediaDetailQueryData_Media_nextAiringEpisodeBuilder? _nextAiringEpisode;
+  GMediaDetailQueryData_Media_nextAiringEpisodeBuilder get nextAiringEpisode =>
+      _$this._nextAiringEpisode ??=
+          new GMediaDetailQueryData_Media_nextAiringEpisodeBuilder();
+  set nextAiringEpisode(
+          GMediaDetailQueryData_Media_nextAiringEpisodeBuilder?
+              nextAiringEpisode) =>
+      _$this._nextAiringEpisode = nextAiringEpisode;
 
   _i2.GMediaType? _type;
   _i2.GMediaType? get type => _$this._type;
@@ -4419,6 +4505,7 @@ class GMediaDetailQueryData_MediaBuilder
       _title = $v.title?.toBuilder();
       _bannerImage = $v.bannerImage;
       _coverImage = $v.coverImage?.toBuilder();
+      _nextAiringEpisode = $v.nextAiringEpisode?.toBuilder();
       _type = $v.type;
       _status = $v.status;
       _description = $v.description;
@@ -4482,6 +4569,7 @@ class GMediaDetailQueryData_MediaBuilder
               title: _title?.build(),
               bannerImage: bannerImage,
               coverImage: _coverImage?.build(),
+              nextAiringEpisode: _nextAiringEpisode?.build(),
               type: type,
               status: status,
               description: description,
@@ -4522,6 +4610,8 @@ class GMediaDetailQueryData_MediaBuilder
 
         _$failedField = 'coverImage';
         _coverImage?.build();
+        _$failedField = 'nextAiringEpisode';
+        _nextAiringEpisode?.build();
 
         _$failedField = 'startDate';
         _startDate?.build();
@@ -4839,6 +4929,124 @@ class GMediaDetailQueryData_Media_coverImageBuilder
             large: large,
             medium: medium,
             color: color);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GMediaDetailQueryData_Media_nextAiringEpisode
+    extends GMediaDetailQueryData_Media_nextAiringEpisode {
+  @override
+  final String G__typename;
+  @override
+  final int airingAt;
+
+  factory _$GMediaDetailQueryData_Media_nextAiringEpisode(
+          [void Function(GMediaDetailQueryData_Media_nextAiringEpisodeBuilder)?
+              updates]) =>
+      (new GMediaDetailQueryData_Media_nextAiringEpisodeBuilder()
+            ..update(updates))
+          ._build();
+
+  _$GMediaDetailQueryData_Media_nextAiringEpisode._(
+      {required this.G__typename, required this.airingAt})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GMediaDetailQueryData_Media_nextAiringEpisode', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        airingAt, r'GMediaDetailQueryData_Media_nextAiringEpisode', 'airingAt');
+  }
+
+  @override
+  GMediaDetailQueryData_Media_nextAiringEpisode rebuild(
+          void Function(GMediaDetailQueryData_Media_nextAiringEpisodeBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GMediaDetailQueryData_Media_nextAiringEpisodeBuilder toBuilder() =>
+      new GMediaDetailQueryData_Media_nextAiringEpisodeBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GMediaDetailQueryData_Media_nextAiringEpisode &&
+        G__typename == other.G__typename &&
+        airingAt == other.airingAt;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, airingAt.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            r'GMediaDetailQueryData_Media_nextAiringEpisode')
+          ..add('G__typename', G__typename)
+          ..add('airingAt', airingAt))
+        .toString();
+  }
+}
+
+class GMediaDetailQueryData_Media_nextAiringEpisodeBuilder
+    implements
+        Builder<GMediaDetailQueryData_Media_nextAiringEpisode,
+            GMediaDetailQueryData_Media_nextAiringEpisodeBuilder> {
+  _$GMediaDetailQueryData_Media_nextAiringEpisode? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  int? _airingAt;
+  int? get airingAt => _$this._airingAt;
+  set airingAt(int? airingAt) => _$this._airingAt = airingAt;
+
+  GMediaDetailQueryData_Media_nextAiringEpisodeBuilder() {
+    GMediaDetailQueryData_Media_nextAiringEpisode._initializeBuilder(this);
+  }
+
+  GMediaDetailQueryData_Media_nextAiringEpisodeBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _airingAt = $v.airingAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GMediaDetailQueryData_Media_nextAiringEpisode other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GMediaDetailQueryData_Media_nextAiringEpisode;
+  }
+
+  @override
+  void update(
+      void Function(GMediaDetailQueryData_Media_nextAiringEpisodeBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GMediaDetailQueryData_Media_nextAiringEpisode build() => _build();
+
+  _$GMediaDetailQueryData_Media_nextAiringEpisode _build() {
+    final _$result = _$v ??
+        new _$GMediaDetailQueryData_Media_nextAiringEpisode._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GMediaDetailQueryData_Media_nextAiringEpisode',
+                'G__typename'),
+            airingAt: BuiltValueNullFieldError.checkNotNull(airingAt,
+                r'GMediaDetailQueryData_Media_nextAiringEpisode', 'airingAt'));
     replace(_$result);
     return _$result;
   }

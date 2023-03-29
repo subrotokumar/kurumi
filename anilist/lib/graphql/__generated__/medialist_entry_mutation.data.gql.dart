@@ -64,6 +64,7 @@ abstract class GMediaListEntryMutationData_SaveMediaListEntry
   String? get notes;
   GMediaListEntryMutationData_SaveMediaListEntry_startedAt? get startedAt;
   GMediaListEntryMutationData_SaveMediaListEntry_completedAt? get completedAt;
+  GMediaListEntryMutationData_SaveMediaListEntry_media? get media;
   static Serializer<GMediaListEntryMutationData_SaveMediaListEntry>
       get serializer =>
           _$gMediaListEntryMutationDataSaveMediaListEntrySerializer;
@@ -147,4 +148,166 @@ abstract class GMediaListEntryMutationData_SaveMediaListEntry_completedAt
         GMediaListEntryMutationData_SaveMediaListEntry_completedAt.serializer,
         json,
       );
+}
+
+abstract class GMediaListEntryMutationData_SaveMediaListEntry_media
+    implements
+        Built<GMediaListEntryMutationData_SaveMediaListEntry_media,
+            GMediaListEntryMutationData_SaveMediaListEntry_mediaBuilder> {
+  GMediaListEntryMutationData_SaveMediaListEntry_media._();
+
+  factory GMediaListEntryMutationData_SaveMediaListEntry_media(
+      [Function(GMediaListEntryMutationData_SaveMediaListEntry_mediaBuilder b)
+          updates]) = _$GMediaListEntryMutationData_SaveMediaListEntry_media;
+
+  static void _initializeBuilder(
+          GMediaListEntryMutationData_SaveMediaListEntry_mediaBuilder b) =>
+      b..G__typename = 'Media';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry?
+      get mediaListEntry;
+  static Serializer<GMediaListEntryMutationData_SaveMediaListEntry_media>
+      get serializer =>
+          _$gMediaListEntryMutationDataSaveMediaListEntryMediaSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaListEntryMutationData_SaveMediaListEntry_media.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaListEntryMutationData_SaveMediaListEntry_media? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMediaListEntryMutationData_SaveMediaListEntry_media.serializer,
+        json,
+      );
+}
+
+abstract class GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry
+    implements
+        Built<
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry,
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntryBuilder> {
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry._();
+
+  factory GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry(
+          [Function(
+                  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntryBuilder
+                      b)
+              updates]) =
+      _$GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry;
+
+  static void _initializeBuilder(
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntryBuilder
+              b) =>
+      b..G__typename = 'MediaList';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get userId;
+  _i2.GMediaListStatus? get status;
+  double? get score;
+  int? get progress;
+  int? get progressVolumes;
+  int? get repeat;
+  int? get priority;
+  bool? get private;
+  String? get notes;
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt?
+      get startedAt;
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt?
+      get completedAt;
+  static Serializer<
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry>
+      get serializer =>
+          _$gMediaListEntryMutationDataSaveMediaListEntryMediaMediaListEntrySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry
+            .serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry?
+      fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry
+                .serializer,
+            json,
+          );
+}
+
+abstract class GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt
+    implements
+        Built<
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt,
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAtBuilder> {
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt._();
+
+  factory GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt(
+          [Function(
+                  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAtBuilder
+                      b)
+              updates]) =
+      _$GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt;
+
+  static void _initializeBuilder(
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAtBuilder
+              b) =>
+      b..G__typename = 'FuzzyDate';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int? get year;
+  int? get month;
+  int? get day;
+  static Serializer<
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt>
+      get serializer =>
+          _$gMediaListEntryMutationDataSaveMediaListEntryMediaMediaListEntryStartedAtSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt
+            .serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt?
+      fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt
+                .serializer,
+            json,
+          );
+}
+
+abstract class GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt
+    implements
+        Built<
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt,
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAtBuilder> {
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt._();
+
+  factory GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt(
+          [Function(
+                  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAtBuilder
+                      b)
+              updates]) =
+      _$GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt;
+
+  static void _initializeBuilder(
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAtBuilder
+              b) =>
+      b..G__typename = 'FuzzyDate';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int? get year;
+  int? get month;
+  int? get day;
+  static Serializer<
+          GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt>
+      get serializer =>
+          _$gMediaListEntryMutationDataSaveMediaListEntryMediaMediaListEntryCompletedAtSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt
+            .serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt?
+      fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
+            GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt
+                .serializer,
+            json,
+          );
 }

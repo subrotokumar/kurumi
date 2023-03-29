@@ -1,8 +1,11 @@
+import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/functions/helper.functions.dart';
+import 'package:kurumi/main.dart';
 import 'package:kurumi/presentation/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -97,6 +100,26 @@ class _SettingScreenState extends State<SettingScreen> {
                   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
                 );
               }),
+              Consumer(
+                builder: (context, ref, child) {
+                  final client = ref.watch(clientProvider);
+                  return ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    onTap: () async {
+                      final b = Hive.box('anilist_graphql');
+                      await b.clear();
+                      context.goNamed(AppRouteConstant.HomeScreen.name);
+                    },
+                    leading: Text(
+                      'Clear',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  );
+                },
+              ),
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
                 onTap: () async {},

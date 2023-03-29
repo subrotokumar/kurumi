@@ -14,6 +14,9 @@ query MediaDetailQuery($id: Int!, $limit: Int, $page: Int, $perPage: Int) {
       medium
       color
     }
+    nextAiringEpisode {
+      airingAt
+    }
     type
     status
     description(asHtml: false)

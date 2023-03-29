@@ -145,6 +145,21 @@ const MediaDetailQuery = _i1.OperationDefinitionNode(
           ]),
         ),
         _i1.FieldNode(
+          name: _i1.NameNode(value: 'nextAiringEpisode'),
+          alias: null,
+          arguments: [],
+          directives: [],
+          selectionSet: _i1.SelectionSetNode(selections: [
+            _i1.FieldNode(
+              name: _i1.NameNode(value: 'airingAt'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            )
+          ]),
+        ),
+        _i1.FieldNode(
           name: _i1.NameNode(value: 'type'),
           alias: null,
           arguments: [],

@@ -41,7 +41,5 @@ Future<void> renderMediaList({
       ..vars.type = GMediaType.ANIME
       ..vars.userId = anilistUserId,
   );
-  client?.request(req).listen((event) {
-    print(event.data);
-  });
+  await client?.request(req).first;
 }

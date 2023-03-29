@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kurumi/functions/helper.functions.dart';
+import 'package:kurumi/presentation/anime/widget/timer.widget.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:screenshot/screenshot.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
@@ -30,57 +35,62 @@ class MediaScreen extends ConsumerStatefulWidget {
 }
 
 class _MediaScreenState extends ConsumerState<MediaScreen> {
+  GlobalKey<ScaffoldState> mediaScreenKey = GlobalKey();
   final _loading = StateProvider<bool>((ref) => false);
   GMediaType type = GMediaType.ANIME;
+  ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final client = ref.watch(clientProvider);
     return Scaffold(
-      floatingActionButton: Consumer(builder: (context, ref, child) {
-        final flag = ref.watch(_loading);
-        return flag
-            ? LottieBuilder.asset(
-                'assets/lotties/loading-gif-animation.json',
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-              )
-            : Container();
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      backgroundColor: AppTheme.background,
-      body: Consumer(
-        builder: (context, ref, child) {
-          final client = ref.watch(clientProvider);
-          return RefreshIndicator(
-            onRefresh: () async {
-              // await clearMediaListCache(ref);
-              // await renderMediaList(ref: ref, status: GMediaListStatus.CURRENT);
-            },
-            child: Operation(
-              client: client!,
-              operationRequest: GMediaDetailQueryReq(
-                (b) => b
-                  ..vars.id = widget.id
-                  ..vars.limit = 5
-                  ..vars.page = 1
-                  ..vars.perPage = 10,
-              ),
-              builder: (context, response, error) {
-                if (response == null || response.loading) {
-                  return Center(
-                    child: LottieBuilder.asset(
-                      'assets/lotties/loading-gif-animation.json',
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                } else {
-                  final data = response.data?.Media;
-                  type = data?.type ?? type;
-                  Color color = Col.parseHex(data?.coverImage?.color);
-                  return Container(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // await clearMediaListCache(ref);
+          // await renderMediaList(ref: ref, status: GMediaListStatus.CURRENT);
+        },
+        child: Operation(
+          client: client!,
+          operationRequest: GMediaDetailQueryReq(
+            (b) => b
+              ..vars.id = widget.id
+              ..vars.limit = 5
+              ..vars.page = 1
+              ..vars.perPage = 10,
+          ),
+          builder: (context, response, error) {
+            if (response == null || response.loading) {
+              return Center(
+                child: LottieBuilder.asset(
+                  'assets/lotties/loading-gif-animation.json',
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+              );
+            } else {
+              final data = response.data?.Media;
+              type = data?.type ?? type;
+              Color color = Col.parseHex(data?.coverImage?.color);
+              return Scaffold(
+                key: mediaScreenKey,
+                floatingActionButton: Consumer(builder: (context, ref, child) {
+                  final flag = ref.watch(_loading);
+                  return flag
+                      ? LottieBuilder.asset(
+                          'assets/lotties/loading-gif-animation.json',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        )
+                      : Container();
+                }),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                backgroundColor: AppTheme.background,
+                body: Screenshot(
+                  controller: screenshotController,
+                  child: Container(
                     height: size.height,
                     width: size.width,
                     child: SingleChildScrollView(
@@ -92,7 +102,12 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: size.height * .20,
+                                  height: size.height * .25,
+                                  child: Center(
+                                    child: TimerWidget(
+                                        time:
+                                            data?.nextAiringEpisode?.airingAt),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -178,27 +193,112 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                               ),
                                             ),
                                             Spacer(),
-                                            OutlinedButton(
-                                              style: OutlinedButton.styleFrom(
-                                                foregroundColor:
-                                                    Theme.of(context)
-                                                        .iconTheme
-                                                        .color,
-                                              ),
-                                              onPressed: () {
-                                                showBottomSheet(
-                                                  context: context,
-                                                  backgroundColor:
-                                                      AppTheme.secondaryColor,
-                                                  builder: (context) =>
-                                                      AnilistTrackingWidget(
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                if (data?.mediaListEntry
+                                                        ?.status ==
+                                                    null)
+                                                  IconButton(
+                                                    style: IconButton.styleFrom(
+                                                      shape: CircleBorder(
+                                                          side: BorderSide(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .outline)),
+                                                      foregroundColor:
+                                                          Theme.of(context)
+                                                              .iconTheme
+                                                              .color,
+                                                    ),
+                                                    onPressed: () {
+                                                      showBottomSheet(
+                                                        context: context,
+                                                        backgroundColor:
+                                                            AppTheme
+                                                                .secondaryColor,
+                                                        builder: (context) =>
+                                                            AnilistTrackingWidget(
                                                           mediaListEntry: data
-                                                              ?.mediaListEntry),
-                                                );
-                                              },
-                                              child: Text(data?.mediaListEntry
-                                                      ?.status?.name ??
-                                                  'ADD'),
+                                                              ?.mediaListEntry,
+                                                          mediaId: data?.id,
+                                                        ),
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.add_outlined),
+                                                  ),
+                                                if (data?.mediaListEntry
+                                                        ?.status !=
+                                                    null)
+                                                  OutlinedButton(
+                                                    style: OutlinedButton
+                                                        .styleFrom(
+                                                      foregroundColor:
+                                                          Theme.of(context)
+                                                              .iconTheme
+                                                              .color,
+                                                    ),
+                                                    onPressed: () {
+                                                      showBottomSheet(
+                                                        context: context,
+                                                        backgroundColor:
+                                                            AppTheme
+                                                                .secondaryColor,
+                                                        builder: (context) =>
+                                                            AnilistTrackingWidget(
+                                                          mediaListEntry: data
+                                                              ?.mediaListEntry,
+                                                          mediaId: data?.id,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text(data
+                                                            ?.mediaListEntry
+                                                            ?.status
+                                                            ?.name ??
+                                                        'ADD'),
+                                                  ),
+                                                SizedBox(width: 8),
+                                                IconButton(
+                                                  style: IconButton.styleFrom(
+                                                    shape: CircleBorder(
+                                                        side: BorderSide(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .outline)),
+                                                    foregroundColor:
+                                                        Theme.of(context)
+                                                            .iconTheme
+                                                            .color,
+                                                  ),
+                                                  onPressed: () async {
+                                                    final dir =
+                                                        await getTemporaryDirectory();
+                                                    final directory = dir.path;
+                                                    await screenshotController
+                                                        .captureAndSave(
+                                                            '$directory/share.png');
+                                                    await Share.shareXFiles(
+                                                      [
+                                                        XFile(
+                                                            '$directory/share.png')
+                                                      ],
+                                                      subject: data?.title
+                                                              ?.userPreferred ??
+                                                          '',
+                                                      text: data?.description ??
+                                                          '',
+                                                    );
+                                                  },
+                                                  icon: Icon(Icons.share),
+                                                ),
+                                              ],
                                             )
                                           ],
                                         ),
@@ -321,7 +421,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                     children: [
                                       Text(
                                         'OVERVIEW',
-                                        style: GoogleFonts.poppins(
+                                        style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -633,6 +733,75 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   },
                                 ),
                                 Visibility(
+                                  visible: data?.trailer != null &&
+                                      (data?.trailer?.site == 'youtube'),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Trailer',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: data?.trailer != null &&
+                                      (data?.trailer?.site == 'youtube'),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl:
+                                              data?.trailer?.thumbnail ?? '',
+                                          fit: BoxFit.fitWidth,
+                                          height: 150,
+                                          width: 270,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  GestureDetector(
+                                            onTap: () {
+                                              launchUrlString(
+                                                'https://www.youtube.com/watch?v=${data?.trailer?.id}' ??
+                                                    '',
+                                                mode:
+                                                    LaunchMode.platformDefault,
+                                              );
+                                            },
+                                            child: AspectRatio(
+                                              aspectRatio: 16 / 9,
+                                              child: Container(
+                                                height: 150,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.fitWidth),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
                                   visible: data?.externalLinks != null &&
                                       (data?.externalLinks?.isNotEmpty ??
                                           false),
@@ -741,12 +910,12 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                         ],
                       ),
                     ),
-                  );
-                }
-              },
-            ),
-          );
-        },
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

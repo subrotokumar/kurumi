@@ -51,5 +51,28 @@ mutation MediaListEntryMutation(
       month
       day
     }
+    media {
+      mediaListEntry {
+        userId
+        status
+        score
+        progress
+        progressVolumes
+        repeat
+        priority
+        private
+        notes
+        startedAt {
+          year
+          month
+          day
+        }
+        completedAt {
+          year
+          month
+          day
+        }
+      }
+    }
   }
 }

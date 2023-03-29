@@ -55,6 +55,7 @@ abstract class GMediaDetailQueryData_Media
   GMediaDetailQueryData_Media_title? get title;
   String? get bannerImage;
   GMediaDetailQueryData_Media_coverImage? get coverImage;
+  GMediaDetailQueryData_Media_nextAiringEpisode? get nextAiringEpisode;
   _i2.GMediaType? get type;
   _i2.GMediaStatus? get status;
   String? get description;
@@ -159,6 +160,36 @@ abstract class GMediaDetailQueryData_Media_coverImage
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GMediaDetailQueryData_Media_coverImage.serializer,
+        json,
+      );
+}
+
+abstract class GMediaDetailQueryData_Media_nextAiringEpisode
+    implements
+        Built<GMediaDetailQueryData_Media_nextAiringEpisode,
+            GMediaDetailQueryData_Media_nextAiringEpisodeBuilder> {
+  GMediaDetailQueryData_Media_nextAiringEpisode._();
+
+  factory GMediaDetailQueryData_Media_nextAiringEpisode(
+      [Function(GMediaDetailQueryData_Media_nextAiringEpisodeBuilder b)
+          updates]) = _$GMediaDetailQueryData_Media_nextAiringEpisode;
+
+  static void _initializeBuilder(
+          GMediaDetailQueryData_Media_nextAiringEpisodeBuilder b) =>
+      b..G__typename = 'AiringSchedule';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get airingAt;
+  static Serializer<GMediaDetailQueryData_Media_nextAiringEpisode>
+      get serializer => _$gMediaDetailQueryDataMediaNextAiringEpisodeSerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaDetailQueryData_Media_nextAiringEpisode.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaDetailQueryData_Media_nextAiringEpisode? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMediaDetailQueryData_Media_nextAiringEpisode.serializer,
         json,
       );
 }

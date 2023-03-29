@@ -5,13 +5,12 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/config/app_theme.dart';
 import 'package:kurumi/main.dart';
-import 'package:kurumi/utils/utils.functions.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:lottie/lottie.dart';
 
 enum SearchView { LIST, GRID }
 

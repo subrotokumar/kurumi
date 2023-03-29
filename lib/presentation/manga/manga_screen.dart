@@ -1,9 +1,11 @@
 import 'package:anilist/tranding_anime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_theme.dart';
-import 'package:kurumi/presentation/anime/widget/media_list_builder.widget.dart';
+import 'package:kurumi/presentation/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/presentation/home/homepage.dart';
 import 'package:kurumi/presentation/manga/widgets/verticle_navigation_bar.widget.dart';
 
@@ -48,7 +50,10 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                         height: 60,
                         child: Center(
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.pushNamed(
+                                  AppRouteConstant.SearchScreen.name);
+                            },
                             icon: Icon(Icons.search_rounded),
                           ),
                         ),

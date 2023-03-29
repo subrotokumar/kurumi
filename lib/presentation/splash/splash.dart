@@ -58,10 +58,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     final store = HiveStore(box);
     final cache = Cache(store: store, possibleTypes: possibleTypesMap);
-    final client = Client(
-      link: httpLink,
-      cache: cache,
-    );
+    final client = Client(link: httpLink, cache: cache, defaultFetchPolicies: {
+      OperationType.query: FetchPolicy.CacheAndNetwork,
+    });
     ref.read(accessTokenProvider.notifier).update((state) => accessToken);
     ref.read(clientProvider.notifier).update((state) => client);
 

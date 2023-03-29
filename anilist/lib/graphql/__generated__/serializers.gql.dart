@@ -58,6 +58,7 @@ import 'package:anilist/graphql/__generated__/media_detail_query.data.gql.dart'
         GMediaDetailQueryData_Media_mediaListEntry,
         GMediaDetailQueryData_Media_mediaListEntry_completedAt,
         GMediaDetailQueryData_Media_mediaListEntry_startedAt,
+        GMediaDetailQueryData_Media_nextAiringEpisode,
         GMediaDetailQueryData_Media_relations,
         GMediaDetailQueryData_Media_relations_nodes,
         GMediaDetailQueryData_Media_relations_nodes_coverImage,
@@ -98,6 +99,10 @@ import 'package:anilist/graphql/__generated__/medialist_entry_mutation.data.gql.
         GMediaListEntryMutationData,
         GMediaListEntryMutationData_SaveMediaListEntry,
         GMediaListEntryMutationData_SaveMediaListEntry_completedAt,
+        GMediaListEntryMutationData_SaveMediaListEntry_media,
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry,
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt,
+        GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt,
         GMediaListEntryMutationData_SaveMediaListEntry_startedAt;
 import 'package:anilist/graphql/__generated__/medialist_entry_mutation.req.gql.dart'
     show GMediaListEntryMutationReq;
@@ -339,6 +344,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMediaDetailQueryData_Media_mediaListEntry,
   GMediaDetailQueryData_Media_mediaListEntry_completedAt,
   GMediaDetailQueryData_Media_mediaListEntry_startedAt,
+  GMediaDetailQueryData_Media_nextAiringEpisode,
   GMediaDetailQueryData_Media_relations,
   GMediaDetailQueryData_Media_relations_nodes,
   GMediaDetailQueryData_Media_relations_nodes_coverImage,
@@ -373,6 +379,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMediaListEntryMutationData,
   GMediaListEntryMutationData_SaveMediaListEntry,
   GMediaListEntryMutationData_SaveMediaListEntry_completedAt,
+  GMediaListEntryMutationData_SaveMediaListEntry_media,
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry,
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_completedAt,
+  GMediaListEntryMutationData_SaveMediaListEntry_media_mediaListEntry_startedAt,
   GMediaListEntryMutationData_SaveMediaListEntry_startedAt,
   GMediaListEntryMutationReq,
   GMediaListEntryMutationVars,

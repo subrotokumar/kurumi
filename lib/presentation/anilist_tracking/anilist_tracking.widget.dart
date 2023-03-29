@@ -1,5 +1,7 @@
 import 'package:anilist/graphql/__generated__/medialist_entry_mutation.req.gql.dart';
+import 'package:anilist/graphql_client.dart';
 import 'package:anilist/media_detail_query.dart';
+import 'package:ferry/ferry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,8 +10,10 @@ import 'package:kurumi/functions/helper.functions.dart';
 import 'package:kurumi/main.dart';
 
 class AnilistTrackingWidget extends ConsumerWidget {
-  const AnilistTrackingWidget({required this.mediaListEntry, super.key});
+  const AnilistTrackingWidget(
+      {required this.mediaListEntry, this.mediaId, super.key});
   final GMediaDetailQueryData_Media_mediaListEntry? mediaListEntry;
+  final int? mediaId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,6 +32,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
     var completedYear = mediaListEntry?.completedAt?.year;
     if (completedDay != null && completedYear != null && completedMonth != null)
       completedAt = DateTime(completedYear, completedMonth, completedDay, 0, 0);
+    print(mediaListEntry);
     return SafeArea(
       child: StatefulBuilder(
         builder: (context, setState) {
@@ -435,15 +440,15 @@ class AnilistTrackingWidget extends ConsumerWidget {
                       return OutlinedButton(
                         onPressed: () async {
                           final client = ref.read(clientProvider);
-                          final anilistUserId = ref.read(userId);
+                          final userID = ref.read(userId);
                           final accessToken = ref.read(accessTokenProvider);
                           var mediaListEntryMutationReq =
                               GMediaListEntryMutationReq(
                             (b) => b
                               ..vars.id = mediaListEntry?.id
-                              ..vars.mediaId = mediaListEntry?.mediaId
+                              ..vars.mediaId = mediaId
                               ..vars.status = status
-                              ..vars.progress = (progress ?? 0) + 1
+                              ..vars.progress = progress
                               ..vars.score = score
                               ..vars.startedAt.day = startDate?.day
                               ..vars.startedAt.month = startDate?.month
@@ -452,83 +457,97 @@ class AnilistTrackingWidget extends ConsumerWidget {
                               ..vars.completedAt.month = completedAt?.month
                               ..vars.completedAt.year = completedAt?.year,
                           );
-                          client!.request(mediaListEntryMutationReq).listen(
+                          client?.request(mediaListEntryMutationReq).listen(
                             (response) async {
+                              final oldStatus = mediaListEntry?.status;
+                              final newStatus =
+                                  response.data?.SaveMediaListEntry?.status;
+                              final flag = oldStatus != newStatus;
+                              print('$oldStatus $newStatus');
                               final req = GMediaDetailQueryReq(
                                 (b) => b
-                                  ..vars.id = mediaListEntry?.id
+                                  ..vars.id = mediaId
                                   ..vars.limit = 5
                                   ..vars.page = 1
                                   ..vars.perPage = 10,
                               );
                               final cache = client.cache.readQuery(req);
-                              client.cache.writeQuery(
-                                req,
-                                cache?.rebuild(
-                                  (p) => p
-                                    ..Media.mediaListEntry
-                                    ..Media.mediaListEntry.update(
-                                          (b) => b
-                                            ..id = response
-                                                .data?.SaveMediaListEntry?.id
-                                            ..mediaId = response.data
-                                                ?.SaveMediaListEntry?.mediaId
-                                            ..score = response
-                                                .data?.SaveMediaListEntry?.score
-                                            ..private = response.data
-                                                ?.SaveMediaListEntry?.private
-                                            ..progress = response.data
-                                                ?.SaveMediaListEntry?.progress
-                                            ..repeat = response.data
-                                                ?.SaveMediaListEntry?.repeat
-                                            ..startedAt.day = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.day
-                                            ..startedAt.month = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.month
-                                            ..startedAt.year = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.year
-                                            ..completedAt.day = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.day
-                                            ..completedAt.month = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.month
-                                            ..completedAt.year = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.year,
-                                        ),
-                                ),
+                              final updatedCache = cache?.rebuild(
+                                (b) => b
+                                  ..Media.mediaListEntry.replace(
+                                          GMediaDetailQueryData_Media_mediaListEntry(
+                                        (b) => b
+                                          ..id = response
+                                              .data!.SaveMediaListEntry!.id
+                                          ..mediaId = response
+                                              .data?.SaveMediaListEntry?.mediaId
+                                          ..userId = userID
+                                          ..status = response
+                                              .data?.SaveMediaListEntry?.status
+                                          ..score = response
+                                              .data?.SaveMediaListEntry?.score
+                                          ..progress = response.data
+                                              ?.SaveMediaListEntry?.progress
+                                          ..progressVolumes = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.progressVolumes
+                                          ..repeat = response
+                                              .data?.SaveMediaListEntry?.repeat
+                                          ..priority = response.data
+                                              ?.SaveMediaListEntry?.priority
+                                          ..notes = response
+                                              .data?.SaveMediaListEntry?.notes
+                                          ..startedAt.day = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.startedAt
+                                              ?.day
+                                          ..startedAt.month = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.startedAt
+                                              ?.month
+                                          ..startedAt.year = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.startedAt
+                                              ?.year
+                                          ..completedAt.day = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.completedAt
+                                              ?.day
+                                          ..completedAt.month = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.completedAt
+                                              ?.month
+                                          ..completedAt.year = response
+                                              .data
+                                              ?.SaveMediaListEntry
+                                              ?.completedAt
+                                              ?.year,
+                                      )),
                               );
+                              client.cache.writeQuery(req, updatedCache);
+                              if (flag) {
+                                print('clear');
+                                await clearMediaListCache(
+                                  ref,
+                                  accessToken: accessToken,
+                                );
+                                print('$oldStatus $newStatus');
+                                if (newStatus != null)
+                                  await renderMediaList(
+                                    ref: ref,
+                                    status: oldStatus ?? newStatus,
+                                  );
+                                print('clear');
+                                context.pop();
+                              }
                             },
                           );
-                          if (mediaListEntry?.status != null &&
-                              mediaListEntry?.status != status) {
-                            print('hrllo2');
-                            await clearMediaListCache(
-                              ref,
-                              accessToken: accessToken,
-                            );
-                            await renderMediaList(
-                              ref: ref,
-                              status: mediaListEntry!.status!,
-                            );
-                          }
-                          context.pop();
                         },
                         child: Text('APPLY'),
                       );

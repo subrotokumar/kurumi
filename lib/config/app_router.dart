@@ -173,10 +173,26 @@ class AppRouter {
       // ),
     ],
     errorPageBuilder: (context, state) {
-      return const MaterialPage(
+      return MaterialPage(
         child: Scaffold(
-          body: Center(
-            child: Text('404'),
+          body: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '404',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
+                ),
+                SizedBox(height: 16),
+                OutlinedButton(
+                  onPressed: () =>
+                      context.goNamed(AppRouteConstant.HomeScreen.name),
+                  child: Text('GO TO HOME'),
+                )
+              ],
+            ),
           ),
         ),
       );

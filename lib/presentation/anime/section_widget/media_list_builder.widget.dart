@@ -24,6 +24,7 @@ class MediaListBuilderWidget extends StatelessWidget {
       builder: (context, ref, child) {
         final anilistUserId = ref.watch(userId);
         final mediaListClient = ref.watch(mediaListClientProvider);
+        print(anilistUserId);
         return Operation(
           client: mediaListClient!,
           // initClient(accessToken: token),
