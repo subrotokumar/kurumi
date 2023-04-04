@@ -80,6 +80,7 @@ abstract class GReviewQueryData_Page_reviews
   String? get summary;
   int? get ratingAmount;
   int? get rating;
+  String? get body;
   GReviewQueryData_Page_reviews_media? get media;
   static Serializer<GReviewQueryData_Page_reviews> get serializer =>
       _$gReviewQueryDataPageReviewsSerializer;

@@ -1,15 +1,19 @@
 import 'package:anilist/discover_media.dart';
 import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/presentation/character/characher_screen.dart';
-import 'package:kurumi/presentation/home/homepage.dart';
-import 'package:kurumi/presentation/login/login.dart';
-import 'package:kurumi/presentation/media_description/media_screen.dart';
-import 'package:kurumi/presentation/search_media/search_media_page.dart';
-import 'package:kurumi/presentation/settings/settings.dart';
-import 'package:kurumi/presentation/splash/splash.dart';
+import 'package:kurumi/features/character/characher_screen.dart';
+import 'package:kurumi/features/home/homepage.dart';
+import 'package:kurumi/features/login/login.dart';
+import 'package:kurumi/features/media_description/media_screen.dart';
+import 'package:kurumi/features/reviews/review_screen.dart';
+import 'package:kurumi/features/search_media/search_media_page.dart';
+import 'package:kurumi/features/settings/settings.dart';
+import 'package:kurumi/features/splash/splash.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 export 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -130,13 +134,36 @@ class AppRouter {
         pageBuilder: (context, state) {
           var id = int.parse(state.params['id'] ?? '0');
           String name = state.params['name'] ?? '';
+          final extra = state.extra as Map;
           GMediaDetailQueryData_Media_characters_edges? data =
-              state.extra as GMediaDetailQueryData_Media_characters_edges;
+              (extra['data']) as GMediaDetailQueryData_Media_characters_edges;
+          int index = extra['index'];
           return CustomTransitionPage(
             child: CharacterScreen(
+                id: id, name: name, characterData: data, index: index),
+            transitionDuration: const Duration(milliseconds: 800),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity:
+                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.Review.name,
+        path: '${AppRouteConstant.Review.path}/:id',
+        pageBuilder: (context, state) {
+          int id = int.parse(state.params['id'] ?? '0');
+          GReviewQueryData_Page_reviews? data =
+              state.extra as GReviewQueryData_Page_reviews;
+          return CustomTransitionPage(
+            child: ReviewScreen(
               id: id,
-              name: name,
-              characterData: data,
+              reviewData: data,
             ),
             transitionDuration: const Duration(milliseconds: 800),
             transitionsBuilder:
@@ -181,9 +208,30 @@ class AppRouter {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '404',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),
+                LottieBuilder.asset(
+                  'assets/lotties/ufo.json',
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(height: 16),
+                Shimmer.fromColors(
+                  baseColor: Colors.white,
+                  highlightColor: Colors.indigo,
+                  child: Text(
+                    '404',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 35,
+                      letterSpacing: 3,
+                    ),
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.white,
+                  highlightColor: Colors.indigo,
+                  child: Text(
+                    'NOT FOUND',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                  ),
                 ),
                 SizedBox(height: 16),
                 OutlinedButton(

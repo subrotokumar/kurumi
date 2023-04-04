@@ -7,6 +7,7 @@ class AppRouteConstant {
   static Route SettingScreen = Route('settings', '/settings');
   static Route MediaScreen = Route('media', '/media');
   static Route Character = Route('character', '/character');
+  static Route Review = Route('review', '/review');
 }
 
 class Route {

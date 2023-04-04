@@ -9,6 +9,7 @@ query ReviewQuery($page: Int, $perPage: Int, $type: MediaType!) {
       summary
       ratingAmount
       rating
+      body(asHtml: false)
       media {
         id
         title {

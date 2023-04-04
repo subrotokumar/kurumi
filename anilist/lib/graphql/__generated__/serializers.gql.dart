@@ -15,6 +15,14 @@ import 'package:anilist/graphql/__generated__/airing_schedule_query.req.gql.dart
     show GAiringScheduleQueryReq;
 import 'package:anilist/graphql/__generated__/airing_schedule_query.var.gql.dart'
     show GAiringScheduleQueryVars;
+import 'package:anilist/graphql/__generated__/DeleteMediaListEntry.data.gql.dart'
+    show
+        GDeleteMediaListEntryData,
+        GDeleteMediaListEntryData_DeleteMediaListEntry;
+import 'package:anilist/graphql/__generated__/DeleteMediaListEntry.req.gql.dart'
+    show GDeleteMediaListEntryReq;
+import 'package:anilist/graphql/__generated__/DeleteMediaListEntry.var.gql.dart'
+    show GDeleteMediaListEntryVars;
 import 'package:anilist/graphql/__generated__/deleteMediaListMutation.data.gql.dart'
     show
         GDeleteMediaListEntryMutationData,
@@ -304,10 +312,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GCharacterRole,
   GCharacterSort,
   GCountryCode,
+  GDeleteMediaListEntryData,
+  GDeleteMediaListEntryData_DeleteMediaListEntry,
   GDeleteMediaListEntryMutationData,
   GDeleteMediaListEntryMutationData_DeleteMediaListEntry,
   GDeleteMediaListEntryMutationReq,
   GDeleteMediaListEntryMutationVars,
+  GDeleteMediaListEntryReq,
+  GDeleteMediaListEntryVars,
   GDiscoverMediaData,
   GDiscoverMediaData_Page,
   GDiscoverMediaData_Page_media,

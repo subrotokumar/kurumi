@@ -373,6 +373,13 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_mediaSerializer
       serializers.serialize(object.id, specifiedType: const FullType(int)),
     ];
     Object? value;
+    value = object.countryOfOrigin;
+    if (value != null) {
+      result
+        ..add('countryOfOrigin')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GCountryCode)));
+    }
     value = object.title;
     if (value != null) {
       result
@@ -443,6 +450,11 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_mediaSerializer
         case '__typename':
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+        case 'countryOfOrigin':
+          result.countryOfOrigin.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GCountryCode))!
+              as _i2.GCountryCode);
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -1337,6 +1349,8 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_media
   @override
   final String G__typename;
   @override
+  final _i2.GCountryCode? countryOfOrigin;
+  @override
   final int id;
   @override
   final GAiringScheduleQueryData_Page_airingSchedules_media_title? title;
@@ -1365,6 +1379,7 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_media
 
   _$GAiringScheduleQueryData_Page_airingSchedules_media._(
       {required this.G__typename,
+      this.countryOfOrigin,
       required this.id,
       this.title,
       this.coverImage,
@@ -1397,6 +1412,7 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_media
     if (identical(other, this)) return true;
     return other is GAiringScheduleQueryData_Page_airingSchedules_media &&
         G__typename == other.G__typename &&
+        countryOfOrigin == other.countryOfOrigin &&
         id == other.id &&
         title == other.title &&
         coverImage == other.coverImage &&
@@ -1411,6 +1427,7 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_media
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, countryOfOrigin.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, coverImage.hashCode);
@@ -1428,6 +1445,7 @@ class _$GAiringScheduleQueryData_Page_airingSchedules_media
     return (newBuiltValueToStringHelper(
             r'GAiringScheduleQueryData_Page_airingSchedules_media')
           ..add('G__typename', G__typename)
+          ..add('countryOfOrigin', countryOfOrigin)
           ..add('id', id)
           ..add('title', title)
           ..add('coverImage', coverImage)
@@ -1449,6 +1467,12 @@ class GAiringScheduleQueryData_Page_airingSchedules_mediaBuilder
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  _i2.GCountryCodeBuilder? _countryOfOrigin;
+  _i2.GCountryCodeBuilder get countryOfOrigin =>
+      _$this._countryOfOrigin ??= new _i2.GCountryCodeBuilder();
+  set countryOfOrigin(_i2.GCountryCodeBuilder? countryOfOrigin) =>
+      _$this._countryOfOrigin = countryOfOrigin;
 
   int? _id;
   int? get id => _$this._id;
@@ -1508,6 +1532,7 @@ class GAiringScheduleQueryData_Page_airingSchedules_mediaBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
+      _countryOfOrigin = $v.countryOfOrigin?.toBuilder();
       _id = $v.id;
       _title = $v.title?.toBuilder();
       _coverImage = $v.coverImage?.toBuilder();
@@ -1546,6 +1571,7 @@ class GAiringScheduleQueryData_Page_airingSchedules_mediaBuilder
                   G__typename,
                   r'GAiringScheduleQueryData_Page_airingSchedules_media',
                   'G__typename'),
+              countryOfOrigin: _countryOfOrigin?.build(),
               id: BuiltValueNullFieldError.checkNotNull(id,
                   r'GAiringScheduleQueryData_Page_airingSchedules_media', 'id'),
               title: _title?.build(),
@@ -1558,6 +1584,9 @@ class GAiringScheduleQueryData_Page_airingSchedules_mediaBuilder
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'countryOfOrigin';
+        _countryOfOrigin?.build();
+
         _$failedField = 'title';
         _title?.build();
         _$failedField = 'coverImage';

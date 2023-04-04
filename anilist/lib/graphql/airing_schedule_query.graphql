@@ -20,6 +20,7 @@ query AiringScheduleQuery(
       timeUntilAiring
       episode
       media {
+        countryOfOrigin
         id
         title {
           userPreferred

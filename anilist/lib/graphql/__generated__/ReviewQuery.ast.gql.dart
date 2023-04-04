@@ -120,6 +120,18 @@ const ReviewQuery = _i1.OperationDefinitionNode(
               selectionSet: null,
             ),
             _i1.FieldNode(
+              name: _i1.NameNode(value: 'body'),
+              alias: null,
+              arguments: [
+                _i1.ArgumentNode(
+                  name: _i1.NameNode(value: 'asHtml'),
+                  value: _i1.BooleanValueNode(value: false),
+                )
+              ],
+              directives: [],
+              selectionSet: null,
+            ),
+            _i1.FieldNode(
               name: _i1.NameNode(value: 'media'),
               alias: null,
               arguments: [],

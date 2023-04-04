@@ -195,6 +195,13 @@ class _$GReviewQueryData_Page_reviewsSerializer
         ..add('rating')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.body;
+    if (value != null) {
+      result
+        ..add('body')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.media;
     if (value != null) {
       result
@@ -247,6 +254,10 @@ class _$GReviewQueryData_Page_reviewsSerializer
         case 'rating':
           result.rating = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
+          break;
+        case 'body':
+          result.body = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'media':
           result.media.replace(serializers.deserialize(value,
@@ -788,6 +799,8 @@ class _$GReviewQueryData_Page_reviews extends GReviewQueryData_Page_reviews {
   @override
   final int? rating;
   @override
+  final String? body;
+  @override
   final GReviewQueryData_Page_reviews_media? media;
 
   factory _$GReviewQueryData_Page_reviews(
@@ -802,6 +815,7 @@ class _$GReviewQueryData_Page_reviews extends GReviewQueryData_Page_reviews {
       this.summary,
       this.ratingAmount,
       this.rating,
+      this.body,
       this.media})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -830,6 +844,7 @@ class _$GReviewQueryData_Page_reviews extends GReviewQueryData_Page_reviews {
         summary == other.summary &&
         ratingAmount == other.ratingAmount &&
         rating == other.rating &&
+        body == other.body &&
         media == other.media;
   }
 
@@ -843,6 +858,7 @@ class _$GReviewQueryData_Page_reviews extends GReviewQueryData_Page_reviews {
     _$hash = $jc(_$hash, summary.hashCode);
     _$hash = $jc(_$hash, ratingAmount.hashCode);
     _$hash = $jc(_$hash, rating.hashCode);
+    _$hash = $jc(_$hash, body.hashCode);
     _$hash = $jc(_$hash, media.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -858,6 +874,7 @@ class _$GReviewQueryData_Page_reviews extends GReviewQueryData_Page_reviews {
           ..add('summary', summary)
           ..add('ratingAmount', ratingAmount)
           ..add('rating', rating)
+          ..add('body', body)
           ..add('media', media))
         .toString();
   }
@@ -899,6 +916,10 @@ class GReviewQueryData_Page_reviewsBuilder
   int? get rating => _$this._rating;
   set rating(int? rating) => _$this._rating = rating;
 
+  String? _body;
+  String? get body => _$this._body;
+  set body(String? body) => _$this._body = body;
+
   GReviewQueryData_Page_reviews_mediaBuilder? _media;
   GReviewQueryData_Page_reviews_mediaBuilder get media =>
       _$this._media ??= new GReviewQueryData_Page_reviews_mediaBuilder();
@@ -919,6 +940,7 @@ class GReviewQueryData_Page_reviewsBuilder
       _summary = $v.summary;
       _ratingAmount = $v.ratingAmount;
       _rating = $v.rating;
+      _body = $v.body;
       _media = $v.media?.toBuilder();
       _$v = null;
     }
@@ -953,6 +975,7 @@ class GReviewQueryData_Page_reviewsBuilder
               summary: summary,
               ratingAmount: ratingAmount,
               rating: rating,
+              body: body,
               media: _media?.build());
     } catch (_) {
       late String _$failedField;

@@ -150,6 +150,7 @@ abstract class GAiringScheduleQueryData_Page_airingSchedules_media
       b..G__typename = 'Media';
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
+  _i2.GCountryCode? get countryOfOrigin;
   int get id;
   GAiringScheduleQueryData_Page_airingSchedules_media_title? get title;
   GAiringScheduleQueryData_Page_airingSchedules_media_coverImage?

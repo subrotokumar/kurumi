@@ -144,6 +144,13 @@ const AiringScheduleQuery = _i1.OperationDefinitionNode(
               directives: [],
               selectionSet: _i1.SelectionSetNode(selections: [
                 _i1.FieldNode(
+                  name: _i1.NameNode(value: 'countryOfOrigin'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                _i1.FieldNode(
                   name: _i1.NameNode(value: 'id'),
                   alias: null,
                   arguments: [],
