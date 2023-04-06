@@ -6,7 +6,6 @@ import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
@@ -39,11 +38,15 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> initialize() async {
+    AndroidOptions _getAndroidOptions() => const AndroidOptions(
+          encryptedSharedPreferences: true,
+        );
     final flutterSecureStorage = FlutterSecureStorage();
-    final isAccessToken =
-        await flutterSecureStorage.containsKey(key: 'AniListAccessToken');
-    final accessToken =
-        await flutterSecureStorage.read(key: 'AniListAccessToken');
+    final accessToken = await flutterSecureStorage.read(
+      key: 'AniListAccessToken',
+      aOptions: _getAndroidOptions(),
+    );
+    print(accessToken);
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
     await box.clear();
@@ -85,7 +88,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     timer = Timer(
       Duration(seconds: 0),
       () {
-        if (isLoggedIn && isAccessToken) {
+        if (isLoggedIn && accessToken != null) {
           context.goNamed(AppRouteConstant.HomeScreen.name);
         } else {
           context.goNamed(AppRouteConstant.LoginScreen.name);
@@ -96,16 +99,6 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Timer(
-    //   Duration(seconds: 3),
-    //   () {
-    //     if (true) {
-    //       context.goNamed(AppRouteConstant.HomeScreen.name);
-    //     } else {
-    //       context.goNamed(AppRouteConstant.LoginScreen.name);
-    //     }
-    //   },
-    // );
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -115,13 +108,15 @@ class _SplashPageState extends ConsumerState<SplashPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Card(),
-            LottieBuilder.asset('assets/lotties/gibli-tribute.json',
-                width: 300),
+            LottieBuilder.asset(
+              'assets/lotties/gibli-tribute.json',
+              width: 300,
+            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
                 'Kurumi',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                   fontSize: 20,

@@ -124,7 +124,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     shadows: [

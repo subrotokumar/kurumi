@@ -126,7 +126,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                               );
                             }),
                             Text(
-                              ' ${widget.type == GMediaType.ANIME ? 'Anime' : 'Manga'}',
+                              ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30,
@@ -166,11 +166,11 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       child: Container(
                         margin: EdgeInsets.all(10),
                         height: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white10,
-                          border: Border.all(color: color, width: 1),
-                          // borderRadius: BorderRadius.circular(10),
-                        ),
+                        // decoration: BoxDecoration(
+                        //   color: Colors.white10,
+                        //   border: Border.all(color: color, width: 1),
+                        //   // borderRadius: BorderRadius.circular(10),
+                        // ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -191,7 +191,14 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                             ),
                             Flexible(
                               flex: 7,
-                              child: Padding(
+                              child: Container(
+                                height: 120,
+                                // margin: EdgeInsets.only(left: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                  // border: Border.all(color: color, width: 1),
+                                  // borderRadius: BorderRadius.circular(10),
+                                ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 10),
                                 child: Column(
@@ -205,7 +212,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                 ?.media?.title?.userPreferred ??
                                             '',
                                         maxLines: 3,
-                                        style: GoogleFonts.poppins(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
                                         ),
@@ -214,7 +221,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                     Text(
                                       mediaData?.media?.format?.name.trim() ??
                                           '',
-                                      style: GoogleFonts.poppins(
+                                      style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Color(int.parse(
                                                   col.substring(1, 7),

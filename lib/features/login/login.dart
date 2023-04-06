@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
@@ -68,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
                                 'Kurumi',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.yellow,
@@ -80,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
                                 'Powered by AniList',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white,
@@ -91,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         // Text(
                         //   'Welcome to Kurumi',
-                        //   style: GoogleFonts.poppins(
+                        //   style: TextStyle(
                         //     fontSize: 22,
                         //     fontWeight: FontWeight.w600,
                         //     color: Colors.white,
@@ -120,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(
                                 'Get Started',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
@@ -173,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Text(
                 'Login with AniList',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.greenAccent,
@@ -184,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
               RichText(
                 text: TextSpan(
                   text: 'You\'ll be redirected to ',
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     shadows: [const Shadow(color: Colors.grey)],
@@ -229,12 +231,24 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () async {
                         String? accessToken = await Oauth().auth();
-                        appLogIn(ref);
                         if (accessToken != null) {
-                          if (context.canPop()) {
-                            context.pop();
-                          }
-                          context.goNamed(AppRouteConstant.HomeScreen.name);
+                          AndroidOptions _getAndroidOptions() =>
+                              const AndroidOptions(
+                                encryptedSharedPreferences: true,
+                              );
+                          FlutterSecureStorage flutterSecureStorage =
+                              FlutterSecureStorage();
+                          await flutterSecureStorage.deleteAll(
+                              aOptions: _getAndroidOptions());
+                          await flutterSecureStorage.write(
+                            key: 'AniListAccessToken',
+                            value: accessToken,
+                            aOptions: _getAndroidOptions(),
+                          );
+                          final pref = await SharedPreferences.getInstance();
+                          await pref.setBool('isLoggedIn', true);
+                          context.pushReplacementNamed(
+                              AppRouteConstant.SplashScreen.name);
                         }
                       },
                       child: const Text('Login'),

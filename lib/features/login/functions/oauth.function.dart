@@ -32,17 +32,6 @@ class Oauth {
       },
     );
     final String? accessToken = response.data['access_token'];
-    if (kDebugMode) {
-      print(response.data);
-      print(accessToken);
-    }
-    if (accessToken != null) {
-      FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
-      await flutterSecureStorage.write(
-          key: 'AniListAccessToken', value: accessToken);
-      final pref = await SharedPreferences.getInstance();
-      pref.setBool('isLoggedIn', true);
-    }
     return accessToken;
   }
 }

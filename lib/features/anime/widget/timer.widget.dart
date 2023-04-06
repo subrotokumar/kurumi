@@ -20,6 +20,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   int different = 0;
   @override
   void initState() {
+    super.initState();
     int mm = 60;
     int hh = 3600;
     int dd = 3600 * 24;
@@ -45,7 +46,6 @@ class _TimerWidgetState extends State<TimerWidget> {
       secs = diff % mm;
       setState(() {});
     });
-    super.initState();
   }
 
   @override
@@ -61,7 +61,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: different > 0,
+      visible: different > 60,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
@@ -77,7 +77,8 @@ class _TimerWidgetState extends State<TimerWidget> {
             if (minutes > 0)
               Text(minutes < 10 ? '0$minutes : ' : '$minutes : ',
                   style: textStyle),
-            Text(secs < 10 ? '0$secs' : '$secs', style: textStyle),
+            if (secs > 0)
+              Text(secs < 10 ? '0$secs' : '$secs', style: textStyle),
           ],
         ),
       ),

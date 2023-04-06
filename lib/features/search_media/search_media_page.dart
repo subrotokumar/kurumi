@@ -92,6 +92,7 @@ class _SearchMediaState extends State<SearchMedia> {
                     ),
                     TextButton(
                       onPressed: () {
+                        setState(() {});
                         context.pop();
                       },
                       child: Text('Apply Changes'),
@@ -148,7 +149,6 @@ class _SearchMediaState extends State<SearchMedia> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Container(
             width: size.width,
-            color: Colors.black87,
             child: Consumer(
               builder: (context, ref, error) {
                 final client = ref.watch(clientProvider);
@@ -204,7 +204,7 @@ class _SearchMediaState extends State<SearchMedia> {
                                     borderRadius: BorderRadius.circular(5),
                                     child: CachedNetworkImage(
                                       height: 170,
-                                      fit: BoxFit.fitHeight,
+                                      fit: BoxFit.fitWidth,
                                       imageUrl: data?.coverImage?.large ?? '',
                                     ),
                                   ),
@@ -246,28 +246,34 @@ class _SearchMediaState extends State<SearchMedia> {
                                 child: Container(
                                   width: size.width,
                                   margin: EdgeInsets.only(
-                                      left: 12, right: 12, top: 12),
-                                  height: 140,
-                                  color: Colors.white10,
+                                      left: 12, right: 12, top: 20),
+                                  height: 120,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Flexible(
-                                        flex: 1,
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
                                         child: CachedNetworkImage(
                                           imageUrl:
                                               data?.coverImage?.large ?? '',
-                                          height: 140,
-                                          width: 100,
+                                          height: 120,
+                                          width: 90,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      Flexible(
-                                        flex: 2,
-                                        child: Padding(
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 10),
                                           padding: const EdgeInsets.symmetric(
-                                            vertical: 5,
-                                            horizontal: 8,
+                                            vertical: 8,
+                                            horizontal: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: Colors.white24,
+                                            ),
                                           ),
                                           child: Column(
                                             mainAxisAlignment:
@@ -282,7 +288,7 @@ class _SearchMediaState extends State<SearchMedia> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w500,
-                                                    fontSize: 17),
+                                                    fontSize: 16),
                                               ),
                                               SizedBox(height: 5),
                                               Text(
@@ -290,16 +296,9 @@ class _SearchMediaState extends State<SearchMedia> {
                                                 style: TextStyle(
                                                   color: Colors.blue.shade200,
                                                   fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                              SizedBox(height: 5),
-                                              // Text(
-                                              //   '${data?.format?.name ?? ''}',
-                                              //   style: TextStyle(
-                                              //     color: Colors.green.shade200,
-                                              //     fontSize: 15,
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         ),

@@ -3594,51 +3594,6 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendationSerializer
             specifiedType: const FullType(
                 GMediaDetailQueryData_Page_recommendations_mediaRecommendation_coverImage)));
     }
-    value = object.bannerImage;
-    if (value != null) {
-      result
-        ..add('bannerImage')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.format;
-    if (value != null) {
-      result
-        ..add('format')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GMediaFormat)));
-    }
-    value = object.seasonYear;
-    if (value != null) {
-      result
-        ..add('seasonYear')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.status;
-    if (value != null) {
-      result
-        ..add('status')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GMediaStatus)));
-    }
-    value = object.episodes;
-    if (value != null) {
-      result
-        ..add('episodes')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.favourites;
-    if (value != null) {
-      result
-        ..add('favourites')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.popularity;
-    if (value != null) {
-      result
-        ..add('popularity')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
     return result;
   }
 
@@ -3674,36 +3629,6 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendationSerializer
                   specifiedType: const FullType(
                       GMediaDetailQueryData_Page_recommendations_mediaRecommendation_coverImage))!
               as GMediaDetailQueryData_Page_recommendations_mediaRecommendation_coverImage);
-          break;
-        case 'bannerImage':
-          result.bannerImage = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'format':
-          result.format = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GMediaFormat))
-              as _i2.GMediaFormat?;
-          break;
-        case 'seasonYear':
-          result.seasonYear = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'status':
-          result.status = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GMediaStatus))
-              as _i2.GMediaStatus?;
-          break;
-        case 'episodes':
-          result.episodes = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'favourites':
-          result.favourites = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'popularity':
-          result.popularity = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -10008,20 +9933,6 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation
   @override
   final GMediaDetailQueryData_Page_recommendations_mediaRecommendation_coverImage?
       coverImage;
-  @override
-  final String? bannerImage;
-  @override
-  final _i2.GMediaFormat? format;
-  @override
-  final int? seasonYear;
-  @override
-  final _i2.GMediaStatus? status;
-  @override
-  final int? episodes;
-  @override
-  final int? favourites;
-  @override
-  final int? popularity;
 
   factory _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation(
           [void Function(
@@ -10035,14 +9946,7 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation
       {required this.G__typename,
       required this.id,
       this.title,
-      this.coverImage,
-      this.bannerImage,
-      this.format,
-      this.seasonYear,
-      this.status,
-      this.episodes,
-      this.favourites,
-      this.popularity})
+      this.coverImage})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename,
@@ -10075,14 +9979,7 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation
         G__typename == other.G__typename &&
         id == other.id &&
         title == other.title &&
-        coverImage == other.coverImage &&
-        bannerImage == other.bannerImage &&
-        format == other.format &&
-        seasonYear == other.seasonYear &&
-        status == other.status &&
-        episodes == other.episodes &&
-        favourites == other.favourites &&
-        popularity == other.popularity;
+        coverImage == other.coverImage;
   }
 
   @override
@@ -10092,13 +9989,6 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, coverImage.hashCode);
-    _$hash = $jc(_$hash, bannerImage.hashCode);
-    _$hash = $jc(_$hash, format.hashCode);
-    _$hash = $jc(_$hash, seasonYear.hashCode);
-    _$hash = $jc(_$hash, status.hashCode);
-    _$hash = $jc(_$hash, episodes.hashCode);
-    _$hash = $jc(_$hash, favourites.hashCode);
-    _$hash = $jc(_$hash, popularity.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -10110,14 +10000,7 @@ class _$GMediaDetailQueryData_Page_recommendations_mediaRecommendation
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('title', title)
-          ..add('coverImage', coverImage)
-          ..add('bannerImage', bannerImage)
-          ..add('format', format)
-          ..add('seasonYear', seasonYear)
-          ..add('status', status)
-          ..add('episodes', episodes)
-          ..add('favourites', favourites)
-          ..add('popularity', popularity))
+          ..add('coverImage', coverImage))
         .toString();
   }
 }
@@ -10156,34 +10039,6 @@ class GMediaDetailQueryData_Page_recommendations_mediaRecommendationBuilder
               coverImage) =>
       _$this._coverImage = coverImage;
 
-  String? _bannerImage;
-  String? get bannerImage => _$this._bannerImage;
-  set bannerImage(String? bannerImage) => _$this._bannerImage = bannerImage;
-
-  _i2.GMediaFormat? _format;
-  _i2.GMediaFormat? get format => _$this._format;
-  set format(_i2.GMediaFormat? format) => _$this._format = format;
-
-  int? _seasonYear;
-  int? get seasonYear => _$this._seasonYear;
-  set seasonYear(int? seasonYear) => _$this._seasonYear = seasonYear;
-
-  _i2.GMediaStatus? _status;
-  _i2.GMediaStatus? get status => _$this._status;
-  set status(_i2.GMediaStatus? status) => _$this._status = status;
-
-  int? _episodes;
-  int? get episodes => _$this._episodes;
-  set episodes(int? episodes) => _$this._episodes = episodes;
-
-  int? _favourites;
-  int? get favourites => _$this._favourites;
-  set favourites(int? favourites) => _$this._favourites = favourites;
-
-  int? _popularity;
-  int? get popularity => _$this._popularity;
-  set popularity(int? popularity) => _$this._popularity = popularity;
-
   GMediaDetailQueryData_Page_recommendations_mediaRecommendationBuilder() {
     GMediaDetailQueryData_Page_recommendations_mediaRecommendation
         ._initializeBuilder(this);
@@ -10197,13 +10052,6 @@ class GMediaDetailQueryData_Page_recommendations_mediaRecommendationBuilder
       _id = $v.id;
       _title = $v.title?.toBuilder();
       _coverImage = $v.coverImage?.toBuilder();
-      _bannerImage = $v.bannerImage;
-      _format = $v.format;
-      _seasonYear = $v.seasonYear;
-      _status = $v.status;
-      _episodes = $v.episodes;
-      _favourites = $v.favourites;
-      _popularity = $v.popularity;
       _$v = null;
     }
     return this;
@@ -10244,14 +10092,7 @@ class GMediaDetailQueryData_Page_recommendations_mediaRecommendationBuilder
                   r'GMediaDetailQueryData_Page_recommendations_mediaRecommendation',
                   'id'),
               title: _title?.build(),
-              coverImage: _coverImage?.build(),
-              bannerImage: bannerImage,
-              format: format,
-              seasonYear: seasonYear,
-              status: status,
-              episodes: episodes,
-              favourites: favourites,
-              popularity: popularity);
+              coverImage: _coverImage?.build());
     } catch (_) {
       late String _$failedField;
       try {

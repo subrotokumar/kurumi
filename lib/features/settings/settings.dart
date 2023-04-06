@@ -1,11 +1,6 @@
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/functions/helper.functions.dart';
-import 'package:kurumi/main.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -48,83 +43,105 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
               ),
+              // ListTile(
+              //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              //   onTap: () {},
+              //   leading: Text(
+              //     'Account',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              //   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+              // ),
+              // ListTile(
+              //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              //   onTap: () {},
+              //   leading: Text(
+              //     'General',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              //   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+              // ),
+              // ListTile(
+              //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              //   onTap: () {},
+              //   leading: Text(
+              //     'About',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              //   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+              // ),
+              // Consumer(builder: (context, ref, child) {
+              //   return ListTile(
+              //     contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              //     onTap: () async {
+              //       await clearMediaListCache(ref);
+              //     },
+              //     leading: Text(
+              //       'Clear Cache',
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 18,
+              //       ),
+              //     ),
+              //     trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+              //   );
+              // }),
+              // Consumer(
+              //   builder: (context, ref, child) {
+              //     final client = ref.watch(clientProvider);
+              //     return ListTile(
+              //       contentPadding: EdgeInsets.symmetric(horizontal: 20),
+              //       onTap: () async {
+              //         final b = Hive.box('anilist_graphql');
+              //         await b.clear();
+              //         context.goNamed(AppRouteConstant.HomeScreen.name);
+              //       },
+              //       leading: Text(
+              //         'Clear',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 18,
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
+              SizedBox(height: 30),
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                onTap: () {},
-                leading: Text(
-                  'Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                onTap: () {},
-                leading: Text(
-                  'General',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-              ),
-              ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                onTap: () {},
-                leading: Text(
-                  'About',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-              ),
-              Consumer(builder: (context, ref, child) {
-                return ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                  onTap: () async {
-                    await clearMediaListCache(ref);
-                  },
-                  leading: Text(
-                    'Clear Cache',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-                );
-              }),
-              Consumer(
-                builder: (context, ref, child) {
-                  final client = ref.watch(clientProvider);
-                  return ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                    onTap: () async {
-                      final b = Hive.box('anilist_graphql');
-                      await b.clear();
-                      context.goNamed(AppRouteConstant.HomeScreen.name);
-                    },
-                    leading: Text(
-                      'Clear',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
+                onTap: () async {
+                  await launchUrlString(
+                    'https://subrotokumar.github.io/privacy-policy/kurumi.html',
                   );
                 },
+                leading: Text(
+                  'Privacy Policy',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                trailing: LineIcon.link(color: Colors.white),
               ),
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                onTap: () async {},
+                onTap: () async {
+                  launchUrlString(
+                    'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
+                    mode: LaunchMode.externalNonBrowserApplication,
+                  );
+                },
                 leading: Text(
-                  'Play Store',
+                  'Rate Us',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -193,21 +210,21 @@ class _SettingScreenState extends State<SettingScreen> {
                       size: 30,
                     ),
                   ),
-                  IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.white70,
-                      padding: EdgeInsets.all(0),
-                    ),
-                    splashRadius: 1,
-                    onPressed: () => launchUrlString(
-                      'https://www.linkedin.com/in/kumarsubroto',
-                      mode: LaunchMode.externalApplication,
-                    ),
-                    icon: LineIcon.linkedinIn(
-                      color: Colors.black,
-                      size: 30,
-                    ),
-                  ),
+                  // IconButton(
+                  //   style: IconButton.styleFrom(
+                  //     backgroundColor: Colors.white70,
+                  //     padding: EdgeInsets.all(0),
+                  //   ),
+                  //   splashRadius: 1,
+                  //   onPressed: () => launchUrlString(
+                  //     'https://www.linkedin.com/in/kumarsubroto',
+                  //     mode: LaunchMode.externalApplication,
+                  //   ),
+                  //   icon: LineIcon.linkedinIn(
+                  //     color: Colors.black,
+                  //     size: 30,
+                  //   ),
+                  // ),
                   IconButton(
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white70,
@@ -228,7 +245,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ],
               ),
               SizedBox(height: 16),
-              Text('Version 0.1.10 Beta'),
+              Text('Version 0.1.11 Beta'),
               Spacer(),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(

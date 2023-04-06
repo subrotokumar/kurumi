@@ -65,6 +65,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 250,
                             imageUrl: response.data?.Viewer?.bannerImage ?? '',
                             fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Image.asset(
+                              'assets/lotties/giphy.gif',
+                              width: size.width,
+                              height: 250,
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
                           Container(
                             decoration: BoxDecoration(
@@ -110,10 +116,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                   InkWell(
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl: response
-                                                .data?.Viewer?.avatar?.medium ??
-                                            '',
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border:
+                                              Border.all(color: Colors.white38),
+                                          color: Colors.white12,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: response.data?.Viewer
+                                                  ?.avatar?.medium ??
+                                              '',
+                                          height: 100,
+                                          width: 100,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -125,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ?.count
                                                 .toString() ??
                                             '0',
-                                        style: GoogleFonts.poppins(
+                                        style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -140,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ?.count
                                                 .toString() ??
                                             '0',
-                                        style: GoogleFonts.poppins(
+                                        style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w400),
                                       ),
@@ -192,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Text(
                             response.data?.Viewer?.name ?? '',
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
@@ -326,8 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             value ?? '0',
-            style:
-                GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           Text(
             title ?? '',

@@ -193,13 +193,13 @@ query MediaDetailQuery($id: Int!, $limit: Int, $page: Int, $perPage: Int) {
           medium
           color
         }
-        bannerImage
-        format
-        seasonYear
-        status
-        episodes
-        favourites
-        popularity
+        # bannerImage
+        # format
+        # seasonYear
+        # status
+        # episodes
+        # favourites
+        # popularity
       }
     }
   }

@@ -1305,13 +1305,6 @@ abstract class GMediaDetailQueryData_Page_recommendations_mediaRecommendation
       get title;
   GMediaDetailQueryData_Page_recommendations_mediaRecommendation_coverImage?
       get coverImage;
-  String? get bannerImage;
-  _i2.GMediaFormat? get format;
-  int? get seasonYear;
-  _i2.GMediaStatus? get status;
-  int? get episodes;
-  int? get favourites;
-  int? get popularity;
   static Serializer<
           GMediaDetailQueryData_Page_recommendations_mediaRecommendation>
       get serializer =>

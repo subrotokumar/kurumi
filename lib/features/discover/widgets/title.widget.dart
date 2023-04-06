@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TrendingNowTitle extends StatelessWidget {
   const TrendingNowTitle({
@@ -9,11 +8,11 @@ class TrendingNowTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
         text: TextSpan(
           text: 'TRENDING  ',
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Colors.green,
             letterSpacing: 3,
@@ -45,11 +44,11 @@ class PopularThisSeasonTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
         text: TextSpan(
           text: 'POPULAR  ',
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             // color: Colors.amber,
 
@@ -82,11 +81,11 @@ class UpcomingNextSeasonAnimeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
       child: RichText(
         text: TextSpan(
           text: 'UPCOMING  NEXT  ',
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Colors.blueAccent,
             letterSpacing: 3,
@@ -118,11 +117,11 @@ class Top100AnimeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
         text: TextSpan(
           text: 'TOP  100  ',
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             color: Colors.redAccent,
             letterSpacing: 3,

@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_theme.dart';
 import 'package:line_icons/line_icon.dart';
 
 import 'package:kurumi/features/home/homepage.dart';
 
 class NavBar extends ConsumerWidget {
-  NavBar({Key? key}) : super(key: key);
+  NavBar({required this.pageController, Key? key}) : super(key: key);
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void changePage(int n) {
-      if (ref.read(currentIndex) != n) {
+      final current = ref.read(currentIndex);
+      if (current != n) {
         ref.read(currentIndex.notifier).update((state) => n);
+        pageController.animateToPage(
+          n,
+          duration: Duration(milliseconds: (current - n).abs() > 2 ? 500 : 300),
+          curve: Curves.linear,
+        );
         HapticFeedback.lightImpact();
       }
     }
@@ -39,6 +45,16 @@ class NavBar extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              IconButton(
+                splashRadius: 22,
+                onPressed: () {
+                  changePage(0);
+                },
+                icon: LineIcon.atom(
+                  size: 22,
+                  color: current == 0 ? Colors.yellow : Colors.white,
+                ),
+              ),
               SizedBox(
                 height: 44,
                 width: 44,
@@ -47,19 +63,19 @@ class NavBar extends ConsumerWidget {
                     Positioned(
                       top: -3,
                       child: IconButton(
-                          splashRadius: 22,
-                          onPressed: () {
-                            changePage(0);
-                            ref
-                                .read(animeTabProvider.notifier)
-                                .update((state) => 0);
-                          },
-                          icon: Image.asset(
-                            'assets/icons/ic_naruto.png',
-                            color:
-                                (current == 0) ? Colors.yellow : Colors.white,
-                            height: 21,
-                          )),
+                        splashRadius: 22,
+                        onPressed: () {
+                          changePage(1);
+                          ref
+                              .read(animeTabProvider.notifier)
+                              .update((state) => 0);
+                        },
+                        icon: Image.asset(
+                          'assets/icons/ic_naruto.png',
+                          color: (current == 1) ? Colors.yellow : Colors.white,
+                          height: 21,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -67,22 +83,12 @@ class NavBar extends ConsumerWidget {
               IconButton(
                 splashRadius: 22,
                 onPressed: () {
-                  changePage(1);
+                  changePage(2);
                   ref.read(mangaTabProvider.notifier).update((state) => 0);
                 },
                 icon: LineIcon.book(
-                  color: (current == 1) ? Colors.yellow : Colors.white,
+                  color: (current == 2) ? Colors.yellow : Colors.white,
                   size: 24,
-                ),
-              ),
-              IconButton(
-                splashRadius: 22,
-                onPressed: () {
-                  changePage(2);
-                },
-                icon: LineIcon.atom(
-                  size: 22,
-                  color: current == 2 ? Colors.yellow : Colors.white,
                 ),
               ),
               IconButton(

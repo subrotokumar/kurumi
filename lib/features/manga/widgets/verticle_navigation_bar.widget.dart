@@ -92,7 +92,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
           },
           child: Text(
             title,
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w700),
+            style: TextStyle(fontWeight: FontWeight.w700),
           ),
         ),
       ),

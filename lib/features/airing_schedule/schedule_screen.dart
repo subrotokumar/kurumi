@@ -4,13 +4,13 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:kurumi/features/activity/activity_screen.dart';
+import 'package:lottie/lottie.dart';
+
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/config/app_theme.dart';
-
 import 'package:kurumi/main.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../config/app_route_constant.dart';
 
@@ -74,12 +74,29 @@ class ScheduleScreen extends StatelessWidget {
                       width: size.width,
                       padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-                      child: Text(
-                        'AIRING SCHEDULE',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'AIRING SCHEDULE',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          // Consumer(builder: (context, ref, child) {
+                          //   return IconButton(
+                          //     onPressed: () {
+                          //       ref.read(ActivityPage).animateToPage(
+                          //             0,
+                          //             duration: Duration(milliseconds: 300),
+                          //             curve: Curves.linear,
+                          //           );
+                          //     },
+                          //     icon: Icon(Icons.message_outlined),
+                          //   );
+                          // }),
+                        ],
                       ),
                     ),
                     TabBar(
@@ -87,7 +104,7 @@ class ScheduleScreen extends StatelessWidget {
                       indicatorColor: Colors.white,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white38,
-                      labelStyle: GoogleFonts.poppins(
+                      labelStyle: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
@@ -243,14 +260,14 @@ class SchedulePerDay extends StatelessWidget {
                                   textAlign: TextAlign.left,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.cyan[100],
                                   ),
                                 ),
                                 Text(
                                   'Episode: ${item?.episode ?? 0}',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
@@ -274,7 +291,7 @@ class SchedulePerDay extends StatelessWidget {
                             child: Text(
                               isAired ? 'AIRED' : time,
                               textAlign: TextAlign.right,
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w500,
                                 color: isAired
