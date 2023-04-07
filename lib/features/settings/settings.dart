@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -245,7 +246,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ],
               ),
               SizedBox(height: 16),
-              Text('Version 0.1.11 Beta'),
+              Text('Version 0.1.12 Beta'),
               Spacer(),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(

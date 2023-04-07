@@ -9,7 +9,7 @@ class RecommendationWidget extends StatelessWidget {
     this.data,
     super.key,
   });
-  GMediaDetailQueryData_Page? data;
+  final GMediaDetailQueryData_Page? data;
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 
-import 'package:kurumi/features/airing_schedule/schedule_screen.dart';
 import 'package:kurumi/features/anime/anime_screen.dart';
 import 'package:kurumi/features/discover/discover.dart';
 import 'package:kurumi/features/home/widget/nav_bar.widget.dart';
@@ -49,7 +48,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final indexProvider = ref.watch(currentIndex);
     return NotificationListener<UserScrollNotification>(
       onNotification: (notification) {
         if (notification.direction == ScrollDirection.forward) {

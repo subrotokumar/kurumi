@@ -1,5 +1,5 @@
-import 'package:anilist/graphql/__generated__/schema.schema.gql.dart';
 import 'package:anilist/graphql_client.dart';
+import 'package:anilist/userid.dart';
 import 'package:ferry/ferry.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

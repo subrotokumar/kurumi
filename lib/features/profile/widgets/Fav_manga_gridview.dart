@@ -1,5 +1,4 @@
-import 'package:anilist/graphql/__generated__/profile.data.gql.dart';
-import 'package:anilist/graphql/__generated__/profile.var.gql.dart';
+import 'package:anilist/profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/material.dart';

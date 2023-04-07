@@ -1,15 +1,16 @@
 import 'package:anilist/medialist_collection.dart';
 import 'package:ferry/ferry.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/main.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive/hive.dart';
+
+import 'package:kurumi/main.dart';
 
 Future<void> clearMediaListCache(WidgetRef ref, {String? accessToken}) async {
   final mediaListBox = Hive.box('mediaListBox');
   await mediaListBox.clear();
-  if (accessToken == null) final accessToken = ref.read(accessTokenProvider);
+  if (accessToken == null) accessToken = ref.read(accessTokenProvider);
   print('access token ' + accessToken.toString());
   late HttpLink httpLink;
   if (accessToken == null) {

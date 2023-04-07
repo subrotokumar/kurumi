@@ -1,4 +1,3 @@
-import 'package:anilist/discover_media.dart';
 import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/review_query.dart';
 import 'package:flutter/material.dart';

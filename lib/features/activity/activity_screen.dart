@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/features/airing_schedule/schedule_screen.dart';
 import 'package:kurumi/features/notifications/notification_screen.dart';
-import 'package:kurumi/provider/secure_storage_notifier.dart';
 
 final ActivityPage =
     StateProvider<PageController>((ref) => PageController(initialPage: 0));

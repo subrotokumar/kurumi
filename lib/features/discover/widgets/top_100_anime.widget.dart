@@ -3,10 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'package:kurumi/config/app_route_constant.dart';
+import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/main.dart';
 
 class Top100Anime extends StatelessWidget {

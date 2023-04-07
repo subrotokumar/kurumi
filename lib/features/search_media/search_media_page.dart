@@ -1,5 +1,5 @@
-import 'package:anilist/graphql/__generated__/SearchAnimeQuery.req.gql.dart';
 import 'package:anilist/medialist_collection.dart';
+import 'package:anilist/search_anime_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';

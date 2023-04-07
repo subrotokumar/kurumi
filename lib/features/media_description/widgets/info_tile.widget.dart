@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class InfoTile extends StatelessWidget {
   final String str1;
-  final dynamic? str2;
+  final dynamic str2;
   final String? extra;
   const InfoTile(
     this.str1,

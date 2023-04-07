@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:kurumi/config/app_router.dart';
@@ -199,7 +198,7 @@ class SchedulePerDay extends StatelessWidget {
                 final title = item?.media?.title?.userPreferred ??
                     item?.media?.title?.romaji ??
                     '';
-                final col = item?.media?.coverImage?.color;
+                // final col = item?.media?.coverImage?.color;
                 final country = item?.media?.countryOfOrigin?.value == "JP";
                 if (!country) {
                   return Container();

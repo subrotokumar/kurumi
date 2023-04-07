@@ -1,42 +1,36 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:anilist/media_detail_query.dart';
-import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+
+import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
 import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/external_link.dart';
-import 'package:kurumi/features/media_description/widget_section/grenre.widget.dart';
+import 'package:kurumi/features/media_description/widget_section/genre.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/recommendation.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/relations.widget.dart';
-import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
-import 'package:lottie/lottie.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:screenshot/screenshot.dart';
-
-import 'package:kurumi/config/app_theme.dart';
-import 'package:kurumi/main.dart';
-import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/tag_section.widget.dart';
+import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
+import 'package:kurumi/main.dart';
 import 'package:kurumi/utils/utils.functions.dart';
 
 import 'widget_section/banner.widget.dart';
 
 class MediaScreen extends ConsumerStatefulWidget {
   MediaScreen({required this.id, required this.title, super.key});
-  int id;
-  String title;
+  final int id;
+  final String title;
 
   @override
   ConsumerState<MediaScreen> createState() => _MediaScreenState();
@@ -54,7 +48,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
-          await client!
+          await client
               .request(GMediaDetailQueryReq(
                 (b) => b
                   ..vars.id = widget.id
