@@ -233,7 +233,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     splashRadius: 1,
                     onPressed: () => launchUrlString(
-                      'https://www.linkedin.com/in/kumarsubroto',
+                      'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
                       mode: LaunchMode.externalApplication,
                     ),
                     icon: LineIcon.googlePlay(

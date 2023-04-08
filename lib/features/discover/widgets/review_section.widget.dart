@@ -102,62 +102,102 @@ class ReviewSection extends StatelessWidget {
                         ),
                         Positioned.fill(
                           child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    vertical: 20,
-                                    horizontal: 40,
-                                  ),
-                                  padding: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.black38,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        blurRadius: 5,
-                                        offset: Offset(5, 5),
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        data?.elementAt(index)?.summary ?? '',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 5,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: Colors.white,
+                            child: Container(
+                                height: 160,
+                                width: size.width * 0.85,
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.black45,
+                                  border: Border.all(color: Colors.white54),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black45,
+                                      blurRadius: 10,
+                                      offset: Offset(5, 5),
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.horizontal(
+                                          left: Radius.circular(12)),
+                                      child: CachedNetworkImage(
+                                        imageUrl: data
+                                                ?.elementAt(index)
+                                                ?.media
+                                                ?.coverImage
+                                                ?.large ??
+                                            '',
+                                        width: 110,
+                                        height: 160,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data
+                                                      ?.elementAt(index)
+                                                      ?.media
+                                                      ?.title
+                                                      ?.userPreferred ??
+                                                  '',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: (index & 1 == 0)
+                                                    ? Colors.blue.shade200
+                                                    : Colors.green.shade200,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            Text(
+                                              data?.elementAt(index)?.summary ??
+                                                  '',
+                                              textAlign: TextAlign.start,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 4,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Icon(Icons.thumb_up_alt),
+                                                SizedBox(width: 6),
+                                                Text(
+                                                  '${data?.elementAt(index)?.rating ?? 0}',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 6),
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      // Divider(
-                                      //   color: Colors.white,
-                                      // ),
-                                      // Text(
-                                      //   data
-                                      //           ?.elementAt(index)
-                                      //           ?.media
-                                      //           ?.title
-                                      //           ?.userPreferred ??
-                                      //       '',
-                                      //   textAlign: TextAlign.center,
-                                      //   overflow: TextOverflow.ellipsis,
-                                      //   maxLines: 1,
-                                      //   style: TextStyle(
-                                      //     fontSize: 14,
-                                      //     fontWeight: FontWeight.w600,
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  ],
+                                )),
                           ),
                         )
                       ],

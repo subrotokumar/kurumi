@@ -76,6 +76,7 @@ class PopularAnime extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: data?.length ?? 0,
                     shrinkWrap: true,
+                    // reverse: true,
                     itemBuilder: (context, index) => Container(
                       margin: EdgeInsets.symmetric(horizontal: 8),
                       width: 105,
@@ -108,16 +109,23 @@ class PopularAnime extends StatelessWidget {
                             ),
                             SizedBox(height: 3),
                             Flexible(
-                              child: Text(
-                                data?.elementAt(index)?.title?.userPreferred ??
-                                    data?.elementAt(index)?.title?.english ??
-                                    '',
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  overflow: TextOverflow.ellipsis,
-                                  color: Colors.white.withOpacity(0.8),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 3),
+                                child: Text(
+                                  data
+                                          ?.elementAt(index)
+                                          ?.title
+                                          ?.userPreferred ??
+                                      data?.elementAt(index)?.title?.english ??
+                                      '',
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    overflow: TextOverflow.ellipsis,
+                                    color: Colors.white.withOpacity(0.8),
+                                  ),
                                 ),
                               ),
                             ),

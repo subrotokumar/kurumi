@@ -14,40 +14,40 @@ class BackgroundImage extends StatefulWidget {
 }
 
 class _BackgroundImageState extends State<BackgroundImage> {
-  late ScrollController scrollController;
-  late double current;
-  late double max;
-  @override
-  void initState() {
-    super.initState();
-    scrollController = ScrollController();
-    scrollController.addListener(() {});
+  // late ScrollController scrollController;
+  // late double current;
+  // late double max;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   scrollController = ScrollController();
+  //   scrollController.addListener(() {});
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      current = scrollController.offset;
-      max = scrollController.position.maxScrollExtent;
-      if (scrollController.position.atEdge) {
-        _autoScroll();
-      }
-    });
-  }
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     current = scrollController.offset;
+  //     max = scrollController.position.maxScrollExtent;
+  //     if (scrollController.position.atEdge) {
+  //       _autoScroll();
+  //     }
+  //   });
+  // }
 
-  _autoScroll() {
-    scheduleMicrotask(() {
-      scrollController.animateTo(
-        scrollController.offset == max ? 0 : max,
-        duration: Duration(seconds: 7),
-        curve: Curves.linear,
-      );
-      // .then((_) => _autoScroll());
-    });
-  }
+  // _autoScroll() {
+  //   scheduleMicrotask(() {
+  //     scrollController.animateTo(
+  //       scrollController.offset == max ? 0 : max,
+  //       duration: Duration(seconds: 7),
+  //       curve: Curves.linear,
+  //     );
+  //     // .then((_) => _autoScroll());
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      controller: scrollController,
+      // controller: scrollController,
       child: widget.data?.bannerImage == null || true
           ? Column(
               children: [

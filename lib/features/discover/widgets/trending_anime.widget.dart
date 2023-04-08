@@ -123,16 +123,20 @@ class TrendingAnime extends StatelessWidget {
                           ),
                           SizedBox(height: 3),
                           Flexible(
-                            child: Text(
-                              data?.elementAt(index)?.title?.userPreferred ??
-                                  data?.elementAt(index)?.title?.english ??
-                                  '',
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white.withOpacity(0.8),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(
+                                data?.elementAt(index)?.title?.userPreferred ??
+                                    data?.elementAt(index)?.title?.english ??
+                                    '',
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
                               ),
                             ),
                           ),

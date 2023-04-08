@@ -59,6 +59,7 @@ class Top100Anime extends StatelessWidget {
                     ],
                   ),
                   child: ListView.builder(
+                    // reverse: true,
                     padding: EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: response?.data?.Page?.media?.length ?? 0,
@@ -99,22 +100,26 @@ class Top100Anime extends StatelessWidget {
                                 ),
                                 SizedBox(height: 3),
                                 Flexible(
-                                  child: Text(
-                                    data
-                                            ?.elementAt(index)
-                                            ?.title
-                                            ?.userPreferred ??
-                                        data
-                                            ?.elementAt(index)
-                                            ?.title
-                                            ?.english ??
-                                        '',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.white.withOpacity(0.8),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    child: Text(
+                                      data
+                                              ?.elementAt(index)
+                                              ?.title
+                                              ?.userPreferred ??
+                                          data
+                                              ?.elementAt(index)
+                                              ?.title
+                                              ?.english ??
+                                          '',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.white.withOpacity(0.8),
+                                      ),
                                     ),
                                   ),
                                 ),

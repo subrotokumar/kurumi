@@ -36,7 +36,7 @@ class _DiscoverTabState extends State<DiscoverTab> {
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
                       style: IconButton.styleFrom(
