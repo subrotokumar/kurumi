@@ -1302,17 +1302,10 @@ class _$GProfileData_Viewer_favourites_anime_nodes_titleSerializer
           specifiedType: const FullType(String)),
     ];
     Object? value;
-    value = object.romaji;
+    value = object.userPreferred;
     if (value != null) {
       result
-        ..add('romaji')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.english;
-    if (value != null) {
-      result
-        ..add('english')
+        ..add('userPreferred')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -1336,12 +1329,8 @@ class _$GProfileData_Viewer_favourites_anime_nodes_titleSerializer
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'romaji':
-          result.romaji = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'english':
-          result.english = serializers.deserialize(value,
+        case 'userPreferred':
+          result.userPreferred = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -1711,17 +1700,10 @@ class _$GProfileData_Viewer_favourites_manga_nodes_titleSerializer
           specifiedType: const FullType(String)),
     ];
     Object? value;
-    value = object.romaji;
+    value = object.userPreferred;
     if (value != null) {
       result
-        ..add('romaji')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.english;
-    if (value != null) {
-      result
-        ..add('english')
+        ..add('userPreferred')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -1745,12 +1727,8 @@ class _$GProfileData_Viewer_favourites_manga_nodes_titleSerializer
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'romaji':
-          result.romaji = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'english':
-          result.english = serializers.deserialize(value,
+        case 'userPreferred':
+          result.userPreferred = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -4130,9 +4108,7 @@ class _$GProfileData_Viewer_favourites_anime_nodes_title
   @override
   final String G__typename;
   @override
-  final String? romaji;
-  @override
-  final String? english;
+  final String? userPreferred;
 
   factory _$GProfileData_Viewer_favourites_anime_nodes_title(
           [void Function(
@@ -4143,7 +4119,7 @@ class _$GProfileData_Viewer_favourites_anime_nodes_title
           ._build();
 
   _$GProfileData_Viewer_favourites_anime_nodes_title._(
-      {required this.G__typename, this.romaji, this.english})
+      {required this.G__typename, this.userPreferred})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(G__typename,
         r'GProfileData_Viewer_favourites_anime_nodes_title', 'G__typename');
@@ -4165,16 +4141,14 @@ class _$GProfileData_Viewer_favourites_anime_nodes_title
     if (identical(other, this)) return true;
     return other is GProfileData_Viewer_favourites_anime_nodes_title &&
         G__typename == other.G__typename &&
-        romaji == other.romaji &&
-        english == other.english;
+        userPreferred == other.userPreferred;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, romaji.hashCode);
-    _$hash = $jc(_$hash, english.hashCode);
+    _$hash = $jc(_$hash, userPreferred.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -4184,8 +4158,7 @@ class _$GProfileData_Viewer_favourites_anime_nodes_title
     return (newBuiltValueToStringHelper(
             r'GProfileData_Viewer_favourites_anime_nodes_title')
           ..add('G__typename', G__typename)
-          ..add('romaji', romaji)
-          ..add('english', english))
+          ..add('userPreferred', userPreferred))
         .toString();
   }
 }
@@ -4200,13 +4173,10 @@ class GProfileData_Viewer_favourites_anime_nodes_titleBuilder
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  String? _romaji;
-  String? get romaji => _$this._romaji;
-  set romaji(String? romaji) => _$this._romaji = romaji;
-
-  String? _english;
-  String? get english => _$this._english;
-  set english(String? english) => _$this._english = english;
+  String? _userPreferred;
+  String? get userPreferred => _$this._userPreferred;
+  set userPreferred(String? userPreferred) =>
+      _$this._userPreferred = userPreferred;
 
   GProfileData_Viewer_favourites_anime_nodes_titleBuilder() {
     GProfileData_Viewer_favourites_anime_nodes_title._initializeBuilder(this);
@@ -4216,8 +4186,7 @@ class GProfileData_Viewer_favourites_anime_nodes_titleBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _romaji = $v.romaji;
-      _english = $v.english;
+      _userPreferred = $v.userPreferred;
       _$v = null;
     }
     return this;
@@ -4246,8 +4215,7 @@ class GProfileData_Viewer_favourites_anime_nodes_titleBuilder
                 G__typename,
                 r'GProfileData_Viewer_favourites_anime_nodes_title',
                 'G__typename'),
-            romaji: romaji,
-            english: english);
+            userPreferred: userPreferred);
     replace(_$result);
     return _$result;
   }
@@ -4875,9 +4843,7 @@ class _$GProfileData_Viewer_favourites_manga_nodes_title
   @override
   final String G__typename;
   @override
-  final String? romaji;
-  @override
-  final String? english;
+  final String? userPreferred;
 
   factory _$GProfileData_Viewer_favourites_manga_nodes_title(
           [void Function(
@@ -4888,7 +4854,7 @@ class _$GProfileData_Viewer_favourites_manga_nodes_title
           ._build();
 
   _$GProfileData_Viewer_favourites_manga_nodes_title._(
-      {required this.G__typename, this.romaji, this.english})
+      {required this.G__typename, this.userPreferred})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(G__typename,
         r'GProfileData_Viewer_favourites_manga_nodes_title', 'G__typename');
@@ -4910,16 +4876,14 @@ class _$GProfileData_Viewer_favourites_manga_nodes_title
     if (identical(other, this)) return true;
     return other is GProfileData_Viewer_favourites_manga_nodes_title &&
         G__typename == other.G__typename &&
-        romaji == other.romaji &&
-        english == other.english;
+        userPreferred == other.userPreferred;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, romaji.hashCode);
-    _$hash = $jc(_$hash, english.hashCode);
+    _$hash = $jc(_$hash, userPreferred.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -4929,8 +4893,7 @@ class _$GProfileData_Viewer_favourites_manga_nodes_title
     return (newBuiltValueToStringHelper(
             r'GProfileData_Viewer_favourites_manga_nodes_title')
           ..add('G__typename', G__typename)
-          ..add('romaji', romaji)
-          ..add('english', english))
+          ..add('userPreferred', userPreferred))
         .toString();
   }
 }
@@ -4945,13 +4908,10 @@ class GProfileData_Viewer_favourites_manga_nodes_titleBuilder
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  String? _romaji;
-  String? get romaji => _$this._romaji;
-  set romaji(String? romaji) => _$this._romaji = romaji;
-
-  String? _english;
-  String? get english => _$this._english;
-  set english(String? english) => _$this._english = english;
+  String? _userPreferred;
+  String? get userPreferred => _$this._userPreferred;
+  set userPreferred(String? userPreferred) =>
+      _$this._userPreferred = userPreferred;
 
   GProfileData_Viewer_favourites_manga_nodes_titleBuilder() {
     GProfileData_Viewer_favourites_manga_nodes_title._initializeBuilder(this);
@@ -4961,8 +4921,7 @@ class GProfileData_Viewer_favourites_manga_nodes_titleBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _romaji = $v.romaji;
-      _english = $v.english;
+      _userPreferred = $v.userPreferred;
       _$v = null;
     }
     return this;
@@ -4991,8 +4950,7 @@ class GProfileData_Viewer_favourites_manga_nodes_titleBuilder
                 G__typename,
                 r'GProfileData_Viewer_favourites_manga_nodes_title',
                 'G__typename'),
-            romaji: romaji,
-            english: english);
+            userPreferred: userPreferred);
     replace(_$result);
     return _$result;
   }

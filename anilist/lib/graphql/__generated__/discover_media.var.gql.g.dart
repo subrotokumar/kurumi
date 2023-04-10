@@ -68,6 +68,13 @@ class _$GDiscoverMediaVarsSerializer
         ..add('seasonYear')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.country;
+    if (value != null) {
+      result
+        ..add('country')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.GCountryCode)));
+    }
     return result;
   }
 
@@ -113,6 +120,11 @@ class _$GDiscoverMediaVarsSerializer
           result.seasonYear = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'country':
+          result.country.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GCountryCode))!
+              as _i1.GCountryCode);
+          break;
       }
     }
 
@@ -135,6 +147,8 @@ class _$GDiscoverMediaVars extends GDiscoverMediaVars {
   final _i1.GMediaSeason? season;
   @override
   final int? seasonYear;
+  @override
+  final _i1.GCountryCode? country;
 
   factory _$GDiscoverMediaVars(
           [void Function(GDiscoverMediaVarsBuilder)? updates]) =>
@@ -147,7 +161,8 @@ class _$GDiscoverMediaVars extends GDiscoverMediaVars {
       this.type,
       this.sort,
       this.season,
-      this.seasonYear})
+      this.seasonYear,
+      this.country})
       : super._();
 
   @override
@@ -169,7 +184,8 @@ class _$GDiscoverMediaVars extends GDiscoverMediaVars {
         type == other.type &&
         sort == other.sort &&
         season == other.season &&
-        seasonYear == other.seasonYear;
+        seasonYear == other.seasonYear &&
+        country == other.country;
   }
 
   @override
@@ -182,6 +198,7 @@ class _$GDiscoverMediaVars extends GDiscoverMediaVars {
     _$hash = $jc(_$hash, sort.hashCode);
     _$hash = $jc(_$hash, season.hashCode);
     _$hash = $jc(_$hash, seasonYear.hashCode);
+    _$hash = $jc(_$hash, country.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -195,7 +212,8 @@ class _$GDiscoverMediaVars extends GDiscoverMediaVars {
           ..add('type', type)
           ..add('sort', sort)
           ..add('season', season)
-          ..add('seasonYear', seasonYear))
+          ..add('seasonYear', seasonYear)
+          ..add('country', country))
         .toString();
   }
 }
@@ -232,6 +250,11 @@ class GDiscoverMediaVarsBuilder
   int? get seasonYear => _$this._seasonYear;
   set seasonYear(int? seasonYear) => _$this._seasonYear = seasonYear;
 
+  _i1.GCountryCodeBuilder? _country;
+  _i1.GCountryCodeBuilder get country =>
+      _$this._country ??= new _i1.GCountryCodeBuilder();
+  set country(_i1.GCountryCodeBuilder? country) => _$this._country = country;
+
   GDiscoverMediaVarsBuilder();
 
   GDiscoverMediaVarsBuilder get _$this {
@@ -244,6 +267,7 @@ class GDiscoverMediaVarsBuilder
       _sort = $v.sort;
       _season = $v.season;
       _seasonYear = $v.seasonYear;
+      _country = $v.country?.toBuilder();
       _$v = null;
     }
     return this;
@@ -264,15 +288,29 @@ class GDiscoverMediaVarsBuilder
   GDiscoverMediaVars build() => _build();
 
   _$GDiscoverMediaVars _build() {
-    final _$result = _$v ??
-        new _$GDiscoverMediaVars._(
-            page: page,
-            perPage: perPage,
-            status: status,
-            type: type,
-            sort: sort,
-            season: season,
-            seasonYear: seasonYear);
+    _$GDiscoverMediaVars _$result;
+    try {
+      _$result = _$v ??
+          new _$GDiscoverMediaVars._(
+              page: page,
+              perPage: perPage,
+              status: status,
+              type: type,
+              sort: sort,
+              season: season,
+              seasonYear: seasonYear,
+              country: _country?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'country';
+        _country?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'GDiscoverMediaVars', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

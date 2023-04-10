@@ -1,4 +1,7 @@
+import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -44,30 +47,80 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
               ),
-              // ListTile(
-              //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
-              //   onTap: () {},
-              //   leading: Text(
-              //     'Account',
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 18,
-              //     ),
-              //   ),
-              //   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-              // ),
-              // ListTile(
-              //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
-              //   onTap: () {},
-              //   leading: Text(
-              //     'General',
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 18,
-              //     ),
-              //   ),
-              //   trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-              // ),
+              SizedBox(height: 30),
+              ExpansionTile(
+                tilePadding: EdgeInsets.only(right: 20),
+                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+                title: ListTile(
+                  leading: Text(
+                    ' General',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                children: [
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final pref = ref.watch(prefProvider);
+                      return pref.when(
+                        error: (error, stackTrace) => Card(),
+                        loading: () => Card(),
+                        data: (value) {
+                          var v =
+                              value.getString('DefaultDiscoverPage') ?? 'ANIME';
+                          var type = v == 'ANIME'
+                              ? GMediaType.ANIME
+                              : GMediaType.MANGA;
+                          return ListTile(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 30),
+                            leading: Text(
+                              'Default Discover Page',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            trailing: SegmentedButton(
+                              onSelectionChanged: (v) async {
+                                final c = await value.setString(
+                                    'DefaultDiscoverPage', v.first.name);
+                                print('$c ${v.first.name}');
+                                setState(() {});
+                              },
+                              emptySelectionAllowed: false,
+                              multiSelectionEnabled: false,
+                              showSelectedIcon: false,
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                visualDensity: VisualDensity(vertical: -3),
+                              ),
+                              segments: [
+                                ButtonSegment(
+                                  value: GMediaType.ANIME,
+                                  label: Text('ANIME'),
+                                ),
+                                ButtonSegment(
+                                  value: GMediaType.MANGA,
+                                  label: Text('MANGA'),
+                                ),
+                              ],
+                              selected: {type},
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+
               // ListTile(
               //   contentPadding: EdgeInsets.symmetric(horizontal: 20),
               //   onTap: () {},
@@ -116,7 +169,7 @@ class _SettingScreenState extends State<SettingScreen> {
               //     );
               //   },
               // ),
-              SizedBox(height: 30),
+
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
                 onTap: () async {

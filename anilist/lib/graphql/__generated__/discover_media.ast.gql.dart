@@ -71,6 +71,15 @@ const DiscoverMedia = _i1.OperationDefinitionNode(
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],
     ),
+    _i1.VariableDefinitionNode(
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'country')),
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'CountryCode'),
+        isNonNull: false,
+      ),
+      defaultValue: _i1.DefaultValueNode(value: null),
+      directives: [],
+    ),
   ],
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
@@ -157,6 +166,10 @@ const DiscoverMedia = _i1.OperationDefinitionNode(
             _i1.ArgumentNode(
               name: _i1.NameNode(value: 'seasonYear'),
               value: _i1.VariableNode(name: _i1.NameNode(value: 'seasonYear')),
+            ),
+            _i1.ArgumentNode(
+              name: _i1.NameNode(value: 'countryOfOrigin'),
+              value: _i1.VariableNode(name: _i1.NameNode(value: 'country')),
             ),
           ],
           directives: [],

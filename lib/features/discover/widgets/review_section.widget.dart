@@ -11,6 +11,7 @@ import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/config/app_theme.dart';
 import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:kurumi/utils/utils.functions.dart';
 
 class ReviewSection extends StatelessWidget {
@@ -28,10 +29,11 @@ class ReviewSection extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final client = ref.watch(clientProvider);
+          final type = ref.watch(discoverTabProvider);
           return Operation(
             client: client!,
             operationRequest: GReviewQueryReq(
-              (b) => b..vars.type = GMediaType.ANIME,
+              (b) => b..vars.type = type,
             ),
             builder: (context, response, error) {
               if (response == null || response.loading) {

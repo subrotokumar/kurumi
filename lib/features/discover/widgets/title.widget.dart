@@ -1,4 +1,7 @@
+import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class TrendingNowTitle extends StatelessWidget {
   const TrendingNowTitle({
@@ -48,83 +51,138 @@ class PopularThisSeasonTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          RichText(
-            text: TextSpan(
-              text: 'POPULAR  THIS  ',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                // color: Colors.amber,
-                letterSpacing: 2,
-                fontSize: 18,
-                // shadows: [
-                //   Shadow(
-                //     color: Colors.black,
-                //     blurRadius: 20,
-                //   )
-                // ],
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'SEASON',
-                  style: TextStyle(color: Color(0xffFFFF33)),
-                )
-              ],
-            ),
-          ),
+          Consumer(builder: (context, ref, child) {
+            final type = ref.watch(discoverTabProvider);
+            if (type == GMediaType.ANIME) {
+              return RichText(
+                text: TextSpan(
+                  text: 'POPULAR  THIS  ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    // color: Colors.amber,
+                    letterSpacing: 2,
+                    fontSize: 18,
+                    // shadows: [
+                    //   Shadow(
+                    //     color: Colors.black,
+                    //     blurRadius: 20,
+                    //   )
+                    // ],
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'SEASON',
+                      style: TextStyle(color: Color(0xffFFFF33)),
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return RichText(
+                text: TextSpan(
+                  text: 'ALL TIME  ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    // color: Colors.amber,
+                    letterSpacing: 2,
+                    fontSize: 18,
+                    // shadows: [
+                    //   Shadow(
+                    //     color: Colors.black,
+                    //     blurRadius: 20,
+                    //   )
+                    // ],
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'POPULAR',
+                      style: TextStyle(color: Color(0xffFFFF33)),
+                    )
+                  ],
+                ),
+              );
+            }
+          }),
         ],
       ),
     );
   }
 }
 
-class UpcomingNextSeasonAnimeTitle extends StatelessWidget {
+class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
   const UpcomingNextSeasonAnimeTitle({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final type = ref.watch(discoverTabProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          RichText(
-            text: TextSpan(
-              text: 'UPCOMING  ',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Color(0xff1589FF),
-                letterSpacing: 2,
-                fontSize: 18,
-                shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 20,
-                  )
-                ],
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'NEXT',
-                  style: TextStyle(color: Colors.white),
+          type == GMediaType.ANIME
+              ? RichText(
+                  text: TextSpan(
+                    text: 'UPCOMING  ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff1589FF),
+                      letterSpacing: 2,
+                      fontSize: 18,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 20,
+                        )
+                      ],
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'NEXT',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
                 )
-              ],
-            ),
-          ),
+              : RichText(
+                  text: TextSpan(
+                    text: 'POPULAR  ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff1589FF),
+                      letterSpacing: 2,
+                      fontSize: 18,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 20,
+                        )
+                      ],
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'MANHWA',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                ),
         ],
       ),
     );
   }
 }
 
-class Top100AnimeTitle extends StatelessWidget {
+class Top100AnimeTitle extends ConsumerWidget {
   const Top100AnimeTitle({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final type = ref.watch(discoverTabProvider);
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: Row(
@@ -135,7 +193,6 @@ class Top100AnimeTitle extends StatelessWidget {
               text: 'TOP  100  ',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                // color: Colors.redAccent,
                 letterSpacing: 2,
                 fontSize: 18,
                 shadows: [
@@ -147,16 +204,9 @@ class Top100AnimeTitle extends StatelessWidget {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: 'ANIME',
+                  text: type.name,
                   style: TextStyle(
-                    // color: Colors.white,
                     color: Color(0xffFF6600),
-                    shadows: [
-                      // Shadow(
-                      //   color: Colors.white,
-                      //   blurRadius: 20,
-                      // )
-                    ],
                   ),
                 )
               ],

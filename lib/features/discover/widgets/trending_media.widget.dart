@@ -3,14 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/main.dart';
 
-class TrendingAnime extends StatelessWidget {
-  const TrendingAnime({
+class TrendingMedia extends StatelessWidget {
+  const TrendingMedia({
     super.key,
   });
 
@@ -21,6 +22,7 @@ class TrendingAnime extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final client = ref.read(clientProvider);
+          final type = ref.watch(discoverTabProvider);
           return Operation(
             client: client!,
             operationRequest: GDiscoverMediaReq(
@@ -28,7 +30,7 @@ class TrendingAnime extends StatelessWidget {
                 ..vars.page = 1
                 ..vars.perPage = 20
                 ..vars.status = GMediaStatus.RELEASING
-                ..vars.type = GMediaType.ANIME
+                ..vars.type = type
                 ..vars.sort = GMediaSort.TRENDING_DESC,
             ),
             builder: (context, response, error) {
@@ -78,9 +80,11 @@ class TrendingAnime extends StatelessWidget {
                               params: {
                                 'id': (data?.elementAt(index)?.id ?? 0)
                                     .toString(),
-                                'title':
-                                    data?.elementAt(index)?.title?.english ??
-                                        '',
+                                'title': data
+                                        ?.elementAt(index)
+                                        ?.title
+                                        ?.userPreferred ??
+                                    '',
                               },
                             ),
                             child: ClipRRect(
@@ -128,7 +132,10 @@ class TrendingAnime extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 5),
                               child: Text(
                                 data?.elementAt(index)?.title?.userPreferred ??
-                                    data?.elementAt(index)?.title?.english ??
+                                    data
+                                        ?.elementAt(index)
+                                        ?.title
+                                        ?.userPreferred ??
                                     '',
                                 textAlign: TextAlign.center,
                                 maxLines: 2,

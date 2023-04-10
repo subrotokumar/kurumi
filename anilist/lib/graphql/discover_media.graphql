@@ -6,6 +6,7 @@ query DiscoverMedia(
   $sort: MediaSort
   $season: MediaSeason
   $seasonYear: Int
+  $country: CountryCode
 ) {
   Page(page: $page, perPage: $perPage) {
     pageInfo {
@@ -21,6 +22,7 @@ query DiscoverMedia(
       sort: [$sort]
       season: $season
       seasonYear: $seasonYear
+      countryOfOrigin: $country
     ) {
       id
       idMal

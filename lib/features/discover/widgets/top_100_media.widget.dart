@@ -3,14 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/main.dart';
 
-class Top100Anime extends StatelessWidget {
-  const Top100Anime({super.key});
+class Top100Media extends StatelessWidget {
+  const Top100Media({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,13 @@ class Top100Anime extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final client = ref.read(clientProvider);
+          final type = ref.watch(discoverTabProvider);
           return Operation(
             client: client!,
             operationRequest: GDiscoverMediaReq((b) => b
               ..vars.page = 1
               ..vars.perPage = 20
-              ..vars.type = GMediaType.ANIME
+              ..vars.type = type
               ..vars.sort = GMediaSort.SCORE_DESC),
             builder: (context, response, error) {
               if (response?.loading ?? true) {
@@ -70,16 +72,22 @@ class Top100Anime extends StatelessWidget {
                       child: Stack(
                         children: [
                           GestureDetector(
-                            onTap: () => context.pushNamed(
-                              AppRouteConstant.MediaScreen.name,
-                              params: {
-                                'id': (data?.elementAt(index)?.id ?? 0)
-                                    .toString(),
-                                'title':
-                                    data?.elementAt(index)?.title?.english ??
-                                        '',
-                              },
-                            ),
+                            onTap: () {
+                              print(
+                                  (data?.elementAt(index)?.id ?? 0).toString());
+                              context.pushNamed(
+                                AppRouteConstant.MediaScreen.name,
+                                params: {
+                                  'id': (data?.elementAt(index)?.id ?? 0)
+                                      .toString(),
+                                  'title': data
+                                          ?.elementAt(index)
+                                          ?.title
+                                          ?.userPreferred ??
+                                      '',
+                                },
+                              );
+                            },
                             child: Column(
                               children: [
                                 ClipRRect(

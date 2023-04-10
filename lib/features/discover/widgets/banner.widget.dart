@@ -6,6 +6,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
@@ -28,6 +29,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
     return Consumer(
       builder: (context, ref, child) {
         final client = ref.watch(clientProvider);
+        final type = ref.watch(discoverTabProvider);
         return SizedBox(
           height: size.height,
           width: size.width,
@@ -38,7 +40,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                 ..vars.perPage = 1
                 ..vars.perPage = 20
                 ..vars.status = GMediaStatus.RELEASING
-                ..vars.type = GMediaType.ANIME
+                ..vars.type = type
                 ..vars.sort = GMediaSort.TRENDING_DESC,
             ),
             builder: (context, response, error) {
@@ -78,7 +80,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                             AppRouteConstant.MediaScreen.name,
                             params: {
                               'id': (data?.id ?? 0).toString(),
-                              'title': data?.title?.english ?? '',
+                              'title': data?.title?.userPreferred ?? '',
                             },
                           ),
                           child: Container(
@@ -110,12 +112,12 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: size.height * 0.32),
-                          padding: EdgeInsets.symmetric(horizontal: 40),
+                          height: size.height * .4,
+                          padding: EdgeInsets.symmetric(horizontal: 60),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(width: 20),
                               Flexible(
                                 child: Text(
                                   data?.title?.userPreferred ?? '',
@@ -135,7 +137,6 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 20),
                             ],
                           ),
                         ),

@@ -41,7 +41,7 @@ class FavMangaGridview extends StatelessWidget {
                   AppRouteConstant.MediaScreen.name,
                   params: {
                     'id': (data?.id ?? 0).toString(),
-                    'title': data?.title?.english ?? '',
+                    'title': data?.title?.userPreferred ?? '',
                   },
                 );
               },

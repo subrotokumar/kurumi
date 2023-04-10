@@ -33,6 +33,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     isNavVisible = true;
     super.initState();
+    ref.read(currentIndex.notifier).update((state) => 0);
     final client = ref.read(clientProvider);
     client?.request(GProfileReq()).first;
   }

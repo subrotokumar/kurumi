@@ -331,19 +331,12 @@ const Profile = _i1.OperationDefinitionNode(
                       directives: [],
                       selectionSet: _i1.SelectionSetNode(selections: [
                         _i1.FieldNode(
-                          name: _i1.NameNode(value: 'romaji'),
+                          name: _i1.NameNode(value: 'userPreferred'),
                           alias: null,
                           arguments: [],
                           directives: [],
                           selectionSet: null,
-                        ),
-                        _i1.FieldNode(
-                          name: _i1.NameNode(value: 'english'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null,
-                        ),
+                        )
                       ]),
                     ),
                     _i1.FieldNode(
@@ -448,19 +441,12 @@ const Profile = _i1.OperationDefinitionNode(
                       directives: [],
                       selectionSet: _i1.SelectionSetNode(selections: [
                         _i1.FieldNode(
-                          name: _i1.NameNode(value: 'romaji'),
+                          name: _i1.NameNode(value: 'userPreferred'),
                           alias: null,
                           arguments: [],
                           directives: [],
                           selectionSet: null,
-                        ),
-                        _i1.FieldNode(
-                          name: _i1.NameNode(value: 'english'),
-                          alias: null,
-                          arguments: [],
-                          directives: [],
-                          selectionSet: null,
-                        ),
+                        )
                       ]),
                     ),
                     _i1.FieldNode(

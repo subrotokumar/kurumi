@@ -158,7 +158,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                         ?.id ??
                                     0)
                                 .toString(),
-                            'title': mediaData?.media?.title?.english ?? '',
+                            'title':
+                                mediaData?.media?.title?.userPreferred ?? '',
                           },
                         );
                       },

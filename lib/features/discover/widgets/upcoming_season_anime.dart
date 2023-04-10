@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
@@ -54,17 +55,25 @@ class NextSeasonAnimme extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           final client = ref.read(clientProvider);
+          final type = ref.watch(discoverTabProvider);
+          final reqAnime = GDiscoverMediaReq((b) => b
+            ..vars.page = 1
+            ..vars.perPage = 20
+            ..vars.type = type
+            ..vars.sort = GMediaSort.POPULARITY_DESC
+            ..vars.season = nextSeason()
+            ..vars.seasonYear = nextYear());
+          final reqManga = GDiscoverMediaReq(
+            (b) => b
+              ..vars.page = 1
+              ..vars.perPage = 20
+              ..vars.type = type
+              ..vars.sort = GMediaSort.POPULARITY_DESC
+              ..vars.country.value = 'KR',
+          );
           return Operation(
             client: client!,
-            operationRequest: GDiscoverMediaReq(
-              (b) => b
-                ..vars.page = 1
-                ..vars.perPage = 20
-                ..vars.type = GMediaType.ANIME
-                ..vars.sort = GMediaSort.POPULARITY_DESC
-                ..vars.season = nextSeason()
-                ..vars.seasonYear = nextYear(),
-            ),
+            operationRequest: type == GMediaType.ANIME ? reqAnime : reqManga,
             builder: (context, response, error) {
               if (response?.loading ?? true) {
                 return SizedBox(
@@ -105,7 +114,8 @@ class NextSeasonAnimme extends StatelessWidget {
                           params: {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
-                                data?.elementAt(index)?.title?.english ?? '',
+                                data?.elementAt(index)?.title?.userPreferred ??
+                                    '',
                           },
                         ),
                         child: Column(
@@ -131,7 +141,10 @@ class NextSeasonAnimme extends StatelessWidget {
                                           ?.elementAt(index)
                                           ?.title
                                           ?.userPreferred ??
-                                      data?.elementAt(index)?.title?.english ??
+                                      data
+                                          ?.elementAt(index)
+                                          ?.title
+                                          ?.userPreferred ??
                                       '',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,

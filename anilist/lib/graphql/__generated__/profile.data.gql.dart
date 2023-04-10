@@ -492,8 +492,7 @@ abstract class GProfileData_Viewer_favourites_anime_nodes_title
       b..G__typename = 'MediaTitle';
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get romaji;
-  String? get english;
+  String? get userPreferred;
   static Serializer<GProfileData_Viewer_favourites_anime_nodes_title>
       get serializer => _$gProfileDataViewerFavouritesAnimeNodesTitleSerializer;
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
@@ -653,8 +652,7 @@ abstract class GProfileData_Viewer_favourites_manga_nodes_title
       b..G__typename = 'MediaTitle';
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  String? get romaji;
-  String? get english;
+  String? get userPreferred;
   static Serializer<GProfileData_Viewer_favourites_manga_nodes_title>
       get serializer => _$gProfileDataViewerFavouritesMangaNodesTitleSerializer;
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(

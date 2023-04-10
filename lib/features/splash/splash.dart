@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,6 +85,10 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       ref.read(userId.notifier).state = event.data?.Viewer?.id ?? 0;
     }
     final pref = await SharedPreferences.getInstance();
+    if (pref.containsKey('DefaultDiscoverPage')) {
+      if (pref.getString('DefaultDiscoverPage') == 'MANGA')
+        ref.read(discoverTabProvider.notifier).state = GMediaType.MANGA;
+    }
     final isLoggedIn = pref.getBool('isLoggedIn') ?? false;
     timer = Timer(
       Duration(seconds: 0),

@@ -23,6 +23,7 @@ abstract class GDiscoverMediaVars
   _i1.GMediaSort? get sort;
   _i1.GMediaSeason? get season;
   int? get seasonYear;
+  _i1.GCountryCode? get country;
   static Serializer<GDiscoverMediaVars> get serializer =>
       _$gDiscoverMediaVarsSerializer;
   Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(

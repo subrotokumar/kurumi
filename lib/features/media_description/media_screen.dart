@@ -43,6 +43,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
   ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
+    print(widget.id);
     Size size = MediaQuery.of(context).size;
     final client = ref.watch(mediaListClientProvider);
     return Scaffold(
@@ -179,7 +180,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                   Text(
                                                     data?.title
                                                             ?.userPreferred ??
-                                                        data?.title?.english ??
+                                                        data?.title
+                                                            ?.userPreferred ??
                                                         data?.title?.romaji ??
                                                         '',
                                                     maxLines: 3,

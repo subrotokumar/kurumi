@@ -3,14 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/main.dart';
 
-class PopularAnime extends StatelessWidget {
-  const PopularAnime({super.key});
+class PopularMedia extends StatelessWidget {
+  const PopularMedia({super.key});
 
   GMediaSeason season({int? month}) {
     if (month == null) month = DateTime.now().month;
@@ -33,17 +34,19 @@ class PopularAnime extends StatelessWidget {
         builder: (context, ref, child) {
           final client = ref.read(clientProvider);
           int year = DateTime.now().year;
+          final type = ref.watch(discoverTabProvider);
           return Operation(
             client: client!,
             operationRequest: GDiscoverMediaReq(
               (b) => b
                 ..vars.page = 1
                 ..vars.perPage = 20
-                ..vars.status = GMediaStatus.RELEASING
-                ..vars.type = GMediaType.ANIME
+                ..vars.status =
+                    type == GMediaType.MANGA ? null : GMediaStatus.RELEASING
+                ..vars.type = type
                 ..vars.sort = GMediaSort.POPULARITY_DESC
-                ..vars.season = season()
-                ..vars.seasonYear = year,
+                ..vars.season = type == GMediaType.MANGA ? null : season()
+                ..vars.seasonYear = type == GMediaType.MANGA ? null : year,
             ),
             builder: (context, response, error) {
               if (response?.loading ?? true) {
@@ -86,7 +89,8 @@ class PopularAnime extends StatelessWidget {
                           params: {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
-                                data?.elementAt(index)?.title?.english ?? '',
+                                data?.elementAt(index)?.title?.userPreferred ??
+                                    '',
                           },
                         ),
                         child: Column(
@@ -117,7 +121,10 @@ class PopularAnime extends StatelessWidget {
                                           ?.elementAt(index)
                                           ?.title
                                           ?.userPreferred ??
-                                      data?.elementAt(index)?.title?.english ??
+                                      data
+                                          ?.elementAt(index)
+                                          ?.title
+                                          ?.userPreferred ??
                                       '',
                                   textAlign: TextAlign.center,
                                   maxLines: 2,
