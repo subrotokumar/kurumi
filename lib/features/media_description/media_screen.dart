@@ -43,7 +43,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
   ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
-    print(widget.id);
+    //print(widget.id);
     Size size = MediaQuery.of(context).size;
     final client = ref.watch(mediaListClientProvider);
     return Scaffold(
@@ -112,7 +112,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                           SafeArea(
                             child: Column(
                               children: [
-                                Timer(size: size, data: data),
+                                SizedBox(height: size.height * .3),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
@@ -313,6 +313,9 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
+                                Timer(size: size, data: data),
+                                if (data?.nextAiringEpisode?.airingAt != null)
+                                  SizedBox(height: 20),
                                 MediaGenreSection(size: size, data: data),
                                 SizedBox(height: 20),
                                 MediaDescription(data: data),
@@ -434,10 +437,38 @@ class Timer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (data?.nextAiringEpisode?.airingAt == null) return Card();
     return SizedBox(
-      height: size.height * .3,
+      height: 55,
       child: Center(
-        child: TimerWidget(time: data?.nextAiringEpisode?.airingAt),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            // side: BorderSide(color: Colors.grey),
+          ),
+          color:
+              data?.nextAiringEpisode?.episode != null ? Colors.white10 : null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Visibility(
+                visible: data?.nextAiringEpisode?.episode != null,
+                child: Text(
+                  '   EP : ${data?.nextAiringEpisode?.episode}  ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: TimerWidget(time: data?.nextAiringEpisode?.airingAt),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

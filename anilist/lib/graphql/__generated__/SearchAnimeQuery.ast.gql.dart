@@ -281,6 +281,15 @@ const SearchAnimeQuery = _i1.OperationDefinitionNode(
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],
     ),
+    _i1.VariableDefinitionNode(
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'seasonYear')),
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+      defaultValue: _i1.DefaultValueNode(value: null),
+      directives: [],
+    ),
   ],
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
@@ -458,6 +467,10 @@ const SearchAnimeQuery = _i1.OperationDefinitionNode(
               name: _i1.NameNode(value: 'popularity_lesser'),
               value: _i1.VariableNode(
                   name: _i1.NameNode(value: 'popularityLesser')),
+            ),
+            _i1.ArgumentNode(
+              name: _i1.NameNode(value: 'seasonYear'),
+              value: _i1.VariableNode(name: _i1.NameNode(value: 'seasonYear')),
             ),
           ],
           directives: [],

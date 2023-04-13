@@ -47,7 +47,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       key: 'AniListAccessToken',
       aOptions: _getAndroidOptions(),
     );
-    print(accessToken);
+    //print(accessToken);
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
     await box.clear();

@@ -87,7 +87,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               onSelectionChanged: (v) async {
                                 final c = await value.setString(
                                     'DefaultDiscoverPage', v.first.name);
-                                print('$c ${v.first.name}');
+                                //print('$c ${v.first.name}');
                                 setState(() {});
                               },
                               emptySelectionAllowed: false,

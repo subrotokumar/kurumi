@@ -213,6 +213,12 @@ class _$GSearchAnimeQueryVarsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(_i1.GMediaType)));
     }
+    value = object.seasonYear;
+    if (value != null) {
+      result
+        ..add('seasonYear')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -358,6 +364,10 @@ class _$GSearchAnimeQueryVarsSerializer
           result.type = serializers.deserialize(value,
               specifiedType: const FullType(_i1.GMediaType)) as _i1.GMediaType?;
           break;
+        case 'seasonYear':
+          result.seasonYear = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
       }
     }
 
@@ -420,6 +430,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
   final int? popularityLesser;
   @override
   final _i1.GMediaType? type;
+  @override
+  final int? seasonYear;
 
   factory _$GSearchAnimeQueryVars(
           [void Function(GSearchAnimeQueryVarsBuilder)? updates]) =>
@@ -452,7 +464,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
       this.averageScoreLesser,
       this.popularityGreater,
       this.popularityLesser,
-      this.type})
+      this.type,
+      this.seasonYear})
       : super._();
 
   @override
@@ -494,7 +507,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
         averageScoreLesser == other.averageScoreLesser &&
         popularityGreater == other.popularityGreater &&
         popularityLesser == other.popularityLesser &&
-        type == other.type;
+        type == other.type &&
+        seasonYear == other.seasonYear;
   }
 
   @override
@@ -527,6 +541,7 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
     _$hash = $jc(_$hash, popularityGreater.hashCode);
     _$hash = $jc(_$hash, popularityLesser.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, seasonYear.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -560,7 +575,8 @@ class _$GSearchAnimeQueryVars extends GSearchAnimeQueryVars {
           ..add('averageScoreLesser', averageScoreLesser)
           ..add('popularityGreater', popularityGreater)
           ..add('popularityLesser', popularityLesser)
-          ..add('type', type))
+          ..add('type', type)
+          ..add('seasonYear', seasonYear))
         .toString();
   }
 }
@@ -706,6 +722,10 @@ class GSearchAnimeQueryVarsBuilder
   _i1.GMediaType? get type => _$this._type;
   set type(_i1.GMediaType? type) => _$this._type = type;
 
+  int? _seasonYear;
+  int? get seasonYear => _$this._seasonYear;
+  set seasonYear(int? seasonYear) => _$this._seasonYear = seasonYear;
+
   GSearchAnimeQueryVarsBuilder();
 
   GSearchAnimeQueryVarsBuilder get _$this {
@@ -738,6 +758,7 @@ class GSearchAnimeQueryVarsBuilder
       _popularityGreater = $v.popularityGreater;
       _popularityLesser = $v.popularityLesser;
       _type = $v.type;
+      _seasonYear = $v.seasonYear;
       _$v = null;
     }
     return this;
@@ -788,7 +809,8 @@ class GSearchAnimeQueryVarsBuilder
               averageScoreLesser: averageScoreLesser,
               popularityGreater: popularityGreater,
               popularityLesser: popularityLesser,
-              type: type);
+              type: type,
+              seasonYear: seasonYear);
     } catch (_) {
       late String _$failedField;
       try {

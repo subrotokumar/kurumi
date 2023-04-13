@@ -49,7 +49,7 @@ class CharacterScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 20),
                       ),
                       onPressed: () async {
-                        print(id);
+                        // print(id);
                         await client!
                             .request(
                               GToggleFavouriteReq(

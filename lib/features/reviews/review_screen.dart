@@ -46,7 +46,7 @@ class ReviewScreen extends ConsumerWidget {
                     children: [
                       SizedBox(height: 30),
                       Builder(builder: (context) {
-                        print(reviewData.body);
+                        //print(reviewData.body);
                         return Markdown(
                           padding: EdgeInsets.all(0),
                           data: '${reviewData.body ?? ''}'

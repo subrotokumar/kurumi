@@ -26,6 +26,7 @@ query SearchAnimeQuery(
   $popularityGreater: Int
   $popularityLesser: Int
   $type: MediaType
+  $seasonYear: Int
 ) {
   Page(page: $page) {
     pageInfo {
@@ -62,6 +63,7 @@ query SearchAnimeQuery(
       averageScore_lesser: $averageScoreLesser
       popularity_greater: $popularityGreater
       popularity_lesser: $popularityLesser
+      seasonYear: $seasonYear
     ) {
       id
       title {

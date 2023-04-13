@@ -871,6 +871,8 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisodeSerializer
       'airingAt',
       serializers.serialize(object.airingAt,
           specifiedType: const FullType(int)),
+      'episode',
+      serializers.serialize(object.episode, specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -894,6 +896,10 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisodeSerializer
           break;
         case 'airingAt':
           result.airingAt = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'episode':
+          result.episode = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
       }
@@ -4865,6 +4871,8 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisode
   final String G__typename;
   @override
   final int airingAt;
+  @override
+  final int episode;
 
   factory _$GMediaDetailQueryData_Media_nextAiringEpisode(
           [void Function(GMediaDetailQueryData_Media_nextAiringEpisodeBuilder)?
@@ -4874,12 +4882,16 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisode
           ._build();
 
   _$GMediaDetailQueryData_Media_nextAiringEpisode._(
-      {required this.G__typename, required this.airingAt})
+      {required this.G__typename,
+      required this.airingAt,
+      required this.episode})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(G__typename,
         r'GMediaDetailQueryData_Media_nextAiringEpisode', 'G__typename');
     BuiltValueNullFieldError.checkNotNull(
         airingAt, r'GMediaDetailQueryData_Media_nextAiringEpisode', 'airingAt');
+    BuiltValueNullFieldError.checkNotNull(
+        episode, r'GMediaDetailQueryData_Media_nextAiringEpisode', 'episode');
   }
 
   @override
@@ -4897,7 +4909,8 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisode
     if (identical(other, this)) return true;
     return other is GMediaDetailQueryData_Media_nextAiringEpisode &&
         G__typename == other.G__typename &&
-        airingAt == other.airingAt;
+        airingAt == other.airingAt &&
+        episode == other.episode;
   }
 
   @override
@@ -4905,6 +4918,7 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisode
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
     _$hash = $jc(_$hash, airingAt.hashCode);
+    _$hash = $jc(_$hash, episode.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -4914,7 +4928,8 @@ class _$GMediaDetailQueryData_Media_nextAiringEpisode
     return (newBuiltValueToStringHelper(
             r'GMediaDetailQueryData_Media_nextAiringEpisode')
           ..add('G__typename', G__typename)
-          ..add('airingAt', airingAt))
+          ..add('airingAt', airingAt)
+          ..add('episode', episode))
         .toString();
   }
 }
@@ -4933,6 +4948,10 @@ class GMediaDetailQueryData_Media_nextAiringEpisodeBuilder
   int? get airingAt => _$this._airingAt;
   set airingAt(int? airingAt) => _$this._airingAt = airingAt;
 
+  int? _episode;
+  int? get episode => _$this._episode;
+  set episode(int? episode) => _$this._episode = episode;
+
   GMediaDetailQueryData_Media_nextAiringEpisodeBuilder() {
     GMediaDetailQueryData_Media_nextAiringEpisode._initializeBuilder(this);
   }
@@ -4942,6 +4961,7 @@ class GMediaDetailQueryData_Media_nextAiringEpisodeBuilder
     if ($v != null) {
       _G__typename = $v.G__typename;
       _airingAt = $v.airingAt;
+      _episode = $v.episode;
       _$v = null;
     }
     return this;
@@ -4971,7 +4991,9 @@ class GMediaDetailQueryData_Media_nextAiringEpisodeBuilder
                 r'GMediaDetailQueryData_Media_nextAiringEpisode',
                 'G__typename'),
             airingAt: BuiltValueNullFieldError.checkNotNull(airingAt,
-                r'GMediaDetailQueryData_Media_nextAiringEpisode', 'airingAt'));
+                r'GMediaDetailQueryData_Media_nextAiringEpisode', 'airingAt'),
+            episode: BuiltValueNullFieldError.checkNotNull(episode,
+                r'GMediaDetailQueryData_Media_nextAiringEpisode', 'episode'));
     replace(_$result);
     return _$result;
   }

@@ -11,7 +11,7 @@ Future<void> clearMediaListCache(WidgetRef ref, {String? accessToken}) async {
   final mediaListBox = Hive.box('mediaListBox');
   await mediaListBox.clear();
   if (accessToken == null) accessToken = ref.read(accessTokenProvider);
-  print('access token ' + accessToken.toString());
+  //print('access token ' + accessToken.toString());
   late HttpLink httpLink;
   if (accessToken == null) {
     httpLink = HttpLink('https://graphql.anilist.co');

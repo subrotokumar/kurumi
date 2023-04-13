@@ -32,7 +32,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
     var completedYear = mediaListEntry?.completedAt?.year;
     if (completedDay != null && completedYear != null && completedMonth != null)
       completedAt = DateTime(completedYear, completedMonth, completedDay, 0, 0);
-    print(mediaListEntry);
+    // print(mediaListEntry);
     return SafeArea(
       child: StatefulBuilder(
         builder: (context, setState) {

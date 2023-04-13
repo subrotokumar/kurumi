@@ -45,6 +45,7 @@ abstract class GSearchAnimeQueryVars
   int? get popularityGreater;
   int? get popularityLesser;
   _i1.GMediaType? get type;
+  int? get seasonYear;
   static Serializer<GSearchAnimeQueryVars> get serializer =>
       _$gSearchAnimeQueryVarsSerializer;
   Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(

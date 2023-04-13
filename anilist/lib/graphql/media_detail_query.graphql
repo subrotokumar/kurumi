@@ -16,6 +16,7 @@ query MediaDetailQuery($id: Int!, $limit: Int, $page: Int, $perPage: Int) {
     }
     nextAiringEpisode {
       airingAt
+      episode
     }
     type
     status

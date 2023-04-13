@@ -66,19 +66,20 @@ class _TimerWidgetState extends State<TimerWidget> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white24, width: 0.5),
+          border: Border.all(color: Colors.white12, width: 0.5),
           color: Colors.black38,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (days > 0) Text('$days : ', style: textStyle),
-            if (hours > 0) Text('$hours : ', style: textStyle),
-            if (minutes > 0)
-              Text(minutes < 10 ? '0$minutes : ' : '$minutes : ',
+            if (days > 0) Text('${days}D : ', style: textStyle),
+            if (hours > 0 || days > 0)
+              Text(hours < 10 ? '0${hours}h : ' : '${hours}h : ',
                   style: textStyle),
-            if (secs > 0)
-              Text(secs < 10 ? '0$secs' : '$secs', style: textStyle),
+            if (minutes > 0 || hours > 0 || days > 0)
+              Text(minutes < 10 ? '0${minutes}m : ' : '${minutes}m : ',
+                  style: textStyle),
+            Text(secs < 10 ? '0${secs}s' : '${secs}s', style: textStyle),
           ],
         ),
       ),

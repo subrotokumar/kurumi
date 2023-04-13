@@ -73,8 +73,7 @@ class Top100Media extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              print(
-                                  (data?.elementAt(index)?.id ?? 0).toString());
+                              // print((data?.elementAt(index)?.id ?? 0).toString());
                               context.pushNamed(
                                 AppRouteConstant.MediaScreen.name,
                                 params: {

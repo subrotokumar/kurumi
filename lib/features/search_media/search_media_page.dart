@@ -27,6 +27,9 @@ class _SearchMediaState extends State<SearchMedia> {
   List<GMediaType> a = [GMediaType.ANIME, GMediaType.MANGA];
   Set<GMediaType> seg = {GMediaType.ANIME};
   Set<SearchView> view = {SearchView.LIST};
+  GMediaSeason? season;
+  int? seasonYear;
+  bool clear = false;
 
   @override
   void dispose() {
@@ -53,11 +56,16 @@ class _SearchMediaState extends State<SearchMedia> {
             ),
             child: SafeArea(
               child: StatefulBuilder(builder: (context, newState) {
+                clear = false;
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(height: 20),
                     SegmentedButton(
+                      style: ButtonStyle(
+                          visualDensity: VisualDensity(
+                        vertical: -2,
+                      )),
                       segments: [
                         ButtonSegment(
                             value: GMediaType.ANIME, label: Text('Anime')),
@@ -75,6 +83,10 @@ class _SearchMediaState extends State<SearchMedia> {
                     ),
                     SizedBox(height: 20),
                     SegmentedButton(
+                      style: ButtonStyle(
+                          visualDensity: VisualDensity(
+                        vertical: -2,
+                      )),
                       segments: [
                         ButtonSegment(
                             value: SearchView.LIST, label: Text('LIST')),
@@ -90,12 +102,121 @@ class _SearchMediaState extends State<SearchMedia> {
                         newState(() {});
                       },
                     ),
-                    TextButton(
+                    SizedBox(height: 14),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: Colors.white),
+                      ),
+                      elevation: 0,
+                      color: Colors.transparent,
+                      margin: EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'SEASON',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                DropdownButton(
+                                  value: season,
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text('NONE'),
+                                      value: null,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('WINTER'),
+                                      value: GMediaSeason.WINTER,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('SPRING'),
+                                      value: GMediaSeason.SPRING,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('SUMMER'),
+                                      value: GMediaSeason.SUMMER,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('FALL'),
+                                      value: GMediaSeason.FALL,
+                                    ),
+                                  ],
+                                  onChanged: (v) {
+                                    newState(() => season = v);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'YEAR',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                DropdownButton(
+                                  value: seasonYear,
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text('NONE'),
+                                      value: null,
+                                    ),
+                                    for (int i = 1970; i <= 2023; i++)
+                                      DropdownMenuItem(
+                                        child: Text('$i'),
+                                        value: i,
+                                      ),
+                                  ],
+                                  onChanged: (v) {
+                                    newState(() => seasonYear = v);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              TextButton.icon(
+                                icon: Icon(Icons.clear),
+                                onPressed: () {
+                                  newState(() {
+                                    season = null;
+                                    seasonYear = null;
+                                  });
+                                },
+                                label: Text('Clear Filter'),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    OutlinedButton(
                       onPressed: () {
                         setState(() {});
                         context.pop();
                       },
-                      child: Text('Apply Changes'),
+                      child: Text('APPLY'),
                     ),
                   ],
                 );
@@ -141,7 +262,16 @@ class _SearchMediaState extends State<SearchMedia> {
               hintText: 'What are you looking for?',
               border: InputBorder.none,
               isDense: false,
-              // suffixIcon:
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    textEditingController.value = TextEditingValue(
+                      text: '',
+                      selection: TextSelection.fromPosition(
+                        TextPosition(offset: 0),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.clear)),
             ),
           ),
         ),
@@ -154,12 +284,13 @@ class _SearchMediaState extends State<SearchMedia> {
                 final client = ref.watch(clientProvider);
                 return Operation(
                   client: client!,
-                  operationRequest: GSearchAnimeQueryReq(
-                    (b) => b
-                      ..vars.search = textEditingController.text
-                      ..vars.page = 1
-                      ..vars.type = seg.first,
-                  ),
+                  operationRequest: GSearchAnimeQueryReq((b) => b
+                    ..vars.search = textEditingController.text.isNotEmpty
+                        ? textEditingController.text
+                        : null
+                    ..vars.type = seg.first
+                    ..vars.season = season
+                    ..vars.seasonYear = seasonYear),
                   builder: (context, response, error) {
                     if (response == null || response.loading) {
                       return Center(
@@ -187,7 +318,6 @@ class _SearchMediaState extends State<SearchMedia> {
                             final data = res?.elementAt(index);
                             return GestureDetector(
                               onTap: () {
-                                print((data?.id ?? 0).toString());
                                 HapticFeedback.lightImpact();
                                 context.pushNamed(
                                   AppRouteConstant.MediaScreen.name,
@@ -231,7 +361,7 @@ class _SearchMediaState extends State<SearchMedia> {
                             final data = res?.elementAt(index);
                             return GestureDetector(
                               onTap: () {
-                                print((data?.id ?? 0).toString());
+                                //print((data?.id ?? 0).toString());
                                 HapticFeedback.lightImpact();
                                 context.pushNamed(
                                   AppRouteConstant.MediaScreen.name,

@@ -121,7 +121,7 @@ class BannerAppBar extends ConsumerWidget {
                                 (b) => b..vars.animeId = data?.id),
                           )
                               .listen((event) {
-                            print(event.data?.ToggleFavourite?.toJson());
+                            //print(event.data?.ToggleFavourite?.toJson());
 
                             final req = GMediaDetailQueryReq(
                               (b) => b

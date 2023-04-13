@@ -180,6 +180,7 @@ abstract class GMediaDetailQueryData_Media_nextAiringEpisode
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
   int get airingAt;
+  int get episode;
   static Serializer<GMediaDetailQueryData_Media_nextAiringEpisode>
       get serializer => _$gMediaDetailQueryDataMediaNextAiringEpisodeSerializer;
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(

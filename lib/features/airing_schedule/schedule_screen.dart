@@ -181,7 +181,7 @@ class SchedulePerDay extends StatelessWidget {
           } else {
             final data = response.data?.Page?.airingSchedules;
             if (data == null) return Center(child: Text('Server Error'));
-            print(data.length);
+            // print(data.length);
             return ListView.builder(
               padding: EdgeInsets.only(top: 16),
               itemBuilder: (context, index) {

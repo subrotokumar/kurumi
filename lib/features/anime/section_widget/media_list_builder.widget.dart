@@ -64,6 +64,49 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Container(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Consumer(builder: (context, ref, child) {
+                            int pageIndex = widget.type == GMediaType.ANIME
+                                ? ref.watch(animeTabProvider)
+                                : ref.watch(mangaTabProvider);
+                            return Text(
+                              '${[
+                                'Ongoing',
+                                'Planning',
+                                'Completed',
+                                'On Hold',
+                                'Dropped'
+                              ][pageIndex]}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 30,
+                                color: [
+                                  Colors.green,
+                                  Colors.orange,
+                                  Colors.blue,
+                                  Colors.pinkAccent,
+                                  Colors.yellow,
+                                ][pageIndex],
+                              ),
+                            );
+                          }),
+                          Text(
+                            ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
                     LottieBuilder.asset(
                       'assets/lotties/ufo.json',
                       fit: BoxFit.contain,
@@ -83,6 +126,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         ),
                       ),
                     ),
+                    Spacer(),
                   ],
                 );
               } else {
