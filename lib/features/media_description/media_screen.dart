@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/config/app_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -24,6 +25,7 @@ import 'package:kurumi/features/media_description/widget_section/trailer.widget.
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/main.dart';
 import 'package:kurumi/utils/utils.functions.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 import 'widget_section/banner.widget.dart';
 
@@ -107,8 +109,30 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                     child: SingleChildScrollView(
                       child: Stack(
                         children: [
-                          BannerAppBar(
-                              data: data, size: size, loading: _loading),
+                          GestureDetector(
+                            onDoubleTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return GestureDetector(
+                                    child: Zoom(
+                                      backgroundColor: AppTheme.background,
+                                      child: CachedNetworkImage(
+                                        imageUrl: data?.bannerImage ??
+                                            data?.coverImage?.extraLarge ??
+                                            data?.coverImage?.large ??
+                                            data?.coverImage?.medium ??
+                                            '',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: BannerAppBar(
+                                data: data, size: size, loading: _loading),
+                          ),
                           SafeArea(
                             child: Column(
                               children: [
@@ -123,23 +147,75 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          child: CachedNetworkImage(
-                                            imageUrl: data?.coverImage?.large ??
-                                                data?.coverImage?.medium ??
-                                                '',
-                                            fit: BoxFit.cover,
-                                            height: 160,
-                                            width: 120,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    CachedNetworkImage(
-                                              imageUrl: data?.coverImage
-                                                      ?.extraLarge ??
-                                                  data?.coverImage?.large ??
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        AppTheme.secondaryColor,
+                                                    contentPadding:
+                                                        EdgeInsets.all(10),
+                                                    content: Hero(
+                                                      tag: '${data?.id ?? ''}',
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: data
+                                                                  ?.coverImage
+                                                                  ?.extraLarge ??
+                                                              data?.coverImage
+                                                                  ?.large ??
+                                                              '',
+                                                          fit: BoxFit.cover,
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              CachedNetworkImage(
+                                                            imageUrl: data
+                                                                    ?.coverImage
+                                                                    ?.large ??
+                                                                data?.coverImage
+                                                                    ?.medium ??
+                                                                '',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      OutlinedButton(
+                                                        onPressed: () =>
+                                                            context.pop(),
+                                                        child: Text('CLOSE'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: CachedNetworkImage(
+                                              imageUrl: data
+                                                      ?.coverImage?.large ??
+                                                  data?.coverImage?.medium ??
                                                   '',
                                               fit: BoxFit.cover,
                                               height: 160,
                                               width: 120,
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      CachedNetworkImage(
+                                                imageUrl: data?.coverImage
+                                                        ?.extraLarge ??
+                                                    data?.coverImage?.large ??
+                                                    '',
+                                                fit: BoxFit.cover,
+                                                height: 160,
+                                                width: 120,
+                                              ),
                                             ),
                                           ),
                                         ),

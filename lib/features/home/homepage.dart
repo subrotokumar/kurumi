@@ -27,19 +27,22 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   StreamController<bool> navController = StreamController();
-
   bool isNavVisible = true;
+  DateTime? currentBackPressTime;
+  PageController pageController = PageController(initialPage: 0);
+
   @override
   void initState() {
     isNavVisible = true;
     super.initState();
-    ref.read(currentIndex.notifier).update((state) => 0);
-    final client = ref.read(clientProvider);
-    client?.request(GProfileReq()).first;
+    initialize();
   }
 
-  DateTime? currentBackPressTime;
-  PageController pageController = PageController(initialPage: 0);
+  Future<void> initialize() async {
+    ref.read(currentIndex.notifier).update((state) => 0);
+    final client = ref.read(clientProvider);
+    await client?.request(GProfileReq()).first;
+  }
 
   @override
   void dispose() {

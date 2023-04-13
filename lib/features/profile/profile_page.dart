@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
@@ -97,8 +98,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               icon: Icon(
                                 Icons.settings,
                               ),
-                              onPressed: () => context.pushNamed(
-                                  AppRouteConstant.SettingScreen.name),
+                              onPressed: () {
+                                HapticFeedback.mediumImpact();
+                                context.pushNamed(
+                                    AppRouteConstant.SettingScreen.name);
+                              },
                             ),
                           ),
                           Positioned(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
@@ -53,8 +54,10 @@ class _DiscoverTabState extends State<DiscoverTab> {
                         weight: 1.5,
                         color: Colors.white,
                       ),
-                      onPressed: () =>
-                          context.pushNamed(AppRouteConstant.SearchScreen.name),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        context.pushNamed(AppRouteConstant.SearchScreen.name);
+                      },
                     ),
                   ],
                 ),

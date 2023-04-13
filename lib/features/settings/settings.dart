@@ -1,6 +1,7 @@
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/config/app_theme.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -8,6 +9,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
+
+enum SearchView { LIST, GRID }
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -61,6 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 children: [
+                  // Default Discover Page
                   Consumer(
                     builder: (context, ref, child) {
                       final pref = ref.watch(prefProvider);
@@ -75,12 +79,12 @@ class _SettingScreenState extends State<SettingScreen> {
                               : GMediaType.MANGA;
                           return ListTile(
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 30),
+                                EdgeInsets.symmetric(horizontal: 20),
                             leading: Text(
                               'Default Discover Page',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
                               ),
                             ),
                             trailing: SegmentedButton(
@@ -109,6 +113,62 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ButtonSegment(
                                   value: GMediaType.MANGA,
                                   label: Text('MANGA'),
+                                ),
+                              ],
+                              selected: {type},
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  // Default Media Search View
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final pref = ref.watch(prefProvider);
+                      return pref.when(
+                        error: (error, stackTrace) => Card(),
+                        loading: () => Card(),
+                        data: (value) {
+                          var v =
+                              value.getString('DefaultSearchView') ?? 'LIST';
+                          var type =
+                              v == 'LIST' ? SearchView.LIST : SearchView.GRID;
+                          return ListTile(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 20),
+                            leading: Text(
+                              'Default Search View',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
+                            trailing: SegmentedButton(
+                              onSelectionChanged: (v) async {
+                                final c = await value.setString(
+                                    'DefaultSearchView', v.first.name);
+                                setState(() {});
+                              },
+                              emptySelectionAllowed: false,
+                              multiSelectionEnabled: false,
+                              showSelectedIcon: false,
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                visualDensity: VisualDensity(vertical: -3),
+                              ),
+                              segments: [
+                                ButtonSegment(
+                                  value: SearchView.LIST,
+                                  label: Text('LIST'),
+                                ),
+                                ButtonSegment(
+                                  value: SearchView.GRID,
+                                  label: Text('GRID'),
                                 ),
                               ],
                               selected: {type},
@@ -189,9 +249,49 @@ class _SettingScreenState extends State<SettingScreen> {
               ListTile(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
                 onTap: () async {
-                  launchUrlString(
-                    'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
-                    mode: LaunchMode.externalNonBrowserApplication,
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/meta/ninja.png',
+                              height: 150,
+                              width: 150,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Your opinion matters to us!',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.white60,
+                                foregroundColor: AppTheme.secondaryColor,
+                              ),
+                              onPressed: () {
+                                launchUrlString(
+                                  'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
+                                  mode:
+                                      LaunchMode.externalNonBrowserApplication,
+                                );
+                              },
+                              child: Text('  Rate us on Play Store  '),
+                            ),
+                            TextButton(
+                              onPressed: () => context.pop(),
+                              child: Text('Not Now'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
                 leading: Text(
