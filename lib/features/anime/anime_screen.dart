@@ -41,8 +41,10 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                       child: Center(
                         child: IconButton(
                           onPressed: () {
-                            context
-                                .pushNamed(AppRouteConstant.SearchScreen.name);
+                            context.pushNamed(
+                              AppRouteConstant.SearchScreen.name,
+                              extra: {'mediaType': GMediaType.ANIME},
+                            );
                           },
                           icon: Icon(Icons.search_rounded),
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
 import 'package:kurumi/config/app_router.dart';
@@ -12,6 +13,7 @@ import 'package:kurumi/features/discover/widgets/title.widget.dart';
 import 'package:kurumi/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/trending_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/upcoming_season_anime.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class DiscoverTab extends StatefulWidget {
   DiscoverTab({super.key});
@@ -40,23 +42,31 @@ class _DiscoverTabState extends State<DiscoverTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        fixedSize: Size(30, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        backgroundColor: Colors.black45,
-                        side: BorderSide(color: Colors.white, width: 1.5),
-                      ),
-                      icon: Icon(
-                        Icons.search,
-                        weight: 1.5,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        HapticFeedback.mediumImpact();
-                        context.pushNamed(AppRouteConstant.SearchScreen.name);
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final type = ref.watch(discoverTabProvider);
+                        return IconButton(
+                          style: IconButton.styleFrom(
+                            fixedSize: Size(30, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            backgroundColor: Colors.black45,
+                            side: BorderSide(color: Colors.white, width: 1.5),
+                          ),
+                          icon: Icon(
+                            Icons.search,
+                            weight: 1.5,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            context.pushNamed(
+                              AppRouteConstant.SearchScreen.name,
+                              extra: {'mediaType': type},
+                            );
+                          },
+                        );
                       },
                     ),
                   ],

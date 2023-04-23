@@ -60,47 +60,27 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             onTap: () async {
                               final deleteReq = GDeleteMediaListEntryReq(
                                   (b) => b..vars.id = mediaListEntry?.id);
-                              final deleted =
+                              final deletedItem =
                                   await client?.request(deleteReq).first;
-                              if (deleted
+                              if (deletedItem
                                       ?.data?.DeleteMediaListEntry?.deleted ==
                                   true) {
-                                final req = GMediaDetailQueryReq(
+                                client
+                                    ?.request(GMediaDetailQueryReq(
                                   (b) => b
                                     ..vars.id = mediaId
                                     ..vars.limit = 5
                                     ..vars.page = 1
                                     ..vars.perPage = 10,
-                                );
-                                final cache = client?.cache.readQuery(req);
-                                final updatedCache = cache?.rebuild(
-                                  (b) => b
-                                    ..Media.mediaListEntry.replace(
-                                          GMediaDetailQueryData_Media_mediaListEntry(
-                                              (b) => b
-                                                ..id = mediaId
-                                                ..mediaId = media?.id
-                                                ..userId = userID
-                                                ..status = null
-                                                ..score = null
-                                                ..progress = null
-                                                ..progressVolumes = null
-                                                ..repeat = null
-                                                ..priority = null
-                                                ..notes = null
-                                                ..startedAt.day = null
-                                                ..startedAt.month = null
-                                                ..startedAt.year = null
-                                                ..completedAt.day = null
-                                                ..completedAt.month = null
-                                                ..completedAt.year = null),
-                                        ),
-                                );
-                                client?.cache.writeQuery(req, updatedCache);
-
-                                // await mediaListClient?.request(request).first;
-                                context.pop();
+                                ))
+                                    .listen((event) {
+                                  if (event?.data != null) {
+                                    context.pop();
+                                    return;
+                                  }
+                                });
                               }
+                              return;
                             },
                           ),
                         ],
@@ -146,7 +126,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   RadioListTile(
-                                                    title: Text('Watching'),
+                                                    title: Text('Current'),
                                                     value: GMediaListStatus
                                                         .CURRENT,
                                                     groupValue: newStatus,
@@ -512,6 +492,16 @@ class AnilistTrackingWidget extends ConsumerWidget {
                           );
                           client?.request(mediaListEntryMutationReq).listen(
                             (response) async {
+                              // var res = await client
+                              //     .request(GMediaDetailQueryReq(
+                              //       (b) => b
+                              //         ..vars.id = mediaId
+                              //         ..vars.limit = 5
+                              //         ..vars.page = 1
+                              //         ..vars.perPage = 10,
+                              //     ))
+                              //     .first;
+                              // return;
                               final oldStatus = mediaListEntry?.status;
                               final newStatus =
                                   response.data?.SaveMediaListEntry?.status;

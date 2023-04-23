@@ -5,7 +5,6 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:kurumi/config/app_route_constant.dart';
@@ -17,7 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum SearchView { LIST, GRID }
 
 class SearchMedia extends ConsumerStatefulWidget {
-  const SearchMedia({super.key});
+  const SearchMedia({super.key, this.mediaType});
+  final GMediaType? mediaType;
 
   @override
   ConsumerState<SearchMedia> createState() => _SearchMediaState();
@@ -26,8 +26,7 @@ class SearchMedia extends ConsumerStatefulWidget {
 class _SearchMediaState extends ConsumerState<SearchMedia> {
   GlobalKey<ScaffoldState> _key = GlobalKey();
   TextEditingController textEditingController = TextEditingController();
-  List<GMediaType> a = [GMediaType.ANIME, GMediaType.MANGA];
-  Set<GMediaType> seg = {GMediaType.ANIME};
+  Set<GMediaType> mediaType = {GMediaType.ANIME};
   Set<SearchView> view = {SearchView.LIST};
   GMediaSeason? season;
   int? seasonYear;
@@ -35,6 +34,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
 
   @override
   void initState() {
+    mediaType = widget.mediaType == null ? mediaType : {widget.mediaType!};
     super.initState();
     initialize();
   }
@@ -87,12 +87,12 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                         ButtonSegment(
                             value: GMediaType.MANGA, label: Text('Manga')),
                       ],
-                      selected: seg,
+                      selected: mediaType,
                       multiSelectionEnabled: false,
                       showSelectedIcon: true,
                       emptySelectionAllowed: false,
                       onSelectionChanged: (p) {
-                        seg = p;
+                        mediaType = p;
                         newState(() {});
                       },
                     ),
@@ -119,7 +119,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                     ),
                     SizedBox(height: 14),
                     Visibility(
-                      visible: seg.first == GMediaType.ANIME,
+                      visible: mediaType.first == GMediaType.ANIME,
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -263,8 +263,14 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                backgroundColor: Colors.green,
-                side: BorderSide(color: Colors.green),
+                backgroundColor: mediaType.first == GMediaType.ANIME
+                    ? Colors.blue
+                    : Colors.green,
+                side: BorderSide(
+                  color: mediaType.first == GMediaType.ANIME
+                      ? Colors.blue
+                      : Colors.green,
+                ),
               ),
               icon: Icon(
                 view.first == SearchView.LIST
@@ -309,11 +315,12 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       ..vars.search = textEditingController.text.isNotEmpty
                           ? textEditingController.text
                           : null
-                      ..vars.type = seg.first
+                      ..vars.type = mediaType.first
                       ..vars.season =
-                          seg.first == GMediaType.ANIME ? season : null
-                      ..vars.seasonYear =
-                          seg.first == GMediaType.ANIME ? seasonYear : null,
+                          mediaType.first == GMediaType.ANIME ? season : null
+                      ..vars.seasonYear = mediaType.first == GMediaType.ANIME
+                          ? seasonYear
+                          : null,
                   ),
                   builder: (context, response, error) {
                     if (response == null || response.loading) {

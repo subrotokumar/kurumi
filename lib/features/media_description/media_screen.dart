@@ -152,6 +152,10 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                               showDialog(
                                                 context: context,
                                                 builder: (context) {
+                                                  var width =
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width;
                                                   return AlertDialog(
                                                     backgroundColor:
                                                         AppTheme.secondaryColor,
@@ -171,6 +175,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                               data?.coverImage
                                                                   ?.large ??
                                                               '',
+                                                          width: width,
+                                                          height: width * 5 / 4,
                                                           fit: BoxFit.cover,
                                                           errorWidget: (context,
                                                                   url, error) =>
@@ -181,6 +187,9 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                                 data?.coverImage
                                                                     ?.medium ??
                                                                 '',
+                                                            width: width,
+                                                            height:
+                                                                width * 5 / 4,
                                                             fit: BoxFit.cover,
                                                           ),
                                                         ),

@@ -72,8 +72,12 @@ class AppRouter {
         name: AppRouteConstant.SearchScreen.name,
         path: AppRouteConstant.SearchScreen.path,
         pageBuilder: (context, state) {
+          final extra = state.extra as Map;
+          final GMediaType? mediaType = extra['mediaType'] as GMediaType;
           return CustomTransitionPage(
-            child: const SearchMedia(),
+            child: SearchMedia(
+              mediaType: mediaType,
+            ),
             transitionDuration: const Duration(milliseconds: 800),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {

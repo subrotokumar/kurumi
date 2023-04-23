@@ -210,11 +210,6 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       child: Container(
                         margin: EdgeInsets.all(10),
                         height: 120,
-                        // decoration: BoxDecoration(
-                        //   color: Colors.white10,
-                        //   border: Border.all(color: color, width: 1),
-                        //   // borderRadius: BorderRadius.circular(10),
-                        // ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -237,11 +232,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                               flex: 7,
                               child: Container(
                                 height: 120,
-                                // margin: EdgeInsets.only(left: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.white10,
-                                  // border: Border.all(color: color, width: 1),
-                                  // borderRadius: BorderRadius.circular(10),
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 10),
@@ -304,7 +296,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                   0xFF000000),
                                               onTap: () async {
                                                 HapticFeedback.lightImpact();
-                                                final userID = ref.read(userId);
+                                                // final userID = ref.read(userId);
                                                 var mediaListEntryMutationReq =
                                                     GMediaListEntryMutationReq(
                                                         (b) => b
@@ -337,10 +329,6 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     }
                                                   },
                                                 );
-
-                                                await client
-                                                    .request(request)
-                                                    .first;
                                               },
                                               child: Row(
                                                 children: [

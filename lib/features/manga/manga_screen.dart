@@ -51,7 +51,9 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                           child: IconButton(
                             onPressed: () {
                               context.pushNamed(
-                                  AppRouteConstant.SearchScreen.name);
+                                AppRouteConstant.SearchScreen.name,
+                                extra: {'mediaType': GMediaType.MANGA},
+                              );
                             },
                             icon: Icon(Icons.search_rounded),
                           ),

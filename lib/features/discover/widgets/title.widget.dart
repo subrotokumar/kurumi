@@ -20,12 +20,6 @@ class TrendingNowTitle extends StatelessWidget {
             color: true ? Color(0xff39FF14) : Colors.green,
             letterSpacing: 2,
             fontSize: 18,
-            // shadows: [
-            //   Shadow(
-            //     color: Colors.black,
-            //     blurRadius: 20,
-            //   )
-            // ],
           ),
           children: <TextSpan>[
             TextSpan(
