@@ -531,8 +531,9 @@ class Timer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             // side: BorderSide(color: Colors.grey),
           ),
-          color:
-              data?.nextAiringEpisode?.episode != null ? Colors.white10 : null,
+          color: data?.nextAiringEpisode?.episode != null && false
+              ? Colors.white10
+              : AppTheme.secondaryColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

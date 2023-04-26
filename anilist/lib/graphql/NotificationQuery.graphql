@@ -1,0 +1,55 @@
+query NotificationsQuery(
+  $page: Int
+  $type_in: [NotificationType]
+  $reset: Boolean
+) {
+  Page(page: $page, perPage: 25) {
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    notifications(type_in: $type_in, resetNotificationCount: $reset) {
+      ... on AiringNotification {
+        id
+        type
+        animeId
+        episode
+        contexts
+        createdAt
+        media {
+          id
+          title {
+            userPreferred
+          }
+          coverImage {
+            large
+          }
+          type
+        }
+      }
+      ... on RelatedMediaAdditionNotification {
+        id
+        type
+        mediaId
+        context
+        createdAt
+        media {
+          id
+          title {
+            userPreferred
+          }
+          coverImage {
+            large
+          }
+          type
+        }
+      }
+    }
+  }
+  Viewer {
+    unreadNotificationCount
+  }
+}

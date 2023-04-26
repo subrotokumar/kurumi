@@ -3,6 +3,7 @@ import 'package:anilist/review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kurumi/config/app_route_constant.dart';
+import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/character/characher_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/login/login.dart';
@@ -48,6 +49,27 @@ class AppRouter {
         path: AppRouteConstant.SplashScreen.path,
         pageBuilder: (context, state) {
           return const MaterialPage(child: SplashPage());
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.ACTIVITY.name,
+        path: AppRouteConstant.ACTIVITY.path,
+        pageBuilder: (context, state) {
+          final page = int.tryParse(state.extra.toString());
+          return CustomTransitionPage(
+            child: ActivityScreen(
+              page: page,
+            ),
+            transitionDuration: const Duration(milliseconds: 800),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity:
+                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                child: child,
+              );
+            },
+          );
         },
       ),
       GoRoute(

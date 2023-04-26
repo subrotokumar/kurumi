@@ -155,6 +155,36 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GModRole.serializer)
       ..add(GNotificationOptionInput.serializer)
       ..add(GNotificationType.serializer)
+      ..add(GNotificationsQueryData.serializer)
+      ..add(GNotificationsQueryData_Page.serializer)
+      ..add(GNotificationsQueryData_Page_notifications__asAiringNotification
+          .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asAiringNotification_media
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asAiringNotification_media_coverImage
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asAiringNotification_media_title
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_coverImage
+              .serializer)
+      ..add(
+          GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_title
+              .serializer)
+      ..add(GNotificationsQueryData_Page_notifications__base.serializer)
+      ..add(GNotificationsQueryData_Page_pageInfo.serializer)
+      ..add(GNotificationsQueryData_Viewer.serializer)
+      ..add(GNotificationsQueryReq.serializer)
+      ..add(GNotificationsQueryVars.serializer)
       ..add(GProfileData.serializer)
       ..add(GProfileData_Viewer.serializer)
       ..add(GProfileData_Viewer_avatar.serializer)
@@ -386,6 +416,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType.nullable(String)]),
           () => new ListBuilder<String?>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType.nullable(GNotificationType)]),
+          () => new ListBuilder<GNotificationType?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(GNotificationsQueryData_Page_notifications)
+          ]),
+          () => new ListBuilder<GNotificationsQueryData_Page_notifications?>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType.nullable(GProfileData_Viewer_favourites_anime_nodes)
           ]),
@@ -455,6 +494,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType.nullable(GtrendingAnimeData_Page_media)]),
           () => new ListBuilder<GtrendingAnimeData_Page_media?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType.nullable(String)]),
+          () => new ListBuilder<String?>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType.nullable(String)]),
           () => new ListBuilder<String?>())

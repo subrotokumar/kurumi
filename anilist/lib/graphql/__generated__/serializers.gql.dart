@@ -116,6 +116,26 @@ import 'package:anilist/graphql/__generated__/medialist_entry_mutation.req.gql.d
     show GMediaListEntryMutationReq;
 import 'package:anilist/graphql/__generated__/medialist_entry_mutation.var.gql.dart'
     show GMediaListEntryMutationVars;
+import 'package:anilist/graphql/__generated__/NotificationQuery.data.gql.dart'
+    show
+        GNotificationsQueryData_Page_notifications,
+        GNotificationsQueryData,
+        GNotificationsQueryData_Page,
+        GNotificationsQueryData_Page_notifications__asAiringNotification,
+        GNotificationsQueryData_Page_notifications__asAiringNotification_media,
+        GNotificationsQueryData_Page_notifications__asAiringNotification_media_coverImage,
+        GNotificationsQueryData_Page_notifications__asAiringNotification_media_title,
+        GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification,
+        GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media,
+        GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_coverImage,
+        GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_title,
+        GNotificationsQueryData_Page_notifications__base,
+        GNotificationsQueryData_Page_pageInfo,
+        GNotificationsQueryData_Viewer;
+import 'package:anilist/graphql/__generated__/NotificationQuery.req.gql.dart'
+    show GNotificationsQueryReq;
+import 'package:anilist/graphql/__generated__/NotificationQuery.var.gql.dart'
+    show GNotificationsQueryVars;
 import 'package:anilist/graphql/__generated__/profile.data.gql.dart'
     show
         GProfileData,
@@ -291,6 +311,7 @@ part 'serializers.gql.g.dart';
 
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
+  ..add(GNotificationsQueryData_Page_notifications.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GActivitySort,
@@ -414,6 +435,21 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GModRole,
   GNotificationOptionInput,
   GNotificationType,
+  GNotificationsQueryData,
+  GNotificationsQueryData_Page,
+  GNotificationsQueryData_Page_notifications__asAiringNotification,
+  GNotificationsQueryData_Page_notifications__asAiringNotification_media,
+  GNotificationsQueryData_Page_notifications__asAiringNotification_media_coverImage,
+  GNotificationsQueryData_Page_notifications__asAiringNotification_media_title,
+  GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification,
+  GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media,
+  GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_coverImage,
+  GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification_media_title,
+  GNotificationsQueryData_Page_notifications__base,
+  GNotificationsQueryData_Page_pageInfo,
+  GNotificationsQueryData_Viewer,
+  GNotificationsQueryReq,
+  GNotificationsQueryVars,
   GProfileData,
   GProfileData_Viewer,
   GProfileData_Viewer_avatar,
