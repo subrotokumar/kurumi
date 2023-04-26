@@ -14,7 +14,8 @@ import 'package:kurumi/main.dart';
 import '../../config/app_route_constant.dart';
 
 class ScheduleScreen extends StatelessWidget {
-  ScheduleScreen({super.key});
+  ScheduleScreen(this.controller, {super.key});
+  PageController controller;
 
   final List days = <Widget>[
     Text('SUNDAY'),
@@ -72,29 +73,29 @@ class ScheduleScreen extends StatelessWidget {
                     Container(
                       width: size.width,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'AIRING SCHEDULE',
+                            'Airing Schedule',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          // Consumer(builder: (context, ref, child) {
-                          //   return IconButton(
-                          //     onPressed: () {
-                          //       ref.read(ActivityPage).animateToPage(
-                          //             0,
-                          //             duration: Duration(milliseconds: 300),
-                          //             curve: Curves.linear,
-                          //           );
-                          //     },
-                          //     icon: Icon(Icons.message_outlined),
-                          //   );
-                          // }),
+                          Consumer(builder: (context, ref, child) {
+                            return IconButton(
+                              onPressed: () {
+                                controller.animateToPage(
+                                  0,
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.linear,
+                                );
+                              },
+                              icon: Icon(Icons.notifications),
+                            );
+                          }),
                         ],
                       ),
                     ),

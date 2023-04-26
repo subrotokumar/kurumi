@@ -71,10 +71,10 @@ class BannerAppBar extends ConsumerWidget {
                     style: IconButton.styleFrom(
                       foregroundColor: Theme.of(context).iconTheme.color,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       fixedSize: Size.square(25),
-                      backgroundColor: Colors.black26,
+                      backgroundColor: Colors.black12,
                       side: BorderSide(color: Colors.white12, width: 0.5),
                     ),
                     onPressed: () {
@@ -85,12 +85,12 @@ class BannerAppBar extends ConsumerWidget {
                     icon: Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 25,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black,
-                          blurRadius: 5,
-                        )
-                      ],
+                      // shadows: [
+                      //   Shadow(
+                      //     color: Colors.black,
+                      //     blurRadius: 5,
+                      //   )
+                      // ],
                     ),
                   ),
                   Spacer(),
@@ -121,8 +121,6 @@ class BannerAppBar extends ConsumerWidget {
                                 (b) => b..vars.animeId = data?.id),
                           )
                               .listen((event) {
-                            //print(event.data?.ToggleFavourite?.toJson());
-
                             final req = GMediaDetailQueryReq(
                               (b) => b
                                 ..vars.id = data?.id

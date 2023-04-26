@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:anilist/graphql/__generated__/NotificationQuery.req.gql.dart';
 import 'package:anilist/profile.dart';
+import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,6 +44,12 @@ class _HomePageState extends ConsumerState<HomePage> {
     ref.read(currentIndex.notifier).update((state) => 0);
     final client = ref.read(clientProvider);
     await client?.request(GProfileReq()).first;
+    final clientM = ref.read(mediaListClientProvider);
+    await clientM
+        ?.request(GNotificationsQueryReq(
+          (b) => b..vars.reset = false,
+        ))
+        .first;
   }
 
   @override
@@ -83,6 +91,17 @@ class _HomePageState extends ConsumerState<HomePage> {
           floatingActionButton: NavBar(pageController: pageController),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
+          // bottomNavigationBar: NavigationBar(
+          //   destinations: [
+          //     NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          //     NavigationDestination(icon: Icon(Icons.tv), label: 'Anime'),
+          //     NavigationDestination(icon: Icon(Icons.book), label: 'Manga'),
+          //     NavigationDestination(
+          //         icon: Icon(Icons.notification_add), label: 'Home'),
+          //     NavigationDestination(
+          //         icon: Icon(Icons.person_4), label: 'Account'),
+          //   ],
+          // ),
           body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: PageView(

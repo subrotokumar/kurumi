@@ -403,7 +403,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 SizedBox(height: 16),
-                Text('Version 0.1.17 Beta'),
+                Text('Version 0.1.18 Beta'),
                 SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
