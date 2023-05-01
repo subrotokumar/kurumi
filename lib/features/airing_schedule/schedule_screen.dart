@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/main.dart';
 
-import '../../config/app_route_constant.dart';
+import '../../core/routes/app_route_constant.dart';
 
 class ScheduleScreen extends StatelessWidget {
   ScheduleScreen(this.controller, {super.key});
-  PageController controller;
+  final PageController controller;
 
   final List days = <Widget>[
     Text('SUNDAY'),
@@ -171,14 +171,7 @@ class SchedulePerDay extends StatelessWidget {
         ),
         builder: (context, response, error) {
           if (response == null || response.loading == true) {
-            return Center(
-              child: LottieBuilder.asset(
-                'assets/lotties/loading-gif-animation.json',
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
-              ),
-            );
+            return LoadingWidget;
           } else {
             final data = response.data?.Page?.airingSchedules;
             if (data == null) return Center(child: Text('Server Error'));

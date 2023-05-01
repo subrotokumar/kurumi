@@ -1,15 +1,14 @@
 import 'dart:math';
 
 import 'package:anilist/graphql/__generated__/ReviewQuery.req.gql.dart';
-import 'package:anilist/graphql/__generated__/schema.schema.gql.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/main.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:kurumi/utils/utils.functions.dart';

@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({required this.time, super.key});

@@ -1,15 +1,14 @@
-import 'package:anilist/graphql/__generated__/profile.data.gql.dart';
-import 'package:anilist/graphql/__generated__/profile.var.gql.dart';
+import 'package:anilist/profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 
-class FavAnimeGridview extends StatelessWidget {
-  const FavAnimeGridview({
+class FavAnimeGridView extends StatelessWidget {
+  const FavAnimeGridView({
     super.key,
     required this.size,
     required this.response,

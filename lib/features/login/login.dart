@@ -6,8 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/features/login/functions/oauth.function.dart';
 
 class LoginPage extends StatefulWidget {

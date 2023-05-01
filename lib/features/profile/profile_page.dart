@@ -1,18 +1,16 @@
-import 'package:anilist/graphql/__generated__/profile.data.gql.dart';
-import 'package:anilist/graphql/__generated__/profile.req.gql.dart';
-import 'package:anilist/graphql/__generated__/profile.var.gql.dart';
+import 'package:anilist/profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
-import 'package:kurumi/features/profile/widgets/Fav_manga_gridview.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
+import 'package:kurumi/features/profile/widgets/fav_manga_gridview.dart';
 import 'package:kurumi/features/profile/widgets/fav_anime_gridview.dart';
 import 'package:kurumi/features/profile/widgets/fav_character_gridview.widget.dart';
 import 'package:kurumi/main.dart';
@@ -42,14 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
             operationRequest: GProfileReq(),
             builder: (context, response, error) {
               if (response!.loading) {
-                return Center(
-                  child: LottieBuilder.asset(
-                    'assets/lotties/loading-gif-animation.json',
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                );
+                return LoadingWidget;
               }
               return DefaultTabController(
                 length: 3,
@@ -306,9 +297,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: TabBarView(
                           children: [
-                            FavAnimeGridview(size: size, response: response),
-                            FavMangaGridview(size: size, response: response),
-                            FavCharacterGridview(
+                            FavAnimeGridView(size: size, response: response),
+                            FavMangaGridView(size: size, response: response),
+                            FavCharacterGridView(
                                 size: size, response: response),
                           ],
                         ),

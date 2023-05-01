@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/main.dart';
 
 class BannerAppBar extends ConsumerWidget {

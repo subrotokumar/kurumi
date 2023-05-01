@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/discover/widgets/banner.widget.dart';
 import 'package:kurumi/features/discover/widgets/popular_media.widget.dart';

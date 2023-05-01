@@ -8,13 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/constants/asset.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -114,7 +115,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
           children: [
             const Card(),
             LottieBuilder.asset(
-              'assets/lotties/gibli-tribute.json',
+              LottieAssets.ghibli,
               width: 300,
             ),
             Padding(

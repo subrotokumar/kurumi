@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 
 class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({required this.id, required this.reviewData, super.key});

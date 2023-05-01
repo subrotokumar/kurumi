@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:line_icons/line_icon.dart';
+
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/main.dart';
 import 'package:kurumi/utils/utils.functions.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen(this.controller, {super.key});
-  PageController controller;
+  final PageController controller;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final int todayDay = DateTime.now().day;
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: Container(
@@ -80,7 +83,7 @@ class NotificationScreen extends StatelessWidget {
                                   curve: Curves.linear,
                                 );
                               },
-                              icon: Icon(Icons.schedule_send_outlined),
+                              icon: LineIcon.calendar(),
                             );
                           }),
                         ],
@@ -119,17 +122,24 @@ class NotificationScreen extends StatelessWidget {
                                         item = data?.elementAt(index)
                                             as GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification;
                                       }
+                                      DateTime time =
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              (item?.createdAt ?? 0) * 1000);
                                       return Container(
                                         height: 90,
                                         width: size.width - 40,
                                         margin: EdgeInsets.symmetric(
                                           vertical: 8,
-                                          horizontal: 20,
+                                          horizontal:
+                                              time.day == todayDay ? 18 : 20,
                                         ),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           color: Colors.white10,
+                                          border: time.day == todayDay
+                                              ? Border.all(color: Colors.white)
+                                              : null,
                                         ),
                                         child: InkWell(
                                           onTap: () {
@@ -163,7 +173,8 @@ class NotificationScreen extends StatelessWidget {
                                                 width: size.width - 20 - 90,
                                                 padding: EdgeInsets.symmetric(
                                                         vertical: 8)
-                                                    .copyWith(left: 15),
+                                                    .copyWith(
+                                                        left: 15, right: 8),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -177,6 +188,8 @@ class NotificationScreen extends StatelessWidget {
                                                             ? 'Episode ${item.episode} of ${item.media?.title?.userPreferred ?? ''} aired.'
                                                             : '${item.media?.title?.userPreferred ?? ''} was recently added to the site.',
                                                         maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
@@ -192,12 +205,8 @@ class NotificationScreen extends StatelessWidget {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       child: Text(
-                                                        DateFormat().format(
-                                                          DateTime.fromMillisecondsSinceEpoch(
-                                                              (item?.createdAt ??
-                                                                      0) *
-                                                                  1000),
-                                                        ),
+                                                        DateFormat()
+                                                            .format(time),
                                                       ),
                                                     ),
                                                   ],

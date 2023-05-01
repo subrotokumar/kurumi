@@ -1,5 +1,5 @@
 import 'package:anilist/medialist_collection.dart';
-import 'package:anilist/medialist_entry_muation.dart';
+import 'package:anilist/medialist_entry_mutation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/main.dart';
 
@@ -185,8 +185,6 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                     String col =
                         mediaData?.media?.coverImage?.color?.toString() ??
                             '#ffffff';
-                    Color color = Color(
-                        int.parse(col.substring(1, 7), radix: 16) + 0xFF000000);
                     return GestureDetector(
                       onDoubleTap: () {
                         setState(() {});

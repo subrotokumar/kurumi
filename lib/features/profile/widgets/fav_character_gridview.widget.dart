@@ -3,8 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/material.dart';
 
-class FavCharacterGridview extends StatelessWidget {
-  const FavCharacterGridview({
+class FavCharacterGridView extends StatelessWidget {
+  const FavCharacterGridView({
     super.key,
     required this.size,
     required this.response,

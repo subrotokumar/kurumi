@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kurumi/config/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 
 class CharactersWidget extends StatelessWidget {
   const CharactersWidget({

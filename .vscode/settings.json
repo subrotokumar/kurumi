@@ -28,5 +28,6 @@
     "web": true
   },
   "explorerExclude.backup": {},
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cSpell.words": ["gifs", "gridview", "LTRB", "swiper"]
 }

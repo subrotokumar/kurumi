@@ -2,9 +2,9 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kurumi/config/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
-import 'package:kurumi/features/character/characher_screen.dart';
+import 'package:kurumi/features/character/character_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/login/login.dart';
 import 'package:kurumi/features/media_description/media_screen.dart';
@@ -14,7 +14,10 @@ import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:riverpod/riverpod.dart';
 export 'package:go_router/go_router.dart';
+
+final router = Provider((ref) => AppRouter());
 
 class AppRouter {
   GoRouter router = GoRouter(

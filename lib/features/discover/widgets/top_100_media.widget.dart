@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/main.dart';
 
 class Top100Media extends StatelessWidget {

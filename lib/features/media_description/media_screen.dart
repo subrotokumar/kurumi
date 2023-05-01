@@ -5,13 +5,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/utils/utils.functions.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
 import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
@@ -24,7 +25,6 @@ import 'package:kurumi/features/media_description/widget_section/tag_section.wid
 import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/main.dart';
-import 'package:kurumi/utils/utils.functions.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
 import 'widget_section/banner.widget.dart';
@@ -72,14 +72,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
           ),
           builder: (context, response, error) {
             if (response == null || response.loading) {
-              return Center(
-                child: LottieBuilder.asset(
-                  'assets/lotties/loading-gif-animation.json',
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-              );
+              return LoadingWidget;
             } else {
               final data = response.data?.Media;
               type = data?.type ?? type;
@@ -434,7 +427,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   ),
                                   child: Column(
                                     children: [
-                                      InfoTile('Romanji', data?.title?.romaji),
+                                      InfoTile('Romaji', data?.title?.romaji),
                                       InfoTile('English', data?.title?.english),
                                       Divider(),
                                       InfoTile('Format', data?.format?.name),
@@ -531,9 +524,7 @@ class Timer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             // side: BorderSide(color: Colors.grey),
           ),
-          color: data?.nextAiringEpisode?.episode != null && false
-              ? Colors.white10
-              : AppTheme.secondaryColor,
+          color: AppTheme.secondaryColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

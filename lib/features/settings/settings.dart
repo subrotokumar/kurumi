@@ -1,13 +1,13 @@
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
 
 enum SearchView { LIST, GRID }
@@ -90,7 +90,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               ),
                               trailing: SegmentedButton(
                                 onSelectionChanged: (v) async {
-                                  final c = await value.setString(
+                                  await value.setString(
                                       'DefaultDiscoverPage', v.first.name);
                                   //print('$c ${v.first.name}');
                                   setState(() {});
@@ -147,7 +147,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               ),
                               trailing: SegmentedButton(
                                 onSelectionChanged: (v) async {
-                                  final c = await value.setString(
+                                  await value.setString(
                                       'DefaultSearchView', v.first.name);
                                   setState(() {});
                                 },

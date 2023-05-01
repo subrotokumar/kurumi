@@ -7,11 +7,11 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:lottie/lottie.dart';
+import 'package:kurumi/utils/utils.functions.dart';
 
-import 'package:kurumi/config/app_route_constant.dart';
-import 'package:kurumi/config/app_router.dart';
-import 'package:kurumi/config/app_theme.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/discover/widgets/background.widget.dart';
 import 'package:kurumi/main.dart';
 
@@ -50,14 +50,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                 );
               }
               if (response.loading) {
-                return Center(
-                  child: LottieBuilder.asset(
-                    'assets/lotties/loading-gif-animation.json',
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                );
+                return LoadingWidget;
               }
               int len = response.data?.Page?.media?.length ?? 20;
               return Swiper(

@@ -1,11 +1,11 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/medialist_collection.dart';
 import 'package:anilist/delete_medialist_entry.dart';
-import 'package:anilist/medialist_entry_muation.dart';
+import 'package:anilist/medialist_entry_mutation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/config/app_router.dart';
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/main.dart';
 
 class AnilistTrackingWidget extends ConsumerWidget {
@@ -44,7 +44,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                 children: [
                   Consumer(builder: (context, ref, child) {
                     final client = ref.watch(mediaListClientProvider);
-                    final userID = ref.watch(userId);
+                    // final userID = ref.watch(userId);
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: PopupMenuButton(
@@ -74,7 +74,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                     ..vars.perPage = 10,
                                 ))
                                     .listen((event) {
-                                  if (event?.data != null) {
+                                  if (event.data != null) {
                                     context.pop();
                                     return;
                                   }
