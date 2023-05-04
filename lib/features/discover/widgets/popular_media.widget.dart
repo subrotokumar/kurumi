@@ -86,7 +86,7 @@ class PopularMedia extends StatelessWidget {
                       child: InkWell(
                         onTap: () => context.pushNamed(
                           AppRouteConstant.MediaScreen.name,
-                          params: {
+                          pathParameters: {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
                                 data?.elementAt(index)?.title?.userPreferred ??

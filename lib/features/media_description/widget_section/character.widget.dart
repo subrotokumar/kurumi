@@ -56,7 +56,7 @@ class CharactersWidget extends StatelessWidget {
                           HapticFeedback.mediumImpact();
                           context.pushNamed(
                             AppRouteConstant.Character.name,
-                            params: {
+                            pathParameters: {
                               'id': (characterData?.id ?? 0).toString(),
                               'name': characterData?.name?.full ?? '',
                             },

@@ -54,7 +54,7 @@ class RelationsWidget extends StatelessWidget {
                             GestureDetector(
                               onTap: () => context.pushNamed(
                                 AppRouteConstant.MediaScreen.name,
-                                params: {
+                                pathParameters: {
                                   'id': (relatedAnimeData?.id ?? 0).toString(),
                                   'title':
                                       relatedAnimeData?.title?.userPreferred ??

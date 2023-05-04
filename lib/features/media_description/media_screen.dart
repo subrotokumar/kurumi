@@ -5,14 +5,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_router.dart';
-import 'package:kurumi/utils/utils.functions.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
+import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
 import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
@@ -24,8 +25,7 @@ import 'package:kurumi/features/media_description/widget_section/relations.widge
 import 'package:kurumi/features/media_description/widget_section/tag_section.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
-import 'package:kurumi/main.dart';
-import 'package:zoom_widget/zoom_widget.dart';
+import 'package:kurumi/provider/provider.dart';
 
 import 'widget_section/banner.widget.dart';
 

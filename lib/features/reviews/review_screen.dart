@@ -137,7 +137,7 @@ class ReviewScreen extends ConsumerWidget {
               onTap: () {
                 context.pushNamed(
                   AppRouteConstant.MediaScreen.name,
-                  params: {
+                  pathParameters: {
                     'id': (reviewData.media?.id ?? 0).toString(),
                     'title': reviewData.media?.title?.userPreferred ?? '',
                   },

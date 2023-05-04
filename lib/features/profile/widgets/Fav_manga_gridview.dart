@@ -39,7 +39,7 @@ class FavMangaGridView extends StatelessWidget {
                 HapticFeedback.lightImpact();
                 context.pushNamed(
                   AppRouteConstant.MediaScreen.name,
-                  params: {
+                  pathParameters: {
                     'id': (data?.id ?? 0).toString(),
                     'title': data?.title?.userPreferred ?? '',
                   },

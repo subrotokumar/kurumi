@@ -57,7 +57,7 @@ class RecommendationWidget extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () => context.pushNamed(
                                 AppRouteConstant.MediaScreen.name,
-                                params: {
+                                pathParameters: {
                                   'id':
                                       (recommendAnimeData?.id ?? 0).toString(),
                                   'title': recommendAnimeData

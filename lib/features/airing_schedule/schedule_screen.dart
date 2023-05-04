@@ -6,12 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
-import 'package:kurumi/main.dart';
-
-import '../../core/routes/app_route_constant.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class ScheduleScreen extends StatelessWidget {
   ScheduleScreen(this.controller, {super.key});
@@ -200,7 +198,7 @@ class SchedulePerDay extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => context.pushNamed(
                     AppRouteConstant.MediaScreen.name,
-                    params: {
+                    pathParameters: {
                       'id': (item?.media?.id ?? 0).toString(),
                       'title': data
                               .elementAt(index)

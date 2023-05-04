@@ -9,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/main.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:kurumi/utils/utils.functions.dart';
 
 class ReviewSection extends StatelessWidget {
   const ReviewSection({
@@ -50,7 +50,7 @@ class ReviewSection extends StatelessWidget {
                     if (data?.elementAt(index) != null)
                       context.pushNamed(
                         AppRouteConstant.Review.name,
-                        params: {
+                        pathParameters: {
                           'id': (data?.elementAt(index)?.media?.id ?? 0)
                               .toString(),
                         },

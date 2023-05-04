@@ -77,7 +77,7 @@ class TrendingMedia extends StatelessWidget {
                           InkWell(
                             onTap: () => context.pushNamed(
                               AppRouteConstant.MediaScreen.name,
-                              params: {
+                              pathParameters: {
                                 'id': (data?.elementAt(index)?.id ?? 0)
                                     .toString(),
                                 'title': data

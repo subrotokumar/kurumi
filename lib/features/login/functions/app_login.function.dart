@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 Future appLogIn(WidgetRef ref) async {
   final flutterSecureStorage = FlutterSecureStorage();

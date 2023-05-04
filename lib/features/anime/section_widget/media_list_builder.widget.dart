@@ -9,9 +9,8 @@ import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/features/home/homepage.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class MediaListBuilderWidget extends StatefulWidget {
   final GMediaListStatus status;
@@ -192,7 +191,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       onTap: () {
                         context.pushNamed(
                           AppRouteConstant.MediaScreen.name,
-                          params: {
+                          pathParameters: {
                             'id': (response.data?.MediaListCollection?.lists
                                         ?.first?.entries
                                         ?.elementAt(index - 1)

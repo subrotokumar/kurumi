@@ -1,7 +1,7 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/review_query.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/common/error_screen.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/character/character_screen.dart';
@@ -12,266 +12,113 @@ import 'package:kurumi/features/reviews/review_screen.dart';
 import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:riverpod/riverpod.dart';
 export 'package:go_router/go_router.dart';
 
-final router = Provider((ref) => AppRouter());
-
-class AppRouter {
-  GoRouter router = GoRouter(
+final router = Provider<GoRouter>(
+  (ref) => GoRouter(
+    debugLogDiagnostics: true,
     routes: [
       GoRoute(
         name: 'nativeSplash',
         path: '/',
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: SplashPage());
+        builder: (context, state) {
+          return SplashPage();
         },
       ),
       GoRoute(
         name: AppRouteConstant.HomeScreen.name,
         path: AppRouteConstant.HomeScreen.path,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            child: const HomePage(),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
-          );
-        },
+        builder: (context, state) => HomePage(),
       ),
       GoRoute(
         name: AppRouteConstant.SplashScreen.name,
         path: AppRouteConstant.SplashScreen.path,
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: SplashPage());
-        },
+        builder: (context, state) => SplashPage(),
       ),
       GoRoute(
         name: AppRouteConstant.ACTIVITY.name,
         path: AppRouteConstant.ACTIVITY.path,
-        pageBuilder: (context, state) {
+        builder: (context, state) {
           final page = int.tryParse(state.extra.toString());
-          return CustomTransitionPage(
-            child: ActivityScreen(
-              page: page,
-            ),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
-          );
-        },
-      ),
-      GoRoute(
-        name: AppRouteConstant.LoginScreen.name,
-        path: AppRouteConstant.LoginScreen.path,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            child: const LoginPage(),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
-          );
-        },
-      ),
-      GoRoute(
-        name: AppRouteConstant.SearchScreen.name,
-        path: AppRouteConstant.SearchScreen.path,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map;
-          final GMediaType? mediaType = extra['mediaType'] as GMediaType;
-          return CustomTransitionPage(
-            child: SearchMedia(
-              mediaType: mediaType,
-            ),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
-          );
+          return ActivityScreen(page: page);
         },
       ),
       GoRoute(
         name: AppRouteConstant.SettingScreen.name,
         path: AppRouteConstant.SettingScreen.path,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            child: const SettingScreen(),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
+        builder: (context, state) {
+          return const SettingScreen();
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.LoginScreen.name,
+        path: AppRouteConstant.LoginScreen.path,
+        builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
+        name: AppRouteConstant.SearchScreen.name,
+        path: AppRouteConstant.SearchScreen.path,
+        builder: (context, state) {
+          final extra = state.extra as Map;
+          final GMediaType? mediaType = extra['mediaType'] as GMediaType;
+          return SearchMedia(
+            mediaType: mediaType,
           );
         },
       ),
       GoRoute(
         name: AppRouteConstant.MediaScreen.name,
         path: '${AppRouteConstant.MediaScreen.path}/:id/:title',
-        pageBuilder: (context, state) {
-          var id = int.parse(state.params['id'] ?? '0');
-          String title = state.params['title'] ?? '';
-          return CustomTransitionPage(
-            child: MediaScreen(
-              id: id,
-              title: title,
-            ),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          String title = state.pathParameters['title'] ?? '';
+          return MediaScreen(
+            id: id,
+            title: title,
           );
         },
       ),
       GoRoute(
         name: AppRouteConstant.Character.name,
         path: '${AppRouteConstant.Character.path}/:id/:name',
-        pageBuilder: (context, state) {
-          var id = int.parse(state.params['id'] ?? '0');
-          String name = state.params['name'] ?? '';
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          String name = state.pathParameters['name'] ?? '';
           final extra = state.extra as Map;
           GMediaDetailQueryData_Media_characters_edges? data =
               (extra['data']) as GMediaDetailQueryData_Media_characters_edges;
           int index = extra['index'];
-          return CustomTransitionPage(
-            child: CharacterScreen(
-                id: id, name: name, characterData: data, index: index),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
+          return CharacterScreen(
+            id: id,
+            name: name,
+            characterData: data,
+            index: index,
           );
         },
       ),
       GoRoute(
         name: AppRouteConstant.Review.name,
         path: '${AppRouteConstant.Review.path}/:id',
-        pageBuilder: (context, state) {
-          int id = int.parse(state.params['id'] ?? '0');
+        builder: (context, state) {
+          int id = int.parse(state.pathParameters['id'] ?? '0');
           GReviewQueryData_Page_reviews? data =
               state.extra as GReviewQueryData_Page_reviews;
-          return CustomTransitionPage(
-            child: ReviewScreen(
-              id: id,
-              reviewData: data,
-            ),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity:
-                    CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-                child: child,
-              );
-            },
+          return ReviewScreen(
+            id: id,
+            reviewData: data,
           );
         },
       ),
-      //
-      // GoRoute(
-      //   name: AppRouteConstant.MediaScreen.name,
-      //   path: AppRouteConstant.MediaScreen.path,
-      //   pageBuilder: (context, state) {
-      //     GDiscoverMediaData_Page_media data =
-      //         state.extra as GDiscoverMediaData_Page_media;
-      //     return CustomTransitionPage(
-      //       child: MediaScreen(data: data),
-      //       transitionDuration: const Duration(milliseconds: 800),
-      //       transitionsBuilder:
-      //           (context, animation, secondaryAnimation, child) {
-      //         return FadeTransition(
-      //           opacity:
-      //               CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-      //           child: child,
-      //         );
-      //       },
-      //     );
-      //   },
-      // ),
     ],
-    errorPageBuilder: (context, state) {
-      return MaterialPage(
-        child: Scaffold(
-          body: SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                LottieBuilder.asset(
-                  'assets/lotties/ufo.json',
-                  fit: BoxFit.contain,
-                ),
-                SizedBox(height: 16),
-                Shimmer.fromColors(
-                  baseColor: Colors.white,
-                  highlightColor: Colors.indigo,
-                  child: Text(
-                    '404',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 35,
-                      letterSpacing: 3,
-                    ),
-                  ),
-                ),
-                Shimmer.fromColors(
-                  baseColor: Colors.white,
-                  highlightColor: Colors.indigo,
-                  child: Text(
-                    'NOT FOUND',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                  ),
-                ),
-                SizedBox(height: 16),
-                OutlinedButton(
-                  onPressed: () =>
-                      context.goNamed(AppRouteConstant.HomeScreen.name),
-                  child: Text('GO TO HOME'),
-                )
-              ],
-            ),
-          ),
-        ),
-      );
+    errorBuilder: (context, state) {
+      return ErrorScreen();
     },
-  );
-}
+    redirect: (context, state) {
+      if (state.location != AppRouteConstant.LoginScreen.name ||
+          state.location != AppRouteConstant.SplashScreen.name) {
+        print(state.location);
+      }
+      return null;
+    },
+  ),
+);

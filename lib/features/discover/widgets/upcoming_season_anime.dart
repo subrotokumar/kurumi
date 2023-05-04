@@ -111,7 +111,7 @@ class NextSeasonAnimme extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => context.pushNamed(
                           AppRouteConstant.MediaScreen.name,
-                          params: {
+                          pathParameters: {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
                                 data?.elementAt(index)?.title?.userPreferred ??

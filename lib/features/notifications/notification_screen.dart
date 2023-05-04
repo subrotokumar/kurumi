@@ -9,10 +9,9 @@ import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:kurumi/main.dart';
-import 'package:kurumi/utils/utils.functions.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen(this.controller, {super.key});
@@ -146,7 +145,7 @@ class NotificationScreen extends StatelessWidget {
                                             HapticFeedback.mediumImpact();
                                             context.pushNamed(
                                               AppRouteConstant.MediaScreen.name,
-                                              params: {
+                                              pathParameters: {
                                                 'id': (item?.media?.id ?? 0)
                                                     .toString(),
                                                 'title': item.media?.title

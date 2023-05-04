@@ -6,8 +6,8 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:kurumi/utils/utils.functions.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/routes/app_router.dart';
@@ -71,7 +71,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                         GestureDetector(
                           onTap: () => context.pushNamed(
                             AppRouteConstant.MediaScreen.name,
-                            params: {
+                            pathParameters: {
                               'id': (data?.id ?? 0).toString(),
                               'title': data?.title?.userPreferred ?? '',
                             },

@@ -5,11 +5,10 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:kurumi/main.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:anilist/toggle_favourite.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class CharacterScreen extends StatelessWidget {
   CharacterScreen({
@@ -357,7 +356,7 @@ class CharacterScreen extends StatelessWidget {
                                 GestureDetector(
                                   onTap: () => context.pushNamed(
                                     AppRouteConstant.MediaScreen.name,
-                                    params: {
+                                    pathParameters: {
                                       'id': (relatedAnimeData?.id ?? 0)
                                           .toString(),
                                       'title': relatedAnimeData

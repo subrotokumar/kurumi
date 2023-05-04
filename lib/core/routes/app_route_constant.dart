@@ -1,3 +1,5 @@
+export 'package:go_router/go_router.dart';
+
 class AppRouteConstant {
   static Route HomeScreen = Route('home', '/home');
   static Route SplashScreen = Route('splash', '/splash');

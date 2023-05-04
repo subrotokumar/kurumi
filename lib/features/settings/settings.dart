@@ -1,14 +1,13 @@
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
+import 'package:kurumi/provider/provider.dart';
 
 enum SearchView { LIST, GRID }
 
@@ -24,7 +23,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
         child: SafeArea(
@@ -39,9 +38,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     children: [
                       IconButton(
                         onPressed: () => context.pop(),
-                        icon: Icon(Icons.arrow_back_ios_new_rounded),
+                        icon: const Icon(Icons.arrow_back_ios_new_rounded),
                       ),
-                      Text(
+                      const Text(
                         'Settings',
                         style: TextStyle(
                           fontSize: 30,
@@ -51,11 +50,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ExpansionTile(
-                  tilePadding: EdgeInsets.only(right: 20),
-                  trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-                  title: ListTile(
+                  tilePadding: const EdgeInsets.only(right: 20),
+                  trailing:
+                      const Icon(Icons.arrow_drop_down, color: Colors.white),
+                  title: const ListTile(
                     leading: Text(
                       ' General',
                       style: TextStyle(
@@ -70,8 +70,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       builder: (context, ref, child) {
                         final pref = ref.watch(prefProvider);
                         return pref.when(
-                          error: (error, stackTrace) => Card(),
-                          loading: () => Card(),
+                          error: (error, stackTrace) => const Card(),
+                          loading: () => const Card(),
                           data: (value) {
                             var v = value.getString('DefaultDiscoverPage') ??
                                 'ANIME';
@@ -80,11 +80,11 @@ class _SettingScreenState extends State<SettingScreen> {
                                 : GMediaType.MANGA;
                             return ListTile(
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 20),
-                              leading: Text(
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              leading: const Text(
                                 'Default Discover Page',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                 ),
                               ),
@@ -104,9 +104,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  visualDensity: VisualDensity(vertical: -3),
+                                  visualDensity:
+                                      const VisualDensity(vertical: -3),
                                 ),
-                                segments: [
+                                segments: const [
                                   ButtonSegment(
                                     value: GMediaType.ANIME,
                                     label: Text('ANIME'),
@@ -128,8 +129,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       builder: (context, ref, child) {
                         final pref = ref.watch(prefProvider);
                         return pref.when(
-                          error: (error, stackTrace) => Card(),
-                          loading: () => Card(),
+                          error: (error, stackTrace) => const Card(),
+                          loading: () => const Card(),
                           data: (value) {
                             var v =
                                 value.getString('DefaultSearchView') ?? 'LIST';
@@ -137,8 +138,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                 v == 'LIST' ? SearchView.LIST : SearchView.GRID;
                             return ListTile(
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 20),
-                              leading: Text(
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              leading: const Text(
                                 'Default Search View',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -160,9 +161,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  visualDensity: VisualDensity(vertical: -3),
+                                  visualDensity:
+                                      const VisualDensity(vertical: -3),
                                 ),
-                                segments: [
+                                segments: const [
                                   ButtonSegment(
                                     value: SearchView.LIST,
                                     label: Text('LIST'),
@@ -184,65 +186,69 @@ class _SettingScreenState extends State<SettingScreen> {
 
                 /// Account Setting
                 ExpansionTile(
-                  tilePadding: EdgeInsets.only(right: 20),
-                  trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-                  title: ListTile(
+                  tilePadding: const EdgeInsets.only(right: 20),
+                  trailing:
+                      const Icon(Icons.arrow_drop_down, color: Colors.white),
+                  title: const ListTile(
                     leading: Text(
                       ' Account',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                   children: [
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
                       onTap: () async {
                         await launchUrlString(
                           'https://anilist.co/settings',
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      leading: Text(
+                      leading: const Text(
                         'Update Profile',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                       trailing: LineIcon.link(color: Colors.white),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
                       onTap: () async {
                         await launchUrlString(
                           'https://anilist.co/settings/account',
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      leading: Text(
+                      leading: const Text(
                         'Update Account',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                       trailing: LineIcon.link(color: Colors.white),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
                       onTap: () async {
                         await launchUrlString(
                           'https://anilist.co/settings/import',
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      leading: Text(
+                      leading: const Text(
                         'Import List',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                       trailing: LineIcon.link(color: Colors.white),
@@ -250,13 +256,13 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   onTap: () async {
                     await launchUrlString(
                       'https://subrotokumar.github.io/privacy-policy/kurumi.html',
                     );
                   },
-                  leading: Text(
+                  leading: const Text(
                     'Privacy Policy',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -266,7 +272,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   trailing: LineIcon.link(color: Colors.white),
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   onTap: () async {
                     showDialog(
                       context: context,
@@ -280,15 +286,15 @@ class _SettingScreenState extends State<SettingScreen> {
                                 height: 150,
                                 width: 150,
                               ),
-                              SizedBox(height: 8),
-                              Text(
+                              const SizedBox(height: 8),
+                              const Text(
                                 'Your opinion matters to us!',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,
                                 ),
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               OutlinedButton(
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Colors.white60,
@@ -301,11 +307,11 @@ class _SettingScreenState extends State<SettingScreen> {
                                         .externalNonBrowserApplication,
                                   );
                                 },
-                                child: Text('  Rate us on Play Store  '),
+                                child: const Text('  Rate us on Play Store  '),
                               ),
                               TextButton(
                                 onPressed: () => context.pop(),
-                                child: Text('Not Now'),
+                                child: const Text('Not Now'),
                               ),
                             ],
                           ),
@@ -313,7 +319,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       },
                     );
                   },
-                  leading: Text(
+                  leading: const Text(
                     'Rate Us',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -322,8 +328,8 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   trailing: LineIcon.link(color: Colors.white),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Want to support Kurumi\'s Creator ?',
                     style: TextStyle(
@@ -345,16 +351,16 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Card(),
-                    Card(),
+                    const Card(),
+                    const Card(),
                     IconButton(
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white70,
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                       ),
                       splashRadius: 1,
                       onPressed: () {
@@ -371,7 +377,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     IconButton(
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white70,
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                       ),
                       splashRadius: 1,
                       onPressed: () => launchUrlString(
@@ -386,7 +392,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     IconButton(
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.white70,
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                       ),
                       splashRadius: 1,
                       onPressed: () => launchUrlString(
@@ -398,13 +404,13 @@ class _SettingScreenState extends State<SettingScreen> {
                         size: 30,
                       ),
                     ),
-                    Card(),
-                    Card(),
+                    const Card(),
+                    const Card(),
                   ],
                 ),
-                SizedBox(height: 16),
-                Text('Version 0.1.18 Beta'),
-                SizedBox(height: 20),
+                const SizedBox(height: 16),
+                const Text('Version 0.1.18 Beta'),
+                const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white30,
@@ -415,9 +421,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     logout();
                     context.goNamed(AppRouteConstant.LoginScreen.name);
                   },
-                  label: Text('Log Out'),
+                  label: const Text('Log Out'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
