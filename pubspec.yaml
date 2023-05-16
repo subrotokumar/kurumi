@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 0.1.18+20
+version: 0.1.20+23
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -31,7 +31,7 @@ dependencies:
   anilist:
     path: "./anilist"
   cached_network_image: ^3.2.3
-  flutter_launcher_icons: ^0.12.0
+  flutter_launcher_icons: ^0.13.1
   ferry: ^0.14.0+1
   gql_http_link: ^0.4.5
   hive: ^2.2.3

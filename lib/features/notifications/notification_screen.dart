@@ -14,16 +14,16 @@ import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class NotificationScreen extends StatelessWidget {
-  NotificationScreen(this.controller, {super.key});
+  const NotificationScreen(this.controller, {super.key});
   final PageController controller;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final int todayDay = DateTime.now().day;
+    final today = DateTime.now();
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: Container(
+      body: SizedBox(
         width: size.width,
         height: size.height,
         child: SafeArea(
@@ -35,7 +35,7 @@ class NotificationScreen extends StatelessWidget {
                 Container(
                   height: size.height,
                   width: size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/gifs/kakashi.gif'),
                       fit: BoxFit.cover,
@@ -43,7 +43,7 @@ class NotificationScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         Colors.black,
@@ -61,12 +61,12 @@ class NotificationScreen extends StatelessWidget {
                   children: [
                     Container(
                       width: size.width,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Notifications',
                             style: TextStyle(
                               fontSize: 24,
@@ -78,7 +78,7 @@ class NotificationScreen extends StatelessWidget {
                               onPressed: () {
                                 controller.animateToPage(
                                   1,
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   curve: Curves.linear,
                                 );
                               },
@@ -105,7 +105,7 @@ class NotificationScreen extends StatelessWidget {
                                   final data =
                                       response?.data?.Page?.notifications;
                                   return ListView.builder(
-                                    physics: ClampingScrollPhysics(),
+                                    physics: const ClampingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: data?.length ?? 0,
                                     itemBuilder: (context, index) {
@@ -124,19 +124,21 @@ class NotificationScreen extends StatelessWidget {
                                       DateTime time =
                                           DateTime.fromMillisecondsSinceEpoch(
                                               (item?.createdAt ?? 0) * 1000);
+
+                                      int diff = time.difference(today).inDays;
+                                      diff = diff < 0 ? -diff : diff;
                                       return Container(
                                         height: 90,
                                         width: size.width - 40,
                                         margin: EdgeInsets.symmetric(
                                           vertical: 8,
-                                          horizontal:
-                                              time.day == todayDay ? 18 : 20,
+                                          horizontal: diff < 1 ? 18 : 20,
                                         ),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           color: Colors.white10,
-                                          border: time.day == todayDay
+                                          border: diff < 1
                                               ? Border.all(color: Colors.white)
                                               : null,
                                         ),
@@ -170,10 +172,11 @@ class NotificationScreen extends StatelessWidget {
                                               ),
                                               Container(
                                                 width: size.width - 20 - 90,
-                                                padding: EdgeInsets.symmetric(
-                                                        vertical: 8)
-                                                    .copyWith(
-                                                        left: 15, right: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                            vertical: 8)
+                                                        .copyWith(
+                                                            left: 15, right: 8),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment

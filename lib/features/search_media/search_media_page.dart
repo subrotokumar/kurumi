@@ -14,6 +14,42 @@ import 'package:kurumi/provider/provider.dart';
 
 enum SearchView { LIST, GRID }
 
+extension ColorExtension on GMediaListStatus {
+  Color get statusColor {
+    switch (this) {
+      case GMediaListStatus.CURRENT:
+        return Colors.green.shade200;
+      case GMediaListStatus.PLANNING:
+        return Colors.orange.shade200;
+      case GMediaListStatus.COMPLETED:
+        return Colors.blue.shade200;
+      case GMediaListStatus.PAUSED:
+        return Colors.pinkAccent.shade200;
+      case GMediaListStatus.DROPPED:
+        return Colors.yellow.shade200;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Icon get statusIcon {
+    switch (this) {
+      case GMediaListStatus.CURRENT:
+        return Icon(Icons.play_arrow, color: statusColor, size: 15);
+      case GMediaListStatus.PLANNING:
+        return Icon(Icons.calendar_month_sharp, color: statusColor, size: 15);
+      case GMediaListStatus.COMPLETED:
+        return Icon(Icons.download_done_sharp, color: statusColor, size: 15);
+      case GMediaListStatus.PAUSED:
+        return Icon(Icons.pause, color: statusColor, size: 15);
+      case GMediaListStatus.DROPPED:
+        return Icon(Icons.unarchive, color: statusColor, size: 15);
+      default:
+        return Icon(Icons.video_stable_rounded, color: statusColor, size: 15);
+    }
+  }
+}
+
 class SearchMedia extends ConsumerStatefulWidget {
   const SearchMedia({super.key, this.mediaType});
   final GMediaType? mediaType;
@@ -61,7 +97,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
         backgroundColor: AppTheme.background,
         endDrawer: Drawer(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/lotties/giphy.gif'),
                 fit: BoxFit.fitHeight,
@@ -74,13 +110,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SegmentedButton(
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                           visualDensity: VisualDensity(
                         vertical: -2,
                       )),
-                      segments: [
+                      segments: const [
                         ButtonSegment(
                             value: GMediaType.ANIME, label: Text('Anime')),
                         ButtonSegment(
@@ -95,13 +131,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                         newState(() {});
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SegmentedButton(
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                           visualDensity: VisualDensity(
                         vertical: -2,
                       )),
-                      segments: [
+                      segments: const [
                         ButtonSegment(
                             value: SearchView.LIST, label: Text('LIST')),
                         ButtonSegment(
@@ -116,17 +152,17 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                         newState(() {});
                       },
                     ),
-                    SizedBox(height: 14),
+                    const SizedBox(height: 14),
                     Visibility(
                       visible: mediaType.first == GMediaType.ANIME,
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.white),
+                          side: const BorderSide(color: Colors.white),
                         ),
                         elevation: 0,
                         color: Colors.transparent,
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -137,7 +173,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'SEASON',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -147,25 +183,25 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                   DropdownButton(
                                     value: season,
                                     items: [
-                                      DropdownMenuItem(
-                                        child: Text('NONE'),
+                                      const DropdownMenuItem(
                                         value: null,
+                                        child: Text('NONE'),
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('WINTER'),
                                         value: GMediaSeason.WINTER,
+                                        child: Text(GMediaSeason.WINTER.name),
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('SPRING'),
                                         value: GMediaSeason.SPRING,
+                                        child: Text(GMediaSeason.SPRING.name),
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('SUMMER'),
                                         value: GMediaSeason.SUMMER,
+                                        child: Text(GMediaSeason.SUMMER.name),
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('FALL'),
                                         value: GMediaSeason.FALL,
+                                        child: Text(GMediaSeason.FALL.name),
                                       ),
                                     ],
                                     onChanged: (v) {
@@ -182,7 +218,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'YEAR',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -192,7 +228,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                   DropdownButton(
                                     value: seasonYear,
                                     items: [
-                                      DropdownMenuItem(
+                                      const DropdownMenuItem(
                                         child: Text('NONE'),
                                         value: null,
                                       ),
@@ -213,29 +249,29 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 TextButton.icon(
-                                  icon: Icon(Icons.clear),
+                                  icon: const Icon(Icons.clear),
                                   onPressed: () {
                                     newState(() {
                                       season = null;
                                       seasonYear = null;
                                     });
                                   },
-                                  label: Text('Clear Filter'),
+                                  label: const Text('Clear Filter'),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     OutlinedButton(
                       onPressed: () {
                         setState(() {});
                         context.pop();
                       },
-                      child: Text('APPLY'),
+                      child: const Text('APPLY'),
                     ),
                   ],
                 );
@@ -248,13 +284,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
           backgroundColor: AppTheme.secondaryColor,
           scrolledUnderElevation: 0,
           leading: IconButton(
-            padding: EdgeInsets.all(0),
-            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            padding: const EdgeInsets.all(0),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () => context.pop(),
           ),
           actions: [
             IconButton(
-              visualDensity: VisualDensity(horizontal: -4, vertical: -2),
+              visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
               onPressed: () async {
                 _key.currentState!.openEndDrawer();
               },
@@ -278,7 +314,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
           ],
           title: TextField(
             controller: textEditingController,
@@ -292,11 +328,11 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                     textEditingController.value = TextEditingValue(
                       text: '',
                       selection: TextSelection.fromPosition(
-                        TextPosition(offset: 0),
+                        const TextPosition(offset: 0),
                       ),
                     );
                   },
-                  icon: Icon(Icons.clear)),
+                  icon: const Icon(Icons.clear)),
             ),
           ),
         ),
@@ -328,9 +364,9 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       final res = response.data?.Page?.media;
                       if (view.first == SearchView.GRID) {
                         return GridView.builder(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             childAspectRatio: 2 / 4,
                             crossAxisSpacing: 20,
@@ -355,19 +391,38 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
-                                    child: CachedNetworkImage(
+                                    child: SizedBox(
                                       height: 170,
-                                      fit: BoxFit.fitWidth,
-                                      imageUrl: data?.coverImage?.large ?? '',
+                                      child: Stack(
+                                        children: [
+                                          CachedNetworkImage(
+                                            height: 170,
+                                            fit: BoxFit.fitWidth,
+                                            imageUrl:
+                                                data?.coverImage?.large ?? '',
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              child: StatusWidget(
+                                                data: data,
+                                                background: Colors.black45,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     data?.title?.userPreferred ?? '',
                                     maxLines: 2,
                                     textAlign: TextAlign.left,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -384,7 +439,6 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                             final data = res?.elementAt(index);
                             return GestureDetector(
                               onTap: () {
-                                //print((data?.id ?? 0).toString());
                                 HapticFeedback.lightImpact();
                                 context.pushNamed(
                                   AppRouteConstant.MediaScreen.name,
@@ -398,7 +452,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                 borderRadius: BorderRadius.circular(8),
                                 child: Container(
                                   width: size.width,
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                       left: 12, right: 12, top: 20),
                                   height: 120,
                                   child: Row(
@@ -416,7 +470,8 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                       ),
                                       Expanded(
                                         child: Container(
-                                          margin: EdgeInsets.only(left: 10),
+                                          margin:
+                                              const EdgeInsets.only(left: 10),
                                           padding: const EdgeInsets.symmetric(
                                             vertical: 8,
                                             horizontal: 10,
@@ -428,29 +483,59 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                               color: Colors.white24,
                                             ),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          child: Stack(
                                             children: [
-                                              Text(
-                                                data?.title?.userPreferred ??
-                                                    '',
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    data?.title
+                                                            ?.userPreferred ??
+                                                        '',
+                                                    maxLines: 3,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16),
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      text:
+                                                          '${(data?.startDate?.year) ?? ''}',
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .blue.shade200,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                      children: [
+                                                        TextSpan(
+                                                          text: data?.format
+                                                                      ?.name !=
+                                                                  null
+                                                              ? ' • ${data?.format?.name[0]}${data?.format?.name.substring(1).toLowerCase()}'
+                                                              : '',
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .orange),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(height: 5),
-                                              Text(
-                                                '${data?.startDate?.year} • ${data?.format?.name}',
-                                                style: TextStyle(
-                                                  color: Colors.blue.shade200,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
+                                              Positioned(
+                                                bottom: 0,
+                                                right: 0,
+                                                child: StatusWidget(data: data),
                                               ),
                                             ],
                                           ),
@@ -473,5 +558,47 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
         ),
       ),
     );
+  }
+}
+
+class StatusWidget extends StatelessWidget {
+  const StatusWidget({super.key, required this.data, this.background});
+
+  final Color? background;
+  final GSearchAnimeQueryData_Page_media? data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+      final status = data?.mediaListEntry?.status;
+      if (status == null) {
+        return const Card();
+      }
+      return Card(
+        elevation: 0,
+        color: background,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: status.statusColor, width: 0.8),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              status.statusIcon,
+              const SizedBox(width: 1),
+              Text(
+                '${status.name[0]}${status.name.substring(1).toLowerCase()}',
+                style: TextStyle(
+                  color: status.statusColor,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

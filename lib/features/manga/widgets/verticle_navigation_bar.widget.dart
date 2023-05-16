@@ -1,6 +1,8 @@
+import 'package:anilist/medialist_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
 
 class VerticleNavigationBar extends StatelessWidget {
@@ -48,6 +50,19 @@ class VerticleNavigationBar extends StatelessWidget {
               pageNum: 4,
               ref: ref,
             ),
+            const SizedBox(height: 10),
+            Consumer(builder: (context, ref, child) {
+              return IconButton(
+                onPressed: () {
+                  sortingDialog(
+                    context: context,
+                    ref: ref,
+                    type: GMediaType.MANGA,
+                  );
+                },
+                icon: const Icon(Icons.filter_alt_rounded),
+              );
+            })
           ],
         );
       },

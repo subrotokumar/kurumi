@@ -83,9 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 backgroundColor: Colors.black45,
-                                side: BorderSide(color: Colors.white),
+                                side: const BorderSide(color: Colors.white),
                               ),
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.settings,
                               ),
                               onPressed: () {
@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             left: 0,
                             right: 0,
                             child: Container(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 5),
                               child: Row(
                                 mainAxisAlignment:
@@ -136,11 +136,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ?.count
                                                 .toString() ??
                                             '0',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      Text('Anime'),
+                                      const Text('Anime'),
                                     ],
                                   ),
                                   Column(
@@ -151,11 +151,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ?.count
                                                 .toString() ??
                                             '0',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w400),
                                       ),
-                                      Text('Manga'),
+                                      const Text('Manga'),
                                     ],
                                   ),
                                   Consumer(
@@ -170,14 +170,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                         ),
                                         onPressed: () {
                                           ref
                                               .read(statsProvider.notifier)
                                               .update((state) => !val);
                                         },
-                                        icon: Icon(CupertinoIcons.chart_pie),
+                                        icon: const Icon(
+                                            CupertinoIcons.chart_pie),
                                       );
                                     },
                                   ),
@@ -185,8 +186,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
+                          Positioned(
+                            bottom: -2,
                             child: Container(
                               width: size.width,
                               height: 5,
@@ -196,14 +197,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
                           Text(
                             response.data?.Viewer?.name ?? '',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
@@ -212,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
                           Text(response.data?.Viewer?.about ?? ''),
@@ -222,8 +223,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Consumer(builder: (context, ref, child) {
                       final stat = ref.watch(statsProvider);
                       return AnimatedSlide(
-                        offset: stat ? Offset(0, 0) : Offset(1, 0),
-                        duration: Duration(seconds: 1),
+                        offset: stat ? const Offset(0, 0) : const Offset(1, 0),
+                        duration: const Duration(seconds: 1),
                         curve: Curves.linearToEaseOut,
                         child: Visibility(
                           visible: stat,
@@ -231,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 135,
                             width: size.width,
                             child: ListView(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               scrollDirection: Axis.horizontal,
                               children: [
                                 highlightWidget(
@@ -241,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       .toString(),
                                   color: Colors.blue,
                                 ),
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 highlightWidget(
                                   title: 'Days\nwatched',
                                   value: ((response.data?.Viewer?.statistics
@@ -252,7 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       .toString(),
                                   color: Colors.amber,
                                 ),
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 highlightWidget(
                                   title: 'Volume\nRead',
                                   value: response.data?.Viewer?.statistics
@@ -260,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       .toString(),
                                   color: Colors.green,
                                 ),
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 highlightWidget(
                                   title: 'Chapter\nRead',
                                   value: response.data?.Viewer?.statistics
@@ -274,18 +275,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       );
                     }),
-                    TabBar(
+                    const TabBar(
                       tabs: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(CupertinoIcons.tv),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(CupertinoIcons.book),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(CupertinoIcons.heart_circle_fill),
                         ),
                       ],
@@ -317,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Container highlightWidget(
       {String? title, String? value, required Color color}) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: 100,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -337,11 +338,11 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             value ?? '0',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           Text(
             title ?? '',
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ],
       ),

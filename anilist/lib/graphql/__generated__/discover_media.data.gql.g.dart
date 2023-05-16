@@ -22,6 +22,9 @@ Serializer<GDiscoverMediaData_Page_media_title>
 Serializer<GDiscoverMediaData_Page_media_coverImage>
     _$gDiscoverMediaDataPageMediaCoverImageSerializer =
     new _$GDiscoverMediaData_Page_media_coverImageSerializer();
+Serializer<GDiscoverMediaData_Page_media_mediaListEntry>
+    _$gDiscoverMediaDataPageMediaMediaListEntrySerializer =
+    new _$GDiscoverMediaData_Page_media_mediaListEntrySerializer();
 
 class _$GDiscoverMediaDataSerializer
     implements StructuredSerializer<GDiscoverMediaData> {
@@ -307,6 +310,14 @@ class _$GDiscoverMediaData_Page_mediaSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(_i2.GMediaType)));
     }
+    value = object.mediaListEntry;
+    if (value != null) {
+      result
+        ..add('mediaListEntry')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GDiscoverMediaData_Page_media_mediaListEntry)));
+    }
     return result;
   }
 
@@ -353,6 +364,12 @@ class _$GDiscoverMediaData_Page_mediaSerializer
         case 'type':
           result.type = serializers.deserialize(value,
               specifiedType: const FullType(_i2.GMediaType)) as _i2.GMediaType?;
+          break;
+        case 'mediaListEntry':
+          result.mediaListEntry.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      GDiscoverMediaData_Page_media_mediaListEntry))!
+              as GDiscoverMediaData_Page_media_mediaListEntry);
           break;
       }
     }
@@ -522,6 +539,65 @@ class _$GDiscoverMediaData_Page_media_coverImageSerializer
         case 'color':
           result.color = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GDiscoverMediaData_Page_media_mediaListEntrySerializer
+    implements
+        StructuredSerializer<GDiscoverMediaData_Page_media_mediaListEntry> {
+  @override
+  final Iterable<Type> types = const [
+    GDiscoverMediaData_Page_media_mediaListEntry,
+    _$GDiscoverMediaData_Page_media_mediaListEntry
+  ];
+  @override
+  final String wireName = 'GDiscoverMediaData_Page_media_mediaListEntry';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers,
+      GDiscoverMediaData_Page_media_mediaListEntry object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GMediaListStatus)));
+    }
+    return result;
+  }
+
+  @override
+  GDiscoverMediaData_Page_media_mediaListEntry deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GDiscoverMediaData_Page_media_mediaListEntryBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'status':
+          result.status = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GMediaListStatus))
+              as _i2.GMediaListStatus?;
           break;
       }
     }
@@ -949,6 +1025,8 @@ class _$GDiscoverMediaData_Page_media extends GDiscoverMediaData_Page_media {
   final GDiscoverMediaData_Page_media_coverImage? coverImage;
   @override
   final _i2.GMediaType? type;
+  @override
+  final GDiscoverMediaData_Page_media_mediaListEntry? mediaListEntry;
 
   factory _$GDiscoverMediaData_Page_media(
           [void Function(GDiscoverMediaData_Page_mediaBuilder)? updates]) =>
@@ -961,7 +1039,8 @@ class _$GDiscoverMediaData_Page_media extends GDiscoverMediaData_Page_media {
       this.title,
       this.bannerImage,
       this.coverImage,
-      this.type})
+      this.type,
+      this.mediaListEntry})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GDiscoverMediaData_Page_media', 'G__typename');
@@ -988,7 +1067,8 @@ class _$GDiscoverMediaData_Page_media extends GDiscoverMediaData_Page_media {
         title == other.title &&
         bannerImage == other.bannerImage &&
         coverImage == other.coverImage &&
-        type == other.type;
+        type == other.type &&
+        mediaListEntry == other.mediaListEntry;
   }
 
   @override
@@ -1001,6 +1081,7 @@ class _$GDiscoverMediaData_Page_media extends GDiscoverMediaData_Page_media {
     _$hash = $jc(_$hash, bannerImage.hashCode);
     _$hash = $jc(_$hash, coverImage.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, mediaListEntry.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -1014,7 +1095,8 @@ class _$GDiscoverMediaData_Page_media extends GDiscoverMediaData_Page_media {
           ..add('title', title)
           ..add('bannerImage', bannerImage)
           ..add('coverImage', coverImage)
-          ..add('type', type))
+          ..add('type', type)
+          ..add('mediaListEntry', mediaListEntry))
         .toString();
   }
 }
@@ -1058,6 +1140,15 @@ class GDiscoverMediaData_Page_mediaBuilder
   _i2.GMediaType? get type => _$this._type;
   set type(_i2.GMediaType? type) => _$this._type = type;
 
+  GDiscoverMediaData_Page_media_mediaListEntryBuilder? _mediaListEntry;
+  GDiscoverMediaData_Page_media_mediaListEntryBuilder get mediaListEntry =>
+      _$this._mediaListEntry ??=
+          new GDiscoverMediaData_Page_media_mediaListEntryBuilder();
+  set mediaListEntry(
+          GDiscoverMediaData_Page_media_mediaListEntryBuilder?
+              mediaListEntry) =>
+      _$this._mediaListEntry = mediaListEntry;
+
   GDiscoverMediaData_Page_mediaBuilder() {
     GDiscoverMediaData_Page_media._initializeBuilder(this);
   }
@@ -1072,6 +1163,7 @@ class GDiscoverMediaData_Page_mediaBuilder
       _bannerImage = $v.bannerImage;
       _coverImage = $v.coverImage?.toBuilder();
       _type = $v.type;
+      _mediaListEntry = $v.mediaListEntry?.toBuilder();
       _$v = null;
     }
     return this;
@@ -1104,7 +1196,8 @@ class GDiscoverMediaData_Page_mediaBuilder
               title: _title?.build(),
               bannerImage: bannerImage,
               coverImage: _coverImage?.build(),
-              type: type);
+              type: type,
+              mediaListEntry: _mediaListEntry?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -1113,6 +1206,9 @@ class GDiscoverMediaData_Page_mediaBuilder
 
         _$failedField = 'coverImage';
         _coverImage?.build();
+
+        _$failedField = 'mediaListEntry';
+        _mediaListEntry?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'GDiscoverMediaData_Page_media', _$failedField, e.toString());
@@ -1402,6 +1498,119 @@ class GDiscoverMediaData_Page_media_coverImageBuilder
             large: large,
             medium: medium,
             color: color);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GDiscoverMediaData_Page_media_mediaListEntry
+    extends GDiscoverMediaData_Page_media_mediaListEntry {
+  @override
+  final String G__typename;
+  @override
+  final _i2.GMediaListStatus? status;
+
+  factory _$GDiscoverMediaData_Page_media_mediaListEntry(
+          [void Function(GDiscoverMediaData_Page_media_mediaListEntryBuilder)?
+              updates]) =>
+      (new GDiscoverMediaData_Page_media_mediaListEntryBuilder()
+            ..update(updates))
+          ._build();
+
+  _$GDiscoverMediaData_Page_media_mediaListEntry._(
+      {required this.G__typename, this.status})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GDiscoverMediaData_Page_media_mediaListEntry', 'G__typename');
+  }
+
+  @override
+  GDiscoverMediaData_Page_media_mediaListEntry rebuild(
+          void Function(GDiscoverMediaData_Page_media_mediaListEntryBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GDiscoverMediaData_Page_media_mediaListEntryBuilder toBuilder() =>
+      new GDiscoverMediaData_Page_media_mediaListEntryBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GDiscoverMediaData_Page_media_mediaListEntry &&
+        G__typename == other.G__typename &&
+        status == other.status;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            r'GDiscoverMediaData_Page_media_mediaListEntry')
+          ..add('G__typename', G__typename)
+          ..add('status', status))
+        .toString();
+  }
+}
+
+class GDiscoverMediaData_Page_media_mediaListEntryBuilder
+    implements
+        Builder<GDiscoverMediaData_Page_media_mediaListEntry,
+            GDiscoverMediaData_Page_media_mediaListEntryBuilder> {
+  _$GDiscoverMediaData_Page_media_mediaListEntry? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  _i2.GMediaListStatus? _status;
+  _i2.GMediaListStatus? get status => _$this._status;
+  set status(_i2.GMediaListStatus? status) => _$this._status = status;
+
+  GDiscoverMediaData_Page_media_mediaListEntryBuilder() {
+    GDiscoverMediaData_Page_media_mediaListEntry._initializeBuilder(this);
+  }
+
+  GDiscoverMediaData_Page_media_mediaListEntryBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _status = $v.status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GDiscoverMediaData_Page_media_mediaListEntry other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GDiscoverMediaData_Page_media_mediaListEntry;
+  }
+
+  @override
+  void update(
+      void Function(GDiscoverMediaData_Page_media_mediaListEntryBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GDiscoverMediaData_Page_media_mediaListEntry build() => _build();
+
+  _$GDiscoverMediaData_Page_media_mediaListEntry _build() {
+    final _$result = _$v ??
+        new _$GDiscoverMediaData_Page_media_mediaListEntry._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GDiscoverMediaData_Page_media_mediaListEntry', 'G__typename'),
+            status: status);
     replace(_$result);
     return _$result;
   }

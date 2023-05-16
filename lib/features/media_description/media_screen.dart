@@ -30,7 +30,7 @@ import 'package:kurumi/provider/provider.dart';
 import 'widget_section/banner.widget.dart';
 
 class MediaScreen extends ConsumerStatefulWidget {
-  MediaScreen({required this.id, required this.title, super.key});
+  const MediaScreen({required this.id, required this.title, super.key});
   final int id;
   final String title;
 
@@ -153,7 +153,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                     backgroundColor:
                                                         AppTheme.secondaryColor,
                                                     contentPadding:
-                                                        EdgeInsets.all(10),
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     content: Hero(
                                                       tag: '${data?.id ?? ''}',
                                                       child: ClipRRect(
@@ -192,7 +193,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                       OutlinedButton(
                                                         onPressed: () =>
                                                             context.pop(),
-                                                        child: Text('CLOSE'),
+                                                        child:
+                                                            const Text('CLOSE'),
                                                       ),
                                                     ],
                                                   );
@@ -222,7 +224,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 16),
+                                      const SizedBox(width: 16),
                                       SizedBox(
                                         height: 160,
                                         child: Column(
@@ -233,7 +235,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                               text: TextSpan(
                                                 text:
                                                     '${data?.format?.toString().replaceAll('_', ' ') ?? ''} • ',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 15,
                                                 ),
@@ -275,7 +277,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                 ],
                                               ),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -309,7 +311,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                                 media: data),
                                                       );
                                                     },
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                         Icons.add_outlined),
                                                   ),
                                                 if (data?.mediaListEntry
@@ -341,7 +343,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                             ?.name ??
                                                         'ADD'),
                                                   ),
-                                                SizedBox(width: 8),
+                                                const SizedBox(width: 8),
                                                 IconButton(
                                                   style: IconButton.styleFrom(
                                                     shape: CircleBorder(
@@ -380,7 +382,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                           '',
                                                     );
                                                   },
-                                                  icon: Icon(Icons.share),
+                                                  icon: const Icon(Icons.share),
                                                 ),
                                               ],
                                             )
@@ -390,23 +392,24 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Timer(size: size, data: data),
                                 if (data?.nextAiringEpisode?.airingAt != null)
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                 MediaGenreSection(size: size, data: data),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 MediaDescription(data: data),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 CharactersWidget(data: data, size: size),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'OVERVIEW',
                                         style: TextStyle(
                                           fontSize: 20,
@@ -417,9 +420,9 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.symmetric(
+                                  margin: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: Colors.white12,
                                     border: Border.all(color: Colors.white),
@@ -429,7 +432,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                     children: [
                                       InfoTile('Romaji', data?.title?.romaji),
                                       InfoTile('English', data?.title?.english),
-                                      Divider(),
+                                      const Divider(),
                                       InfoTile('Format', data?.format?.name),
                                       InfoTile('Episodes', data?.episodes),
                                       InfoTile('Volumes', data?.volumes),
@@ -437,7 +440,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       InfoTile('Duration', data?.duration,
                                           extra: ' min per ep'),
                                       InfoTile('Status', data?.status?.name),
-                                      Divider(),
+                                      const Divider(),
                                       InfoTile('Season', data?.season,
                                           extra: ' ' +
                                               (data?.seasonYear ?? '')
@@ -447,7 +450,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       InfoTile('End At',
                                           '${data?.endDate?.day ?? ''}-${data?.endDate?.month ?? ''}-${data?.endDate?.year ?? ''}'),
                                       if (data?.type == GMediaType.ANIME)
-                                        Divider(),
+                                        const Divider(),
                                       if (data?.type == GMediaType.ANIME &&
                                           data?.studios?.nodes != null &&
                                           (data?.studios?.nodes?.isNotEmpty ??
@@ -478,14 +481,14 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 TagSection(data: data),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 RelationsWidget(relations: data?.relations),
                                 RecommendationWidget(data: response.data?.Page),
                                 TrailerWidget(data: data, size: size),
                                 ExternalLinkWidget(data: data),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                               ],
                             ),
                           ),
@@ -515,7 +518,7 @@ class Timer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (data?.nextAiringEpisode?.airingAt == null) return Card();
+    if (data?.nextAiringEpisode?.airingAt == null) return const Card();
     return SizedBox(
       height: 55,
       child: Center(
@@ -533,7 +536,7 @@ class Timer extends StatelessWidget {
                 visible: data?.nextAiringEpisode?.episode != null,
                 child: Text(
                   '   EP : ${data?.nextAiringEpisode?.episode}  ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
                   ),

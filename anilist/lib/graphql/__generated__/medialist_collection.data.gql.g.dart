@@ -21,6 +21,10 @@ Serializer<GMediaListCollectionData_MediaListCollection_lists_entries_media>
     _$gMediaListCollectionDataMediaListCollectionListsEntriesMediaSerializer =
     new _$GMediaListCollectionData_MediaListCollection_lists_entries_mediaSerializer();
 Serializer<
+        GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry>
+    _$gMediaListCollectionDataMediaListCollectionListsEntriesMediaMediaListEntrySerializer =
+    new _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntrySerializer();
+Serializer<
         GMediaListCollectionData_MediaListCollection_lists_entries_media_title>
     _$gMediaListCollectionDataMediaListCollectionListsEntriesMediaTitleSerializer =
     new _$GMediaListCollectionData_MediaListCollection_lists_entries_media_titleSerializer();
@@ -240,38 +244,8 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entriesSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'mediaId',
-      serializers.serialize(object.mediaId, specifiedType: const FullType(int)),
     ];
     Object? value;
-    value = object.status;
-    if (value != null) {
-      result
-        ..add('status')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GMediaListStatus)));
-    }
-    value = object.progress;
-    if (value != null) {
-      result
-        ..add('progress')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.progressVolumes;
-    if (value != null) {
-      result
-        ..add('progressVolumes')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.score;
-    if (value != null) {
-      result
-        ..add('score')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(double)));
-    }
     value = object.media;
     if (value != null) {
       result
@@ -299,31 +273,6 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entriesSerializer
         case '__typename':
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
-          break;
-        case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
-          break;
-        case 'status':
-          result.status = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GMediaListStatus))
-              as _i2.GMediaListStatus?;
-          break;
-        case 'progress':
-          result.progress = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'progressVolumes':
-          result.progressVolumes = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'score':
-          result.score = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double?;
-          break;
-        case 'mediaId':
-          result.mediaId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
           break;
         case 'media':
           result.media.replace(serializers.deserialize(value,
@@ -363,6 +312,14 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_mediaSerializ
       serializers.serialize(object.id, specifiedType: const FullType(int)),
     ];
     Object? value;
+    value = object.mediaListEntry;
+    if (value != null) {
+      result
+        ..add('mediaListEntry')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry)));
+    }
     value = object.title;
     if (value != null) {
       result
@@ -431,6 +388,12 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_mediaSerializ
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
+        case 'mediaListEntry':
+          result.mediaListEntry.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry))!
+              as GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry);
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
@@ -467,6 +430,113 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_mediaSerializ
           result.format = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GMediaFormat))
               as _i2.GMediaFormat?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntrySerializer
+    implements
+        StructuredSerializer<
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry> {
+  @override
+  final Iterable<Type> types = const [
+    GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry,
+    _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+  ];
+  @override
+  final String wireName =
+      'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers,
+      GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+          object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'userId',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+    ];
+    Object? value;
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GMediaListStatus)));
+    }
+    value = object.score;
+    if (value != null) {
+      result
+        ..add('score')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.progress;
+    if (value != null) {
+      result
+        ..add('progress')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.progressVolumes;
+    if (value != null) {
+      result
+        ..add('progressVolumes')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+      deserialize(Serializers serializers, Iterable<Object?> serialized,
+          {FullType specifiedType = FullType.unspecified}) {
+    final result =
+        new GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'userId':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'status':
+          result.status = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GMediaListStatus))
+              as _i2.GMediaListStatus?;
+          break;
+        case 'score':
+          result.score = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
+          break;
+        case 'progress':
+          result.progress = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'progressVolumes':
+          result.progressVolumes = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -1060,18 +1130,6 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries
   @override
   final String G__typename;
   @override
-  final int id;
-  @override
-  final _i2.GMediaListStatus? status;
-  @override
-  final int? progress;
-  @override
-  final int? progressVolumes;
-  @override
-  final double? score;
-  @override
-  final int mediaId;
-  @override
   final GMediaListCollectionData_MediaListCollection_lists_entries_media? media;
 
   factory _$GMediaListCollectionData_MediaListCollection_lists_entries(
@@ -1083,25 +1141,12 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries
           ._build();
 
   _$GMediaListCollectionData_MediaListCollection_lists_entries._(
-      {required this.G__typename,
-      required this.id,
-      this.status,
-      this.progress,
-      this.progressVolumes,
-      this.score,
-      required this.mediaId,
-      this.media})
+      {required this.G__typename, this.media})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename,
         r'GMediaListCollectionData_MediaListCollection_lists_entries',
         'G__typename');
-    BuiltValueNullFieldError.checkNotNull(id,
-        r'GMediaListCollectionData_MediaListCollection_lists_entries', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        mediaId,
-        r'GMediaListCollectionData_MediaListCollection_lists_entries',
-        'mediaId');
   }
 
   @override
@@ -1123,12 +1168,6 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries
     return other
             is GMediaListCollectionData_MediaListCollection_lists_entries &&
         G__typename == other.G__typename &&
-        id == other.id &&
-        status == other.status &&
-        progress == other.progress &&
-        progressVolumes == other.progressVolumes &&
-        score == other.score &&
-        mediaId == other.mediaId &&
         media == other.media;
   }
 
@@ -1136,12 +1175,6 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, id.hashCode);
-    _$hash = $jc(_$hash, status.hashCode);
-    _$hash = $jc(_$hash, progress.hashCode);
-    _$hash = $jc(_$hash, progressVolumes.hashCode);
-    _$hash = $jc(_$hash, score.hashCode);
-    _$hash = $jc(_$hash, mediaId.hashCode);
     _$hash = $jc(_$hash, media.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -1152,12 +1185,6 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries
     return (newBuiltValueToStringHelper(
             r'GMediaListCollectionData_MediaListCollection_lists_entries')
           ..add('G__typename', G__typename)
-          ..add('id', id)
-          ..add('status', status)
-          ..add('progress', progress)
-          ..add('progressVolumes', progressVolumes)
-          ..add('score', score)
-          ..add('mediaId', mediaId)
           ..add('media', media))
         .toString();
   }
@@ -1172,31 +1199,6 @@ class GMediaListCollectionData_MediaListCollection_lists_entriesBuilder
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
-
-  int? _id;
-  int? get id => _$this._id;
-  set id(int? id) => _$this._id = id;
-
-  _i2.GMediaListStatus? _status;
-  _i2.GMediaListStatus? get status => _$this._status;
-  set status(_i2.GMediaListStatus? status) => _$this._status = status;
-
-  int? _progress;
-  int? get progress => _$this._progress;
-  set progress(int? progress) => _$this._progress = progress;
-
-  int? _progressVolumes;
-  int? get progressVolumes => _$this._progressVolumes;
-  set progressVolumes(int? progressVolumes) =>
-      _$this._progressVolumes = progressVolumes;
-
-  double? _score;
-  double? get score => _$this._score;
-  set score(double? score) => _$this._score = score;
-
-  int? _mediaId;
-  int? get mediaId => _$this._mediaId;
-  set mediaId(int? mediaId) => _$this._mediaId = mediaId;
 
   GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder?
       _media;
@@ -1217,12 +1219,6 @@ class GMediaListCollectionData_MediaListCollection_lists_entriesBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _id = $v.id;
-      _status = $v.status;
-      _progress = $v.progress;
-      _progressVolumes = $v.progressVolumes;
-      _score = $v.score;
-      _mediaId = $v.mediaId;
       _media = $v.media?.toBuilder();
       _$v = null;
     }
@@ -1257,18 +1253,6 @@ class GMediaListCollectionData_MediaListCollection_lists_entriesBuilder
                   G__typename,
                   r'GMediaListCollectionData_MediaListCollection_lists_entries',
                   'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id,
-                  r'GMediaListCollectionData_MediaListCollection_lists_entries',
-                  'id'),
-              status: status,
-              progress: progress,
-              progressVolumes: progressVolumes,
-              score: score,
-              mediaId: BuiltValueNullFieldError.checkNotNull(
-                  mediaId,
-                  r'GMediaListCollectionData_MediaListCollection_lists_entries',
-                  'mediaId'),
               media: _media?.build());
     } catch (_) {
       late String _$failedField;
@@ -1292,6 +1276,9 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_media
     extends GMediaListCollectionData_MediaListCollection_lists_entries_media {
   @override
   final String G__typename;
+  @override
+  final GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry?
+      mediaListEntry;
   @override
   final int id;
   @override
@@ -1321,6 +1308,7 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_media
 
   _$GMediaListCollectionData_MediaListCollection_lists_entries_media._(
       {required this.G__typename,
+      this.mediaListEntry,
       required this.id,
       this.title,
       this.coverImage,
@@ -1359,6 +1347,7 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_media
     return other
             is GMediaListCollectionData_MediaListCollection_lists_entries_media &&
         G__typename == other.G__typename &&
+        mediaListEntry == other.mediaListEntry &&
         id == other.id &&
         title == other.title &&
         coverImage == other.coverImage &&
@@ -1373,6 +1362,7 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_media
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, mediaListEntry.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, coverImage.hashCode);
@@ -1390,6 +1380,7 @@ class _$GMediaListCollectionData_MediaListCollection_lists_entries_media
     return (newBuiltValueToStringHelper(
             r'GMediaListCollectionData_MediaListCollection_lists_entries_media')
           ..add('G__typename', G__typename)
+          ..add('mediaListEntry', mediaListEntry)
           ..add('id', id)
           ..add('title', title)
           ..add('coverImage', coverImage)
@@ -1412,6 +1403,16 @@ class GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder?
+      _mediaListEntry;
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+      get mediaListEntry => _$this._mediaListEntry ??=
+          new GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder();
+  set mediaListEntry(
+          GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder?
+              mediaListEntry) =>
+      _$this._mediaListEntry = mediaListEntry;
 
   int? _id;
   int? get id => _$this._id;
@@ -1467,6 +1468,7 @@ class GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
+      _mediaListEntry = $v.mediaListEntry?.toBuilder();
       _id = $v.id;
       _title = $v.title?.toBuilder();
       _coverImage = $v.coverImage?.toBuilder();
@@ -1510,6 +1512,7 @@ class GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder
                   G__typename,
                   r'GMediaListCollectionData_MediaListCollection_lists_entries_media',
                   'G__typename'),
+              mediaListEntry: _mediaListEntry?.build(),
               id: BuiltValueNullFieldError.checkNotNull(
                   id,
                   r'GMediaListCollectionData_MediaListCollection_lists_entries_media',
@@ -1524,6 +1527,9 @@ class GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'mediaListEntry';
+        _mediaListEntry?.build();
+
         _$failedField = 'title';
         _title?.build();
         _$failedField = 'coverImage';
@@ -1536,6 +1542,215 @@ class GMediaListCollectionData_MediaListCollection_lists_entries_mediaBuilder
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+    extends GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry {
+  @override
+  final String G__typename;
+  @override
+  final int id;
+  @override
+  final int userId;
+  @override
+  final _i2.GMediaListStatus? status;
+  @override
+  final double? score;
+  @override
+  final int? progress;
+  @override
+  final int? progressVolumes;
+
+  factory _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry(
+          [void Function(
+                  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder)?
+              updates]) =>
+      (new GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder()
+            ..update(updates))
+          ._build();
+
+  _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry._(
+      {required this.G__typename,
+      required this.id,
+      required this.userId,
+      this.status,
+      this.score,
+      this.progress,
+      this.progressVolumes})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id,
+        r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+        'id');
+    BuiltValueNullFieldError.checkNotNull(
+        userId,
+        r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+        'userId');
+  }
+
+  @override
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+      rebuild(
+              void Function(
+                      GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder)
+                  updates) =>
+          (toBuilder()..update(updates)).build();
+
+  @override
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+      toBuilder() =>
+          new GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder()
+            ..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other
+            is GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry &&
+        G__typename == other.G__typename &&
+        id == other.id &&
+        userId == other.userId &&
+        status == other.status &&
+        score == other.score &&
+        progress == other.progress &&
+        progressVolumes == other.progressVolumes;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, userId.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, score.hashCode);
+    _$hash = $jc(_$hash, progress.hashCode);
+    _$hash = $jc(_$hash, progressVolumes.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry')
+          ..add('G__typename', G__typename)
+          ..add('id', id)
+          ..add('userId', userId)
+          ..add('status', status)
+          ..add('score', score)
+          ..add('progress', progress)
+          ..add('progressVolumes', progressVolumes))
+        .toString();
+  }
+}
+
+class GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+    implements
+        Builder<
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry,
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder> {
+  _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry?
+      _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  int? _userId;
+  int? get userId => _$this._userId;
+  set userId(int? userId) => _$this._userId = userId;
+
+  _i2.GMediaListStatus? _status;
+  _i2.GMediaListStatus? get status => _$this._status;
+  set status(_i2.GMediaListStatus? status) => _$this._status = status;
+
+  double? _score;
+  double? get score => _$this._score;
+  set score(double? score) => _$this._score = score;
+
+  int? _progress;
+  int? get progress => _$this._progress;
+  set progress(int? progress) => _$this._progress = progress;
+
+  int? _progressVolumes;
+  int? get progressVolumes => _$this._progressVolumes;
+  set progressVolumes(int? progressVolumes) =>
+      _$this._progressVolumes = progressVolumes;
+
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder() {
+    GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+        ._initializeBuilder(this);
+  }
+
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+      get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _id = $v.id;
+      _userId = $v.userId;
+      _status = $v.status;
+      _score = $v.score;
+      _progress = $v.progress;
+      _progressVolumes = $v.progressVolumes;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(
+      GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+          other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other
+        as _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry;
+  }
+
+  @override
+  void update(
+      void Function(
+              GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+      build() => _build();
+
+  _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+      _build() {
+    final _$result = _$v ??
+        new _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+                'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id,
+                r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+                'id'),
+            userId: BuiltValueNullFieldError.checkNotNull(
+                userId,
+                r'GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry',
+                'userId'),
+            status: status,
+            score: score,
+            progress: progress,
+            progressVolumes: progressVolumes);
     replace(_$result);
     return _$result;
   }

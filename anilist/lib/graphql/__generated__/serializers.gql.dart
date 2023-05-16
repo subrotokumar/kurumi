@@ -37,6 +37,7 @@ import 'package:anilist/graphql/__generated__/discover_media.data.gql.dart'
         GDiscoverMediaData_Page,
         GDiscoverMediaData_Page_media,
         GDiscoverMediaData_Page_media_coverImage,
+        GDiscoverMediaData_Page_media_mediaListEntry,
         GDiscoverMediaData_Page_media_title,
         GDiscoverMediaData_Page_pageInfo;
 import 'package:anilist/graphql/__generated__/discover_media.req.gql.dart'
@@ -97,6 +98,7 @@ import 'package:anilist/graphql/__generated__/medialist_collection.data.gql.dart
         GMediaListCollectionData_MediaListCollection_lists_entries,
         GMediaListCollectionData_MediaListCollection_lists_entries_media,
         GMediaListCollectionData_MediaListCollection_lists_entries_media_coverImage,
+        GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry,
         GMediaListCollectionData_MediaListCollection_lists_entries_media_title;
 import 'package:anilist/graphql/__generated__/medialist_collection.req.gql.dart'
     show GMediaListCollectionReq;
@@ -345,6 +347,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GDiscoverMediaData_Page,
   GDiscoverMediaData_Page_media,
   GDiscoverMediaData_Page_media_coverImage,
+  GDiscoverMediaData_Page_media_mediaListEntry,
   GDiscoverMediaData_Page_media_title,
   GDiscoverMediaData_Page_pageInfo,
   GDiscoverMediaReq,
@@ -406,6 +409,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMediaListCollectionData_MediaListCollection_lists_entries,
   GMediaListCollectionData_MediaListCollection_lists_entries_media,
   GMediaListCollectionData_MediaListCollection_lists_entries_media_coverImage,
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry,
   GMediaListCollectionData_MediaListCollection_lists_entries_media_title,
   GMediaListCollectionReq,
   GMediaListCollectionVars,

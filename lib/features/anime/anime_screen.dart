@@ -1,4 +1,5 @@
 import 'package:anilist/tranding_anime.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,9 @@ import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
+import 'package:kurumi/provider/sorting.provider.dart';
+
+import 'section_widget/sorting_dialog.widget.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   AnimeScreen({super.key});
@@ -23,7 +27,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
         child: SafeArea(
@@ -57,7 +61,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
               Container(
                 height: size.height,
                 width: size.width - 40,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
                     // Container(
@@ -108,7 +112,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                           onPageChanged: (value) => ref
                               .read(animeTabProvider.notifier)
                               .update((state) => value),
-                          children: [
+                          children: const [
                             MediaListBuilderWidget(
                               status: GMediaListStatus.CURRENT,
                               type: GMediaType.ANIME,
@@ -189,6 +193,19 @@ class VerticleNavigationBar extends StatelessWidget {
               pageNum: 4,
               ref: ref,
             ),
+            const SizedBox(height: 10),
+            Consumer(builder: (context, ref, child) {
+              return IconButton(
+                onPressed: () {
+                  sortingDialog(
+                    context: context,
+                    ref: ref,
+                    type: GMediaType.ANIME,
+                  );
+                },
+                icon: const Icon(Icons.filter_alt_rounded),
+              );
+            })
           ],
         );
       },

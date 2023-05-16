@@ -42,6 +42,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDiscoverMediaData_Page.serializer)
       ..add(GDiscoverMediaData_Page_media.serializer)
       ..add(GDiscoverMediaData_Page_media_coverImage.serializer)
+      ..add(GDiscoverMediaData_Page_media_mediaListEntry.serializer)
       ..add(GDiscoverMediaData_Page_media_title.serializer)
       ..add(GDiscoverMediaData_Page_pageInfo.serializer)
       ..add(GDiscoverMediaReq.serializer)
@@ -117,6 +118,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           .serializer)
       ..add(
           GMediaListCollectionData_MediaListCollection_lists_entries_media_coverImage
+              .serializer)
+      ..add(
+          GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
               .serializer)
       ..add(
           GMediaListCollectionData_MediaListCollection_lists_entries_media_title
@@ -353,6 +357,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () => new ListBuilder<
               GMediaListCollectionData_MediaListCollection_lists_entries?>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType.nullable(GMediaListSort)]),
+          () => new ListBuilder<GMediaListSort?>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType.nullable(GMediaSort)]),

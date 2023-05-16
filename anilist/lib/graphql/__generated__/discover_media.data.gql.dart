@@ -115,6 +115,7 @@ abstract class GDiscoverMediaData_Page_media
   String? get bannerImage;
   GDiscoverMediaData_Page_media_coverImage? get coverImage;
   _i2.GMediaType? get type;
+  GDiscoverMediaData_Page_media_mediaListEntry? get mediaListEntry;
   static Serializer<GDiscoverMediaData_Page_media> get serializer =>
       _$gDiscoverMediaDataPageMediaSerializer;
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
@@ -189,6 +190,36 @@ abstract class GDiscoverMediaData_Page_media_coverImage
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GDiscoverMediaData_Page_media_coverImage.serializer,
+        json,
+      );
+}
+
+abstract class GDiscoverMediaData_Page_media_mediaListEntry
+    implements
+        Built<GDiscoverMediaData_Page_media_mediaListEntry,
+            GDiscoverMediaData_Page_media_mediaListEntryBuilder> {
+  GDiscoverMediaData_Page_media_mediaListEntry._();
+
+  factory GDiscoverMediaData_Page_media_mediaListEntry(
+      [Function(GDiscoverMediaData_Page_media_mediaListEntryBuilder b)
+          updates]) = _$GDiscoverMediaData_Page_media_mediaListEntry;
+
+  static void _initializeBuilder(
+          GDiscoverMediaData_Page_media_mediaListEntryBuilder b) =>
+      b..G__typename = 'MediaList';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  _i2.GMediaListStatus? get status;
+  static Serializer<GDiscoverMediaData_Page_media_mediaListEntry>
+      get serializer => _$gDiscoverMediaDataPageMediaMediaListEntrySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GDiscoverMediaData_Page_media_mediaListEntry.serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GDiscoverMediaData_Page_media_mediaListEntry? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GDiscoverMediaData_Page_media_mediaListEntry.serializer,
         json,
       );
 }

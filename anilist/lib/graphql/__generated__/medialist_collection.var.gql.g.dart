@@ -45,6 +45,14 @@ class _$GMediaListCollectionVarsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(_i1.GMediaListStatus)));
     }
+    value = object.sort;
+    if (value != null) {
+      result
+        ..add('sort')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(BuiltList,
+                const [const FullType.nullable(_i1.GMediaListSort)])));
+    }
     return result;
   }
 
@@ -73,6 +81,12 @@ class _$GMediaListCollectionVarsSerializer
                   specifiedType: const FullType(_i1.GMediaListStatus))
               as _i1.GMediaListStatus?;
           break;
+        case 'sort':
+          result.sort.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType.nullable(_i1.GMediaListSort)
+              ]))! as BuiltList<Object?>);
+          break;
       }
     }
 
@@ -87,12 +101,14 @@ class _$GMediaListCollectionVars extends GMediaListCollectionVars {
   final _i1.GMediaType? type;
   @override
   final _i1.GMediaListStatus? status;
+  @override
+  final BuiltList<_i1.GMediaListSort?>? sort;
 
   factory _$GMediaListCollectionVars(
           [void Function(GMediaListCollectionVarsBuilder)? updates]) =>
       (new GMediaListCollectionVarsBuilder()..update(updates))._build();
 
-  _$GMediaListCollectionVars._({this.userId, this.type, this.status})
+  _$GMediaListCollectionVars._({this.userId, this.type, this.status, this.sort})
       : super._();
 
   @override
@@ -110,7 +126,8 @@ class _$GMediaListCollectionVars extends GMediaListCollectionVars {
     return other is GMediaListCollectionVars &&
         userId == other.userId &&
         type == other.type &&
-        status == other.status;
+        status == other.status &&
+        sort == other.sort;
   }
 
   @override
@@ -119,6 +136,7 @@ class _$GMediaListCollectionVars extends GMediaListCollectionVars {
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, sort.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -128,7 +146,8 @@ class _$GMediaListCollectionVars extends GMediaListCollectionVars {
     return (newBuiltValueToStringHelper(r'GMediaListCollectionVars')
           ..add('userId', userId)
           ..add('type', type)
-          ..add('status', status))
+          ..add('status', status)
+          ..add('sort', sort))
         .toString();
   }
 }
@@ -150,6 +169,11 @@ class GMediaListCollectionVarsBuilder
   _i1.GMediaListStatus? get status => _$this._status;
   set status(_i1.GMediaListStatus? status) => _$this._status = status;
 
+  ListBuilder<_i1.GMediaListSort?>? _sort;
+  ListBuilder<_i1.GMediaListSort?> get sort =>
+      _$this._sort ??= new ListBuilder<_i1.GMediaListSort?>();
+  set sort(ListBuilder<_i1.GMediaListSort?>? sort) => _$this._sort = sort;
+
   GMediaListCollectionVarsBuilder();
 
   GMediaListCollectionVarsBuilder get _$this {
@@ -158,6 +182,7 @@ class GMediaListCollectionVarsBuilder
       _userId = $v.userId;
       _type = $v.type;
       _status = $v.status;
+      _sort = $v.sort?.toBuilder();
       _$v = null;
     }
     return this;
@@ -178,9 +203,22 @@ class GMediaListCollectionVarsBuilder
   GMediaListCollectionVars build() => _build();
 
   _$GMediaListCollectionVars _build() {
-    final _$result = _$v ??
-        new _$GMediaListCollectionVars._(
-            userId: userId, type: type, status: status);
+    _$GMediaListCollectionVars _$result;
+    try {
+      _$result = _$v ??
+          new _$GMediaListCollectionVars._(
+              userId: userId, type: type, status: status, sort: _sort?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'sort';
+        _sort?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'GMediaListCollectionVars', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

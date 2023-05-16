@@ -39,6 +39,9 @@ query DiscoverMedia(
         color
       }
       type
+      mediaListEntry {
+        status
+      }
       # status
       # description(asHtml: false)
       # startDate {

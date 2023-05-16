@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/medialist_collection.dart';
 import 'package:anilist/delete_medialist_entry.dart';
@@ -25,13 +27,17 @@ class AnilistTrackingWidget extends ConsumerWidget {
     var startMonth = mediaListEntry?.startedAt?.month;
     var startYear = mediaListEntry?.startedAt?.year;
     DateTime? startDate, completedAt;
-    if (startDay != null && startYear != null && startMonth != null)
+    if (startDay != null && startYear != null && startMonth != null) {
       startDate = DateTime(startYear, startMonth, startDay, 0, 0);
+    }
     var completedDay = mediaListEntry?.completedAt?.day;
     var completedMonth = mediaListEntry?.completedAt?.month;
     var completedYear = mediaListEntry?.completedAt?.year;
-    if (completedDay != null && completedYear != null && completedMonth != null)
+    if (completedDay != null &&
+        completedYear != null &&
+        completedMonth != null) {
       completedAt = DateTime(completedYear, completedMonth, completedDay, 0, 0);
+    }
     // print(mediaListEntry);
     return SafeArea(
       child: StatefulBuilder(
@@ -50,7 +56,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                       child: PopupMenuButton(
                         itemBuilder: (_) => [
                           PopupMenuItem(
-                            child: Text(
+                            child: const Text(
                               'Delete Entry',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -84,14 +90,14 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             },
                           ),
                         ],
-                        child: Icon(Icons.more_vert_rounded),
+                        child: const Icon(Icons.more_vert_rounded),
                       ),
                     );
                   }),
                 ],
               ),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.white),
@@ -107,12 +113,12 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             Expanded(
                               child: Container(
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                       right: BorderSide(color: Colors.white)),
                                 ),
                                 child: InkWell(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(20)),
                                   onTap: () {
                                     GMediaListStatus? newStatus = status;
@@ -126,7 +132,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   RadioListTile(
-                                                    title: Text('Current'),
+                                                    title:
+                                                        const Text('Current'),
                                                     value: GMediaListStatus
                                                         .CURRENT,
                                                     groupValue: newStatus,
@@ -136,7 +143,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title: Text('Completed'),
+                                                    title:
+                                                        const Text('Completed'),
                                                     value: GMediaListStatus
                                                         .COMPLETED,
                                                     groupValue: newStatus,
@@ -146,7 +154,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title: Text('Planning'),
+                                                    title:
+                                                        const Text('Planning'),
                                                     value: GMediaListStatus
                                                         .PLANNING,
                                                     groupValue: newStatus,
@@ -156,7 +165,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title: Text('Dropped'),
+                                                    title:
+                                                        const Text('Dropped'),
                                                     value: GMediaListStatus
                                                         .DROPPED,
                                                     groupValue: newStatus,
@@ -166,7 +176,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title: Text('PAUSED'),
+                                                    title: const Text('PAUSED'),
                                                     value:
                                                         GMediaListStatus.PAUSED,
                                                     groupValue: newStatus,
@@ -182,7 +192,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                           actions: [
                                             TextButton(
                                               onPressed: () => context.pop(),
-                                              child: Text('CANCEL'),
+                                              child: const Text('CANCEL'),
                                             ),
                                             TextButton(
                                               onPressed: () {
@@ -191,7 +201,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 });
                                                 context.pop();
                                               },
-                                              child: Text('OK'),
+                                              child: const Text('OK'),
                                             ),
                                           ],
                                         );
@@ -201,7 +211,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                   child: Center(
                                     child: Text(
                                       status?.name ?? 'Add To List',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 17,
                                       ),
@@ -225,14 +235,14 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(
+                                            const Text(
                                               'Progress',
                                               style: TextStyle(
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            SizedBox(height: 16),
+                                            const SizedBox(height: 16),
                                             TextField(
                                               controller: controller,
                                               onSubmitted: (v) =>
@@ -240,7 +250,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                               decoration: InputDecoration(
                                                 hintText:
                                                     'Current: ${mediaListEntry?.progress ?? ''}',
-                                                border: OutlineInputBorder(),
+                                                border:
+                                                    const OutlineInputBorder(),
                                                 isDense: true,
                                                 // suffixIcon:
                                               ),
@@ -250,7 +261,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () => context.pop(),
-                                            child: Text('CANCEL'),
+                                            child: const Text('CANCEL'),
                                           ),
                                           TextButton(
                                             onPressed: () {
@@ -268,7 +279,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                               });
                                               context.pop();
                                             },
-                                            child: Text('OK'),
+                                            child: const Text('OK'),
                                           ),
                                         ],
                                       ),
@@ -279,7 +290,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                       progress == null
                                           ? 'Progress'
                                           : progress.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18,
                                       ),
@@ -291,12 +302,12 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             Expanded(
                               child: Container(
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                       left: BorderSide(color: Colors.white)),
                                 ),
                                 child: InkWell(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(20)),
                                   onTap: () async {
                                     String? val = await showDialog(
@@ -309,7 +320,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Score',
                                                 style: TextStyle(
                                                   fontSize: 24,
@@ -341,12 +352,12 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                           actions: [
                                             TextButton(
                                               onPressed: () => context.pop(),
-                                              child: Text('CANCEL'),
+                                              child: const Text('CANCEL'),
                                             ),
                                             TextButton(
                                               onPressed: () =>
                                                   context.pop(value),
-                                              child: Text('APPLY'),
+                                              child: const Text('APPLY'),
                                             ),
                                           ],
                                         );
@@ -362,7 +373,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                       score == null
                                           ? 'Score'
                                           : score!.toStringAsFixed(1),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18,
                                       ),
@@ -376,7 +387,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                       ),
                       Container(
                         height: 50,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             top: BorderSide(color: Colors.white),
                           ),
@@ -386,7 +397,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             Expanded(
                               child: Container(
                                 height: 50,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     right: BorderSide(color: Colors.white),
                                   ),
@@ -405,7 +416,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                     startDate = time;
                                     setState(() {});
                                   },
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(20)),
                                   child: Center(
                                     child: Text(
@@ -414,7 +425,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                           : startDate
                                               .toString()
                                               .substring(0, 10),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18,
                                       ),
@@ -437,7 +448,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                   completedAt = time;
                                   setState(() {});
                                 },
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(20)),
                                 child: Center(
                                   child: Text(
@@ -446,7 +457,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                         : completedAt
                                             .toString()
                                             .substring(0, 10),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 18,
                                     ),
@@ -466,9 +477,9 @@ class AnilistTrackingWidget extends ConsumerWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () => context.pop(),
-                    child: Text('CANCEL'),
+                    child: const Text('CANCEL'),
                   ),
-                  SizedBox(width: 30),
+                  const SizedBox(width: 30),
                   Consumer(
                     builder: (context, ref, child) {
                       return OutlinedButton(
@@ -492,16 +503,6 @@ class AnilistTrackingWidget extends ConsumerWidget {
                           );
                           client?.request(mediaListEntryMutationReq).listen(
                             (response) async {
-                              // var res = await client
-                              //     .request(GMediaDetailQueryReq(
-                              //       (b) => b
-                              //         ..vars.id = mediaId
-                              //         ..vars.limit = 5
-                              //         ..vars.page = 1
-                              //         ..vars.perPage = 10,
-                              //     ))
-                              //     .first;
-                              // return;
                               final oldStatus = mediaListEntry?.status;
                               final newStatus =
                                   response.data?.SaveMediaListEntry?.status;
@@ -590,13 +591,13 @@ class AnilistTrackingWidget extends ConsumerWidget {
                             },
                           );
                         },
-                        child: Text('APPLY'),
+                        child: const Text('APPLY'),
                       );
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           );
         },

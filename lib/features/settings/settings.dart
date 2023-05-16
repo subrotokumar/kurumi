@@ -193,8 +193,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     leading: Text(
                       ' Account',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
                   ),
@@ -409,7 +409,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 0.1.18 Beta'),
+                const Text('Version 0.1.20 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

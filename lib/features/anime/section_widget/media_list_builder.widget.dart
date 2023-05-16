@@ -5,6 +5,7 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/provider/sorting.provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -15,7 +16,8 @@ import 'package:kurumi/provider/provider.dart';
 class MediaListBuilderWidget extends StatefulWidget {
   final GMediaListStatus status;
   final GMediaType type;
-  MediaListBuilderWidget({required this.status, required this.type, super.key});
+  const MediaListBuilderWidget(
+      {required this.status, required this.type, super.key});
 
   @override
   State<MediaListBuilderWidget> createState() => _MediaListBuilderWidgetState();
@@ -28,12 +30,17 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
       builder: (context, ref, child) {
         final anilistUserId = ref.watch(userId);
         final client = ref.watch(mediaListClientProvider);
+        final sort = ref.watch(
+            widget.type == GMediaType.ANIME ? animeSorting : mangaSorting);
+        final order = sort.sort;
         final request = GMediaListCollectionReq(
           (b) => b
             ..vars.status = widget.status
             ..vars.type = widget.type
-            ..vars.userId = anilistUserId,
+            ..vars.userId = anilistUserId
+            ..vars.sort.add(sort.filter),
         );
+
         return RefreshIndicator(
           onRefresh: () async {
             await client.request(request).first;
@@ -44,14 +51,15 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
             builder: (context, response, error) {
               if (response!.loading) {
                 return ListView.builder(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   itemCount: 10,
+                  reverse: true,
                   itemBuilder: (context, index) {
                     return Shimmer.fromColors(
                       baseColor: Colors.white24,
                       highlightColor: Colors.black12,
                       child: Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         height: index == 0 ? 45 : 120,
                         color: Colors.white24,
                       ),
@@ -73,13 +81,13 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                 ? ref.watch(animeTabProvider)
                                 : ref.watch(mangaTabProvider);
                             return Text(
-                              '${[
+                              [
                                 'Ongoing',
                                 'Planning',
                                 'Completed',
                                 'On Hold',
                                 'Dropped'
-                              ][pageIndex]}',
+                              ][pageIndex],
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30,
@@ -95,29 +103,29 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                           }),
                           Text(
                             ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 30,
                               color: Colors.white,
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     LottieBuilder.asset(
                       'assets/lotties/ufo.json',
                       fit: BoxFit.contain,
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: Colors.indigoAccent.shade400,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Nothing Found',
                         style: TextStyle(
                           fontSize: 18,
@@ -125,19 +133,25 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 );
               } else {
-                final data = response.data?.MediaListCollection?.lists
-                    ?.elementAt(0)
-                    ?.entries;
+                final data = order == Sort.ASC
+                    ? response.data?.MediaListCollection?.lists
+                        ?.elementAt(0)
+                        ?.entries
+                    : response.data?.MediaListCollection?.lists
+                        ?.elementAt(0)
+                        ?.entries
+                        ?.reversed
+                        .toList();
                 return ListView.builder(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   itemCount: (data?.length ?? 0) + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return Container(
+                      return SizedBox(
                         height: 60,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -147,13 +161,13 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                   ? ref.watch(animeTabProvider)
                                   : ref.watch(mangaTabProvider);
                               return Text(
-                                '${[
+                                [
                                   'Ongoing',
                                   'Planning',
                                   'Completed',
                                   'On Hold',
                                   'Dropped'
-                                ][pageIndex]}',
+                                ][pageIndex],
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 30,
@@ -169,13 +183,13 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                             }),
                             Text(
                               ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30,
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                           ],
                         ),
                       );
@@ -192,20 +206,14 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         context.pushNamed(
                           AppRouteConstant.MediaScreen.name,
                           pathParameters: {
-                            'id': (response.data?.MediaListCollection?.lists
-                                        ?.first?.entries
-                                        ?.elementAt(index - 1)
-                                        ?.media
-                                        ?.id ??
-                                    0)
-                                .toString(),
+                            'id': (mediaData?.media?.id ?? 0).toString(),
                             'title':
                                 mediaData?.media?.title?.userPreferred ?? '',
                           },
                         );
                       },
                       child: Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         height: 120,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -229,7 +237,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                               flex: 7,
                               child: Container(
                                 height: 120,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white10,
                                 ),
                                 padding: const EdgeInsets.symmetric(
@@ -245,7 +253,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                 ?.media?.title?.userPreferred ??
                                             '',
                                         maxLines: 3,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
                                         ),
@@ -261,20 +269,15 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                   radix: 16) +
                                               0xFF000000)),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (widget.type == GMediaType.ANIME)
-                                          Text(
-                                            '${mediaData?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) : (mediaData?.media?.chapters) ?? '-'}',
-                                          )
-                                        else
-                                          Text(
-                                            '${mediaData?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) : (mediaData?.media?.chapters) ?? '-'}',
-                                          ),
-                                        Spacer(),
+                                        Text(
+                                          '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '--' : (mediaData?.media?.chapters) ?? '--'}',
+                                        ),
+                                        const Spacer(),
                                         Visibility(
                                           visible: widget.status ==
                                               GMediaListStatus.CURRENT,
@@ -297,22 +300,20 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                 var mediaListEntryMutationReq =
                                                     GMediaListEntryMutationReq(
                                                         (b) => b
-                                                          ..vars.id = data
-                                                              ?.elementAt(
-                                                                  index - 1)
+                                                          ..vars.id = mediaData
+                                                              ?.media
+                                                              ?.mediaListEntry
                                                               ?.id
-                                                          ..vars.mediaId = data
-                                                              ?.elementAt(
-                                                                  index - 1)
-                                                              ?.mediaId
+                                                          ..vars.mediaId =
+                                                              mediaData
+                                                                  ?.media?.id
                                                           ..vars
-                                                              .progress = ((data
-                                                                      ?.elementAt(
-                                                                          index -
-                                                                              1)
+                                                              .progress = (mediaData
+                                                                      ?.media
+                                                                      ?.mediaListEntry
                                                                       ?.progress ??
                                                                   0) +
-                                                              1));
+                                                              1);
                                                 client
                                                     .request(
                                                         mediaListEntryMutationReq)
@@ -322,20 +323,20 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                       await client
                                                           .request(request)
                                                           .first;
-                                                      context.pop();
                                                     }
                                                   },
                                                 );
                                               },
                                               child: Row(
                                                 children: [
-                                                  SizedBox(width: 5),
-                                                  Icon(Icons.add, size: 20),
+                                                  const SizedBox(width: 5),
+                                                  const Icon(Icons.add,
+                                                      size: 20),
                                                   Text(widget.type ==
                                                           GMediaType.ANIME
                                                       ? '1 EP'
                                                       : '1 CH'),
-                                                  SizedBox(width: 5),
+                                                  const SizedBox(width: 5),
                                                 ],
                                               ),
                                             ),

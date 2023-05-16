@@ -117,12 +117,6 @@ abstract class GMediaListCollectionData_MediaListCollection_lists_entries
       b..G__typename = 'MediaList';
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get id;
-  _i2.GMediaListStatus? get status;
-  int? get progress;
-  int? get progressVolumes;
-  double? get score;
-  int get mediaId;
   GMediaListCollectionData_MediaListCollection_lists_entries_media? get media;
   static Serializer<GMediaListCollectionData_MediaListCollection_lists_entries>
       get serializer =>
@@ -158,6 +152,8 @@ abstract class GMediaListCollectionData_MediaListCollection_lists_entries_media
       b..G__typename = 'Media';
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry?
+      get mediaListEntry;
   int get id;
   GMediaListCollectionData_MediaListCollection_lists_entries_media_title?
       get title;
@@ -180,6 +176,49 @@ abstract class GMediaListCollectionData_MediaListCollection_lists_entries_media
   static GMediaListCollectionData_MediaListCollection_lists_entries_media?
       fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
             GMediaListCollectionData_MediaListCollection_lists_entries_media
+                .serializer,
+            json,
+          );
+}
+
+abstract class GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+    implements
+        Built<
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry,
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder> {
+  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry._();
+
+  factory GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry(
+          [Function(
+                  GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+                      b)
+              updates]) =
+      _$GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry;
+
+  static void _initializeBuilder(
+          GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntryBuilder
+              b) =>
+      b..G__typename = 'MediaList';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get id;
+  int get userId;
+  _i2.GMediaListStatus? get status;
+  double? get score;
+  int? get progress;
+  int? get progressVolumes;
+  static Serializer<
+          GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry>
+      get serializer =>
+          _$gMediaListCollectionDataMediaListCollectionListsEntriesMediaMediaListEntrySerializer;
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
+            .serializer,
+        this,
+      ) as Map<String, dynamic>);
+  static GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry?
+      fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
+            GMediaListCollectionData_MediaListCollection_lists_entries_media_mediaListEntry
                 .serializer,
             json,
           );

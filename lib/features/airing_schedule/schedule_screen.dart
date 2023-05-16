@@ -12,10 +12,10 @@ import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class ScheduleScreen extends StatelessWidget {
-  ScheduleScreen(this.controller, {super.key});
+  const ScheduleScreen(this.controller, {super.key});
   final PageController controller;
 
-  final List days = <Widget>[
+  final List days = const <Widget>[
     Text('SUNDAY'),
     Text('MONDAY'),
     Text('TUESDAY'),
@@ -27,12 +27,12 @@ class ScheduleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime time = DateTime.now().subtract(Duration(days: 1));
+    DateTime time = DateTime.now().subtract(const Duration(days: 1));
     DateTime start = DateTime(time.year, time.month, time.day, 0, 0);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: Container(
+      body: SizedBox(
         width: size.width,
         height: size.height,
         child: SafeArea(
@@ -44,7 +44,7 @@ class ScheduleScreen extends StatelessWidget {
                 Container(
                   height: size.height,
                   width: size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/gifs/kakashi.gif'),
                       fit: BoxFit.cover,
@@ -52,7 +52,7 @@ class ScheduleScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         Colors.black,
@@ -70,12 +70,12 @@ class ScheduleScreen extends StatelessWidget {
                   children: [
                     Container(
                       width: size.width,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Airing Schedule',
                             style: TextStyle(
                               fontSize: 20,
@@ -87,11 +87,11 @@ class ScheduleScreen extends StatelessWidget {
                               onPressed: () {
                                 controller.animateToPage(
                                   0,
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   curve: Curves.linear,
                                 );
                               },
-                              icon: Icon(Icons.notifications),
+                              icon: const Icon(Icons.notifications),
                             );
                           }),
                         ],
@@ -102,13 +102,13 @@ class ScheduleScreen extends StatelessWidget {
                       indicatorColor: Colors.white,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white38,
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                       indicatorSize: TabBarIndicatorSize.tab,
-                      labelPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                      labelPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 5),
                       tabs: [
                         for (int i = 0; i < 7; i++)
                           Column(
@@ -120,7 +120,7 @@ class ScheduleScreen extends StatelessWidget {
                                     .format(time.add(Duration(days: i)));
                                 return Text(
                                   '${t.substring(0, t.indexOf(','))}',
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 );
                               }),
                             ],
@@ -155,7 +155,7 @@ class SchedulePerDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime start = time;
-    DateTime end = time.add(Duration(days: 1));
+    DateTime end = time.add(const Duration(days: 1));
     return Consumer(builder: (context, ref, child) {
       final client = ref.watch(clientProvider);
       return Operation(
@@ -172,10 +172,10 @@ class SchedulePerDay extends StatelessWidget {
             return LoadingWidget;
           } else {
             final data = response.data?.Page?.airingSchedules;
-            if (data == null) return Center(child: Text('Server Error'));
+            if (data == null) return const Center(child: Text('Server Error'));
             // print(data.length);
             return ListView.builder(
-              padding: EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 16),
               itemBuilder: (context, index) {
                 final item = data.elementAt(index);
                 final time = DateTime.fromMillisecondsSinceEpoch(
@@ -209,16 +209,16 @@ class SchedulePerDay extends StatelessWidget {
                           '',
                     },
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 80,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
                             color: Colors.white12,
                             borderRadius: BorderRadius.horizontal(
                               left: Radius.circular(10),
@@ -237,9 +237,9 @@ class SchedulePerDay extends StatelessWidget {
                         Expanded(
                           child: Container(
                             height: 80,
-                            margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
+                            margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
                               color: Colors.white12,
                             ),
                             child: Column(
@@ -258,7 +258,7 @@ class SchedulePerDay extends StatelessWidget {
                                 ),
                                 Text(
                                   'Episode: ${item?.episode ?? 0}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
@@ -270,9 +270,9 @@ class SchedulePerDay extends StatelessWidget {
                         Container(
                           height: 80,
                           width: 80,
-                          padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.fromLTRB(8, 5, 10, 5),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(5),
+                          margin: const EdgeInsets.fromLTRB(8, 5, 10, 5),
+                          decoration: const BoxDecoration(
                             color: Colors.white12,
                             borderRadius: BorderRadius.horizontal(
                               right: Radius.circular(10),

@@ -38,31 +38,31 @@ class ReviewScreen extends ConsumerWidget {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Builder(builder: (context) {
                         //print(reviewData.body);
                         return Markdown(
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           data: '${reviewData.body ?? ''}'
                               .replaceAll('\n', '\n\n')
                               .replaceAll('~', '_'),
                           shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           selectable: true,
                           styleSheet: MarkdownStyleSheet(
-                            p: TextStyle(
+                            p: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
                         );
                       }),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       SizedBox(
                         height: 24,
                         child: Row(
@@ -71,7 +71,7 @@ class ReviewScreen extends ConsumerWidget {
                           children: [
                             Text(
                               '${reviewData.score} / 100',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 22,
@@ -80,35 +80,36 @@ class ReviewScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.thumb_down),
-                            style: IconButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                      const SizedBox(height: 20),
+                      if (false)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.thumb_down),
+                              style: IconButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                fixedSize: const Size.square(50),
+                                backgroundColor: Colors.white12,
                               ),
-                              fixedSize: Size.square(50),
-                              backgroundColor: Colors.white12,
                             ),
-                          ),
-                          SizedBox(width: 20),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.thumb_up),
-                            style: IconButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                            const SizedBox(width: 20),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.thumb_up),
+                              style: IconButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                fixedSize: const Size.square(50),
+                                backgroundColor: Colors.white12,
                               ),
-                              fixedSize: Size.square(50),
-                              backgroundColor: Colors.white12,
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -176,16 +177,16 @@ class ReviewScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           Text(
                             '${reviewData.media?.title?.userPreferred}',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 24,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Text(
                             'a review by ${reviewData.user?.name ?? ''}',
                             textAlign: TextAlign.center,
@@ -195,12 +196,12 @@ class ReviewScreen extends ConsumerWidget {
                               color: Colors.blueAccent.shade200,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 30,
                       ),
@@ -210,13 +211,13 @@ class ReviewScreen extends ConsumerWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          fixedSize: Size.square(25),
+                          fixedSize: const Size.square(25),
                           backgroundColor: Colors.black26,
                         ),
                         onPressed: () {
                           context.pop();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 25,
                           shadows: [

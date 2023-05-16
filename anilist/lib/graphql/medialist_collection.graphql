@@ -2,17 +2,25 @@ query MediaListCollection(
   $userId: Int
   $type: MediaType
   $status: MediaListStatus
+  $sort: [MediaListSort]
 ) {
-  MediaListCollection(userId: $userId, type: $type, status: $status) {
+  MediaListCollection(
+    userId: $userId
+    type: $type
+    status: $status
+    sort: $sort
+  ) {
     lists {
       entries {
-        id
-        status
-        progress
-        progressVolumes
-        score
-        mediaId
         media {
+          mediaListEntry {
+            id
+            userId
+            status
+            score
+            progress
+            progressVolumes
+          }
           id
           title {
             romaji
