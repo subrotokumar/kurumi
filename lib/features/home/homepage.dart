@@ -5,6 +5,7 @@ import 'package:anilist/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 
 import 'package:kurumi/features/anime/anime_screen.dart';
@@ -13,6 +14,7 @@ import 'package:kurumi/features/home/widget/nav_bar.widget.dart';
 import 'package:kurumi/features/manga/manga_screen.dart';
 import 'package:kurumi/features/profile/profile_page.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:upgrader/upgrader.dart';
 
 final currentIndex = StateProvider<int>((ref) => 0);
 final navBarVisibilityProvider = StateProvider<bool>((ref) => true);
@@ -78,44 +80,44 @@ class _HomePageState extends ConsumerState<HomePage> {
           if (currentBackPressTime == null ||
               now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
             currentBackPressTime = now;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Press back button again to exit')),
-            );
+            showSnackBar(context, 'Press back button again to exit');
             return false;
           }
           return true;
         },
-        child: Scaffold(
-          backgroundColor: Colors.black,
-          floatingActionButton: NavBar(pageController: pageController),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          // bottomNavigationBar: NavigationBar(
-          //   destinations: [
-          //     NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          //     NavigationDestination(icon: Icon(Icons.tv), label: 'Anime'),
-          //     NavigationDestination(icon: Icon(Icons.book), label: 'Manga'),
-          //     NavigationDestination(
-          //         icon: Icon(Icons.notification_add), label: 'Home'),
-          //     NavigationDestination(
-          //         icon: Icon(Icons.person_4), label: 'Account'),
-          //   ],
-          // ),
-          body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: PageView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: pageController,
-              scrollDirection: Axis.horizontal,
-              allowImplicitScrolling: false,
-              children: [
-                DiscoverTab(),
-                AnimeScreen(),
-                MangaScreen(),
-                ActivityScreen(),
-                // ScheduleScreen(),
-                ProfilePage()
-              ],
+        child: UpgradeAlert(
+          child: Scaffold(
+            backgroundColor: Colors.black,
+            floatingActionButton: NavBar(pageController: pageController),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            // bottomNavigationBar: NavigationBar(
+            //   destinations: [
+            //     NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            //     NavigationDestination(icon: Icon(Icons.tv), label: 'Anime'),
+            //     NavigationDestination(icon: Icon(Icons.book), label: 'Manga'),
+            //     NavigationDestination(
+            //         icon: Icon(Icons.notification_add), label: 'Home'),
+            //     NavigationDestination(
+            //         icon: Icon(Icons.person_4), label: 'Account'),
+            //   ],
+            // ),
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: pageController,
+                scrollDirection: Axis.horizontal,
+                allowImplicitScrolling: false,
+                children: [
+                  DiscoverTab(),
+                  AnimeScreen(),
+                  MangaScreen(),
+                  ActivityScreen(),
+                  // ScheduleScreen(),
+                  ProfilePage()
+                ],
+              ),
             ),
           ),
         ),

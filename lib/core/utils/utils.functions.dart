@@ -12,21 +12,28 @@ class Col {
   }
 }
 
-Widget get LoadingWidget => false
-    ? Center(
-        child: SizedBox(
-          height: 30,
-          width: 30,
-          child: CircularProgressIndicator(
-            color: Colors.yellow,
+Widget get LoadingWidget => Center(
+      child: LottieBuilder.asset(
+        'assets/lotties/loading-gif-animation.json',
+        width: 150,
+        height: 150,
+        fit: BoxFit.cover,
+      ),
+    );
+
+showSnackBar(BuildContext context, String text,
+        {Duration duration = const Duration(seconds: 2)}) =>
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Chip(
+          avatar: ClipOval(child: Image.asset('assets/meta/ninja.png')),
+          label: Text(
+            text,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-      )
-    : Center(
-        child: LottieBuilder.asset(
-          'assets/lotties/loading-gif-animation.json',
-          width: 150,
-          height: 150,
-          fit: BoxFit.cover,
-        ),
-      );
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        duration: duration,
+      ),
+    );

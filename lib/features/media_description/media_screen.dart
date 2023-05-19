@@ -4,7 +4,9 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -45,7 +47,6 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
   ScreenshotController screenshotController = ScreenshotController();
   @override
   Widget build(BuildContext context) {
-    //print(widget.id);
     Size size = MediaQuery.of(context).size;
     final client = ref.watch(mediaListClientProvider);
     return Scaffold(
@@ -253,28 +254,42 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: size.width - 180,
-                                              child: Wrap(
-                                                children: [
-                                                  Text(
+                                            GestureDetector(
+                                              onTap: () {
+                                                String title = data?.title
+                                                        ?.userPreferred ??
                                                     data?.title
-                                                            ?.userPreferred ??
-                                                        data?.title
-                                                            ?.userPreferred ??
-                                                        data?.title?.romaji ??
-                                                        '',
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: color,
-                                                      fontSize: 19,
+                                                        ?.userPreferred ??
+                                                    data?.title?.romaji ??
+                                                    '';
+                                                Clipboard.setData(
+                                                    ClipboardData(text: title));
+                                                showSnackBar(context,
+                                                    'Copied  \'$title\'');
+                                              },
+                                              child: SizedBox(
+                                                width: size.width - 180,
+                                                child: Wrap(
+                                                  children: [
+                                                    Text(
+                                                      data?.title
+                                                              ?.userPreferred ??
+                                                          data?.title
+                                                              ?.userPreferred ??
+                                                          data?.title?.romaji ??
+                                                          '',
+                                                      maxLines: 3,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: color,
+                                                        fontSize: 19,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             const Spacer(),
@@ -402,21 +417,17 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                 const SizedBox(height: 20),
                                 CharactersWidget(data: data, size: size),
                                 const SizedBox(height: 20),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'OVERVIEW',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'OVERVIEW',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -430,8 +441,16 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   ),
                                   child: Column(
                                     children: [
-                                      InfoTile('Romaji', data?.title?.romaji),
-                                      InfoTile('English', data?.title?.english),
+                                      InfoTile(
+                                        'Romaji',
+                                        data?.title?.romaji,
+                                        copy: true,
+                                      ),
+                                      InfoTile(
+                                        'English',
+                                        data?.title?.english,
+                                        copy: true,
+                                      ),
                                       const Divider(),
                                       InfoTile('Format', data?.format?.name),
                                       InfoTile('Episodes', data?.episodes),
@@ -442,9 +461,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       InfoTile('Status', data?.status?.name),
                                       const Divider(),
                                       InfoTile('Season', data?.season,
-                                          extra: ' ' +
-                                              (data?.seasonYear ?? '')
-                                                  .toString()),
+                                          extra: ' ${data?.seasonYear ?? ''}'),
                                       InfoTile('Start At',
                                           '${data?.startDate?.day ?? ''}-${data?.startDate?.month ?? ''}-${data?.startDate?.year ?? ''}'),
                                       InfoTile('End At',

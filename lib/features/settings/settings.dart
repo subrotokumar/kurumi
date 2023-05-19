@@ -240,6 +240,24 @@ class _SettingScreenState extends State<SettingScreen> {
                           const EdgeInsets.symmetric(horizontal: 20),
                       onTap: () async {
                         await launchUrlString(
+                          'https://anilist.co/settings/media',
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      leading: const Text(
+                        'Anime and Manga',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                      trailing: LineIcon.link(color: Colors.white),
+                    ),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 20),
+                      onTap: () async {
+                        await launchUrlString(
                           'https://anilist.co/settings/import',
                           mode: LaunchMode.externalApplication,
                         );
@@ -409,7 +427,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 0.1.20 Beta'),
+                const Text('Version 0.1.21 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

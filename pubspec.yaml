@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 0.1.20+23
+version: 0.1.21+24
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.0.14
   zoom_widget: ^2.0.1
   gql_code_builder: ^0.7.1
+  upgrader: ^6.5.0
 
 dev_dependencies:
   flutter_test:
