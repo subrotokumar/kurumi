@@ -1,6 +1,7 @@
 // ignore_for_file: dead_code
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
 class Col {
@@ -37,3 +38,5 @@ showSnackBar(BuildContext context, String text,
         duration: duration,
       ),
     );
+
+final log = Logger();

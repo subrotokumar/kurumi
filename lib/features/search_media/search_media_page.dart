@@ -5,6 +5,7 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/features/search_media/components/status_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
@@ -114,7 +115,8 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                     SegmentedButton(
                       style: const ButtonStyle(
                           visualDensity: VisualDensity(
-                        vertical: -2,
+                        vertical: -4,
+                        horizontal: -4,
                       )),
                       segments: const [
                         ButtonSegment(
@@ -134,9 +136,11 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                     const SizedBox(height: 20),
                     SegmentedButton(
                       style: const ButtonStyle(
-                          visualDensity: VisualDensity(
-                        vertical: -2,
-                      )),
+                        visualDensity: VisualDensity(
+                          vertical: -4,
+                          horizontal: -4,
+                        ),
+                      ),
                       segments: const [
                         ButtonSegment(
                             value: SearchView.LIST, label: Text('LIST')),
@@ -153,12 +157,12 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       },
                     ),
                     const SizedBox(height: 14),
+                    const Divider(),
                     Visibility(
                       visible: mediaType.first == GMediaType.ANIME,
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: const BorderSide(color: Colors.white),
                         ),
                         elevation: 0,
                         color: Colors.transparent,
@@ -181,11 +185,16 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                     ),
                                   ),
                                   DropdownButton(
+                                    isDense: true,
+                                    underline: Container(),
                                     value: season,
                                     items: [
                                       const DropdownMenuItem(
                                         value: null,
-                                        child: Text('NONE'),
+                                        child: Text(
+                                          'NONE',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
                                       ),
                                       DropdownMenuItem(
                                         value: GMediaSeason.WINTER,
@@ -226,16 +235,21 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                     ),
                                   ),
                                   DropdownButton(
+                                    isDense: true,
+                                    underline: Container(),
                                     value: seasonYear,
                                     items: [
                                       const DropdownMenuItem(
-                                        child: Text('NONE'),
                                         value: null,
+                                        child: Text(
+                                          'NONE  ',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
                                       ),
                                       for (int i = 1970; i <= 2023; i++)
                                         DropdownMenuItem(
-                                          child: Text('$i'),
                                           value: i,
+                                          child: Text('$i  '),
                                         ),
                                     ],
                                     onChanged: (v) {
@@ -265,6 +279,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                         ),
                       ),
                     ),
+                    const Divider(),
                     const SizedBox(height: 20),
                     OutlinedButton(
                       onPressed: () {
@@ -558,47 +573,5 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
         ),
       ),
     );
-  }
-}
-
-class StatusWidget extends StatelessWidget {
-  const StatusWidget({super.key, required this.data, this.background});
-
-  final Color? background;
-  final GSearchAnimeQueryData_Page_media? data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final status = data?.mediaListEntry?.status;
-      if (status == null) {
-        return const Card();
-      }
-      return Card(
-        elevation: 0,
-        color: background,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: status.statusColor, width: 0.8),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              status.statusIcon,
-              const SizedBox(width: 1),
-              Text(
-                '${status.name[0]}${status.name.substring(1).toLowerCase()}',
-                style: TextStyle(
-                  color: status.statusColor,
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
   }
 }

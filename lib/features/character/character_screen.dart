@@ -11,7 +11,7 @@ import 'package:anilist/toggle_favourite.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class CharacterScreen extends StatelessWidget {
-  CharacterScreen({
+  const CharacterScreen({
     required this.id,
     required this.name,
     required this.characterData,
@@ -45,7 +45,7 @@ class CharacterScreen extends StatelessWidget {
                   return StatefulBuilder(builder: (context, setState) {
                     return TextButton.icon(
                       style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                       ),
                       onPressed: () async {
                         // print(id);
@@ -83,7 +83,7 @@ class CharacterScreen extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(20, 12, 20, 10),
+              margin: const EdgeInsets.fromLTRB(20, 12, 20, 10),
               height: 150,
               width: size.width,
               child: Row(
@@ -112,7 +112,7 @@ class CharacterScreen extends StatelessWidget {
                             color: Colors.amber.shade100,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Visibility(
                           visible:
                               characterData?.node?.dateOfBirth?.month != null &&
@@ -131,7 +131,7 @@ class CharacterScreen extends StatelessWidget {
                             return RichText(
                               text: TextSpan(
                                 text: ' Date of Birth : ',
-                                style: TextStyle(),
+                                style: const TextStyle(),
                                 children: [
                                   TextSpan(
                                     text: '${t.substring(0, t.indexOf(','))}',
@@ -146,7 +146,7 @@ class CharacterScreen extends StatelessWidget {
                           child: RichText(
                             text: TextSpan(
                               text: ' Age : ',
-                              style: TextStyle(),
+                              style: const TextStyle(),
                               children: [
                                 TextSpan(
                                   text: characterData?.node?.age ?? '',
@@ -160,7 +160,7 @@ class CharacterScreen extends StatelessWidget {
                           child: RichText(
                             text: TextSpan(
                               text: ' Gender : ',
-                              style: TextStyle(),
+                              style: const TextStyle(),
                               children: [
                                 TextSpan(
                                   text: characterData?.node?.gender ?? '',
@@ -191,29 +191,29 @@ class CharacterScreen extends StatelessWidget {
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
-                  side: BorderSide(color: Colors.grey, width: 0.5),
+                  side: const BorderSide(color: Colors.grey, width: 0.5),
                 ),
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
                 color: AppTheme.secondaryColor,
                 child: StatefulBuilder(
                   builder: (context, setState) => Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     constraints: !showDescription
-                        ? BoxConstraints(maxHeight: 300)
-                        : BoxConstraints(),
+                        ? const BoxConstraints(maxHeight: 300)
+                        : const BoxConstraints(),
                     child: GestureDetector(
                       onTap: () {
                         setState(() => showDescription = !showDescription);
                       },
                       child: Markdown(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         data: characterData?.node?.description
                                 .toString()
                                 .replaceAll('\n', '\n\n')
                                 .replaceAll('~', '_') ??
                             '',
                         shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         selectable: true,
                       ),
                     ),
@@ -223,7 +223,7 @@ class CharacterScreen extends StatelessWidget {
             ),
             Visibility(
               visible: characterData?.voiceActors?.isNotEmpty ?? false,
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,7 +246,7 @@ class CharacterScreen extends StatelessWidget {
                 width: size.width,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   itemBuilder: (context, index) {
                     return Container(
                       width: 85,
@@ -276,7 +276,7 @@ class CharacterScreen extends StatelessWidget {
                                 child: Container(
                                   width: 80,
                                   height: 20,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.black38,
                                       borderRadius: BorderRadius.vertical(
                                           bottom: Radius.circular(16))),
@@ -287,7 +287,7 @@ class CharacterScreen extends StatelessWidget {
                                           '',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -296,14 +296,14 @@ class CharacterScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Text(
                             characterData?.voiceActors?[index]?.name?.full ??
                                 '',
                             maxLines: 2,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -315,7 +315,7 @@ class CharacterScreen extends StatelessWidget {
             ),
             Visibility(
               visible: characterData?.node?.media?.nodes?.isNotEmpty ?? false,
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,7 +336,8 @@ class CharacterScreen extends StatelessWidget {
               child: Container(
                 height: 200,
                 child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   scrollDirection: Axis.horizontal,
                   itemCount: characterData?.node?.media?.nodes?.length ?? 0,
                   itemBuilder: (context, index) {
@@ -344,7 +345,7 @@ class CharacterScreen extends StatelessWidget {
                         characterData?.node?.media?.nodes?.elementAt(index);
                     return Container(
                       width: 100,
-                      margin: EdgeInsets.only(left: 12),
+                      margin: const EdgeInsets.only(left: 12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -382,7 +383,7 @@ class CharacterScreen extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         relatedAnimeData?.format?.name ?? '',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -392,7 +393,7 @@ class CharacterScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           SizedBox(
                             height: 35,
                             child: Text(
@@ -400,7 +401,7 @@ class CharacterScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 11),
+                              style: const TextStyle(fontSize: 11),
                             ),
                           ),
                         ],
@@ -410,7 +411,7 @@ class CharacterScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

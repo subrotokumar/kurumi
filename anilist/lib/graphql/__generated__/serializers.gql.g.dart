@@ -26,6 +26,31 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAiringScheduleQueryVars.serializer)
       ..add(GAiringSort.serializer)
       ..add(GAniChartHighlightInput.serializer)
+      ..add(GCharacterDetailQueryData.serializer)
+      ..add(GCharacterDetailQueryData_Character.serializer)
+      ..add(GCharacterDetailQueryData_Character_dateOfBirth.serializer)
+      ..add(GCharacterDetailQueryData_Character_image.serializer)
+      ..add(GCharacterDetailQueryData_Character_media.serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges.serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_node.serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_node_coverImage
+          .serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_node_mediaListEntry
+          .serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_node_startDate
+          .serializer)
+      ..add(
+          GCharacterDetailQueryData_Character_media_edges_node_title.serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_voiceActors
+          .serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_voiceActors_image
+          .serializer)
+      ..add(GCharacterDetailQueryData_Character_media_edges_voiceActors_name
+          .serializer)
+      ..add(GCharacterDetailQueryData_Character_media_pageInfo.serializer)
+      ..add(GCharacterDetailQueryData_Character_name.serializer)
+      ..add(GCharacterDetailQueryReq.serializer)
+      ..add(GCharacterDetailQueryVars.serializer)
       ..add(GCharacterNameInput.serializer)
       ..add(GCharacterRole.serializer)
       ..add(GCharacterSort.serializer)
@@ -298,6 +323,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () =>
               new ListBuilder<GAiringScheduleQueryData_Page_airingSchedules?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GCharacterDetailQueryData_Character_media_edges)
+          ]),
+          () => new ListBuilder<
+              GCharacterDetailQueryData_Character_media_edges?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GCharacterDetailQueryData_Character_media_edges_voiceActors)
+          ]),
+          () => new ListBuilder<
+              GCharacterDetailQueryData_Character_media_edges_voiceActors?>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType.nullable(GDiscoverMediaData_Page_media)]),

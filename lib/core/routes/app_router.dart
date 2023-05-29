@@ -5,6 +5,7 @@ import 'package:kurumi/common/error_screen.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/character/character_screen.dart';
+import 'package:kurumi/features/character_detail/character_detail_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/login/login.dart';
 import 'package:kurumi/features/media_description/media_screen.dart';
@@ -93,6 +94,16 @@ final router = Provider<GoRouter>(
             name: name,
             characterData: data,
             index: index,
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.CharacterDetailScreen.name,
+        path: AppRouteConstant.CharacterDetailScreen.path,
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          return CharacterDetailScreen(
+            id: id,
           );
         },
       ),

@@ -1,0 +1,75 @@
+query CharacterDetailQuery($id: Int, $page: Int) {
+  Character(id: $id) {
+    id
+    name {
+      full
+      userPreferred
+    }
+    image {
+      large
+      medium
+    }
+    description(asHtml: false)
+    isFavourite
+    siteUrl
+    favourites
+    gender
+    age
+    dateOfBirth {
+      day
+      month
+      year
+    }
+    bloodType
+    favourites
+    isFavourite
+    siteUrl
+    description(asHtml: false)
+    media(page: $page) {
+      edges {
+        node {
+          id
+          title {
+            userPreferred
+          }
+          coverImage {
+            large
+          }
+          type
+          format
+          startDate {
+            year
+            month
+            day
+          }
+          averageScore
+          popularity
+          favourites
+          mediaListEntry {
+            status
+          }
+        }
+        relationType
+        characterRole
+        staffRole
+        voiceActors {
+          id
+          name {
+            full
+          }
+          image {
+            large
+          }
+          language
+        }
+      }
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+      }
+    }
+  }
+}

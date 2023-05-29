@@ -43,269 +43,275 @@ class _ProfilePageState extends State<ProfilePage> {
               }
               return DefaultTabController(
                 length: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 250,
-                      child: Stack(
-                        children: [
-                          CachedNetworkImage(
-                            width: size.width,
-                            height: 250,
-                            imageUrl: response.data?.Viewer?.bannerImage ?? '',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Image.asset(
-                              'assets/lotties/giphy.gif',
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 250,
+                        child: Stack(
+                          children: [
+                            CachedNetworkImage(
                               width: size.width,
                               height: 250,
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  AppTheme.background,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
+                              imageUrl:
+                                  response.data?.Viewer?.bannerImage ?? '',
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) => Image.asset(
+                                'assets/lotties/giphy.gif',
+                                width: size.width,
+                                height: 250,
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
-                          ),
-                          Positioned(
-                            right: 20,
-                            top: 30,
-                            child: IconButton(
-                              style: IconButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.transparent,
+                                    AppTheme.background,
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
                                 ),
-                                backgroundColor: Colors.black45,
-                                side: const BorderSide(color: Colors.white),
                               ),
-                              icon: const Icon(
-                                Icons.settings,
-                              ),
-                              onPressed: () {
-                                HapticFeedback.mediumImpact();
-                                context.pushNamed(
-                                    AppRouteConstant.SettingScreen.name);
-                              },
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border:
-                                              Border.all(color: Colors.white38),
-                                          color: Colors.white12,
-                                        ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: response.data?.Viewer
-                                                  ?.avatar?.medium ??
-                                              '',
-                                          height: 100,
-                                          width: 100,
-                                          fit: BoxFit.cover,
+                            Positioned(
+                              right: 20,
+                              top: 30,
+                              child: IconButton(
+                                style: IconButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  backgroundColor: Colors.black45,
+                                  side: const BorderSide(color: Colors.white),
+                                ),
+                                icon: const Icon(
+                                  Icons.settings,
+                                ),
+                                onPressed: () {
+                                  HapticFeedback.mediumImpact();
+                                  context.pushNamed(
+                                      AppRouteConstant.SettingScreen.name);
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                                color: Colors.white38),
+                                            color: Colors.white12,
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: response.data?.Viewer
+                                                    ?.avatar?.medium ??
+                                                '',
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        response.data?.Viewer?.statistics?.anime
-                                                ?.count
-                                                .toString() ??
-                                            '0',
-                                        style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      const Text('Anime'),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        response.data?.Viewer?.statistics?.manga
-                                                ?.count
-                                                .toString() ??
-                                            '0',
-                                        style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      const Text('Manga'),
-                                    ],
-                                  ),
-                                  Consumer(
-                                    builder: (context, ref, child) {
-                                      final val = ref.watch(statsProvider);
-                                      return IconButton(
-                                        style: IconButton.styleFrom(
-                                          backgroundColor: val
-                                              ? Colors.green.withOpacity(0.2)
-                                              : Colors.white10,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          padding: const EdgeInsets.all(12),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          response.data?.Viewer?.statistics
+                                                  ?.anime?.count
+                                                  .toString() ??
+                                              '0',
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                        onPressed: () {
-                                          ref
-                                              .read(statsProvider.notifier)
-                                              .update((state) => !val);
-                                        },
-                                        icon: const Icon(
-                                            CupertinoIcons.chart_pie),
-                                      );
-                                    },
+                                        const Text('Anime'),
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          response.data?.Viewer?.statistics
+                                                  ?.manga?.count
+                                                  .toString() ??
+                                              '0',
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        const Text('Manga'),
+                                      ],
+                                    ),
+                                    Consumer(
+                                      builder: (context, ref, child) {
+                                        final val = ref.watch(statsProvider);
+                                        return IconButton(
+                                          style: IconButton.styleFrom(
+                                            backgroundColor: val
+                                                ? Colors.green.withOpacity(0.2)
+                                                : Colors.white10,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            padding: const EdgeInsets.all(12),
+                                          ),
+                                          onPressed: () {
+                                            ref
+                                                .read(statsProvider.notifier)
+                                                .update((state) => !val);
+                                          },
+                                          icon: const Icon(
+                                              CupertinoIcons.chart_pie),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: -2,
+                              child: Container(
+                                width: size.width,
+                                height: 5,
+                                color: AppTheme.background,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              response.data?.Viewer?.name ?? '',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(response.data?.Viewer?.about ?? ''),
+                          ],
+                        ),
+                      ),
+                      Consumer(builder: (context, ref, child) {
+                        final stat = ref.watch(statsProvider);
+                        return AnimatedSlide(
+                          offset:
+                              stat ? const Offset(0, 0) : const Offset(1, 0),
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.linearToEaseOut,
+                          child: Visibility(
+                            visible: stat,
+                            child: SizedBox(
+                              height: 135,
+                              width: size.width,
+                              child: ListView(
+                                padding: const EdgeInsets.all(20),
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  highlightWidget(
+                                    title: 'Episode\nWatched',
+                                    value: response.data?.Viewer?.statistics
+                                        ?.anime?.episodesWatched
+                                        .toString(),
+                                    color: Colors.blue,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  highlightWidget(
+                                    title: 'Days\nwatched',
+                                    value: ((response.data?.Viewer?.statistics
+                                                    ?.anime?.minutesWatched ??
+                                                0) /
+                                            (60.0 * 24))
+                                        .floor()
+                                        .toString(),
+                                    color: Colors.amber,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  highlightWidget(
+                                    title: 'Volume\nRead',
+                                    value: response.data?.Viewer?.statistics
+                                        ?.manga?.volumesRead
+                                        .toString(),
+                                    color: Colors.green,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  highlightWidget(
+                                    title: 'Chapter\nRead',
+                                    value: response.data?.Viewer?.statistics
+                                        ?.manga?.chaptersRead
+                                        .toString(),
+                                    color: Colors.white,
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          Positioned(
-                            bottom: -2,
-                            child: Container(
-                              width: size.width,
-                              height: 5,
-                              color: AppTheme.background,
-                            ),
+                        );
+                      }),
+                      const TabBar(
+                        tabs: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(CupertinoIcons.tv),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(CupertinoIcons.book),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(CupertinoIcons.heart_circle_fill),
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Text(
-                            response.data?.Viewer?.name ?? '',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Text(response.data?.Viewer?.about ?? ''),
-                        ],
-                      ),
-                    ),
-                    Consumer(builder: (context, ref, child) {
-                      final stat = ref.watch(statsProvider);
-                      return AnimatedSlide(
-                        offset: stat ? const Offset(0, 0) : const Offset(1, 0),
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.linearToEaseOut,
-                        child: Visibility(
-                          visible: stat,
-                          child: SizedBox(
-                            height: 135,
-                            width: size.width,
-                            child: ListView(
-                              padding: const EdgeInsets.all(20),
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                highlightWidget(
-                                  title: 'Episode\nWatched',
-                                  value: response.data?.Viewer?.statistics
-                                      ?.anime?.episodesWatched
-                                      .toString(),
-                                  color: Colors.blue,
-                                ),
-                                const SizedBox(width: 20),
-                                highlightWidget(
-                                  title: 'Days\nwatched',
-                                  value: ((response.data?.Viewer?.statistics
-                                                  ?.anime?.minutesWatched ??
-                                              0) /
-                                          (60.0 * 24))
-                                      .floor()
-                                      .toString(),
-                                  color: Colors.amber,
-                                ),
-                                const SizedBox(width: 20),
-                                highlightWidget(
-                                  title: 'Volume\nRead',
-                                  value: response.data?.Viewer?.statistics
-                                      ?.manga?.volumesRead
-                                      .toString(),
-                                  color: Colors.green,
-                                ),
-                                const SizedBox(width: 20),
-                                highlightWidget(
-                                  title: 'Chapter\nRead',
-                                  value: response.data?.Viewer?.statistics
-                                      ?.manga?.chaptersRead
-                                      .toString(),
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
+                      Container(
+                        constraints:
+                            BoxConstraints(maxHeight: size.height * .6),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: TabBarView(
+                            physics: const ClampingScrollPhysics(),
+                            children: [
+                              FavAnimeGridView(size: size, response: response),
+                              FavMangaGridView(size: size, response: response),
+                              FavCharacterGridView(
+                                  size: size, response: response),
+                            ],
                           ),
                         ),
-                      );
-                    }),
-                    const TabBar(
-                      tabs: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(CupertinoIcons.tv),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(CupertinoIcons.book),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(CupertinoIcons.heart_circle_fill),
-                        ),
-                      ],
-                    ),
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: TabBarView(
-                          children: [
-                            FavAnimeGridView(size: size, response: response),
-                            FavMangaGridView(size: size, response: response),
-                            FavCharacterGridView(
-                                size: size, response: response),
-                          ],
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

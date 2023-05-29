@@ -20,12 +20,14 @@ class FavAnimeGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       // height: 300,
       width: size.width,
       child: GridView.builder(
-        padding: EdgeInsets.all(0),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.all(0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 10,
           childAspectRatio: 1,
@@ -48,7 +50,7 @@ class FavAnimeGridView extends StatelessWidget {
                 );
               },
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 5),
                 child: SizedBox.square(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),

@@ -15,6 +15,28 @@ import 'package:anilist/graphql/__generated__/airing_schedule_query.req.gql.dart
     show GAiringScheduleQueryReq;
 import 'package:anilist/graphql/__generated__/airing_schedule_query.var.gql.dart'
     show GAiringScheduleQueryVars;
+import 'package:anilist/graphql/__generated__/CharacterDetailQuery.data.gql.dart'
+    show
+        GCharacterDetailQueryData,
+        GCharacterDetailQueryData_Character,
+        GCharacterDetailQueryData_Character_dateOfBirth,
+        GCharacterDetailQueryData_Character_image,
+        GCharacterDetailQueryData_Character_media,
+        GCharacterDetailQueryData_Character_media_edges,
+        GCharacterDetailQueryData_Character_media_edges_node,
+        GCharacterDetailQueryData_Character_media_edges_node_coverImage,
+        GCharacterDetailQueryData_Character_media_edges_node_mediaListEntry,
+        GCharacterDetailQueryData_Character_media_edges_node_startDate,
+        GCharacterDetailQueryData_Character_media_edges_node_title,
+        GCharacterDetailQueryData_Character_media_edges_voiceActors,
+        GCharacterDetailQueryData_Character_media_edges_voiceActors_image,
+        GCharacterDetailQueryData_Character_media_edges_voiceActors_name,
+        GCharacterDetailQueryData_Character_media_pageInfo,
+        GCharacterDetailQueryData_Character_name;
+import 'package:anilist/graphql/__generated__/CharacterDetailQuery.req.gql.dart'
+    show GCharacterDetailQueryReq;
+import 'package:anilist/graphql/__generated__/CharacterDetailQuery.var.gql.dart'
+    show GCharacterDetailQueryVars;
 import 'package:anilist/graphql/__generated__/DeleteMediaListEntry.data.gql.dart'
     show
         GDeleteMediaListEntryData,
@@ -331,6 +353,24 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAiringScheduleQueryVars,
   GAiringSort,
   GAniChartHighlightInput,
+  GCharacterDetailQueryData,
+  GCharacterDetailQueryData_Character,
+  GCharacterDetailQueryData_Character_dateOfBirth,
+  GCharacterDetailQueryData_Character_image,
+  GCharacterDetailQueryData_Character_media,
+  GCharacterDetailQueryData_Character_media_edges,
+  GCharacterDetailQueryData_Character_media_edges_node,
+  GCharacterDetailQueryData_Character_media_edges_node_coverImage,
+  GCharacterDetailQueryData_Character_media_edges_node_mediaListEntry,
+  GCharacterDetailQueryData_Character_media_edges_node_startDate,
+  GCharacterDetailQueryData_Character_media_edges_node_title,
+  GCharacterDetailQueryData_Character_media_edges_voiceActors,
+  GCharacterDetailQueryData_Character_media_edges_voiceActors_image,
+  GCharacterDetailQueryData_Character_media_edges_voiceActors_name,
+  GCharacterDetailQueryData_Character_media_pageInfo,
+  GCharacterDetailQueryData_Character_name,
+  GCharacterDetailQueryReq,
+  GCharacterDetailQueryVars,
   GCharacterNameInput,
   GCharacterRole,
   GCharacterSort,

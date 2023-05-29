@@ -8,9 +8,11 @@ class AppRouteConstant {
   static Route SearchScreen = Route('search', '/search');
   static Route SettingScreen = Route('settings', '/settings');
   static Route MediaScreen = Route('media', '/media');
-  static Route Character = Route('character', '/character');
+  static Route Character = Route('character-media', '/character/media');
   static Route Review = Route('review', '/review');
   static Route ACTIVITY = Route('activity', '/activity');
+  static Route CharacterDetailScreen =
+      Route('character', '/character/:id/:title');
 }
 
 class Route {

@@ -383,7 +383,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       splashRadius: 1,
                       onPressed: () {
                         launchUrlString(
-                          'https://www.github.com/subrotokumar',
+                          'https://www.github.com/subrotokumar/kurumi',
                           mode: LaunchMode.externalApplication,
                         );
                       },
@@ -427,7 +427,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 0.1.21 Beta'),
+                const Text('Version 0.1.22 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
