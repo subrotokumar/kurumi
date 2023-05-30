@@ -36,7 +36,9 @@ Whether you're a seasoned anime and manga fan or just starting out, our app is t
 
 The android app lets you:
 
-- Supports Android 4.3 or up.
+- Experience Intuitive UI and phenomenal experience.
+- Browse extensive collection of media
+- Tracking your progress, rating never been so simple.
 - Completely ad-free.
 
 ## Screenshots
@@ -53,12 +55,18 @@ On Android versions prior to Android 6.0, Kurumi requires the following permissi
 
 The "Run at startup" permission is only used if Auto-Sync feature is enabled and is not utilised otherwise. The network access permissions are made use of for downloading content. The external storage permission is used to cache article images for viewing offline.
 
-## Contributing
-
-Kurumi app is a free and open source project developed by [subrotokumar](https://www.github.com/subrotokumar). Any contributions are welcome. Here are a few ways you can help:
+## Support
+<!-- 
+Kurumi app is a free and open source project developed by [subrotokumar](https://www.github.com/subrotokumar).  -->
+Any contributions are welcome. Here are a few ways you can help:
  * [Report bugs and make suggestions.](https://github.com/subrotokumar/kurumi/issues)
+ * Want to support kurumi's creator:   
+    
+   <img src="./assets/images/bmc.png" height="50">
 
 ## License
 
 This application is released under GNU GPLv3 (see [LICENSE](LICENSE)).
 Some of the used libraries are released under different licenses.
+
+[**Change Log**](./changelog.md)
