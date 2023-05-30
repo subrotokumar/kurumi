@@ -291,6 +291,25 @@ import 'package:anilist/graphql/__generated__/SearchMangaQuery.req.gql.dart'
     show GSearchMangaQueryReq;
 import 'package:anilist/graphql/__generated__/SearchMangaQuery.var.gql.dart'
     show GSearchMangaQueryVars;
+import 'package:anilist/graphql/__generated__/StaffQuery.data.gql.dart'
+    show
+        GStaffQueryData,
+        GStaffQueryData_Staff,
+        GStaffQueryData_Staff_characterMedia,
+        GStaffQueryData_Staff_characterMedia_nodes,
+        GStaffQueryData_Staff_characterMedia_nodes_coverImage,
+        GStaffQueryData_Staff_characterMedia_nodes_title,
+        GStaffQueryData_Staff_characters,
+        GStaffQueryData_Staff_characters_nodes,
+        GStaffQueryData_Staff_characters_nodes_image,
+        GStaffQueryData_Staff_characters_nodes_name,
+        GStaffQueryData_Staff_dateOfBirth,
+        GStaffQueryData_Staff_image,
+        GStaffQueryData_Staff_name;
+import 'package:anilist/graphql/__generated__/StaffQuery.req.gql.dart'
+    show GStaffQueryReq;
+import 'package:anilist/graphql/__generated__/StaffQuery.var.gql.dart'
+    show GStaffQueryVars;
 import 'package:anilist/graphql/__generated__/ToggleFavourite.data.gql.dart'
     show
         GToggleFavouriteData,
@@ -563,6 +582,21 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSiteTrendSort,
   GStaffLanguage,
   GStaffNameInput,
+  GStaffQueryData,
+  GStaffQueryData_Staff,
+  GStaffQueryData_Staff_characterMedia,
+  GStaffQueryData_Staff_characterMedia_nodes,
+  GStaffQueryData_Staff_characterMedia_nodes_coverImage,
+  GStaffQueryData_Staff_characterMedia_nodes_title,
+  GStaffQueryData_Staff_characters,
+  GStaffQueryData_Staff_characters_nodes,
+  GStaffQueryData_Staff_characters_nodes_image,
+  GStaffQueryData_Staff_characters_nodes_name,
+  GStaffQueryData_Staff_dateOfBirth,
+  GStaffQueryData_Staff_image,
+  GStaffQueryData_Staff_name,
+  GStaffQueryReq,
+  GStaffQueryVars,
   GStaffSort,
   GStudioSort,
   GSubmissionSort,

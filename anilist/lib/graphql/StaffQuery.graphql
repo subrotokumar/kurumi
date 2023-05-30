@@ -1,0 +1,50 @@
+query StaffQuery($id: Int) {
+  Staff(id: $id) {
+    name {
+      full
+      userPreferred
+    }
+    languageV2
+    image {
+      medium
+      large
+    }
+    description(asHtml: false)
+    gender
+    dateOfBirth {
+      day
+      month
+      year
+    }
+    age
+    homeTown
+    bloodType
+    characters {
+      nodes {
+        id
+        name {
+          full
+          userPreferred
+        }
+        image {
+          medium
+          large
+        }
+      }
+    }
+    characterMedia {
+      nodes {
+        id
+        title {
+          userPreferred
+          english
+        }
+        coverImage {
+          medium
+          large
+        }
+        format
+      }
+    }
+  }
+}

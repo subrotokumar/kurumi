@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 export 'package:go_router/go_router.dart';
 
 class AppRouteConstant {
@@ -13,6 +15,7 @@ class AppRouteConstant {
   static Route ACTIVITY = Route('activity', '/activity');
   static Route CharacterDetailScreen =
       Route('character', '/character/:id/:title');
+  static Route VAScreen = Route('staff', '/staff/:id/:name');
 }
 
 class Route {

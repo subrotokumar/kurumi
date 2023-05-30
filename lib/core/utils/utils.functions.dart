@@ -40,3 +40,16 @@ showSnackBar(BuildContext context, String text,
     );
 
 final log = Logger();
+
+String validMarkdown(String? markdown) {
+  if (markdown == null) return '';
+  RegExp regex = RegExp(r'(img\d+)?\(((?:https?://|/).*?)\)');
+  String res = markdown.replaceAllMapped(regex, (match) {
+    String imageAlt = match.group(1) ?? '';
+    String imageUrl = match.group(2) ?? '';
+
+    return '![$imageAlt]($imageUrl)';
+  });
+  log.v(res.replaceAll('~', '').replaceAll('_', ''));
+  return res.replaceAll('~', '').replaceAll('_', '');
+}

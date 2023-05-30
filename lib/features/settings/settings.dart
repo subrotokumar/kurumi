@@ -1,6 +1,8 @@
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/features/webview/webview.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -59,7 +61,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     leading: Text(
                       ' General',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w400,
                         fontSize: 18,
                       ),
                     ),
@@ -193,7 +195,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     leading: Text(
                       ' Account',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w400,
                         fontSize: 18,
                       ),
                     ),
@@ -276,14 +278,43 @@ class _SettingScreenState extends State<SettingScreen> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   onTap: () async {
-                    await launchUrlString(
-                      'https://subrotokumar.github.io/privacy-policy/kurumi.html',
-                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const InAppWebview(
+                            title: 'Kurumi',
+                            url:
+                                'https://subrotokumar.github.io/privacy-policy/kurumi.html',
+                          ),
+                        ));
                   },
                   leading: const Text(
                     'Privacy Policy',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                    ),
+                  ),
+                  trailing: LineIcon.link(color: Colors.white),
+                ),
+                // * Change Log
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const InAppWebview(
+                            title: 'Change Log',
+                            url:
+                                'https://subrotokumar.github.io/kurumi/changelog.html',
+                          ),
+                        ));
+                  },
+                  leading: const Text(
+                    'Change Log',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
                       fontSize: 18,
                     ),
                   ),
@@ -340,7 +371,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   leading: const Text(
                     'Rate Us',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       fontSize: 18,
                     ),
                   ),
@@ -351,7 +382,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: Text(
                     'Want to support Kurumi\'s Creator ?',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       fontSize: 18,
                     ),
                   ),
@@ -427,7 +458,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 0.1.22 Beta'),
+                const Text('Version 1.0.0 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

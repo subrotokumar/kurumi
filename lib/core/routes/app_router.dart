@@ -13,6 +13,7 @@ import 'package:kurumi/features/reviews/review_screen.dart';
 import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
+import 'package:kurumi/features/va/voice_artist.dart';
 export 'package:go_router/go_router.dart';
 
 final router = Provider<GoRouter>(
@@ -105,6 +106,14 @@ final router = Provider<GoRouter>(
           return CharacterDetailScreen(
             id: id,
           );
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.VAScreen.name,
+        path: AppRouteConstant.VAScreen.path,
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          return VAScreen(id: id);
         },
       ),
       GoRoute(

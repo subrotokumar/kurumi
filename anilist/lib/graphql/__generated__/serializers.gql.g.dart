@@ -283,6 +283,21 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GSiteTrendSort.serializer)
       ..add(GStaffLanguage.serializer)
       ..add(GStaffNameInput.serializer)
+      ..add(GStaffQueryData.serializer)
+      ..add(GStaffQueryData_Staff.serializer)
+      ..add(GStaffQueryData_Staff_characterMedia.serializer)
+      ..add(GStaffQueryData_Staff_characterMedia_nodes.serializer)
+      ..add(GStaffQueryData_Staff_characterMedia_nodes_coverImage.serializer)
+      ..add(GStaffQueryData_Staff_characterMedia_nodes_title.serializer)
+      ..add(GStaffQueryData_Staff_characters.serializer)
+      ..add(GStaffQueryData_Staff_characters_nodes.serializer)
+      ..add(GStaffQueryData_Staff_characters_nodes_image.serializer)
+      ..add(GStaffQueryData_Staff_characters_nodes_name.serializer)
+      ..add(GStaffQueryData_Staff_dateOfBirth.serializer)
+      ..add(GStaffQueryData_Staff_image.serializer)
+      ..add(GStaffQueryData_Staff_name.serializer)
+      ..add(GStaffQueryReq.serializer)
+      ..add(GStaffQueryVars.serializer)
       ..add(GStaffSort.serializer)
       ..add(GStudioSort.serializer)
       ..add(GSubmissionSort.serializer)
@@ -516,6 +531,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () =>
               new ListBuilder<GSearchMangaQueryData_Page_media_staff_edges?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(GStaffQueryData_Staff_characterMedia_nodes)
+          ]),
+          () => new ListBuilder<GStaffQueryData_Staff_characterMedia_nodes?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(GStaffQueryData_Staff_characters_nodes)
+          ]),
+          () => new ListBuilder<GStaffQueryData_Staff_characters_nodes?>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType.nullable(

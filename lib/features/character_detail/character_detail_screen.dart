@@ -61,10 +61,7 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                             ),
-                            onPressed: () async {
-                              Clipboard.setData(ClipboardData(
-                                  text: ref.watch(accessTokenProvider) ?? ''));
-                            },
+                            onPressed: () {},
                             icon: LineIcon.heartAlt(
                               color: (data?.isFavourite ?? false)
                                   ? Colors.redAccent
@@ -203,6 +200,14 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                                       () => showDescription = !showDescription);
                                 },
                                 child: Markdown(
+                                  onTapLink: (text, href, title) {
+                                    if (href == null) return;
+                                    if (href
+                                        .startsWith('https://anilist.co/')) {
+                                      context.push(href.replaceAll(
+                                          'https://anilist.co', ''));
+                                    }
+                                  },
                                   padding: const EdgeInsets.all(0),
                                   data: data?.description
                                           .toString()
@@ -254,87 +259,104 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                                     ?.length ??
                                 0),
                             itemBuilder: (context, index) {
-                              return Container(
-                                width: 85,
-                                height: 145,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: CachedNetworkImage(
-                                            imageUrl: data
-                                                    ?.media
-                                                    ?.edges
-                                                    ?.first
-                                                    ?.voiceActors?[index]
-                                                    ?.image
-                                                    ?.large ??
-                                                '',
-                                            width: 80,
-                                            height: 100,
-                                            fit: BoxFit.cover,
+                              return GestureDetector(
+                                onTap: () => context.pushNamed(
+                                  AppRouteConstant.VAScreen.name,
+                                  pathParameters: {
+                                    'id': (data?.media?.edges?.first
+                                                ?.voiceActors?[index]?.id ??
+                                            -1)
+                                        .toString(),
+                                    'name': data?.media?.edges?.first
+                                            ?.voiceActors?[index]?.name?.full ??
+                                        ''
+                                  },
+                                ),
+                                child: Container(
+                                  width: 85,
+                                  height: 145,
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            child: CachedNetworkImage(
+                                              imageUrl: data
+                                                      ?.media
+                                                      ?.edges
+                                                      ?.first
+                                                      ?.voiceActors?[index]
+                                                      ?.image
+                                                      ?.large ??
+                                                  '',
+                                              width: 80,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                        ),
-                                        Positioned(
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0,
-                                          child: Container(
-                                            width: 80,
-                                            height: 20,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.black38,
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                        bottom: Radius.circular(
-                                                            16))),
-                                            child: Center(
-                                              child: Text(
-                                                data
-                                                        ?.media
-                                                        ?.edges
-                                                        ?.first
-                                                        ?.voiceActors?[index]
-                                                        ?.language
-                                                        ?.name ??
-                                                    '',
-                                                textAlign: TextAlign.center,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 11,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            child: Container(
+                                              width: 80,
+                                              height: 20,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.black38,
+                                                  borderRadius:
+                                                      BorderRadius.vertical(
+                                                          bottom:
+                                                              Radius.circular(
+                                                                  16))),
+                                              child: Center(
+                                                child: Text(
+                                                  data
+                                                          ?.media
+                                                          ?.edges
+                                                          ?.first
+                                                          ?.voiceActors?[index]
+                                                          ?.language
+                                                          ?.name ??
+                                                      '',
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      data
-                                              ?.media
-                                              ?.edges
-                                              ?.first
-                                              ?.voiceActors?[index]
-                                              ?.name
-                                              ?.full ??
-                                          '',
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 11,
+                                        ],
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        data
+                                                ?.media
+                                                ?.edges
+                                                ?.first
+                                                ?.voiceActors?[index]
+                                                ?.name
+                                                ?.full ??
+                                            '',
+                                        maxLines: 1,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

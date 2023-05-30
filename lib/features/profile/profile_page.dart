@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: AppTheme.background,
       body: Consumer(builder: (context, ref, child) {
         final client = ref.read(clientProvider);
-        return Container(
+        return SizedBox(
           width: size.width,
           height: size.height,
           child: Operation<GProfileData, GProfileVars>(
@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      Container(
                         height: 250,
                         child: Stack(
                           children: [
@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Positioned(
-                              bottom: 0,
+                              bottom: 10,
                               left: 0,
                               right: 0,
                               child: Container(
@@ -189,10 +189,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Positioned(
-                              bottom: -2,
+                              bottom: -5,
                               child: Container(
                                 width: size.width,
-                                height: 5,
+                                height: 10,
                                 color: AppTheme.background,
                               ),
                             ),

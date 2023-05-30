@@ -202,21 +202,27 @@ class CharacterScreen extends StatelessWidget {
                         ? const BoxConstraints(maxHeight: 300)
                         : const BoxConstraints(),
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() => showDescription = !showDescription);
-                      },
-                      child: Markdown(
-                        padding: const EdgeInsets.all(0),
-                        data: characterData?.node?.description
-                                .toString()
-                                .replaceAll('\n', '\n\n')
-                                .replaceAll('~', '_') ??
-                            '',
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        selectable: true,
-                      ),
-                    ),
+                        onTap: () {
+                          setState(() => showDescription = !showDescription);
+                        },
+                        child: Markdown(
+                          onTapLink: (text, href, title) {
+                            if (href == null) return;
+                            if (href.startsWith('https://anilist.co/')) {
+                              context.push(
+                                  href.replaceAll('https://anilist.co', ''));
+                            }
+                          },
+                          padding: const EdgeInsets.all(0),
+                          data: characterData?.node?.description
+                                  .toString()
+                                  .replaceAll('\n', '\n\n')
+                                  .replaceAll('~', '_') ??
+                              '',
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          selectable: true,
+                        )),
                   ),
                 ),
               ),
@@ -260,13 +266,23 @@ class CharacterScreen extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: CachedNetworkImage(
-                                  imageUrl: characterData?.voiceActors?[index]
-                                          ?.image?.medium ??
-                                      '',
-                                  width: 80,
-                                  height: 100,
-                                  fit: BoxFit.cover,
+                                child: GestureDetector(
+                                  onTap: () => context.pushNamed(
+                                      AppRouteConstant.VAScreen.name,
+                                      pathParameters: {
+                                        'id':
+                                            '${characterData?.voiceActors?[index]?.id}',
+                                        'name':
+                                            '${characterData?.voiceActors?[index]?.name?.full}'
+                                      }),
+                                  child: CachedNetworkImage(
+                                    imageUrl: characterData?.voiceActors?[index]
+                                            ?.image?.medium ??
+                                        '',
+                                    width: 80,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                               Positioned(

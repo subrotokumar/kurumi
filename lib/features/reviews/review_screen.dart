@@ -3,9 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 
 class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({required this.id, required this.reviewData, super.key});
@@ -15,9 +15,10 @@ class ReviewScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: AppTheme.background,
-      body: Container(
+      backgroundColor: const Color(0xff1f1f1f),
+      body: SizedBox(
         width: size.width,
         height: size.height,
         child: Stack(
@@ -25,14 +26,14 @@ class ReviewScreen extends ConsumerWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: size.height * .6,
+                height: size.height * .7,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       Colors.transparent,
-                      AppTheme.background.withOpacity(.1),
-                      AppTheme.background.withOpacity(.6),
-                      AppTheme.background,
+                      const Color(0xff1f1f1f).withOpacity(.1),
+                      const Color(0xff1f1f1f).withOpacity(.6),
+                      const Color(0xff1f1f1f),
                     ].reversed.toList(),
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -46,12 +47,9 @@ class ReviewScreen extends ConsumerWidget {
                     children: [
                       const SizedBox(height: 30),
                       Builder(builder: (context) {
-                        //print(reviewData.body);
                         return Markdown(
                           padding: const EdgeInsets.all(0),
-                          data: '${reviewData.body ?? ''}'
-                              .replaceAll('\n', '\n\n')
-                              .replaceAll('~', '_'),
+                          data: validMarkdown(reviewData.body),
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
                           selectable: true,
@@ -59,6 +57,8 @@ class ReviewScreen extends ConsumerWidget {
                             p: const TextStyle(
                               fontSize: 16,
                             ),
+                            blockquoteDecoration:
+                                const BoxDecoration(color: Colors.white12),
                           ),
                         );
                       }),
@@ -81,8 +81,9 @@ class ReviewScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      if (false)
-                        Row(
+                      Visibility(
+                        visible: false,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
@@ -109,7 +110,8 @@ class ReviewScreen extends ConsumerWidget {
                               ),
                             ),
                           ],
-                        )
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -118,7 +120,7 @@ class ReviewScreen extends ConsumerWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                margin: EdgeInsets.only(top: size.height * .4),
+                margin: EdgeInsets.only(top: size.height * .3),
                 height: 40,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -145,7 +147,7 @@ class ReviewScreen extends ConsumerWidget {
                 );
               },
               child: SizedBox(
-                height: size.height * .4,
+                height: size.height * .3,
                 child: Stack(
                   children: [
                     CachedNetworkImage(
@@ -171,33 +173,48 @@ class ReviewScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 30),
-                          Text(
-                            '${reviewData.media?.title?.userPreferred}',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 24,
+                    Positioned(
+                      bottom: 0,
+                      child: SizedBox(
+                        width: size.width,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 30),
+                            Text(
+                              '${reviewData.media?.title?.userPreferred}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 24,
+                                color: Colors.grey.shade300,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'a review by ${reviewData.user?.name ?? ''}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.blueAccent.shade200,
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
+                                child: Text(
+                                  reviewData.user?.name ?? '',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Colors.blue.shade100,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                        ],
+                            const SizedBox(height: 12),
+                            Container(
+                              height: 1,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
