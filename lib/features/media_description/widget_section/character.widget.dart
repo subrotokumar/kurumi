@@ -2,7 +2,6 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 
 class CharactersWidget extends StatelessWidget {
@@ -24,7 +23,7 @@ class CharactersWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               'CHARACTERS',
@@ -34,11 +33,11 @@ class CharactersWidget extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 140,
             width: size.width,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               scrollDirection: Axis.horizontal,
               itemCount: data?.characters?.edges?.length ?? 0,
               itemBuilder: (context, index) {
@@ -46,7 +45,7 @@ class CharactersWidget extends StatelessWidget {
                     data?.characters?.edges?.elementAt(index)?.node;
                 return Container(
                   width: 80,
-                  margin: EdgeInsets.only(left: 12),
+                  margin: const EdgeInsets.only(left: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -81,13 +80,13 @@ class CharactersWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         characterData?.name?.full ?? '',
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 11),
+                        style: const TextStyle(fontSize: 11),
                       ),
                     ],
                   ),

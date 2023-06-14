@@ -1,4 +1,4 @@
-// ignore_for_file: dead_code
+// ignore_for_file: dead_code, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';

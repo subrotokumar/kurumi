@@ -14,7 +14,7 @@ class MediaGenreSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: size.width,
       child: Wrap(
         alignment: WrapAlignment.start,
@@ -22,7 +22,7 @@ class MediaGenreSection extends StatelessWidget {
           for (int i = 0; i < (data?.genres?.length ?? 0); i++)
             Builder(
               builder: (context) => Card(
-                margin: EdgeInsets.only(
+                margin: const EdgeInsets.only(
                   right: 8,
                   bottom: 8,
                 ),

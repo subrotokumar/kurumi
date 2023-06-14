@@ -1,10 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:anilist/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/discover/widgets/banner.widget.dart';
@@ -19,7 +20,7 @@ import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 
 class DiscoverTab extends StatefulWidget {
-  DiscoverTab({super.key});
+  const DiscoverTab({super.key});
 
   @override
   State<DiscoverTab> createState() => _DiscoverTabState();
@@ -36,11 +37,12 @@ class _DiscoverTabState extends State<DiscoverTab> {
           width: size.width,
           child: Stack(
             children: [
-              BannerWidget(),
+              const BannerWidget(),
               Container(
                 width: size.height,
                 height: size.height / 3,
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -50,14 +52,15 @@ class _DiscoverTabState extends State<DiscoverTab> {
                         final type = ref.watch(discoverTabProvider);
                         return IconButton(
                           style: IconButton.styleFrom(
-                            fixedSize: Size(30, 50),
+                            fixedSize: const Size(30, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             backgroundColor: Colors.black45,
-                            side: BorderSide(color: Colors.white, width: 1.5),
+                            side: const BorderSide(
+                                color: Colors.white, width: 1.5),
                           ),
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.search,
                             weight: 1.5,
                             color: Colors.white,
@@ -80,17 +83,17 @@ class _DiscoverTabState extends State<DiscoverTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TabControllerWidget(),
+                    const TabControllerWidget(),
                     SubTabWidget(size: size),
-                    TrendingNowTitle(),
-                    TrendingMedia(),
-                    PopularThisSeasonTitle(),
-                    PopularMedia(),
-                    ReviewSection(),
-                    UpcomingNextSeasonAnimeTitle(),
-                    NextSeasonAnimme(),
-                    Top100AnimeTitle(),
-                    Top100Media(),
+                    const TrendingNowTitle(),
+                    const TrendingMedia(),
+                    const PopularThisSeasonTitle(),
+                    const PopularMedia(),
+                    const ReviewSection(),
+                    const UpcomingNextSeasonAnimeTitle(),
+                    const NextSeasonAnimme(),
+                    const Top100AnimeTitle(),
+                    const Top100Media(),
                   ],
                 ),
               )
@@ -118,7 +121,7 @@ class SubTabWidget extends StatelessWidget {
       Colors.green
     ];
     return Container(
-      margin: EdgeInsets.only(top: 30, bottom: 12),
+      margin: const EdgeInsets.only(top: 30, bottom: 12),
       child: Consumer(
         builder: (context, ref, child) => SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -126,7 +129,7 @@ class SubTabWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Box(
                 height,
                 padding,
@@ -135,14 +138,12 @@ class SubTabWidget extends StatelessWidget {
                 color[2],
                 () {
                   HapticFeedback.mediumImpact();
-                  try {
-                    ref.read(ActivityPage).jumpToPage(0);
-                  } catch (e) {}
+                  ref.read(ActivityPage).jumpToPage(0);
                   context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
                 },
-                Icon(Icons.notifications),
+                const Icon(Icons.notifications),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Box(
                 height,
                 padding,
@@ -155,7 +156,7 @@ class SubTabWidget extends StatelessWidget {
                 },
                 LineIcon.calendar(),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Consumer(
                 builder: (context, ref, child) {
                   final DiscoverTabProvider = ref.watch(discoverTabProvider);
@@ -175,11 +176,11 @@ class SubTabWidget extends StatelessWidget {
                             GMediaType.ANIME;
                       }
                     },
-                    Icon(Icons.ramen_dining),
+                    const Icon(Icons.ramen_dining),
                   );
                 },
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
             ],
           ),
         ),
@@ -209,9 +210,9 @@ class SubTabWidget extends StatelessWidget {
       child: TextButton.icon(
         style: TextButton.styleFrom(
           foregroundColor: col,
-          visualDensity: VisualDensity(vertical: -1),
-          fixedSize: Size.fromHeight(35),
-          textStyle: TextStyle(fontSize: 15),
+          visualDensity: const VisualDensity(vertical: -1),
+          fixedSize: const Size.fromHeight(35),
+          textStyle: const TextStyle(fontSize: 15),
         ),
         onPressed: func,
         icon: icon,

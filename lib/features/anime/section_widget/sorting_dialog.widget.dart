@@ -15,9 +15,9 @@ Future<void> sortingDialog({
   final currentSetting = ref.read(sortType);
 
   final options = sortingSettingOption.values.toList();
-  Sort order = currentSetting.sort ?? Sort.ASC;
+  Sort order = currentSetting.sort;
   int optionSelected = options.indexOf(currentSetting.filter);
-  String? val = await showDialog(
+  await showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(

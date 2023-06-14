@@ -91,7 +91,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
         quarterTurns: 3,
         child: TextButton(
           style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(),
+            shape: const RoundedRectangleBorder(),
             backgroundColor: pageIndex == pageNum ? Colors.white10 : null,
           ),
           onPressed: () {
@@ -100,13 +100,13 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             controller.animateToPage(
               pageNum,
               curve: Curves.linear,
-              duration: Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 600),
             );
             ref.read(mangaTabProvider.notifier).update((state) => pageNum);
           },
           child: Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.w700),
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
         ),
       ),

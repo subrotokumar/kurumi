@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 
 class FavAnimeGridView extends StatelessWidget {
   const FavAnimeGridView({

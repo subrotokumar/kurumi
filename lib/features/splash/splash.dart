@@ -13,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/core/constants/asset.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/main.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
@@ -42,7 +41,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     AndroidOptions _getAndroidOptions() => const AndroidOptions(
           encryptedSharedPreferences: true,
         );
-    final flutterSecureStorage = FlutterSecureStorage();
+    const flutterSecureStorage = FlutterSecureStorage();
     final accessToken = await flutterSecureStorage.read(
       key: 'AniListAccessToken',
       aOptions: _getAndroidOptions(),
@@ -86,12 +85,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
     final pref = await SharedPreferences.getInstance();
     if (pref.containsKey('DefaultDiscoverPage')) {
-      if (pref.getString('DefaultDiscoverPage') == 'MANGA')
+      if (pref.getString('DefaultDiscoverPage') == 'MANGA') {
         ref.read(discoverTabProvider.notifier).state = GMediaType.MANGA;
+      }
     }
     final isLoggedIn = pref.getBool('isLoggedIn') ?? false;
     timer = Timer(
-      Duration(seconds: 0),
+      const Duration(seconds: 0),
       () {
         if (isLoggedIn && accessToken != null) {
           context.goNamed(AppRouteConstant.HomeScreen.name);
@@ -117,8 +117,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
               LottieAssets.ghibli,
               width: 300,
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
+            const Padding(
+              padding: EdgeInsets.all(10),
               child: Text(
                 'Kurumi',
                 style: TextStyle(

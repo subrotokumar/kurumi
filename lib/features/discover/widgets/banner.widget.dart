@@ -6,14 +6,12 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/utils/utils.functions.dart';
-import 'package:kurumi/provider/provider.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/discover/widgets/background.widget.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class BannerWidget extends ConsumerStatefulWidget {
   const BannerWidget({super.key});
@@ -45,7 +43,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
             ),
             builder: (context, response, error) {
               if (response == null) {
-                return Center(
+                return const Center(
                   child: Text('404'),
                 );
               }
@@ -100,13 +98,13 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                           child: Container(
                             height: 10,
                             width: size.width,
-                            margin: EdgeInsets.only(top: 5),
+                            margin: const EdgeInsets.only(top: 5),
                             color: AppTheme.background,
                           ),
                         ),
                         Container(
                           height: size.height * .4,
-                          padding: EdgeInsets.symmetric(horizontal: 60),
+                          padding: const EdgeInsets.symmetric(horizontal: 60),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -56,15 +56,15 @@ class BannerAppBar extends ConsumerWidget {
               ),
             ),
             Positioned(
+              bottom: -5,
               child: Container(
                 height: 10,
                 width: size.width,
                 color: AppTheme.background,
               ),
-              bottom: -5,
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(20, 40, 10, 10),
+              padding: const EdgeInsets.fromLTRB(20, 40, 10, 10),
               child: Row(
                 children: [
                   IconButton(
@@ -73,16 +73,16 @@ class BannerAppBar extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      fixedSize: Size.square(25),
+                      fixedSize: const Size.square(25),
                       backgroundColor: Colors.black12,
-                      side: BorderSide(color: Colors.white12, width: 0.5),
+                      side: const BorderSide(color: Colors.white12, width: 0.5),
                     ),
                     onPressed: () {
                       if (context.canPop()) {
                         context.pop();
                       }
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 25,
                       // shadows: [
@@ -93,10 +93,10 @@ class BannerAppBar extends ConsumerWidget {
                       // ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     '${data?.favourites ?? 0}',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Colors.white,
@@ -149,7 +149,7 @@ class BannerAppBar extends ConsumerWidget {
                         color: (data?.isFavourite ?? false)
                             ? Colors.redAccent
                             : Colors.white,
-                        shadows: [
+                        shadows: const [
                           Shadow(
                             color: Colors.black,
                             blurRadius: 5,

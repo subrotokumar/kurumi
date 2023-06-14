@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:anilist/graphql/__generated__/StaffQuery.data.gql.dart';
 import 'package:anilist/graphql/__generated__/StaffQuery.req.gql.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,12 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class VAScreen extends ConsumerStatefulWidget {
@@ -44,7 +44,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
             if (response == null || response.loading) {
               return Center(child: LoadingWidget);
             } else {
-              log.v(response?.data?.Staff, error);
+              log.v(response.data?.Staff, error);
               final data = response.data?.Staff;
               return Stack(
                 children: [
@@ -80,11 +80,8 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                             ''),
                                   );
                                 },
-                                icon: LineIcon.heartAlt(
-                                  color:
-                                      (null ?? false) ? Colors.redAccent : null,
-                                ),
-                                label: Text(56768.toString() ?? ''),
+                                icon: LineIcon.heartAlt(),
+                                label: Text(56768.toString()),
                               ),
                             ],
                           ),
@@ -243,7 +240,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                       color: Colors.grey),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 140,
                                 width: size.width,
                                 child: ListView.builder(

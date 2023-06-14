@@ -6,7 +6,6 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -381,7 +380,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                     final directory =
                                                         (await getExternalStorageDirectory())
                                                             ?.path;
-                                                    File imgFile = new File(
+                                                    File imgFile = File(
                                                         '$directory/kurumi.png');
                                                     await imgFile
                                                         .writeAsBytes(img!);

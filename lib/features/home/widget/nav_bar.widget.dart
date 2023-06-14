@@ -6,7 +6,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:kurumi/features/home/homepage.dart';
 
 class NavBar extends ConsumerWidget {
-  NavBar({required this.pageController, Key? key}) : super(key: key);
+  const NavBar({required this.pageController, Key? key}) : super(key: key);
   final PageController pageController;
 
   @override
@@ -36,9 +36,9 @@ class NavBar extends ConsumerWidget {
         child: Container(
           height: 45,
           width: width - 50,
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 50, 50, 50).withOpacity(0.9),
+            color: const Color.fromARGB(255, 50, 50, 50).withOpacity(0.9),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(

@@ -7,7 +7,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+
+import 'package:kurumi/core/utils/utils.functions.dart';
 
 final navBarVisibilityProvider = StateProvider.autoDispose<bool>((ref) => true);
 
@@ -204,7 +205,7 @@ class _InAppWebviewState extends ConsumerState<InAppWebview> {
                           });
                         },
                         onConsoleMessage: (controller, consoleMessage) {
-                          print(consoleMessage);
+                          log.d(consoleMessage);
                         },
                       ),
                     ),

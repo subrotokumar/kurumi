@@ -119,7 +119,7 @@ class ScheduleScreen extends StatelessWidget {
                                 final t = DateFormat()
                                     .format(time.add(Duration(days: i)));
                                 return Text(
-                                  '${t.substring(0, t.indexOf(','))}',
+                                  t.substring(0, t.indexOf(',')),
                                   style: const TextStyle(fontSize: 12),
                                 );
                               }),
@@ -247,7 +247,7 @@ class SchedulePerDay extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '$title',
+                                  title,
                                   textAlign: TextAlign.left,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,

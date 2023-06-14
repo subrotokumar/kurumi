@@ -18,7 +18,7 @@ class _MediaDescriptionState extends State<MediaDescription> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
         onTap: () => setState(() => showDescription = !showDescription),
         child: Column(

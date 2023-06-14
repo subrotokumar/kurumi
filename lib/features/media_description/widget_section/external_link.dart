@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ExternalLinkWidget extends StatelessWidget {
-  ExternalLinkWidget({this.data, super.key});
+  const ExternalLinkWidget({this.data, super.key});
   final GMediaDetailQueryData_Media? data;
 
   @override
@@ -14,8 +14,8 @@ class ExternalLinkWidget extends StatelessWidget {
           (data?.externalLinks?.isNotEmpty ?? false),
       child: Column(
         children: [
-          SizedBox(height: 10),
-          Padding(
+          const SizedBox(height: 10),
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,11 +31,11 @@ class ExternalLinkWidget extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: 35,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: data?.externalLinks?.length ?? 0,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -51,7 +51,7 @@ class ExternalLinkWidget extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.white12,
                       foregroundColor: iconColor,
-                      side: BorderSide(color: Colors.white),
+                      side: const BorderSide(color: Colors.white),
                     ),
                     icon: CachedNetworkImage(
                       height: 18,
@@ -72,7 +72,7 @@ class ExternalLinkWidget extends StatelessWidget {
                     },
                     label: Text(
                       data?.externalLinks?.elementAt(i)?.site ?? '',
-                      style: TextStyle(color: Colors.white, shadows: [
+                      style: const TextStyle(color: Colors.white, shadows: [
                         Shadow(color: Colors.black, blurRadius: 1)
                       ]),
                     ),
@@ -81,7 +81,7 @@ class ExternalLinkWidget extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

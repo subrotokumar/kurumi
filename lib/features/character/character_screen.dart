@@ -134,7 +134,7 @@ class CharacterScreen extends StatelessWidget {
                                 style: const TextStyle(),
                                 children: [
                                   TextSpan(
-                                    text: '${t.substring(0, t.indexOf(','))}',
+                                    text: t.substring(0, t.indexOf(',')),
                                   )
                                 ],
                               ),
@@ -349,7 +349,7 @@ class CharacterScreen extends StatelessWidget {
             ),
             Visibility(
               visible: characterData?.node?.media?.nodes?.isNotEmpty ?? false,
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 child: ListView.builder(
                   padding:

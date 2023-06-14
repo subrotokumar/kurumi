@@ -101,7 +101,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     time = DateTime.fromMillisecondsSinceEpoch(widget.time! * 1000);
   }
 
-  TextStyle textStyle = TextStyle(
+  TextStyle textStyle = const TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 15,
     letterSpacing: 3,
@@ -111,7 +111,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     return Visibility(
       visible: time != null,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             // border: Border.all(color: Colors.white12, width: 0.5),

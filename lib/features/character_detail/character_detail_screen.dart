@@ -3,15 +3,15 @@ import 'package:anilist/graphql_client.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icon.dart';
+
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:line_icons/line_icon.dart';
 
 class CharacterDetailScreen extends StatefulWidget {
   const CharacterDetailScreen({super.key, required this.id});

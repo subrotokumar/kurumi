@@ -1,19 +1,16 @@
 import 'package:anilist/tranding_anime.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
-import 'package:kurumi/provider/sorting.provider.dart';
 
 import 'section_widget/sorting_dialog.widget.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
-  AnimeScreen({super.key});
+  const AnimeScreen({super.key});
 
   @override
   ConsumerState<AnimeScreen> createState() => _AnimeScreenState();
@@ -50,7 +47,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                               extra: {'mediaType': GMediaType.ANIME},
                             );
                           },
-                          icon: Icon(Icons.search_rounded),
+                          icon: const Icon(Icons.search_rounded),
                         ),
                       ),
                     ),
@@ -234,7 +231,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
         quarterTurns: 3,
         child: TextButton(
           style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(),
+            shape: const RoundedRectangleBorder(),
             backgroundColor: pageIndex == pageNum ? Colors.white10 : null,
           ),
           onPressed: () {
@@ -243,13 +240,13 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             controller.animateToPage(
               pageNum,
               curve: Curves.linear,
-              duration: Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 600),
             );
             ref.read(animeTabProvider.notifier).update((state) => pageNum);
           },
           child: Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.w700),
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
         ),
       ),

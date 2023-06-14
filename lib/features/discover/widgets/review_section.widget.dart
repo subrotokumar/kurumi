@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:math';
 
 import 'package:anilist/graphql/__generated__/ReviewQuery.req.gql.dart';
@@ -7,10 +9,8 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
-import 'package:kurumi/main.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class ReviewSection extends StatelessWidget {
@@ -22,7 +22,7 @@ class ReviewSection extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       height: 280,
       width: size.width,
       child: Consumer(
@@ -47,7 +47,7 @@ class ReviewSection extends StatelessWidget {
                 itemCount: data?.length ?? 0,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    if (data?.elementAt(index) != null)
+                    if (data?.elementAt(index) != null) {
                       context.pushNamed(
                         AppRouteConstant.Review.name,
                         pathParameters: {
@@ -56,6 +56,7 @@ class ReviewSection extends StatelessWidget {
                         },
                         extra: data?.elementAt(index),
                       );
+                    }
                   },
                   child: SizedBox(
                     width: size.width,
@@ -106,7 +107,7 @@ class ReviewSection extends StatelessWidget {
                             child: Container(
                                 height: 160,
                                 width: size.width * 0.85,
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                   vertical: 20,
                                   horizontal: 20,
                                 ),
@@ -114,7 +115,7 @@ class ReviewSection extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.black45,
                                   border: Border.all(color: Colors.white54),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black45,
                                       blurRadius: 10,
@@ -125,8 +126,9 @@ class ReviewSection extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     ClipRRect(
-                                      borderRadius: BorderRadius.horizontal(
-                                          left: Radius.circular(12)),
+                                      borderRadius:
+                                          const BorderRadius.horizontal(
+                                              left: Radius.circular(12)),
                                       child: CachedNetworkImage(
                                         imageUrl: data
                                                 ?.elementAt(index)
@@ -141,7 +143,7 @@ class ReviewSection extends StatelessWidget {
                                     ),
                                     Flexible(
                                       child: Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -171,26 +173,26 @@ class ReviewSection extends StatelessWidget {
                                               textAlign: TextAlign.start,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 4,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 15,
                                               ),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                                Icon(Icons.thumb_up_alt),
-                                                SizedBox(width: 6),
+                                                const Icon(Icons.thumb_up_alt),
+                                                const SizedBox(width: 6),
                                                 Text(
                                                   '${data?.elementAt(index)?.rating ?? 0}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
-                                                SizedBox(width: 6),
+                                                const SizedBox(width: 6),
                                               ],
                                             )
                                           ],
@@ -232,7 +234,7 @@ class ReviewSection extends StatelessWidget {
 
   Container FadingWidget2() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.transparent,

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:anilist/medialist_collection.dart';
 import 'package:anilist/search_anime_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -60,7 +62,7 @@ class SearchMedia extends ConsumerStatefulWidget {
 }
 
 class _SearchMediaState extends ConsumerState<SearchMedia> {
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   TextEditingController textEditingController = TextEditingController();
   Set<GMediaType> mediaType = {GMediaType.ANIME};
   Set<SearchView> view = {SearchView.LIST};
@@ -353,7 +355,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
         ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: Container(
+          child: SizedBox(
             width: size.width,
             child: Consumer(
               builder: (context, ref, error) {

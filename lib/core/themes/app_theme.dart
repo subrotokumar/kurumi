@@ -10,6 +10,6 @@ class AppTheme {
 
   ThemeMode get themeMode => ThemeMode.light;
 
-  static Color background = Color(0xff111015);
-  static Color secondaryColor = Color(0xff15161b);
+  static Color background = const Color(0xff111015);
+  static Color secondaryColor = const Color(0xff15161b);
 }

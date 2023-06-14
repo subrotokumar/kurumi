@@ -2,7 +2,6 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 
 class RelationsWidget extends StatelessWidget {
   const RelationsWidget({
@@ -21,7 +20,7 @@ class RelationsWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               'Relations',
@@ -31,18 +30,18 @@ class RelationsWidget extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 200,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               scrollDirection: Axis.horizontal,
               itemCount: relations?.nodes?.length ?? 0,
               itemBuilder: (context, index) {
                 final relatedAnimeData = relations?.nodes?.elementAt(index);
                 return Container(
                   width: 100,
-                  margin: EdgeInsets.only(left: 12),
+                  margin: const EdgeInsets.only(left: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
@@ -78,7 +77,7 @@ class RelationsWidget extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     relatedAnimeData?.format?.name ?? '',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -88,7 +87,7 @@ class RelationsWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       SizedBox(
                         height: 35,
                         child: Text(
@@ -96,7 +95,7 @@ class RelationsWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 11),
+                          style: const TextStyle(fontSize: 11),
                         ),
                       ),
                     ],

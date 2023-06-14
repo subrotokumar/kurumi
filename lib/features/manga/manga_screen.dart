@@ -1,7 +1,6 @@
 import 'package:anilist/tranding_anime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/section_widget/media_list_builder.widget.dart';
@@ -9,7 +8,7 @@ import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/manga/widgets/verticle_navigation_bar.widget.dart';
 
 class MangaScreen extends ConsumerStatefulWidget {
-  MangaScreen({super.key});
+  const MangaScreen({super.key});
 
   @override
   ConsumerState<MangaScreen> createState() => _MangaScreenState();
@@ -30,7 +29,7 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
         child: SafeArea(
@@ -55,7 +54,7 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                                 extra: {'mediaType': GMediaType.MANGA},
                               );
                             },
-                            icon: Icon(Icons.search_rounded),
+                            icon: const Icon(Icons.search_rounded),
                           ),
                         ),
                       ),
@@ -67,7 +66,7 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
               Container(
                 height: size.height,
                 width: size.width - 40,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SafeArea(
                   child: Consumer(
                     builder: (context, ref, child) => PageView(
@@ -77,7 +76,7 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                             .read(mangaTabProvider.notifier)
                             .update((state) => value)
                       },
-                      children: [
+                      children: const [
                         MediaListBuilderWidget(
                           status: GMediaListStatus.CURRENT,
                           type: GMediaType.MANGA,

@@ -53,95 +53,96 @@ class _BackgroundImageState extends State<BackgroundImage> {
     final Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      // controller: scrollController,
-      child: widget.data?.bannerImage == null || true
-          ? Column(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: CachedNetworkImage(
-                    width: size.width,
-                    height: size.height * 0.5,
-                    imageUrl: widget.data?.coverImage?.extraLarge ??
-                        widget.data?.coverImage?.large ??
+        scrollDirection: Axis.horizontal,
+        // controller: scrollController,
+        child:
+            // widget.data?.bannerImage == null || true ?
+            Column(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: CachedNetworkImage(
+                width: size.width,
+                height: size.height * 0.5,
+                imageUrl: widget.data?.coverImage?.extraLarge ??
+                    widget.data?.coverImage?.large ??
+                    '',
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => CachedNetworkImage(
+                  height: 120,
+                  width: 100,
+                  imageUrl: widget.data?.coverImage?.large ??
+                      widget.data?.coverImage?.extraLarge ??
+                      '',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationX(pi),
+                child: CachedNetworkImage(
+                  width: size.width,
+                  height: size.height * 0.5,
+                  imageUrl: widget.data?.coverImage?.extraLarge ??
+                      widget.data?.coverImage?.large ??
+                      '',
+                  errorWidget: (context, url, error) => CachedNetworkImage(
+                    height: 120,
+                    width: 100,
+                    imageUrl: widget.data?.coverImage?.large ??
+                        widget.data?.coverImage?.extraLarge ??
                         '',
                     fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => CachedNetworkImage(
-                      height: 120,
-                      width: 100,
-                      imageUrl: widget.data?.coverImage?.large ??
-                          widget.data?.coverImage?.extraLarge ??
-                          '',
-                      fit: BoxFit.cover,
-                    ),
                   ),
+                  fit: BoxFit.cover,
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationX(pi),
-                    child: CachedNetworkImage(
-                      width: size.width,
-                      height: size.height * 0.5,
-                      imageUrl: widget.data?.coverImage?.extraLarge ??
-                          widget.data?.coverImage?.large ??
-                          '',
-                      errorWidget: (context, url, error) => CachedNetworkImage(
-                        height: 120,
-                        width: 100,
-                        imageUrl: widget.data?.coverImage?.large ??
-                            widget.data?.coverImage?.extraLarge ??
-                            '',
-                        fit: BoxFit.cover,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: CachedNetworkImage(
-                    height: size.height * 0.5,
-                    imageUrl: widget.data?.bannerImage ?? '',
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => CachedNetworkImage(
-                      height: 120,
-                      width: 100,
-                      imageUrl: widget.data?.coverImage?.extraLarge ??
-                          widget.data?.coverImage?.large ??
-                          '',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationX(pi),
-                    child: CachedNetworkImage(
-                      height: size.height * 0.5,
-                      imageUrl: widget.data?.bannerImage ?? '',
-                      fit: BoxFit.cover,
-                      errorWidget: (context, url, error) => CachedNetworkImage(
-                        height: 120,
-                        width: 100,
-                        imageUrl: widget.data?.coverImage?.extraLarge ??
-                            widget.data?.coverImage?.large ??
-                            '',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-    );
+          ],
+        )
+        // : Column(
+        //     children: [
+        //       Align(
+        //         alignment: Alignment.topCenter,
+        //         child: CachedNetworkImage(
+        //           height: size.height * 0.5,
+        //           imageUrl: widget.data?.bannerImage ?? '',
+        //           fit: BoxFit.cover,
+        //           errorWidget: (context, url, error) => CachedNetworkImage(
+        //             height: 120,
+        //             width: 100,
+        //             imageUrl: widget.data?.coverImage?.extraLarge ??
+        //                 widget.data?.coverImage?.large ??
+        //                 '',
+        //             fit: BoxFit.cover,
+        //           ),
+        //         ),
+        //       ),
+        //       Align(
+        //         alignment: Alignment.bottomCenter,
+        //         child: Transform(
+        //           alignment: Alignment.center,
+        //           transform: Matrix4.rotationX(pi),
+        //           child: CachedNetworkImage(
+        //             height: size.height * 0.5,
+        //             imageUrl: widget.data?.bannerImage ?? '',
+        //             fit: BoxFit.cover,
+        //             errorWidget: (context, url, error) => CachedNetworkImage(
+        //               height: 120,
+        //               width: 100,
+        //               imageUrl: widget.data?.coverImage?.extraLarge ??
+        //                   widget.data?.coverImage?.large ??
+        //                   '',
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        );
   }
 }

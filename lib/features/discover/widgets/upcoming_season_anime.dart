@@ -3,18 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class NextSeasonAnimme extends StatelessWidget {
   const NextSeasonAnimme({super.key});
 
   GMediaSeason nextSeason({int? month}) {
-    if (month == null) month = DateTime.now().month;
+    month ??= DateTime.now().month;
     if (month <= 3) {
       return GMediaSeason.SPRING;
     } else if (month <= 6) {
@@ -27,7 +25,7 @@ class NextSeasonAnimme extends StatelessWidget {
   }
 
   GMediaSeason currentSeason({int? month}) {
-    if (month == null) month = DateTime.monthsPerYear;
+    month ??= DateTime.monthsPerYear;
     if (month <= 3) {
       return GMediaSeason.WINTER;
     } else if (month <= 6) {
@@ -40,7 +38,7 @@ class NextSeasonAnimme extends StatelessWidget {
   }
 
   int nextYear({int? year}) {
-    if (year == null) year = DateTime.now().year;
+    year ??= DateTime.now().year;
     final season = currentSeason();
     if (season == GMediaSeason.WINTER) {
       year++;
@@ -79,13 +77,13 @@ class NextSeasonAnimme extends StatelessWidget {
                 return SizedBox(
                   height: 160,
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: 7,
                     itemBuilder: (context, index) => Shimmer.fromColors(
                       baseColor: Colors.white12,
                       highlightColor: Colors.black12,
-                      child: Card(
+                      child: const Card(
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         child: SizedBox(
                           height: 120,
@@ -97,16 +95,16 @@ class NextSeasonAnimme extends StatelessWidget {
                 );
               } else {
                 final data = response?.data?.Page?.media;
-                return Container(
+                return SizedBox(
                   height: 180,
                   child: ListView.builder(
                     // reverse: true,
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: response?.data?.Page?.media?.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       width: 105,
                       child: GestureDetector(
                         onTap: () => context.pushNamed(
@@ -131,7 +129,7 @@ class NextSeasonAnimme extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(height: 3),
+                            const SizedBox(height: 3),
                             Flexible(
                               child: Padding(
                                 padding:

@@ -13,11 +13,11 @@ class TrendingNowTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
-        text: TextSpan(
+        text: const TextSpan(
           text: 'TRENDING  ',
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: true ? Color(0xff39FF14) : Colors.green,
+            color: Color(0xff39FF14),
             letterSpacing: 2,
             fontSize: 18,
           ),
@@ -49,7 +49,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
             final type = ref.watch(discoverTabProvider);
             if (type == GMediaType.ANIME) {
               return RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   text: 'POPULAR  THIS  ',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -73,7 +73,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
               );
             } else {
               return RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   text: 'ALL TIME  ',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
         children: [
           type == GMediaType.ANIME
               ? RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'UPCOMING  ',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -141,7 +141,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                   ),
                 )
               : RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     text: 'POPULAR  ',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -185,7 +185,7 @@ class Top100AnimeTitle extends ConsumerWidget {
           RichText(
             text: TextSpan(
               text: 'TOP  100  ',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 letterSpacing: 2,
                 fontSize: 18,
@@ -199,7 +199,7 @@ class Top100AnimeTitle extends ConsumerWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: type.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xffFF6600),
                   ),
                 )

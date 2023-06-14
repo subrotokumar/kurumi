@@ -89,142 +89,139 @@ class NotificationScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            final client = ref.watch(mediaListClientProvider);
-                            return Operation(
-                              operationRequest: GNotificationsQueryReq(
-                                (b) => b..vars.reset = true,
-                              ),
-                              client: client!,
-                              builder: (context, response, error) {
-                                if (response?.loading ?? true) {
-                                  return LoadingWidget;
-                                } else {
-                                  final data =
-                                      response?.data?.Page?.notifications;
-                                  return ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: data?.length ?? 0,
-                                    itemBuilder: (context, index) {
-                                      final type =
-                                          data?.elementAt(index)?.G__typename;
-                                      late final item;
-                                      bool isAiring =
-                                          type == 'AiringNotification';
-                                      if (isAiring) {
-                                        item = data?.elementAt(index)
-                                            as GNotificationsQueryData_Page_notifications__asAiringNotification;
-                                      } else {
-                                        item = data?.elementAt(index)
-                                            as GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification;
-                                      }
-                                      DateTime time =
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              (item?.createdAt ?? 0) * 1000);
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          final client = ref.watch(mediaListClientProvider);
+                          return Operation(
+                            operationRequest: GNotificationsQueryReq(
+                              (b) => b..vars.reset = true,
+                            ),
+                            client: client!,
+                            builder: (context, response, error) {
+                              if (response?.loading ?? true) {
+                                return LoadingWidget;
+                              } else {
+                                final data =
+                                    response?.data?.Page?.notifications;
+                                return ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    final type =
+                                        data?.elementAt(index)?.G__typename;
+                                    // ignore: prefer_typing_uninitialized_variables
+                                    late final item;
+                                    bool isAiring =
+                                        type == 'AiringNotification';
+                                    if (isAiring) {
+                                      item = data?.elementAt(index)
+                                          as GNotificationsQueryData_Page_notifications__asAiringNotification;
+                                    } else {
+                                      item = data?.elementAt(index)
+                                          as GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification;
+                                    }
+                                    DateTime time =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            (item?.createdAt ?? 0) * 1000);
 
-                                      int diff = time.difference(today).inDays;
-                                      diff = diff < 0 ? -diff : diff;
-                                      return Container(
-                                        height: 90,
-                                        width: size.width - 40,
-                                        margin: EdgeInsets.symmetric(
-                                          vertical: 8,
-                                          horizontal: diff < 1 ? 18 : 20,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: Colors.white10,
-                                          border: diff < 1
-                                              ? Border.all(color: Colors.white)
-                                              : null,
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {
-                                            HapticFeedback.mediumImpact();
-                                            context.pushNamed(
-                                              AppRouteConstant.MediaScreen.name,
-                                              pathParameters: {
-                                                'id': (item?.media?.id ?? 0)
-                                                    .toString(),
-                                                'title': item.media?.title
-                                                        ?.userPreferred ??
-                                                    '',
-                                              },
-                                            );
-                                          },
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: item?.media
-                                                          ?.coverImage?.large ??
-                                                      "",
-                                                  height: 90,
-                                                  width: 70,
-                                                  fit: BoxFit.cover,
-                                                ),
+                                    int diff = time.difference(today).inDays;
+                                    diff = diff < 0 ? -diff : diff;
+                                    return Container(
+                                      height: 90,
+                                      width: size.width - 40,
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: diff < 1 ? 18 : 20,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.white10,
+                                        border: diff < 1
+                                            ? Border.all(color: Colors.white)
+                                            : null,
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          HapticFeedback.mediumImpact();
+                                          context.pushNamed(
+                                            AppRouteConstant.MediaScreen.name,
+                                            pathParameters: {
+                                              'id': (item?.media?.id ?? 0)
+                                                  .toString(),
+                                              'title': item.media?.title
+                                                      ?.userPreferred ??
+                                                  '',
+                                            },
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: CachedNetworkImage(
+                                                imageUrl: item?.media
+                                                        ?.coverImage?.large ??
+                                                    "",
+                                                height: 90,
+                                                width: 70,
+                                                fit: BoxFit.cover,
                                               ),
-                                              Container(
-                                                width: size.width - 20 - 90,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                            vertical: 8)
-                                                        .copyWith(
-                                                            left: 15, right: 8),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        type == 'AiringNotification'
-                                                            ? 'Episode ${item.episode} of ${item.media?.title?.userPreferred ?? ''} aired.'
-                                                            : '${item.media?.title?.userPreferred ?? ''} was recently added to the site.',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: isAiring
-                                                                ? Colors.blue
-                                                                    .shade100
-                                                                : Colors.amber
-                                                                    .shade50),
-                                                      ),
+                                            ),
+                                            Container(
+                                              width: size.width - 20 - 90,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                          vertical: 8)
+                                                      .copyWith(
+                                                          left: 15, right: 8),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      type == 'AiringNotification'
+                                                          ? 'Episode ${item.episode} of ${item.media?.title?.userPreferred ?? ''} aired.'
+                                                          : '${item.media?.title?.userPreferred ?? ''} was recently added to the site.',
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: isAiring
+                                                              ? Colors
+                                                                  .blue.shade100
+                                                              : Colors.amber
+                                                                  .shade50),
                                                     ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        DateFormat()
-                                                            .format(time),
-                                                      ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      DateFormat().format(time),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          },
-                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],

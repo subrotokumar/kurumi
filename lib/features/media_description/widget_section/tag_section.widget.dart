@@ -23,18 +23,18 @@ class _TagSectionState extends State<TagSection> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'TAGS',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               GestureDetector(
                 onTap: () => setState(() => showSpoiler = !showSpoiler),
                 child: Text(
@@ -46,7 +46,7 @@ class _TagSectionState extends State<TagSection> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -56,7 +56,7 @@ class _TagSectionState extends State<TagSection> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               for (int index = 0;
                   index < (widget.data?.tags?.length ?? 0);
                   index++)
@@ -67,7 +67,7 @@ class _TagSectionState extends State<TagSection> {
                   if (isSpoiler && !showSpoiler) return Container();
                   return Container(
                     margin: const EdgeInsets.only(right: 8),
-                    padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
+                    padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
@@ -79,11 +79,11 @@ class _TagSectionState extends State<TagSection> {
                     ),
                   );
                 }),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

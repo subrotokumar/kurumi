@@ -3,12 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class Top100Media extends StatelessWidget {
   const Top100Media({super.key});
@@ -33,13 +31,13 @@ class Top100Media extends StatelessWidget {
                 return SizedBox(
                   height: 160,
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: 7,
                     itemBuilder: (context, index) => Shimmer.fromColors(
                       baseColor: Colors.white12,
                       highlightColor: Colors.black12,
-                      child: Card(
+                      child: const Card(
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         child: SizedBox(
                           height: 120,
@@ -53,7 +51,7 @@ class Top100Media extends StatelessWidget {
                 final data = response?.data?.Page?.media;
                 return Container(
                   height: 180,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
@@ -62,12 +60,12 @@ class Top100Media extends StatelessWidget {
                   ),
                   child: ListView.builder(
                     // reverse: true,
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: response?.data?.Page?.media?.length ?? 0,
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       width: 105,
                       child: Stack(
                         children: [
@@ -105,7 +103,7 @@ class Top100Media extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 3),
+                                const SizedBox(height: 3),
                                 Flexible(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -142,16 +140,16 @@ class Top100Media extends StatelessWidget {
                                 '#ffffff';
 
                             return Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                     color: Color(int.parse(col.substring(1, 7),
                                             radix: 16) +
                                         0xFF000000),
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
                                     ),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black,
                                         blurRadius: 12,
@@ -159,7 +157,7 @@ class Top100Media extends StatelessWidget {
                                     ]),
                                 child: Text(
                                   '#${index + 1}',
-                                  style: TextStyle(shadows: [
+                                  style: const TextStyle(shadows: [
                                     Shadow(
                                       color: Colors.black,
                                       blurRadius: 12,

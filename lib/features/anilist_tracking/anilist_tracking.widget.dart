@@ -221,7 +221,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                               ),
                             ),
                             Expanded(
-                              child: Container(
+                              child: SizedBox(
                                 height: 50,
                                 child: InkWell(
                                   onTap: () {
@@ -332,19 +332,19 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 child: CupertinoPicker(
                                                   magnification: 1.1,
                                                   useMagnifier: true,
-                                                  children: [
-                                                    for (double i = 0;
-                                                        i <= 10.0;
-                                                        i = i + 0.1)
-                                                      Text(
-                                                          '${i.toStringAsFixed(1)}'),
-                                                  ],
                                                   itemExtent: 30,
                                                   onSelectedItemChanged: (v) {
                                                     double n = 0 + v * .1;
                                                     value =
                                                         n.toStringAsFixed(1);
                                                   },
+                                                  children: [
+                                                    for (double i = 0;
+                                                        i <= 10.0;
+                                                        i = i + 0.1)
+                                                      Text(
+                                                          i.toStringAsFixed(1)),
+                                                  ],
                                                 ),
                                               ),
                                             ],

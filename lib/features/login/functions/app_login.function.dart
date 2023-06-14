@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kurumi/provider/provider.dart';
 
 Future appLogIn(WidgetRef ref) async {
-  final flutterSecureStorage = FlutterSecureStorage();
+  const flutterSecureStorage = FlutterSecureStorage();
   final accessToken =
       await flutterSecureStorage.read(key: 'AniListAccessToken');
   await Hive.initFlutter();

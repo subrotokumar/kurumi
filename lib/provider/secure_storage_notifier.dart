@@ -7,7 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorage {
   final FlutterSecureStorage? flutterSecureStorage;
   final String? accessToken;
-  SecureStorage({
+  const SecureStorage({
     this.flutterSecureStorage,
     this.accessToken,
   });
@@ -27,7 +27,7 @@ class SecureStorageNotifier extends StateNotifier<SecureStorage?> {
   SecureStorageNotifier() : super(null);
 
   void init() {
-    FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
+    FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
     state = SecureStorage(flutterSecureStorage: flutterSecureStorage);
   }
 

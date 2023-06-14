@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/features/login/functions/oauth.function.dart';
 
 class LoginPage extends StatefulWidget {
@@ -48,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: isVisible
                       ? Colors.transparent
                       : Colors.black.withOpacity(0.2),
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
                     ),
@@ -59,13 +58,12 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
+                        const Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
                                 'Kurumi',
                                 style: TextStyle(
@@ -76,8 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
                                 'Powered by AniList',
                                 style: TextStyle(
@@ -89,18 +86,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                        // Text(
-                        //   'Welcome to Kurumi',
-                        //   style: TextStyle(
-                        //     fontSize: 22,
-                        //     fontWeight: FontWeight.w600,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            fixedSize: Size.fromHeight(50),
+                            fixedSize: const Size.fromHeight(50),
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.blue.withOpacity(0.7),
                           ),
@@ -110,12 +99,13 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             await Future.delayed(
                                 const Duration(milliseconds: 300));
+                            // ignore: use_build_context_synchronously
                             await showLoginDialog(context);
                             setState(() {
                               isVisible = false;
                             });
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
@@ -124,11 +114,11 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
-                                  shadows: [const Shadow(color: Colors.grey)],
+                                  shadows: [Shadow(color: Colors.grey)],
                                 ),
                               ),
                               SizedBox(width: 8),
-                              const Icon(
+                              Icon(
                                 Icons.arrow_forward_ios_rounded,
                                 size: 30,
                                 shadows: [
@@ -171,25 +161,25 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Login with AniList',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.greenAccent,
-                  shadows: [const Shadow(color: Colors.grey)],
+                  shadows: [Shadow(color: Colors.grey)],
                 ),
               ),
               const SizedBox(height: 10),
               RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   text: 'You\'ll be redirected to ',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
-                    shadows: [const Shadow(color: Colors.grey)],
+                    shadows: [Shadow(color: Colors.grey)],
                   ),
-                  children: const <TextSpan>[
+                  children: <TextSpan>[
                     TextSpan(
                       text: 'anilist.co',
                       style: TextStyle(
@@ -208,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      fixedSize: const Size.fromWidth(100),
+                      fixedSize: const Size.fromWidth(120),
                       foregroundColor: const Color(0xfff7f2f9),
                       backgroundColor: Colors.transparent,
                       side: const BorderSide(
@@ -223,28 +213,29 @@ class _LoginPageState extends State<LoginPage> {
                   Consumer(
                     builder: (context, ref, child) => ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        fixedSize: const Size.fromWidth(100),
+                        fixedSize: const Size.fromWidth(120),
                         backgroundColor: const Color(0xfff7f2f9),
                         foregroundColor: Colors.indigo,
                       ),
                       onPressed: () async {
                         String? accessToken = await Oauth().auth();
                         if (accessToken != null) {
-                          AndroidOptions _getAndroidOptions() =>
+                          AndroidOptions getAndroidOptions() =>
                               const AndroidOptions(
                                 encryptedSharedPreferences: true,
                               );
                           FlutterSecureStorage flutterSecureStorage =
-                              FlutterSecureStorage();
+                              const FlutterSecureStorage();
                           await flutterSecureStorage.deleteAll(
-                              aOptions: _getAndroidOptions());
+                              aOptions: getAndroidOptions());
                           await flutterSecureStorage.write(
                             key: 'AniListAccessToken',
                             value: accessToken,
-                            aOptions: _getAndroidOptions(),
+                            aOptions: getAndroidOptions(),
                           );
                           final pref = await SharedPreferences.getInstance();
                           await pref.setBool('isLoggedIn', true);
+                          // ignore: use_build_context_synchronously
                           context.pushReplacementNamed(
                               AppRouteConstant.SplashScreen.name);
                         }

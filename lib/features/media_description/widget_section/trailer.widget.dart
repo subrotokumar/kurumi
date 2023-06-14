@@ -19,18 +19,18 @@ class TrailerWidget extends StatelessWidget {
       visible: data?.trailer != null && (data?.trailer?.site == 'youtube'),
       child: Container(
         width: size.width,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Trailer',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CachedNetworkImage(
               imageUrl: data?.trailer?.thumbnail ?? '',
               fit: BoxFit.fitWidth,

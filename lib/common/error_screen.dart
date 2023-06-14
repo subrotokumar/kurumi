@@ -22,11 +22,11 @@ class ErrorScreen extends StatelessWidget {
               'assets/lotties/ufo.json',
               fit: BoxFit.contain,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.indigo,
-              child: Text(
+              child: const Text(
                 '404',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -38,16 +38,16 @@ class ErrorScreen extends StatelessWidget {
             Shimmer.fromColors(
               baseColor: Colors.white,
               highlightColor: Colors.indigo,
-              child: Text(
+              child: const Text(
                 'NOT FOUND',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () =>
                   context.goNamed(AppRouteConstant.HomeScreen.name),
-              child: Text('GO TO HOME'),
+              child: const Text('GO TO HOME'),
             )
           ],
         ),

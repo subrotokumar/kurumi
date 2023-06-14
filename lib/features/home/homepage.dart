@@ -78,7 +78,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         onWillPop: () async {
           DateTime now = DateTime.now();
           if (currentBackPressTime == null ||
-              now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+              now.difference(currentBackPressTime!) >
+                  const Duration(seconds: 2)) {
             currentBackPressTime = now;
             showSnackBar(context, 'Press back button again to exit');
             return false;
@@ -105,11 +106,11 @@ class _HomePageState extends ConsumerState<HomePage> {
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: PageView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
                 scrollDirection: Axis.horizontal,
                 allowImplicitScrolling: false,
-                children: [
+                children: const [
                   DiscoverTab(),
                   AnimeScreen(),
                   MangaScreen(),

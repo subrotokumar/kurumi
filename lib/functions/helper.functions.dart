@@ -9,7 +9,7 @@ import 'package:kurumi/provider/provider.dart';
 Future<void> clearMediaListCache(WidgetRef ref, {String? accessToken}) async {
   final mediaListBox = Hive.box('mediaListBox');
   await mediaListBox.clear();
-  if (accessToken == null) accessToken = ref.read(accessTokenProvider);
+  accessToken ??= ref.read(accessTokenProvider);
   //print('access token ' + accessToken.toString());
   late HttpLink httpLink;
   if (accessToken == null) {

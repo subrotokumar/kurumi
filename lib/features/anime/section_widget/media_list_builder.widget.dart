@@ -71,7 +71,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,

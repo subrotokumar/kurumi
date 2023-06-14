@@ -1,6 +1,7 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/features/webview/webview.dart';
 import 'package:line_icons/line_icon.dart';

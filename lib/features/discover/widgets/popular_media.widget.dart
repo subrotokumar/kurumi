@@ -3,18 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/routes/app_router.dart';
-import 'package:kurumi/main.dart';
+import 'package:kurumi/provider/provider.dart';
 
 class PopularMedia extends StatelessWidget {
   const PopularMedia({super.key});
 
   GMediaSeason season({int? month}) {
-    if (month == null) month = DateTime.now().month;
+    month ??= DateTime.now().month;
     if (month <= 3) {
       return GMediaSeason.WINTER;
     } else if (month <= 6) {
@@ -53,13 +51,14 @@ class PopularMedia extends StatelessWidget {
                 return SizedBox(
                   height: 160,
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     scrollDirection: Axis.horizontal,
                     itemCount: 7,
                     itemBuilder: (context, index) => Shimmer.fromColors(
                       baseColor: Colors.white12,
                       highlightColor: Colors.black12,
-                      child: Card(
+                      child: const Card(
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         child: SizedBox(
                           height: 120,
@@ -71,17 +70,17 @@ class PopularMedia extends StatelessWidget {
                 );
               } else {
                 final data = response?.data?.Page?.media;
-                return Container(
+                return SizedBox(
                   height: 170,
                   // color: Colors.red.withOpacity(0.2),
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: data?.length ?? 0,
                     shrinkWrap: true,
                     // reverse: true,
                     itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       width: 105,
                       child: InkWell(
                         onTap: () => context.pushNamed(
@@ -111,7 +110,7 @@ class PopularMedia extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 3),
+                            const SizedBox(height: 3),
                             Flexible(
                               child: Padding(
                                 padding:

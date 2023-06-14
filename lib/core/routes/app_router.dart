@@ -3,6 +3,7 @@ import 'package:anilist/review_query.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/common/error_screen.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/character/character_screen.dart';
 import 'package:kurumi/features/character_detail/character_detail_screen.dart';
@@ -24,18 +25,18 @@ final router = Provider<GoRouter>(
         name: 'nativeSplash',
         path: '/',
         builder: (context, state) {
-          return SplashPage();
+          return const SplashPage();
         },
       ),
       GoRoute(
         name: AppRouteConstant.HomeScreen.name,
         path: AppRouteConstant.HomeScreen.path,
-        builder: (context, state) => HomePage(),
+        builder: (context, state) => const HomePage(),
       ),
       GoRoute(
         name: AppRouteConstant.SplashScreen.name,
         path: AppRouteConstant.SplashScreen.path,
-        builder: (context, state) => SplashPage(),
+        builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
         name: AppRouteConstant.ACTIVITY.name,
@@ -55,14 +56,14 @@ final router = Provider<GoRouter>(
       GoRoute(
         name: AppRouteConstant.LoginScreen.name,
         path: AppRouteConstant.LoginScreen.path,
-        builder: (context, state) => LoginPage(),
+        builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
         name: AppRouteConstant.SearchScreen.name,
         path: AppRouteConstant.SearchScreen.path,
         builder: (context, state) {
           final extra = state.extra as Map;
-          final GMediaType? mediaType = extra['mediaType'] as GMediaType;
+          final GMediaType mediaType = extra['mediaType'] as GMediaType;
           return SearchMedia(
             mediaType: mediaType,
           );
@@ -131,12 +132,12 @@ final router = Provider<GoRouter>(
       ),
     ],
     errorBuilder: (context, state) {
-      return ErrorScreen();
+      return const ErrorScreen();
     },
     redirect: (context, state) {
       if (state.location != AppRouteConstant.LoginScreen.name ||
           state.location != AppRouteConstant.SplashScreen.name) {
-        print(state.location);
+        log.d(state.location);
       }
       return null;
     },
