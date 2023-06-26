@@ -36,6 +36,7 @@ showSnackBar(BuildContext context, String text,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         duration: duration,
+        elevation: 0,
       ),
     );
 

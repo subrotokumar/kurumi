@@ -55,6 +55,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 const SizedBox(height: 30),
                 ExpansionTile(
+                  initiallyExpanded: true,
                   tilePadding: const EdgeInsets.only(right: 20),
                   trailing:
                       const Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -81,46 +82,53 @@ class _SettingScreenState extends State<SettingScreen> {
                             var type = v == 'ANIME'
                                 ? GMediaType.ANIME
                                 : GMediaType.MANGA;
-                            return ListTile(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              leading: const Text(
-                                'Default Discover Page',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: ListTile(
+                                tileColor: const Color(0xff25232a),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                leading: const Text(
+                                  'Default Discover Page',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              trailing: SegmentedButton(
-                                onSelectionChanged: (v) async {
-                                  await value.setString(
-                                      'DefaultDiscoverPage', v.first.name);
-                                  //print('$c ${v.first.name}');
-                                  setState(() {});
-                                },
-                                emptySelectionAllowed: false,
-                                multiSelectionEnabled: false,
-                                showSelectedIcon: false,
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                trailing: SegmentedButton(
+                                  onSelectionChanged: (v) async {
+                                    await value.setString(
+                                        'DefaultDiscoverPage', v.first.name);
+                                    //print('$c ${v.first.name}');
+                                    setState(() {});
+                                  },
+                                  emptySelectionAllowed: false,
+                                  multiSelectionEnabled: false,
+                                  showSelectedIcon: false,
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
                                     ),
+                                    visualDensity:
+                                        const VisualDensity(vertical: -3),
                                   ),
-                                  visualDensity:
-                                      const VisualDensity(vertical: -3),
+                                  segments: const [
+                                    ButtonSegment(
+                                      value: GMediaType.ANIME,
+                                      label: Text('ANIME'),
+                                    ),
+                                    ButtonSegment(
+                                      value: GMediaType.MANGA,
+                                      label: Text('MANGA'),
+                                    ),
+                                  ],
+                                  selected: {type},
                                 ),
-                                segments: const [
-                                  ButtonSegment(
-                                    value: GMediaType.ANIME,
-                                    label: Text('ANIME'),
-                                  ),
-                                  ButtonSegment(
-                                    value: GMediaType.MANGA,
-                                    label: Text('MANGA'),
-                                  ),
-                                ],
-                                selected: {type},
                               ),
                             );
                           },
@@ -139,56 +147,102 @@ class _SettingScreenState extends State<SettingScreen> {
                                 value.getString('DefaultSearchView') ?? 'LIST';
                             var type =
                                 v == 'LIST' ? SearchView.LIST : SearchView.GRID;
-                            return ListTile(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              leading: const Text(
-                                'Default Search View',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: ListTile(
+                                tileColor: const Color(0xff25232a),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                leading: const Text(
+                                  'Default Search View',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              trailing: SegmentedButton(
-                                onSelectionChanged: (v) async {
-                                  await value.setString(
-                                      'DefaultSearchView', v.first.name);
-                                  setState(() {});
-                                },
-                                emptySelectionAllowed: false,
-                                multiSelectionEnabled: false,
-                                showSelectedIcon: false,
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                trailing: SegmentedButton(
+                                  onSelectionChanged: (v) async {
+                                    await value.setString(
+                                        'DefaultSearchView', v.first.name);
+                                    setState(() {});
+                                  },
+                                  emptySelectionAllowed: false,
+                                  multiSelectionEnabled: false,
+                                  showSelectedIcon: false,
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
                                     ),
+                                    visualDensity:
+                                        const VisualDensity(vertical: -3),
                                   ),
-                                  visualDensity:
-                                      const VisualDensity(vertical: -3),
+                                  segments: const [
+                                    ButtonSegment(
+                                      value: SearchView.LIST,
+                                      label: Text('LIST'),
+                                    ),
+                                    ButtonSegment(
+                                      value: SearchView.GRID,
+                                      label: Text('GRID'),
+                                    ),
+                                  ],
+                                  selected: {type},
                                 ),
-                                segments: const [
-                                  ButtonSegment(
-                                    value: SearchView.LIST,
-                                    label: Text('LIST'),
-                                  ),
-                                  ButtonSegment(
-                                    value: SearchView.GRID,
-                                    label: Text('GRID'),
-                                  ),
-                                ],
-                                selected: {type},
                               ),
                             );
                           },
                         );
                       },
                     ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final pref = ref.watch(prefProvider);
+                        return pref.when(
+                          error: (error, stackTrace) => const Card(),
+                          loading: () => const Card(),
+                          data: (value) {
+                            var vv = value.getBool('animation') ?? true;
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: ListTile(
+                                tileColor: const Color(0xff25232a),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                leading: const Text(
+                                  'Allow Animation (Experimantal)',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                trailing: Switch(
+                                  value: vv,
+                                  onChanged: (v) async {
+                                    await value.setBool('animation', v);
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
 
                 /// Account Setting
                 ExpansionTile(
+                  initiallyExpanded: true,
                   tilePadding: const EdgeInsets.only(right: 20),
                   trailing:
                       const Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -202,181 +256,200 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                   children: [
-                    ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 20),
-                      onTap: () async {
-                        await launchUrlString(
-                          'https://anilist.co/settings',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      leading: const Text(
-                        'Update Profile',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0).copyWith(bottom: 20),
+                      child: GridView(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 4,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
                         ),
+                        children: [
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                            onPressed: () async => await launchUrlString(
+                              'https://anilist.co/settings',
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            icon: LineIcon.link(color: Colors.white),
+                            label: const Text('Anilist'),
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                            onPressed: () async => await launchUrlString(
+                              'https://anilist.co/settings/account',
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            icon: LineIcon.userEdit(color: Colors.white),
+                            label: const Text('Account'),
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                            onPressed: () async => await launchUrlString(
+                              'https://anilist.co/settings/media',
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            icon: LineIcon.list(color: Colors.white),
+                            label: const Text('Media'),
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () async => await launchUrlString(
+                              'https://anilist.co/settings/import',
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            icon: LineIcon.fileImport(color: Colors.white),
+                            label: const Text('Import'),
+                          ),
+                        ],
                       ),
-                      trailing: LineIcon.link(color: Colors.white),
-                    ),
-                    ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 20),
-                      onTap: () async {
-                        await launchUrlString(
-                          'https://anilist.co/settings/account',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      leading: const Text(
-                        'Update Account',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                      trailing: LineIcon.link(color: Colors.white),
-                    ),
-                    ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 20),
-                      onTap: () async {
-                        await launchUrlString(
-                          'https://anilist.co/settings/media',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      leading: const Text(
-                        'Anime and Manga',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                      trailing: LineIcon.link(color: Colors.white),
-                    ),
-                    ListTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 20),
-                      onTap: () async {
-                        await launchUrlString(
-                          'https://anilist.co/settings/import',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      leading: const Text(
-                        'Import List',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                      trailing: LineIcon.link(color: Colors.white),
                     ),
                   ],
                 ),
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const InAppWebview(
-                            title: 'Kurumi',
-                            url:
-                                'https://subrotokumar.github.io/privacy-policy/kurumi.html',
-                          ),
-                        ));
-                  },
-                  leading: const Text(
-                    'Privacy Policy',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                Padding(
+                  padding:
+                      const EdgeInsets.all(10.0).copyWith(bottom: 10, top: 20),
+                  child: GridView(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          foregroundColor: Colors.white70,
+                        ),
+                        onPressed: () async => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InAppWebview(
+                                      title: 'Kurumi',
+                                      url:
+                                          'https://subrotokumar.github.io/privacy-policy/kurumi.html',
+                                    ))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Privacy Policy'),
+                            LineIcon.link(color: Colors.white),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          foregroundColor: Colors.white.withOpacity(0.9),
+                        ),
+                        onPressed: () async => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const InAppWebview(
+                                      title: 'Change Log',
+                                      url:
+                                          'https://subrotokumar.github.io/kurumi/changelog.html',
+                                    ))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Change Log'),
+                            LineIcon.link(color: Colors.white),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  trailing: LineIcon.link(color: Colors.white),
                 ),
-                // * Change Log
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const InAppWebview(
-                            title: 'Change Log',
-                            url:
-                                'https://subrotokumar.github.io/kurumi/changelog.html',
-                          ),
-                        ));
-                  },
-                  leading: const Text(
-                    'Change Log',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),
-                  ),
-                  trailing: LineIcon.link(color: Colors.white),
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'assets/meta/ninja.png',
-                                height: 150,
-                                width: 150,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text(
-                                'Your opinion matters to us!',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    tileColor: const Color(0xff25232a),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    onTap: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/meta/ninja.png',
+                                  height: 150,
+                                  width: 150,
                                 ),
-                              ),
-                              const SizedBox(height: 16),
-                              OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white60,
-                                  foregroundColor: AppTheme.secondaryColor,
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Your opinion matters to us!',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                                onPressed: () {
-                                  launchUrlString(
-                                    'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
-                                    mode: LaunchMode
-                                        .externalNonBrowserApplication,
-                                  );
-                                },
-                                child: const Text('  Rate us on Play Store  '),
-                              ),
-                              TextButton(
-                                onPressed: () => context.pop(),
-                                child: const Text('Not Now'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  leading: const Text(
-                    'Rate Us',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                                const SizedBox(height: 16),
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.white60,
+                                    foregroundColor: AppTheme.secondaryColor,
+                                  ),
+                                  onPressed: () {
+                                    launchUrlString(
+                                      'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
+                                      mode: LaunchMode
+                                          .externalNonBrowserApplication,
+                                    );
+                                  },
+                                  child:
+                                      const Text('  Rate us on Play Store  '),
+                                ),
+                                TextButton(
+                                  onPressed: () => context.pop(),
+                                  child: const Text('Not Now'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    leading: const Text(
+                      'Rate Us',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
                     ),
+                    trailing: const Icon(Icons.star_rate_outlined,
+                        color: Colors.white),
                   ),
-                  trailing: LineIcon.link(color: Colors.white),
                 ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -459,7 +532,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 1.0.0 Beta'),
+                const Text('Version 1.1.0 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

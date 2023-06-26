@@ -66,6 +66,20 @@ import 'package:anilist/graphql/__generated__/discover_media.req.gql.dart'
     show GDiscoverMediaReq;
 import 'package:anilist/graphql/__generated__/discover_media.var.gql.dart'
     show GDiscoverMediaVars;
+import 'package:anilist/graphql/__generated__/FavAnimeQuery.data.gql.dart'
+    show
+        GFavAnimeQueryData,
+        GFavAnimeQueryData_Viewer,
+        GFavAnimeQueryData_Viewer_favourites,
+        GFavAnimeQueryData_Viewer_favourites_anime,
+        GFavAnimeQueryData_Viewer_favourites_anime_nodes,
+        GFavAnimeQueryData_Viewer_favourites_anime_nodes_coverImage,
+        GFavAnimeQueryData_Viewer_favourites_anime_nodes_title,
+        GFavAnimeQueryData_Viewer_favourites_anime_pageInfo;
+import 'package:anilist/graphql/__generated__/FavAnimeQuery.req.gql.dart'
+    show GFavAnimeQueryReq;
+import 'package:anilist/graphql/__generated__/FavAnimeQuery.var.gql.dart'
+    show GFavAnimeQueryVars;
 import 'package:anilist/graphql/__generated__/media_detail_query.data.gql.dart'
     show
         GMediaDetailQueryData,
@@ -413,6 +427,16 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GDiscoverMediaVars,
   GExternalLinkMediaType,
   GExternalLinkType,
+  GFavAnimeQueryData,
+  GFavAnimeQueryData_Viewer,
+  GFavAnimeQueryData_Viewer_favourites,
+  GFavAnimeQueryData_Viewer_favourites_anime,
+  GFavAnimeQueryData_Viewer_favourites_anime_nodes,
+  GFavAnimeQueryData_Viewer_favourites_anime_nodes_coverImage,
+  GFavAnimeQueryData_Viewer_favourites_anime_nodes_title,
+  GFavAnimeQueryData_Viewer_favourites_anime_pageInfo,
+  GFavAnimeQueryReq,
+  GFavAnimeQueryVars,
   GFuzzyDateInput,
   GFuzzyDateInt,
   GJson,

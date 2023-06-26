@@ -14,9 +14,8 @@ Future<void> sortingDialog({
   final sortType = type == GMediaType.ANIME ? animeSorting : mangaSorting;
   final currentSetting = ref.read(sortType);
 
-  final options = sortingSettingOption.values.toList();
-  Sort order = currentSetting.sort;
-  int optionSelected = options.indexOf(currentSetting.filter);
+  Sort order = currentSetting.$2;
+  int optionSelected = currentSetting.$1;
   await showDialog(
     context: context,
     builder: (context) {
@@ -77,14 +76,12 @@ Future<void> sortingDialog({
                   optionSelected = v;
                 },
                 children: [
-                  for (int i = 0; i < options.length; i++)
+                  for (int i = 0; i < sortingSettingOption.length; i++)
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Text(options
-                          .elementAt(i)
-                          .name
-                          .replaceAll('_', ' ')
-                          .replaceAll('ENGLISH', '')),
+                      child: Text(
+                        sortingSettingOption.elementAt(i).$1,
+                      ),
                     )
                 ],
               ),
@@ -99,10 +96,9 @@ Future<void> sortingDialog({
           Consumer(builder: (context, ref, child) {
             return TextButton(
               onPressed: () async {
-                final apply = options[optionSelected];
                 await ref
                     .read(sortType.notifier)
-                    .changeSorting(filter: apply, sort: order);
+                    .changeSorting(index: optionSelected, sort: order);
                 Navigator.pop(context);
               },
               child: const Text('APPLY'),

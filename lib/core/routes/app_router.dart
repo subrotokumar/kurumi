@@ -10,6 +10,7 @@ import 'package:kurumi/features/character_detail/character_detail_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/login/login.dart';
 import 'package:kurumi/features/media_description/media_screen.dart';
+import 'package:kurumi/features/profile/favoroite_anime_page.dart';
 import 'package:kurumi/features/reviews/review_screen.dart';
 import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
@@ -115,6 +116,13 @@ final router = Provider<GoRouter>(
         builder: (context, state) {
           var id = int.parse(state.pathParameters['id'] ?? '0');
           return VAScreen(id: id);
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.FavAnimeScreen.name,
+        path: AppRouteConstant.FavAnimeScreen.path,
+        builder: (context, state) {
+          return const FavAnimePage();
         },
       ),
       GoRoute(

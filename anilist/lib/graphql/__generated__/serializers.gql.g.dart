@@ -74,6 +74,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GDiscoverMediaVars.serializer)
       ..add(GExternalLinkMediaType.serializer)
       ..add(GExternalLinkType.serializer)
+      ..add(GFavAnimeQueryData.serializer)
+      ..add(GFavAnimeQueryData_Viewer.serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites.serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites_anime.serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites_anime_nodes.serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites_anime_nodes_coverImage
+          .serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites_anime_nodes_title.serializer)
+      ..add(GFavAnimeQueryData_Viewer_favourites_anime_pageInfo.serializer)
+      ..add(GFavAnimeQueryReq.serializer)
+      ..add(GFavAnimeQueryVars.serializer)
       ..add(GFuzzyDateInput.serializer)
       ..add(GFuzzyDateInt.serializer)
       ..add(GJson.serializer)
@@ -356,6 +367,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType.nullable(GDiscoverMediaData_Page_media)]),
           () => new ListBuilder<GDiscoverMediaData_Page_media?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GFavAnimeQueryData_Viewer_favourites_anime_nodes)
+          ]),
+          () => new ListBuilder<
+              GFavAnimeQueryData_Viewer_favourites_anime_nodes?>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType.nullable(

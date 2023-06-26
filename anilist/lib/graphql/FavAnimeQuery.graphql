@@ -1,0 +1,25 @@
+query FavAnimeQuery($page: Int, $perPage: Int) {
+  Viewer {
+    id
+    favourites {
+      anime(page: $page, perPage: $perPage) {
+        pageInfo {
+          currentPage
+          perPage
+          currentPage
+        }
+        nodes {
+          id
+          title {
+            userPreferred
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+        }
+      }
+    }
+  }
+}

@@ -38,13 +38,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> initialize() async {
-    AndroidOptions _getAndroidOptions() => const AndroidOptions(
+    AndroidOptions getAndroidOptions() => const AndroidOptions(
           encryptedSharedPreferences: true,
         );
     const flutterSecureStorage = FlutterSecureStorage();
     final accessToken = await flutterSecureStorage.read(
       key: 'AniListAccessToken',
-      aOptions: _getAndroidOptions(),
+      aOptions: getAndroidOptions(),
     );
     //print(accessToken);
     await Hive.initFlutter();

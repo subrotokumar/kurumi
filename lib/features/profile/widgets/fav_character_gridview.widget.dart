@@ -17,9 +17,12 @@ class FavCharacterGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int itemCount =
+        response?.data?.Viewer?.favourites?.anime?.nodes?.length ?? 0;
+    bool paginate = itemCount == 25;
+    if (paginate) itemCount = 26;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
-      // height: 300,
       width: size.width,
       child: GridView.builder(
         shrinkWrap: true,
@@ -27,10 +30,15 @@ class FavCharacterGridView extends StatelessWidget {
         padding: const EdgeInsets.all(0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, mainAxisSpacing: 10, childAspectRatio: 1),
-        // scrollDirection: Axis.horizontal,
+        itemCount: itemCount,
         itemBuilder: (context, index) {
           final data = response?.data?.Viewer?.favourites?.characters?.nodes
               ?.elementAt(index);
+          if (index == itemCount - 1 && paginate) {
+            return Container(
+              color: Colors.red,
+            );
+          }
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
@@ -59,8 +67,6 @@ class FavCharacterGridView extends StatelessWidget {
             ),
           );
         },
-        itemCount:
-            response?.data?.Viewer?.favourites?.characters?.nodes?.length ?? 0,
       ),
     );
   }

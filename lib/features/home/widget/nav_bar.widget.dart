@@ -2,24 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/features/home/homepage.dart';
 
-class NavBar extends ConsumerWidget {
+class NavBar extends ConsumerStatefulWidget {
   const NavBar({required this.pageController, Key? key}) : super(key: key);
   final PageController pageController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    void changePage(int n) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _NavBarState();
+}
+
+class _NavBarState extends ConsumerState<NavBar> {
+  late SharedPreferences pref;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    pref = await SharedPreferences.getInstance();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    void changePage(int n) async {
       final current = ref.read(currentIndex);
       if (current != n) {
         ref.read(currentIndex.notifier).update((state) => n);
-        pageController.animateToPage(
-          n,
-          duration: Duration(milliseconds: (current - n).abs() > 2 ? 500 : 300),
-          curve: Curves.linear,
-        );
+        if (pref.getBool('animation') ?? true) {
+          widget.pageController.animateToPage(
+            n,
+            duration:
+                Duration(milliseconds: (current - n).abs() > 2 ? 500 : 200),
+            curve: Curves.fastOutSlowIn,
+          );
+        } else {
+          widget.pageController.jumpToPage(n);
+        }
         HapticFeedback.lightImpact();
       }
     }

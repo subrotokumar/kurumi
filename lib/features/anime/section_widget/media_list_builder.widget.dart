@@ -30,16 +30,23 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
       builder: (context, ref, child) {
         final anilistUserId = ref.watch(userId);
         final client = ref.watch(mediaListClientProvider);
-        final sort = ref.watch(
+        final (filterIndex, order) = ref.watch(
             widget.type == GMediaType.ANIME ? animeSorting : mangaSorting);
-        final order = sort.sort;
-        final request = GMediaListCollectionReq(
-          (b) => b
-            ..vars.status = widget.status
-            ..vars.type = widget.type
-            ..vars.userId = anilistUserId
-            ..vars.sort.add(sort.filter),
-        );
+        final filter = sortingSettingOption[filterIndex].$2;
+        final request = filter == null
+            ? GMediaListCollectionReq(
+                (b) => b
+                  ..vars.status = widget.status
+                  ..vars.type = widget.type
+                  ..vars.userId = anilistUserId,
+              )
+            : GMediaListCollectionReq(
+                (b) => b
+                  ..vars.status = widget.status
+                  ..vars.type = widget.type
+                  ..vars.userId = anilistUserId
+                  ..vars.sort.add(filter),
+              );
 
         return RefreshIndicator(
           onRefresh: () async {

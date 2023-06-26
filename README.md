@@ -62,7 +62,7 @@ Any contributions are welcome. Here are a few ways you can help:
  * [Report bugs and make suggestions.](https://github.com/subrotokumar/kurumi/issues)
  * Want to support kurumi's creator:   
     
-   <img src="./assets/images/bmc.png" height="50">
+   <a href="https://www.buymeacoffee.com/subrotokumar"><img src="./assets/images/bmc.png" height="50"></a>
 
 ## License
 

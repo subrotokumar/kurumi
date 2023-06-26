@@ -240,7 +240,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             controller.animateToPage(
               pageNum,
               curve: Curves.linear,
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 500),
             );
             ref.read(animeTabProvider.notifier).update((state) => pageNum);
           },
