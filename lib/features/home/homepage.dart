@@ -92,17 +92,6 @@ class _HomePageState extends ConsumerState<HomePage> {
             floatingActionButton: NavBar(pageController: pageController),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            // bottomNavigationBar: NavigationBar(
-            //   destinations: [
-            //     NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-            //     NavigationDestination(icon: Icon(Icons.tv), label: 'Anime'),
-            //     NavigationDestination(icon: Icon(Icons.book), label: 'Manga'),
-            //     NavigationDestination(
-            //         icon: Icon(Icons.notification_add), label: 'Home'),
-            //     NavigationDestination(
-            //         icon: Icon(Icons.person_4), label: 'Account'),
-            //   ],
-            // ),
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: PageView(
@@ -115,7 +104,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   AnimeScreen(),
                   MangaScreen(),
                   ActivityScreen(),
-                  // ScheduleScreen(),
                   ProfilePage()
                 ],
               ),

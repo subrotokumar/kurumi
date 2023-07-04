@@ -1,10 +1,15 @@
 # Kurumi
 
+## v1.2.0-beta
+  - Now Browse all you Favourite Item from Profile Screen
+  - Added Dedicated Favourite Screen
+  
 ## v1.1.0-beta
   - Added animation enable/diable toggle
   - Setting Page UI Improvement
   - Improved Sorting Media List Sorting Feature
-  - Titles not showing on list bug resolved
+  - Titles not showing on list bug resolved  
+  
 ## v1.0.0-beta
   - Revamped Review Screen
   - Dedicated page for VA added

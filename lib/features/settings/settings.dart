@@ -55,6 +55,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 const SizedBox(height: 30),
                 ExpansionTile(
+                  shape: const RoundedRectangleBorder(side: BorderSide.none),
                   initiallyExpanded: true,
                   tilePadding: const EdgeInsets.only(right: 20),
                   trailing:
@@ -242,6 +243,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
                 /// Account Setting
                 ExpansionTile(
+                  shape: const RoundedRectangleBorder(side: BorderSide.none),
                   initiallyExpanded: true,
                   tilePadding: const EdgeInsets.only(right: 20),
                   trailing:
@@ -532,7 +534,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 1.1.0 Beta'),
+                const Text('Version 1.2.0 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

@@ -75,11 +75,33 @@ import 'package:anilist/graphql/__generated__/FavAnimeQuery.data.gql.dart'
         GFavAnimeQueryData_Viewer_favourites_anime_nodes,
         GFavAnimeQueryData_Viewer_favourites_anime_nodes_coverImage,
         GFavAnimeQueryData_Viewer_favourites_anime_nodes_title,
-        GFavAnimeQueryData_Viewer_favourites_anime_pageInfo;
+        GFavAnimeQueryData_Viewer_favourites_anime_pageInfo,
+        GFavMangaQueryData,
+        GFavMangaQueryData_Viewer,
+        GFavMangaQueryData_Viewer_favourites,
+        GFavMangaQueryData_Viewer_favourites_manga,
+        GFavMangaQueryData_Viewer_favourites_manga_nodes,
+        GFavMangaQueryData_Viewer_favourites_manga_nodes_coverImage,
+        GFavMangaQueryData_Viewer_favourites_manga_nodes_title,
+        GFavMangaQueryData_Viewer_favourites_manga_pageInfo;
 import 'package:anilist/graphql/__generated__/FavAnimeQuery.req.gql.dart'
-    show GFavAnimeQueryReq;
+    show GFavAnimeQueryReq, GFavMangaQueryReq;
 import 'package:anilist/graphql/__generated__/FavAnimeQuery.var.gql.dart'
-    show GFavAnimeQueryVars;
+    show GFavAnimeQueryVars, GFavMangaQueryVars;
+import 'package:anilist/graphql/__generated__/FavCharacterQuery.data.gql.dart'
+    show
+        GFavCharacterQueryData,
+        GFavCharacterQueryData_Viewer,
+        GFavCharacterQueryData_Viewer_favourites,
+        GFavCharacterQueryData_Viewer_favourites_characters,
+        GFavCharacterQueryData_Viewer_favourites_characters_nodes,
+        GFavCharacterQueryData_Viewer_favourites_characters_nodes_image,
+        GFavCharacterQueryData_Viewer_favourites_characters_nodes_name,
+        GFavCharacterQueryData_Viewer_favourites_characters_pageInfo;
+import 'package:anilist/graphql/__generated__/FavCharacterQuery.req.gql.dart'
+    show GFavCharacterQueryReq;
+import 'package:anilist/graphql/__generated__/FavCharacterQuery.var.gql.dart'
+    show GFavCharacterQueryVars;
 import 'package:anilist/graphql/__generated__/media_detail_query.data.gql.dart'
     show
         GMediaDetailQueryData,
@@ -437,6 +459,26 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GFavAnimeQueryData_Viewer_favourites_anime_pageInfo,
   GFavAnimeQueryReq,
   GFavAnimeQueryVars,
+  GFavCharacterQueryData,
+  GFavCharacterQueryData_Viewer,
+  GFavCharacterQueryData_Viewer_favourites,
+  GFavCharacterQueryData_Viewer_favourites_characters,
+  GFavCharacterQueryData_Viewer_favourites_characters_nodes,
+  GFavCharacterQueryData_Viewer_favourites_characters_nodes_image,
+  GFavCharacterQueryData_Viewer_favourites_characters_nodes_name,
+  GFavCharacterQueryData_Viewer_favourites_characters_pageInfo,
+  GFavCharacterQueryReq,
+  GFavCharacterQueryVars,
+  GFavMangaQueryData,
+  GFavMangaQueryData_Viewer,
+  GFavMangaQueryData_Viewer_favourites,
+  GFavMangaQueryData_Viewer_favourites_manga,
+  GFavMangaQueryData_Viewer_favourites_manga_nodes,
+  GFavMangaQueryData_Viewer_favourites_manga_nodes_coverImage,
+  GFavMangaQueryData_Viewer_favourites_manga_nodes_title,
+  GFavMangaQueryData_Viewer_favourites_manga_pageInfo,
+  GFavMangaQueryReq,
+  GFavMangaQueryVars,
   GFuzzyDateInput,
   GFuzzyDateInt,
   GJson,

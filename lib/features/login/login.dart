@@ -155,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
       useSafeArea: true,
       context: context,
       builder: (context) {
+        final w = MediaQuery.of(context).size.width;
         return Container(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -201,6 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                       fixedSize: const Size.fromWidth(120),
                       foregroundColor: const Color(0xfff7f2f9),
                       backgroundColor: Colors.transparent,
+                      minimumSize: Size((w - 60) * .5, 50),
                       side: const BorderSide(
                         color: Color(0xfff7f2f9),
                       ),
@@ -216,6 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                         fixedSize: const Size.fromWidth(120),
                         backgroundColor: const Color(0xfff7f2f9),
                         foregroundColor: Colors.indigo,
+                        minimumSize: Size((w - 60) * .5, 50),
                       ),
                       onPressed: () async {
                         String? accessToken = await Oauth().auth();

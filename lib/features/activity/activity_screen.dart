@@ -22,6 +22,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
   void initState() {
     super.initState();
     controller = PageController(initialPage: widget.page ?? 0);
+    setState(() {});
   }
 
   @override

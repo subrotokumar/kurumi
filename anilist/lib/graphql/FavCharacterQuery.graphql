@@ -1,0 +1,26 @@
+query FavCharacterQuery($page: Int, $perPage: Int) {
+  Viewer {
+    id
+    favourites {
+      characters(page: $page, perPage: $perPage) {
+        pageInfo {
+          total
+          perPage
+          currentPage
+          lastPage
+          hasNextPage
+        }
+        nodes {
+          id
+          name {
+            full
+          }
+          image {
+            medium
+            large
+          }
+        }
+      }
+    }
+  }
+}

@@ -16,7 +16,7 @@ class AppRouteConstant {
   static Route CharacterDetailScreen =
       Route('character', '/character/:id/:title');
   static Route VAScreen = Route('staff', '/staff/:id/:name');
-  static Route FavAnimeScreen = Route('FavAnime', '/user/iamrigelx/favorites');
+  static Route FavAnimeScreen = Route('FavAnime', '/user/:username/favorites');
 }
 
 class Route {

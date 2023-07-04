@@ -85,6 +85,31 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GFavAnimeQueryData_Viewer_favourites_anime_pageInfo.serializer)
       ..add(GFavAnimeQueryReq.serializer)
       ..add(GFavAnimeQueryVars.serializer)
+      ..add(GFavCharacterQueryData.serializer)
+      ..add(GFavCharacterQueryData_Viewer.serializer)
+      ..add(GFavCharacterQueryData_Viewer_favourites.serializer)
+      ..add(GFavCharacterQueryData_Viewer_favourites_characters.serializer)
+      ..add(
+          GFavCharacterQueryData_Viewer_favourites_characters_nodes.serializer)
+      ..add(GFavCharacterQueryData_Viewer_favourites_characters_nodes_image
+          .serializer)
+      ..add(GFavCharacterQueryData_Viewer_favourites_characters_nodes_name
+          .serializer)
+      ..add(GFavCharacterQueryData_Viewer_favourites_characters_pageInfo
+          .serializer)
+      ..add(GFavCharacterQueryReq.serializer)
+      ..add(GFavCharacterQueryVars.serializer)
+      ..add(GFavMangaQueryData.serializer)
+      ..add(GFavMangaQueryData_Viewer.serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites.serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites_manga.serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites_manga_nodes.serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites_manga_nodes_coverImage
+          .serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites_manga_nodes_title.serializer)
+      ..add(GFavMangaQueryData_Viewer_favourites_manga_pageInfo.serializer)
+      ..add(GFavMangaQueryReq.serializer)
+      ..add(GFavMangaQueryVars.serializer)
       ..add(GFuzzyDateInput.serializer)
       ..add(GFuzzyDateInt.serializer)
       ..add(GJson.serializer)
@@ -374,6 +399,20 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () => new ListBuilder<
               GFavAnimeQueryData_Viewer_favourites_anime_nodes?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GFavCharacterQueryData_Viewer_favourites_characters_nodes)
+          ]),
+          () => new ListBuilder<
+              GFavCharacterQueryData_Viewer_favourites_characters_nodes?>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType.nullable(
+                GFavMangaQueryData_Viewer_favourites_manga_nodes)
+          ]),
+          () => new ListBuilder<
+              GFavMangaQueryData_Viewer_favourites_manga_nodes?>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType.nullable(

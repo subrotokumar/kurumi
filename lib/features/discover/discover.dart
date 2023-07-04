@@ -4,10 +4,10 @@ import 'package:anilist/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:line_icons/line_icon.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/discover/widgets/banner.widget.dart';
 import 'package:kurumi/features/discover/widgets/popular_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/review_section.widget.dart';
@@ -17,7 +17,6 @@ import 'package:kurumi/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/trending_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/upcoming_season_anime.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:line_icons/line_icon.dart';
 
 class DiscoverTab extends StatefulWidget {
   const DiscoverTab({super.key});
@@ -138,7 +137,7 @@ class SubTabWidget extends StatelessWidget {
                 color[2],
                 () {
                   HapticFeedback.mediumImpact();
-                  ref.read(ActivityPage).jumpToPage(0);
+                  // ref.read(ActivityPage).jumpToPage(0);
                   context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
                 },
                 const Icon(Icons.notifications),

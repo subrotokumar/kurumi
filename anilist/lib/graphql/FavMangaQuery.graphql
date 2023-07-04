@@ -1,0 +1,25 @@
+query FavMangaQuery($page: Int, $perPage: Int) {
+  Viewer {
+    id
+    favourites {
+      manga(page: $page, perPage: $perPage) {
+        pageInfo {
+          currentPage
+          perPage
+          currentPage
+        }
+        nodes {
+          id
+          title {
+            userPreferred
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+          }
+        }
+      }
+    }
+  }
+}

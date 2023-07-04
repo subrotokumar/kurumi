@@ -2,6 +2,8 @@ import 'package:anilist/medialist_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:kurumi/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
 
@@ -94,14 +96,24 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             shape: const RoundedRectangleBorder(),
             backgroundColor: pageIndex == pageNum ? Colors.white10 : null,
           ),
-          onPressed: () {
+          onPressed: () async {
             if (controller.page == pageNum) return;
             HapticFeedback.mediumImpact();
-            controller.animateToPage(
-              pageNum,
-              curve: Curves.linear,
-              duration: const Duration(milliseconds: 600),
-            );
+            final pref = await SharedPreferences.getInstance();
+            if (pref.getBool('animation') ?? true) {
+              controller.animateToPage(
+                pageNum,
+                curve: Curves.linear,
+                duration: const Duration(milliseconds: 400),
+              );
+            } else {
+              controller.jumpToPage(pageNum);
+            }
+            // controller.animateToPage(
+            //   pageNum,
+            //   curve: Curves.linear,
+            //   duration: const Duration(milliseconds: 600),
+            // );
             ref.read(mangaTabProvider.notifier).update((state) => pageNum);
           },
           child: Text(

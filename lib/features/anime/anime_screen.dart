@@ -2,12 +2,13 @@ import 'package:anilist/tranding_anime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/section_widget/media_list_builder.widget.dart';
+import 'package:kurumi/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
-
-import 'section_widget/sorting_dialog.widget.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   const AnimeScreen({super.key});
@@ -61,46 +62,6 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
-                    // Container(
-                    //   height: 60,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.end,
-                    //     children: [
-                    //       Consumer(builder: (context, ref, child) {
-                    //         int pageIndex = ref.watch(animeTabProvider);
-                    //         return Text(
-                    //           '${[
-                    //             'Ongoing',
-                    //             'Planning',
-                    //             'Completed',
-                    //             'On Hold',
-                    //             'Dropped'
-                    //           ][pageIndex].toUpperCase()}',
-                    //           style: GoogleFonts.roboto(
-                    //             fontWeight: FontWeight.bold,
-                    //             fontSize: 22,
-                    //             color: [
-                    //               Colors.green,
-                    //               Colors.orange,
-                    //               Colors.blue,
-                    //               Colors.pinkAccent,
-                    //               Colors.yellow,
-                    //             ][pageIndex],
-                    //           ),
-                    //         );
-                    //       }),
-                    //       Text(
-                    //         ' ANIME',
-                    //         style: GoogleFonts.roboto(
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 22,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //       SizedBox(width: 10),
-                    //     ],
-                    //   ),
-                    // ),
                     Flexible(
                       child: Consumer(
                         builder: (context, ref, child) => PageView(
@@ -211,12 +172,13 @@ class VerticleNavigationBar extends StatelessWidget {
 }
 
 class MediaCollectionTypeWidget extends StatelessWidget {
-  const MediaCollectionTypeWidget(
-      {super.key,
-      required this.controller,
-      required this.title,
-      required this.pageNum,
-      required this.ref});
+  const MediaCollectionTypeWidget({
+    super.key,
+    required this.controller,
+    required this.title,
+    required this.pageNum,
+    required this.ref,
+  });
   final PageController controller;
   final String title;
   final int pageNum;
@@ -234,14 +196,24 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             shape: const RoundedRectangleBorder(),
             backgroundColor: pageIndex == pageNum ? Colors.white10 : null,
           ),
-          onPressed: () {
+          onPressed: () async {
             if (controller.page == pageNum) return;
             HapticFeedback.mediumImpact();
-            controller.animateToPage(
-              pageNum,
-              curve: Curves.linear,
-              duration: const Duration(milliseconds: 500),
-            );
+            final pref = await SharedPreferences.getInstance();
+            if (pref.getBool('animation') ?? true) {
+              controller.animateToPage(
+                pageNum,
+                curve: Curves.linear,
+                duration: const Duration(milliseconds: 400),
+              );
+            } else {
+              controller.jumpToPage(pageNum);
+            }
+            // controller.animateToPage(
+            //   pageNum,
+            //   curve: Curves.linear,
+            //   duration: const Duration(milliseconds: 500),
+            // );
             ref.read(animeTabProvider.notifier).update((state) => pageNum);
           },
           child: Text(
