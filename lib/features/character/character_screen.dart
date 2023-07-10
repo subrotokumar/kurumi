@@ -28,6 +28,7 @@ class CharacterScreen extends StatelessWidget {
     bool showDescription = false;
     Size size = MediaQuery.of(context).size;
     bool? isFav = characterData?.node?.isFavourite;
+    bool showSpoiler = false;
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: SingleChildScrollView(
@@ -196,34 +197,88 @@ class CharacterScreen extends StatelessWidget {
                 margin: const EdgeInsets.all(15),
                 color: AppTheme.secondaryColor,
                 child: StatefulBuilder(
-                  builder: (context, setState) => Container(
-                    padding: const EdgeInsets.all(10),
-                    constraints: !showDescription
-                        ? const BoxConstraints(maxHeight: 300)
-                        : const BoxConstraints(),
-                    child: GestureDetector(
-                        onTap: () {
-                          setState(() => showDescription = !showDescription);
-                        },
-                        child: Markdown(
-                          onTapLink: (text, href, title) {
-                            if (href == null) return;
-                            if (href.startsWith('https://anilist.co/')) {
-                              context.push(
-                                  href.replaceAll('https://anilist.co', ''));
-                            }
-                          },
-                          padding: const EdgeInsets.all(0),
-                          data: characterData?.node?.description
-                                  .toString()
-                                  .replaceAll('\n', '\n\n')
-                                  .replaceAll('~', '_') ??
-                              '',
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          selectable: true,
-                        )),
-                  ),
+                  builder: (context, newState) {
+                    final spoilerDescription = characterData?.node?.description
+                            .toString()
+                            .replaceAll('\n', '\n\n')
+                            .replaceAll('~', '_') ??
+                        '';
+                    RegExp regExp = RegExp(r'\s*_!\s*.+?\s*!_\s*');
+                    String noSpoilerDescription =
+                        spoilerDescription.replaceAll(regExp, '');
+                    final containSpoiler =
+                        spoilerDescription != noSpoilerDescription;
+                    return Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          constraints: !showDescription
+                              ? const BoxConstraints(maxHeight: 300)
+                              : const BoxConstraints(),
+                          child: GestureDetector(
+                            onTap: () {
+                              newState(
+                                  () => showDescription = !showDescription);
+                            },
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Markdown(
+                                    onTapLink: (text, href, title) {
+                                      if (href == null) return;
+                                      if (href
+                                          .startsWith('https://anilist.co/')) {
+                                        context.push(href.replaceAll(
+                                            'https://anilist.co', ''));
+                                      }
+                                    },
+                                    padding: const EdgeInsets.all(0),
+                                    data: showSpoiler
+                                        ? spoilerDescription
+                                            .replaceAll("_!", "**")
+                                            .replaceAll("!_", "**")
+                                        : noSpoilerDescription,
+                                    shrinkWrap: true,
+                                    physics: const ClampingScrollPhysics(),
+                                    selectable: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            if (containSpoiler)
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    foregroundColor:
+                                        showSpoiler ? null : Colors.redAccent),
+                                onPressed: () =>
+                                    newState(() => showSpoiler = !showSpoiler),
+                                child: Text(showSpoiler
+                                    ? 'Hide Spoiler'
+                                    : 'Show Spoiler'),
+                              ),
+                            const Spacer(),
+                            IconButton(
+                              style: IconButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                              ),
+                              onPressed: () => newState(
+                                  () => showDescription = !showDescription),
+                              icon: Icon(showDescription
+                                  ? Icons.arrow_drop_up_outlined
+                                  : Icons.arrow_drop_down),
+                            ),
+                          ],
+                        )
+                      ].reversed.toList(),
+                    );
+                  },
                 ),
               ),
             ),

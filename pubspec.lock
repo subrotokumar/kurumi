@@ -20,7 +20,7 @@ packages:
   anilist:
     dependency: "direct main"
     description:
-      path: anilist
+      path: "../anilist"
       relative: true
     source: path
     version: "1.0.0"
