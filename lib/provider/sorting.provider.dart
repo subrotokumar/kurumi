@@ -44,7 +44,7 @@ class SortingSetting extends StateNotifier<SortFilter> {
         );
       } else {
         state = (
-          int.parse(setting?.first ?? '1'),
+          int.tryParse(setting.first) ?? 1,
           Sort.values[sort == 'ASC' ? 0 : 1],
         );
       }

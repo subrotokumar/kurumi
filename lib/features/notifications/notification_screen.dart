@@ -6,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icon.dart';
-
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:line_icons/line_icon.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen(this.controller, {super.key});
@@ -101,6 +100,7 @@ class NotificationScreen extends StatelessWidget {
                               if (response?.loading ?? true) {
                                 return LoadingWidget;
                               } else {
+                                log.v(response?.data);
                                 final data =
                                     response?.data?.Page?.notifications;
                                 return ListView.builder(
@@ -112,6 +112,11 @@ class NotificationScreen extends StatelessWidget {
                                         data?.elementAt(index)?.G__typename;
                                     // ignore: prefer_typing_uninitialized_variables
                                     late final item;
+                                    if (type !=
+                                            'RelatedMediaAdditionNotification' &&
+                                        type != 'AiringNotification') {
+                                      return const Card();
+                                    }
                                     bool isAiring =
                                         type == 'AiringNotification';
                                     if (isAiring) {

@@ -1,3 +1,6 @@
+## v1.3.1-beta
+- Bug Fixed - Notifications are not displayed properly
+
 ## v1.3.0-beta
 - Added option to show/hide spoiler in Character description
 

@@ -6,12 +6,6 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:zoom_widget/zoom_widget.dart';
-
 import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
@@ -27,6 +21,11 @@ import 'package:kurumi/features/media_description/widget_section/tag_section.wid
 import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 
 import 'widget_section/banner.widget.dart';
 
@@ -357,7 +356,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                             ?.name ??
                                                         'ADD'),
                                                   ),
-                                                const SizedBox(width: 8),
+                                                const SizedBox(width: 5),
                                                 IconButton(
                                                   style: IconButton.styleFrom(
                                                     shape: CircleBorder(
