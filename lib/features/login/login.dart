@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     TextSpan(
                         text:
-                            ' to login/resister. Make sure the URL is anilist.co before entering your email and password.'),
+                            ' to login/register. Make sure the URL is anilist.co before entering your email and password.'),
                   ],
                 ),
               ),

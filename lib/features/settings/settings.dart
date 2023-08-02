@@ -218,7 +218,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 leading: const Text(
-                                  'Allow Animation (Experimantal)',
+                                  'Allow Animation (Experimental)',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
