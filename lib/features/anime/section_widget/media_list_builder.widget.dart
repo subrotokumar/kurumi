@@ -5,13 +5,12 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/provider/sorting.provider.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
-
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:kurumi/provider/sorting.provider.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MediaListBuilderWidget extends StatefulWidget {
   final GMediaListStatus status;

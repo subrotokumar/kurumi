@@ -117,8 +117,11 @@ class BannerAppBar extends ConsumerWidget {
                         try {
                           client!
                               .request(
-                            GToggleFavouriteReq(
-                                (b) => b..vars.animeId = data?.id),
+                            data?.type == GMediaType.ANIME
+                                ? GToggleFavouriteReq(
+                                    (b) => b..vars.animeId = data?.id)
+                                : GToggleFavouriteReq(
+                                    (b) => b..vars.mangaId = data?.id),
                           )
                               .listen((event) {
                             final req = GMediaDetailQueryReq(

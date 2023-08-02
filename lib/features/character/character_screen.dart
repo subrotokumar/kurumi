@@ -1,4 +1,5 @@
 import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -6,9 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:anilist/toggle_favourite.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:line_icons/line_icon.dart';
 
 class CharacterScreen extends StatelessWidget {
   const CharacterScreen({

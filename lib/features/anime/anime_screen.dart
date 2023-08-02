@@ -2,13 +2,12 @@ import 'package:anilist/tranding_anime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/features/home/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
   const AnimeScreen({super.key});

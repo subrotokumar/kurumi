@@ -10,7 +10,6 @@ import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
-import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/external_link.dart';
@@ -18,6 +17,7 @@ import 'package:kurumi/features/media_description/widget_section/genre.widget.da
 import 'package:kurumi/features/media_description/widget_section/recommendation.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/relations.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/tag_section.widget.dart';
+import 'package:kurumi/features/media_description/widget_section/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/provider/provider.dart';
@@ -515,54 +515,6 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
               );
             }
           },
-        ),
-      ),
-    );
-  }
-}
-
-class Timer extends StatelessWidget {
-  const Timer({
-    super.key,
-    required this.size,
-    required this.data,
-  });
-
-  final Size size;
-  final GMediaDetailQueryData_Media? data;
-
-  @override
-  Widget build(BuildContext context) {
-    if (data?.nextAiringEpisode?.airingAt == null) return const Card();
-    return SizedBox(
-      height: 55,
-      child: Center(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            // side: BorderSide(color: Colors.grey),
-          ),
-          color: AppTheme.secondaryColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Visibility(
-                visible: data?.nextAiringEpisode?.episode != null,
-                child: Text(
-                  '   EP : ${data?.nextAiringEpisode?.episode}  ',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: TimerWidget(time: data?.nextAiringEpisode?.airingAt),
-              ),
-            ],
-          ),
         ),
       ),
     );
