@@ -331,10 +331,9 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: GridView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 4,
+                      childAspectRatio: size.width > 400 ? 6 : 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
@@ -534,7 +533,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text('Version 1.3.1 Beta'),
+                const Text('Version 1.3.3 Beta'),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

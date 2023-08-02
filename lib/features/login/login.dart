@@ -154,8 +154,7 @@ class _LoginPageState extends State<LoginPage> {
       elevation: 50,
       useSafeArea: true,
       context: context,
-      builder: (context) {
-        final w = MediaQuery.of(context).size.width;
+      builder: (ctx) {
         return Container(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -195,14 +194,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       fixedSize: const Size.fromWidth(120),
                       foregroundColor: const Color(0xfff7f2f9),
                       backgroundColor: Colors.transparent,
-                      minimumSize: Size((w - 60) * .5, 50),
+                      minimumSize: const Size(100, 50),
                       side: const BorderSide(
                         color: Color(0xfff7f2f9),
                       ),
@@ -212,13 +211,14 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text('Register'),
                   ),
+                  const SizedBox(width: 20),
                   Consumer(
                     builder: (context, ref, child) => ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size.fromWidth(120),
                         backgroundColor: const Color(0xfff7f2f9),
                         foregroundColor: Colors.indigo,
-                        minimumSize: Size((w - 60) * .5, 50),
+                        minimumSize: const Size(100, 50),
                       ),
                       onPressed: () async {
                         String? accessToken = await Oauth().auth();

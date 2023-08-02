@@ -5,7 +5,6 @@ import 'package:kurumi/core/routes/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Upgrader.clearSavedSettings();
   runApp(const ProviderScope(child: MyApp()));
 }
 

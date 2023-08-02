@@ -152,6 +152,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         ?.entries
                         ?.reversed
                         .toList();
+                final w = MediaQuery.of(context).size.width - 80;
                 return ListView.builder(
                   padding: const EdgeInsets.all(0),
                   itemCount: (data?.length ?? 0) + 1,
@@ -188,7 +189,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                               );
                             }),
                             Text(
-                              ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
+                              ' ${widget.type == GMediaType.ANIME ? 'Anime' : 'Manga'}',
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 30,
@@ -221,11 +222,12 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       child: Container(
                         margin: const EdgeInsets.all(10),
                         height: 120,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          // mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Flexible(
-                              flex: 3,
+                            SizedBox(
+                              width: 100,
                               child: Hero(
                                 tag: '${mediaData?.media?.id ?? ''}',
                                 child: CachedNetworkImage(
@@ -239,8 +241,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                 ),
                               ),
                             ),
-                            Flexible(
-                              flex: 7,
+                            SizedBox(
+                              width: w - 100,
                               child: Container(
                                 height: 120,
                                 decoration: const BoxDecoration(

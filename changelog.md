@@ -1,3 +1,9 @@
+## v1.3.3-beta
+- Improved Support for Tablet Screen Size
+
+## v1.3.2-beta
+- Fixed Favourite toogle button not working at Manga Media Screen
+
 ## v1.3.1-beta
 - Bug Fixed - Notifications are not displayed properly
 

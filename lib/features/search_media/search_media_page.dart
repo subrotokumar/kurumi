@@ -381,13 +381,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       final res = response.data?.Page?.media;
                       if (view.first == SearchView.GRID) {
                         return GridView.builder(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(16),
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 2 / 4,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 0,
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: size.width > 400 ? 4 : 3,
+                            childAspectRatio: 2 / 3,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
                           ),
                           itemCount: res?.length ?? 0,
                           itemBuilder: (context, index) {
@@ -403,47 +403,50 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                   },
                                 );
                               },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: SizedBox(
-                                      height: 170,
-                                      child: Stack(
-                                        children: [
-                                          CachedNetworkImage(
-                                            height: 170,
-                                            fit: BoxFit.fitWidth,
-                                            imageUrl:
-                                                data?.coverImage?.large ?? '',
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 5),
-                                              child: StatusWidget(
-                                                data: data,
-                                                background: Colors.black45,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: CachedNetworkImage(
+                                        // height: 170,
+                                        fit: BoxFit.cover,
+                                        imageUrl: data?.coverImage?.large ?? '',
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    data?.title?.userPreferred ?? '',
-                                    maxLines: 2,
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 12,
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5),
+                                        child: StatusWidget(
+                                          data: data,
+                                          background: Colors.black45,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                        width: double.maxFinite,
+                                        color: Colors.black45,
+                                        padding: const EdgeInsets.all(2),
+                                        child: Text(
+                                          data?.title?.userPreferred ?? '',
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize:
+                                                size.width > 400 ? 16 : 12,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
