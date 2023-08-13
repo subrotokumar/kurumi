@@ -38,6 +38,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> initialize() async {
+    ref.read(sharedfPrefProvider);
     AndroidOptions getAndroidOptions() => const AndroidOptions(
           encryptedSharedPreferences: true,
         );

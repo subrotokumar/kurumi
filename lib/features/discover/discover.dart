@@ -51,18 +51,20 @@ class _DiscoverTabState extends State<DiscoverTab> {
                         final type = ref.watch(discoverTabProvider);
                         return IconButton(
                           style: IconButton.styleFrom(
-                            fixedSize: const Size(30, 50),
+                            fixedSize: const Size(30, 40),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            backgroundColor: Colors.black45,
+                            backgroundColor: Colors.black26,
                             side: const BorderSide(
-                                color: Colors.white, width: 1.5),
+                              color: Colors.white70,
+                              width: 1.0,
+                            ),
                           ),
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.search,
                             weight: 1.5,
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.9),
                           ),
                           onPressed: () {
                             HapticFeedback.mediumImpact();

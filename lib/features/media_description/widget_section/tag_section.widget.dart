@@ -1,5 +1,6 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:flutter/material.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 
 class TagSection extends StatefulWidget {
   const TagSection({
@@ -73,9 +74,22 @@ class _TagSectionState extends State<TagSection> {
                         border: Border.all(
                           color: Colors.white24,
                         )),
-                    child: Text(
-                      '${widget.data?.tags?[index]?.name ?? ''}  ${widget.data?.tags?[index]?.rank ?? '0'}%',
-                      style: TextStyle(color: isSpoiler ? Colors.amber : null),
+                    child: InkWell(
+                      onTap: () {
+                        context.pushNamed(
+                          AppRouteConstant.SearchScreen.name,
+                          extra: {
+                            'mediaType': widget.data?.type,
+                            'tags': widget.data?.tags?[index]?.name,
+                            'hide': true
+                          },
+                        );
+                      },
+                      child: Text(
+                        '${widget.data?.tags?[index]?.name ?? ''}  ${widget.data?.tags?[index]?.rank ?? '0'}%',
+                        style:
+                            TextStyle(color: isSpoiler ? Colors.amber : null),
+                      ),
                     ),
                   );
                 }),

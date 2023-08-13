@@ -1,18 +1,14 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
+import 'package:kurumi/features/settings/widgets/account_setting_section.dart';
+import 'package:kurumi/features/settings/widgets/general_setting_section.dart';
+import 'package:kurumi/features/settings/widgets/setting_footer.dart';
 import 'package:kurumi/features/webview/webview.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'package:kurumi/core/routes/app_route_constant.dart';
-import 'package:kurumi/core/themes/app_theme.dart';
-import 'package:kurumi/features/profile/function/logout.function.dart';
-import 'package:kurumi/provider/provider.dart';
-
-enum SearchView { LIST, GRID }
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -54,277 +50,12 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                ExpansionTile(
-                  shape: const RoundedRectangleBorder(side: BorderSide.none),
-                  initiallyExpanded: false,
-                  tilePadding: const EdgeInsets.only(right: 20),
-                  trailing:
-                      const Icon(Icons.arrow_drop_down, color: Colors.white),
-                  title: const ListTile(
-                    leading: Text(
-                      ' General',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  children: [
-                    // Default Discover Page
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final pref = ref.watch(prefProvider);
-                        return pref.when(
-                          error: (error, stackTrace) => const Card(),
-                          loading: () => const Card(),
-                          data: (value) {
-                            var v = value.getString('DefaultDiscoverPage') ??
-                                'ANIME';
-                            var type = v == 'ANIME'
-                                ? GMediaType.ANIME
-                                : GMediaType.MANGA;
-                            return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: ListTile(
-                                tileColor: const Color(0xff25232a),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                leading: const Text(
-                                  'Default Discover Page',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                trailing: SegmentedButton(
-                                  onSelectionChanged: (v) async {
-                                    await value.setString(
-                                        'DefaultDiscoverPage', v.first.name);
-                                    //print('$c ${v.first.name}');
-                                    setState(() {});
-                                  },
-                                  emptySelectionAllowed: false,
-                                  multiSelectionEnabled: false,
-                                  showSelectedIcon: false,
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    visualDensity:
-                                        const VisualDensity(vertical: -3),
-                                  ),
-                                  segments: const [
-                                    ButtonSegment(
-                                      value: GMediaType.ANIME,
-                                      label: Text('ANIME'),
-                                    ),
-                                    ButtonSegment(
-                                      value: GMediaType.MANGA,
-                                      label: Text('MANGA'),
-                                    ),
-                                  ],
-                                  selected: {type},
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    // Default Media Search View
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final pref = ref.watch(prefProvider);
-                        return pref.when(
-                          error: (error, stackTrace) => const Card(),
-                          loading: () => const Card(),
-                          data: (value) {
-                            var v =
-                                value.getString('DefaultSearchView') ?? 'LIST';
-                            var type =
-                                v == 'LIST' ? SearchView.LIST : SearchView.GRID;
-                            return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: ListTile(
-                                tileColor: const Color(0xff25232a),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                leading: const Text(
-                                  'Default Search View',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                trailing: SegmentedButton(
-                                  onSelectionChanged: (v) async {
-                                    await value.setString(
-                                        'DefaultSearchView', v.first.name);
-                                    setState(() {});
-                                  },
-                                  emptySelectionAllowed: false,
-                                  multiSelectionEnabled: false,
-                                  showSelectedIcon: false,
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    visualDensity:
-                                        const VisualDensity(vertical: -3),
-                                  ),
-                                  segments: const [
-                                    ButtonSegment(
-                                      value: SearchView.LIST,
-                                      label: Text('LIST'),
-                                    ),
-                                    ButtonSegment(
-                                      value: SearchView.GRID,
-                                      label: Text('GRID'),
-                                    ),
-                                  ],
-                                  selected: {type},
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final pref = ref.watch(prefProvider);
-                        return pref.when(
-                          error: (error, stackTrace) => const Card(),
-                          loading: () => const Card(),
-                          data: (value) {
-                            var vv = value.getBool('animation') ?? true;
-                            return Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: ListTile(
-                                tileColor: const Color(0xff25232a),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                leading: const Text(
-                                  'Allow Animation (Experimental)',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                trailing: Switch(
-                                  value: vv,
-                                  onChanged: (v) async {
-                                    await value.setBool('animation', v);
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+
+                ///* General Setting Section
+                const GeneralSettingSection(),
 
                 /// Account Setting
-                ExpansionTile(
-                  shape: const RoundedRectangleBorder(side: BorderSide.none),
-                  initiallyExpanded: false,
-                  tilePadding: const EdgeInsets.only(right: 20),
-                  trailing:
-                      const Icon(Icons.arrow_drop_down, color: Colors.white),
-                  title: const ListTile(
-                    leading: Text(
-                      ' Account',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0).copyWith(bottom: 20),
-                      child: GridView(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 4,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        children: [
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                            onPressed: () async => await launchUrlString(
-                              'https://anilist.co/settings',
-                              mode: LaunchMode.externalApplication,
-                            ),
-                            icon: LineIcon.link(color: Colors.white),
-                            label: const Text('Anilist'),
-                          ),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                            onPressed: () async => await launchUrlString(
-                              'https://anilist.co/settings/account',
-                              mode: LaunchMode.externalApplication,
-                            ),
-                            icon: LineIcon.userEdit(color: Colors.white),
-                            label: const Text('Account'),
-                          ),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                            onPressed: () async => await launchUrlString(
-                              'https://anilist.co/settings/media',
-                              mode: LaunchMode.externalApplication,
-                            ),
-                            icon: LineIcon.list(color: Colors.white),
-                            label: const Text('Media'),
-                          ),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () async => await launchUrlString(
-                              'https://anilist.co/settings/import',
-                              mode: LaunchMode.externalApplication,
-                            ),
-                            icon: LineIcon.fileImport(color: Colors.white),
-                            label: const Text('Import'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                const AccountSettingSection(),
                 Padding(
                   padding:
                       const EdgeInsets.all(10.0).copyWith(bottom: 10, top: 20),
@@ -333,7 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     physics: const ClampingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: size.width > 400 ? 6 : 3,
+                      childAspectRatio: size.width > 500 ? 6 : 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
@@ -452,101 +183,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: Colors.white),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Want to support Kurumi\'s Creator ?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () => launchUrlString(
-                      'https://www.buymeacoffee.com/subrotokumar',
-                      mode: LaunchMode.externalApplication,
-                    ),
-                    child: Image.asset(
-                      'assets/images/bmc.png',
-                      width: size.width * 0.4,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Card(),
-                    const Card(),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white70,
-                        padding: const EdgeInsets.all(0),
-                      ),
-                      splashRadius: 1,
-                      onPressed: () {
-                        launchUrlString(
-                          'https://www.github.com/subrotokumar/kurumi',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      icon: LineIcon.github(
-                        size: 30,
-                        color: Colors.black,
-                      ),
-                    ),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white70,
-                        padding: const EdgeInsets.all(0),
-                      ),
-                      splashRadius: 1,
-                      onPressed: () => launchUrlString(
-                        'https://www.twitter.com/isubrotokumar',
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      icon: LineIcon.twitter(
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                    ),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white70,
-                        padding: const EdgeInsets.all(0),
-                      ),
-                      splashRadius: 1,
-                      onPressed: () => launchUrlString(
-                        'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      icon: LineIcon.googlePlay(
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                    ),
-                    const Card(),
-                    const Card(),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Text('Version 1.3.3 Beta'),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white30,
-                    foregroundColor: Colors.white,
-                  ),
-                  icon: LineIcon.alternateSignOut(),
-                  onPressed: () async {
-                    logout();
-                    context.goNamed(AppRouteConstant.LoginScreen.name);
-                  },
-                  label: const Text('Log Out'),
-                ),
+                const SettingFooterSection(),
                 const SizedBox(height: 20),
               ],
             ),

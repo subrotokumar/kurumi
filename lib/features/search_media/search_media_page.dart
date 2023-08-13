@@ -7,55 +7,29 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/features/search_media/components/status_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:kurumi/core/enum/enum.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
+import 'package:kurumi/features/search_media/components/media_filter_sheet.dart';
+import 'package:kurumi/features/search_media/components/status_widget.dart';
+import 'package:kurumi/features/search_media/widget.dart/appbar.dart';
+import 'package:kurumi/features/search_media/widget.dart/bottom_search_bar.dart';
 import 'package:kurumi/provider/provider.dart';
-
-enum SearchView { LIST, GRID }
-
-extension ColorExtension on GMediaListStatus {
-  Color get statusColor {
-    switch (this) {
-      case GMediaListStatus.CURRENT:
-        return Colors.green.shade200;
-      case GMediaListStatus.PLANNING:
-        return Colors.orange.shade200;
-      case GMediaListStatus.COMPLETED:
-        return Colors.blue.shade200;
-      case GMediaListStatus.PAUSED:
-        return Colors.pinkAccent.shade200;
-      case GMediaListStatus.DROPPED:
-        return Colors.yellow.shade200;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  Icon get statusIcon {
-    switch (this) {
-      case GMediaListStatus.CURRENT:
-        return Icon(Icons.play_arrow, color: statusColor, size: 15);
-      case GMediaListStatus.PLANNING:
-        return Icon(Icons.calendar_month_sharp, color: statusColor, size: 15);
-      case GMediaListStatus.COMPLETED:
-        return Icon(Icons.download_done_sharp, color: statusColor, size: 15);
-      case GMediaListStatus.PAUSED:
-        return Icon(Icons.pause, color: statusColor, size: 15);
-      case GMediaListStatus.DROPPED:
-        return Icon(Icons.unarchive, color: statusColor, size: 15);
-      default:
-        return Icon(Icons.video_stable_rounded, color: statusColor, size: 15);
-    }
-  }
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchMedia extends ConsumerStatefulWidget {
-  const SearchMedia({super.key, this.mediaType});
+  const SearchMedia({
+    super.key,
+    this.mediaType,
+    this.tag,
+    this.genre,
+    this.hide,
+  });
   final GMediaType? mediaType;
+  final String? tag;
+  final String? genre;
+  final bool? hide;
 
   @override
   ConsumerState<SearchMedia> createState() => _SearchMediaState();
@@ -90,9 +64,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
     super.dispose();
   }
 
+  bool displayMediaFilterSheet = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final bottomSearchBarSetting =
+        ref.watch(sharedfPrefProvider.notifier).bottomSearchBar;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -194,7 +172,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                       const DropdownMenuItem(
                                         value: null,
                                         child: Text(
-                                          'NONE',
+                                          'All',
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                       ),
@@ -244,11 +222,13 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                       const DropdownMenuItem(
                                         value: null,
                                         child: Text(
-                                          'NONE  ',
+                                          'All  ',
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                       ),
-                                      for (int i = 1970; i <= 2023; i++)
+                                      for (int i = DateTime.now().year + 1;
+                                          i >= 1980;
+                                          i--)
                                         DropdownMenuItem(
                                           value: i,
                                           child: Text('$i  '),
@@ -296,63 +276,39 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
             ),
           ),
         ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: AppTheme.secondaryColor,
-          scrolledUnderElevation: 0,
-          leading: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            onPressed: () => context.pop(),
-          ),
-          actions: [
-            IconButton(
-              visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
-              onPressed: () async {
-                _key.currentState!.openEndDrawer();
-              },
-              style: IconButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: mediaType.first == GMediaType.ANIME
-                    ? Colors.blue
-                    : Colors.green,
-                side: BorderSide(
-                  color: mediaType.first == GMediaType.ANIME
-                      ? Colors.blue
-                      : Colors.green,
+        appBar: bottomSearchBarSetting || widget.hide == true
+            ? null
+            : PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: SearchAppBar(
+                  keyOfDrawer: _key,
+                  textEditingController: textEditingController,
+                  mediaType: mediaType,
+                  view: view,
+                  setState: setState,
+                  toggleBottmSheet: () => setState(
+                      () => displayMediaFilterSheet = !displayMediaFilterSheet),
                 ),
               ),
-              icon: Icon(
-                view.first == SearchView.LIST
-                    ? Icons.menu
-                    : Icons.grid_4x4_rounded,
-                size: 20,
+        bottomSheet: !displayMediaFilterSheet || widget.hide == true
+            ? null
+            : AnimatedSlide(
+                duration: const Duration(milliseconds: 300),
+                offset:
+                    displayMediaFilterSheet ? Offset.zero : const Offset(0, 2),
+                child: const MediaFilterSheet(),
               ),
-            ),
-            const SizedBox(width: 16),
-          ],
-          title: TextField(
-            controller: textEditingController,
-            onSubmitted: (v) => setState(() {}),
-            decoration: InputDecoration(
-              hintText: 'What are you looking for?',
-              border: InputBorder.none,
-              isDense: false,
-              suffixIcon: IconButton(
-                  onPressed: () {
-                    textEditingController.value = TextEditingValue(
-                      text: '',
-                      selection: TextSelection.fromPosition(
-                        const TextPosition(offset: 0),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.clear)),
-            ),
-          ),
-        ),
+        bottomNavigationBar: !bottomSearchBarSetting || widget.hide == true
+            ? null
+            : BottomSearchBar(
+                keyOfDrawer: _key,
+                textEditingController: textEditingController,
+                mediaType: mediaType,
+                view: view,
+                setState: setState,
+                toggleBottmSheet: () => setState(
+                    () => displayMediaFilterSheet = !displayMediaFilterSheet),
+              ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SizedBox(
@@ -362,8 +318,8 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                 final client = ref.watch(clientProvider);
                 return Operation(
                   client: client!,
-                  operationRequest: GSearchAnimeQueryReq(
-                    (b) => b
+                  operationRequest: GSearchAnimeQueryReq((b) {
+                    b
                       ..vars.search = textEditingController.text.isNotEmpty
                           ? textEditingController.text
                           : null
@@ -372,8 +328,18 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                           mediaType.first == GMediaType.ANIME ? season : null
                       ..vars.seasonYear = mediaType.first == GMediaType.ANIME
                           ? seasonYear
-                          : null,
-                  ),
+                          : null
+                      ..vars.formatIn = null
+                      ..vars.genreNotIn = null
+                      ..vars.tagNotIn = null;
+                    if (widget.tag != null && widget.tag!.isNotEmpty) {
+                      b.vars.tagIn.add(widget.tag);
+                    }
+                    if (widget.genre != null && widget.genre!.isNotEmpty) {
+                      b.vars.genreIn.add(widget.genre);
+                    }
+                    return b;
+                  }),
                   builder: (context, response, error) {
                     if (response == null || response.loading) {
                       return LoadingWidget;
@@ -384,7 +350,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                           padding: const EdgeInsets.all(16),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: size.width > 400 ? 4 : 3,
+                            crossAxisCount: size.width > 500 ? 4 : 3,
                             childAspectRatio: 2 / 3,
                             crossAxisSpacing: 16,
                             mainAxisSpacing: 16,
@@ -438,7 +404,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             fontSize:
-                                                size.width > 400 ? 16 : 12,
+                                                size.width > 500 ? 16 : 12,
                                             fontWeight: FontWeight.w400,
                                             letterSpacing: 1,
                                           ),

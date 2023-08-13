@@ -10,6 +10,26 @@ final discoverTabProvider = StateProvider<GMediaType>(
 final prefProvider =
     FutureProvider<SharedPreferences>((ref) => SharedPreferences.getInstance());
 
+final sharedfPrefProvider =
+    StateNotifierProvider<SharedPreferencesNotifier, SharedPreferences?>((ref) {
+  return SharedPreferencesNotifier(ref);
+});
+
+class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
+  final Ref ref;
+  SharedPreferencesNotifier(this.ref) : super(null) {
+    _init();
+  }
+
+  _init() async {
+    state = await SharedPreferences.getInstance();
+  }
+
+  bool get bottomSearchBar => state!.getBool('bottomSearchBar') ?? true;
+  Future<bool> setBottomSearchBar(bool value) async =>
+      await state!.setBool('bottomSearchBar', value);
+}
+
 // * STATE Provider
 final accessTokenProvider = StateProvider<String?>((ref) => null);
 final clientProvider = StateProvider<Client?>((ref) => null);

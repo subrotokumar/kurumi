@@ -1,6 +1,6 @@
 import 'package:anilist/search_anime_query.dart';
 import 'package:flutter/material.dart';
-import 'package:kurumi/features/search_media/search_media_page.dart';
+import 'package:kurumi/core/enum/enum.dart';
 
 class StatusWidget extends StatelessWidget {
   const StatusWidget({super.key, required this.data, this.background});

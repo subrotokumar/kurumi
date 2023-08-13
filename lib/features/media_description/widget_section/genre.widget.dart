@@ -1,5 +1,6 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:flutter/material.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 
 class MediaGenreSection extends StatelessWidget {
   const MediaGenreSection({
@@ -31,7 +32,18 @@ class MediaGenreSection extends StatelessWidget {
                     horizontal: 8,
                     vertical: 4,
                   ),
-                  child: Text(data?.genres?.elementAt(i) ?? '#'),
+                  child: InkWell(
+                      onTap: () {
+                        context.pushNamed(
+                          AppRouteConstant.SearchScreen.name,
+                          extra: {
+                            'mediaType': data?.type,
+                            'genre': data?.genres?.elementAt(i),
+                            'hide': true,
+                          },
+                        );
+                      },
+                      child: Text(data?.genres?.elementAt(i) ?? '#')),
                 ),
               ),
             ),
