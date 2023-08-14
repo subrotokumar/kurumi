@@ -7,19 +7,19 @@ import 'package:kurumi/core/themes/app_theme.dart';
 class BottomSearchBar extends StatelessWidget {
   const BottomSearchBar({
     super.key,
-    required this.keyOfDrawer,
     required this.textEditingController,
     required this.setState,
     required this.mediaType,
     required this.view,
     required this.toggleBottmSheet,
+    required this.filterCount,
   });
-  final GlobalKey<ScaffoldState> keyOfDrawer;
   final TextEditingController textEditingController;
   final void Function(void Function()) setState;
   final VoidCallback toggleBottmSheet;
   final Set<GMediaType> mediaType;
   final Set<SearchView> view;
+  final int filterCount;
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +69,17 @@ class BottomSearchBar extends StatelessWidget {
           ),
           IconButton(
             visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
-            onPressed: () async {
-              if (textEditingController.text.isNotEmpty || true) {
-                keyOfDrawer.currentState!.openEndDrawer();
-              } else {
-                toggleBottmSheet();
-              }
-            },
+            onPressed: () => toggleBottmSheet(),
             icon: Icon(
-              view.first == SearchView.LIST
-                  ? Icons.menu
-                  : Icons.grid_4x4_rounded,
+              switch (filterCount) {
+                1 => Icons.filter_1_rounded,
+                2 => Icons.filter_2_rounded,
+                3 => Icons.filter_3_rounded,
+                4 => Icons.filter_4_rounded,
+                _ => view.first == SearchView.LIST
+                    ? Icons.menu
+                    : Icons.grid_4x4_rounded,
+              },
               size: 25,
               color: mediaType.first == GMediaType.ANIME
                   ? Colors.blue

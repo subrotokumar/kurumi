@@ -1,3 +1,9 @@
+## v1.4.0-beta
+- Added Clickable Tag and Genre buttons at Media Detail Screen  
+- Added Tag and Genre filter option at Media Search Screen  
+- Replaced End Drawer with Bottom Sheet at Media Search Screen
+- Added Bottom Search Bar at Media Search Screen 
+
 ## v1.3.3-beta
 - Improved Support for Tablet Screen Size
 

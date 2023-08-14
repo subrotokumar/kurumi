@@ -67,12 +67,10 @@ final router = Provider<GoRouter>(
           final GMediaType mediaType = extra['mediaType'] as GMediaType;
           final String? tags = extra['tags'] as String?;
           final String? genre = extra['genre'] as String?;
-          final bool? hide = extra['hide'] as bool?;
           return SearchMedia(
             mediaType: mediaType,
             tag: tags,
             genre: genre,
-            hide: hide,
           );
         },
       ),
