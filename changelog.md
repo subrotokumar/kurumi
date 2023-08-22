@@ -1,3 +1,8 @@
+## v1.5.0-beta
+- Added Multi Tag and Genre filter option at Media Search Screen
+- Added dedicated Media Search filter screen
+- UI Changes
+
 ## v1.4.0-beta
 - Added Clickable Tag and Genre buttons at Media Detail Screen  
 - Added Tag and Genre filter option at Media Search Screen  

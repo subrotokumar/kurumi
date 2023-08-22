@@ -1,7 +1,7 @@
 import 'package:anilist/medialist_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/enum/enum.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 
 class SearchAppBar extends StatelessWidget {
@@ -65,23 +65,30 @@ class SearchAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(
-              visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
-              onPressed: () => toggleBottmSheet(),
-              icon: Icon(
-                switch (filterCount) {
-                  1 => Icons.filter_1_rounded,
-                  2 => Icons.filter_2_rounded,
-                  3 => Icons.filter_3_rounded,
-                  4 => Icons.filter_4_rounded,
-                  _ => view.first == SearchView.LIST
-                      ? Icons.menu
-                      : Icons.grid_4x4_rounded,
-                },
-                size: 25,
-                color: mediaType.first == GMediaType.ANIME
-                    ? Colors.blue
-                    : Colors.green,
+            GestureDetector(
+              onLongPress: () => context.pushNamed(
+                AppRouteConstant.SearchFilterScreen.name,
+                extra: (),
+              ),
+              child: IconButton(
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -2),
+                onPressed: () => toggleBottmSheet(),
+                icon: Icon(
+                  switch (filterCount) {
+                    1 => Icons.filter_1_rounded,
+                    2 => Icons.filter_2_rounded,
+                    3 => Icons.filter_3_rounded,
+                    4 => Icons.filter_4_rounded,
+                    _ => view.first == SearchView.LIST
+                        ? Icons.menu
+                        : Icons.grid_4x4_rounded,
+                  },
+                  size: 25,
+                  color: mediaType.first == GMediaType.ANIME
+                      ? Colors.blue
+                      : Colors.green,
+                ),
               ),
             ),
             const SizedBox(width: 6),

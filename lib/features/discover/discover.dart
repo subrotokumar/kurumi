@@ -1,11 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:anilist/profile.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:line_icons/line_icon.dart';
-
 import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/discover/widgets/banner.widget.dart';
@@ -17,88 +16,104 @@ import 'package:kurumi/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/trending_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/upcoming_season_anime.dart';
 import 'package:kurumi/provider/provider.dart';
+import 'package:line_icons/line_icon.dart';
 
-class DiscoverTab extends StatefulWidget {
+class DiscoverTab extends ConsumerStatefulWidget {
   const DiscoverTab({super.key});
 
   @override
-  State<DiscoverTab> createState() => _DiscoverTabState();
+  ConsumerState<DiscoverTab> createState() => _DiscoverTabState();
 }
 
-class _DiscoverTabState extends State<DiscoverTab> {
+class _DiscoverTabState extends ConsumerState<DiscoverTab> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: size.width,
-          child: Stack(
-            children: [
-              const BannerWidget(),
-              Container(
-                width: size.height,
-                height: size.height / 3,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final type = ref.watch(discoverTabProvider);
-                        return IconButton(
-                          style: IconButton.styleFrom(
-                            fixedSize: const Size(30, 40),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            backgroundColor: Colors.black26,
-                            side: const BorderSide(
-                              color: Colors.white70,
-                              width: 1.0,
-                            ),
-                          ),
-                          icon: Icon(
-                            Icons.search,
-                            weight: 1.5,
-                            color: Colors.white.withOpacity(0.9),
-                          ),
-                          onPressed: () {
-                            HapticFeedback.mediumImpact();
-                            context.pushNamed(
-                              AppRouteConstant.SearchScreen.name,
-                              extra: {'mediaType': type},
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
+      body: CustomRefreshIndicator(
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return const CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.search,
+                color: Colors.blue,
+                size: 30,
               ),
-              Container(
-                margin: EdgeInsets.only(top: size.height * 0.4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TabControllerWidget(),
-                    SubTabWidget(size: size),
-                    const TrendingNowTitle(),
-                    const TrendingMedia(),
-                    const PopularThisSeasonTitle(),
-                    const PopularMedia(),
-                    const ReviewSection(),
-                    const UpcomingNextSeasonAnimeTitle(),
-                    const NextSeasonAnimme(),
-                    const Top100AnimeTitle(),
-                    const Top100Media(),
-                  ],
+            );
+          },
+        ),
+        onRefresh: () async {
+          context.pushNamed(
+            AppRouteConstant.SearchScreen.name,
+            extra: {'mediaType': ref.read(discoverTabProvider)},
+          );
+        },
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: size.width,
+            child: Stack(
+              children: [
+                const BannerWidget(),
+                Container(
+                  width: size.height,
+                  height: size.height / 3,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        style: IconButton.styleFrom(
+                          fixedSize: const Size(30, 40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.black26,
+                          side: const BorderSide(
+                            color: Colors.white70,
+                            width: 1.0,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.search,
+                          weight: 1.5,
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          context.pushNamed(
+                            AppRouteConstant.SearchScreen.name,
+                            extra: {'mediaType': ref.read(discoverTabProvider)},
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              )
-            ],
+                Container(
+                  margin: EdgeInsets.only(top: size.height * 0.4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TabControllerWidget(),
+                      SubTabWidget(size: size),
+                      const TrendingNowTitle(),
+                      const TrendingMedia(),
+                      const PopularThisSeasonTitle(),
+                      const PopularMedia(),
+                      const ReviewSection(),
+                      const UpcomingNextSeasonAnimeTitle(),
+                      const NextSeasonAnimme(),
+                      const Top100AnimeTitle(),
+                      const Top100Media(),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

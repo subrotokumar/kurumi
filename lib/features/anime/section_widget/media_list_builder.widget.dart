@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:kurumi/provider/sorting.provider.dart';
@@ -244,115 +245,135 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                             SizedBox(
                               width: w - 100,
                               child: Container(
-                                height: 120,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white10,
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: double.maxFinite,
-                                      child: Text(
-                                        mediaData
-                                                ?.media?.title?.userPreferred ??
-                                            '',
-                                        maxLines: 3,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
+                                color: mediaData?.media?.status ==
+                                        GMediaStatus.RELEASING
+                                    ? Colors.green
+                                    : AppTheme.background,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.background,
+                                    borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(16),
                                     ),
-                                    Text(
-                                      mediaData?.media?.format?.name.trim() ??
-                                          '',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(int.parse(
-                                                  col.substring(1, 7),
-                                                  radix: 16) +
-                                              0xFF000000)),
+                                  ),
+                                  child: Container(
+                                    height: 120,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white10,
                                     ),
-                                    const Spacer(),
-                                    Row(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '--' : (mediaData?.media?.chapters) ?? '--'}',
-                                        ),
-                                        const Spacer(),
-                                        Visibility(
-                                          visible: widget.status ==
-                                              GMediaListStatus.CURRENT,
-                                          child: Card(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            color: Colors.white12,
-                                            child: InkWell(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              splashColor: Color(int.parse(
-                                                      col.substring(1, 7),
-                                                      radix: 16) +
-                                                  0xFF000000),
-                                              onTap: () async {
-                                                HapticFeedback.lightImpact();
-                                                // final userID = ref.read(userId);
-                                                var mediaListEntryMutationReq =
-                                                    GMediaListEntryMutationReq(
-                                                        (b) => b
-                                                          ..vars.id = mediaData
-                                                              ?.media
-                                                              ?.mediaListEntry
-                                                              ?.id
-                                                          ..vars.mediaId =
-                                                              mediaData
-                                                                  ?.media?.id
-                                                          ..vars
-                                                              .progress = (mediaData
-                                                                      ?.media
-                                                                      ?.mediaListEntry
-                                                                      ?.progress ??
-                                                                  0) +
-                                                              1);
-                                                client
-                                                    .request(
-                                                        mediaListEntryMutationReq)
-                                                    .listen(
-                                                  (response) async {
-                                                    if (response.data != null) {
-                                                      await client
-                                                          .request(request)
-                                                          .first;
-                                                    }
-                                                  },
-                                                );
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  const SizedBox(width: 5),
-                                                  const Icon(Icons.add,
-                                                      size: 20),
-                                                  Text(widget.type ==
-                                                          GMediaType.ANIME
-                                                      ? '1 EP'
-                                                      : '1 CH'),
-                                                  const SizedBox(width: 5),
-                                                ],
-                                              ),
+                                        SizedBox(
+                                          width: double.maxFinite,
+                                          child: Text(
+                                            mediaData?.media?.title
+                                                    ?.userPreferred ??
+                                                '',
+                                            maxLines: 3,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ),
+                                        Text(
+                                          mediaData?.media?.format?.name
+                                                  .trim() ??
+                                              '',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(int.parse(
+                                                      col.substring(1, 7),
+                                                      radix: 16) +
+                                                  0xFF000000)),
+                                        ),
+                                        const Spacer(),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '--' : (mediaData?.media?.chapters) ?? '--'}',
+                                            ),
+                                            const Spacer(),
+                                            Visibility(
+                                              visible: widget.status ==
+                                                  GMediaListStatus.CURRENT,
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                color: Colors.white12,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  splashColor: Color(int.parse(
+                                                          col.substring(1, 7),
+                                                          radix: 16) +
+                                                      0xFF000000),
+                                                  onTap: () async {
+                                                    HapticFeedback
+                                                        .lightImpact();
+                                                    // final userID = ref.read(userId);
+                                                    var mediaListEntryMutationReq =
+                                                        GMediaListEntryMutationReq(
+                                                            (b) => b
+                                                              ..vars.id = mediaData
+                                                                  ?.media
+                                                                  ?.mediaListEntry
+                                                                  ?.id
+                                                              ..vars.mediaId =
+                                                                  mediaData
+                                                                      ?.media
+                                                                      ?.id
+                                                              ..vars
+                                                                  .progress = (mediaData
+                                                                          ?.media
+                                                                          ?.mediaListEntry
+                                                                          ?.progress ??
+                                                                      0) +
+                                                                  1);
+                                                    client
+                                                        .request(
+                                                            mediaListEntryMutationReq)
+                                                        .listen(
+                                                      (response) async {
+                                                        if (response.data !=
+                                                            null) {
+                                                          await client
+                                                              .request(request)
+                                                              .first;
+                                                        }
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(width: 5),
+                                                      const Icon(Icons.add,
+                                                          size: 20),
+                                                      Text(widget.type ==
+                                                              GMediaType.ANIME
+                                                          ? '1 EP'
+                                                          : '1 CH'),
+                                                      const SizedBox(width: 5),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

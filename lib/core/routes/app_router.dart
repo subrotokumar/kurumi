@@ -12,6 +12,7 @@ import 'package:kurumi/features/login/login.dart';
 import 'package:kurumi/features/media_description/media_screen.dart';
 import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/reviews/review_screen.dart';
+import 'package:kurumi/features/search_media/search_filter_screen.dart';
 import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
@@ -127,6 +128,15 @@ final router = Provider<GoRouter>(
         path: AppRouteConstant.FavAnimeScreen.path,
         builder: (context, state) {
           return FavAnimeScreen(index: state.extra as int);
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.SearchFilterScreen.name,
+        path: AppRouteConstant.SearchFilterScreen.path,
+        builder: (context, state) {
+          return SearchFilterScreen(
+            filterOption: state.extra as FilterOption,
+          );
         },
       ),
       GoRoute(

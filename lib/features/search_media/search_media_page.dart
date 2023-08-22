@@ -1,21 +1,17 @@
-// ignore_for_file: constant_identifier_names, depend_on_referenced_packages, implementation_imports
+// ignore_for_file: constant_identifier_names, depend_on_referenced_packages, implementation_imports, curly_braces_in_flow_control_structures
 
 import 'package:anilist/medialist_collection.dart';
 import 'package:anilist/search_anime_query.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:kurumi/core/enum/enum.dart';
+import 'package:kurumi/core/routes/app_route_constant.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
-import 'package:kurumi/features/search_media/components/media_filter_sheet.dart';
 import 'package:kurumi/features/search_media/components/media_grid_view.dart';
 import 'package:kurumi/features/search_media/components/media_list_view.dart';
-import 'package:kurumi/features/search_media/widget.dart/appbar.dart';
-import 'package:kurumi/features/search_media/widget.dart/bottom_search_bar.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchMedia extends ConsumerStatefulWidget {
   const SearchMedia({
@@ -35,39 +31,32 @@ class SearchMedia extends ConsumerStatefulWidget {
 }
 
 class _SearchMediaState extends ConsumerState<SearchMedia> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
   TextEditingController textEditingController = TextEditingController();
-  Set<GMediaType> mediaType = {GMediaType.ANIME};
-  Set<SearchView> view = {SearchView.LIST};
+  GMediaType mediaType = GMediaType.ANIME;
   GMediaSeason? season;
-  String? genre;
-  String? tag;
+  Set<String> genres = {};
+  Set<String> tags = {};
   int? seasonYear;
-  bool clear = false;
 
   int get filterCount {
     int count = 0;
     if (season != null) count++;
     if (seasonYear != null) count++;
-    if (genre != null) count++;
-    if (tag != null) count++;
+    if (genres.isNotEmpty) count++;
+    if (tags.isNotEmpty) count++;
     return count;
   }
 
   @override
   void initState() {
-    mediaType = widget.mediaType == null ? mediaType : {widget.mediaType!};
-    genre = widget.genre;
-    tag = widget.tag;
+    mediaType = widget.mediaType ?? mediaType;
+    if (widget.genre != null) {
+      genres = {widget.genre!};
+    }
+    if (widget.tag != null) {
+      tags = {widget.tag!};
+    }
     super.initState();
-    initialize();
-  }
-
-  Future<void> initialize() async {
-    final pref = await SharedPreferences.getInstance();
-    var v = pref.getString('DefaultSearchView') ?? 'LIST';
-    var type = v == 'LIST' ? SearchView.LIST : SearchView.GRID;
-    view = {type};
   }
 
   @override
@@ -76,316 +65,94 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
     super.dispose();
   }
 
-  bool displayMediaFilterSheet = false;
-
-  Widget? filterSheet(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/lotties/giphy.gif'),
-          fit: BoxFit.cover,
-          opacity: 0.2,
-        ),
-      ),
-      child: SafeArea(
-        child: StatefulBuilder(builder: (context, newState) {
-          clear = false;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 20),
-              SegmentedButton(
-                style: const ButtonStyle(
-                    visualDensity: VisualDensity(
-                  vertical: -4,
-                  horizontal: -4,
-                )),
-                segments: const [
-                  ButtonSegment(value: GMediaType.ANIME, label: Text('Anime')),
-                  ButtonSegment(value: GMediaType.MANGA, label: Text('Manga')),
-                ],
-                selected: mediaType,
-                multiSelectionEnabled: false,
-                showSelectedIcon: true,
-                emptySelectionAllowed: false,
-                onSelectionChanged: (p) {
-                  mediaType = p;
-                  newState(() {});
-                },
-              ),
-              const SizedBox(height: 20),
-              SegmentedButton(
-                style: const ButtonStyle(
-                  visualDensity: VisualDensity(
-                    vertical: -4,
-                    horizontal: -4,
-                  ),
-                ),
-                segments: const [
-                  ButtonSegment(value: SearchView.LIST, label: Text('LIST')),
-                  ButtonSegment(value: SearchView.GRID, label: Text('GRID')),
-                ],
-                selected: view,
-                multiSelectionEnabled: false,
-                showSelectedIcon: true,
-                emptySelectionAllowed: false,
-                onSelectionChanged: (p) {
-                  view = p;
-                  newState(() {});
-                },
-              ),
-              const SizedBox(height: 14),
-              const Divider(),
-              Visibility(
-                visible: mediaType.first == GMediaType.ANIME,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 0,
-                  color: Colors.transparent,
-                  margin: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      //* SEASONS
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'SEASON',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            DropdownButton(
-                              borderRadius: BorderRadius.circular(20),
-                              menuMaxHeight: 400,
-                              alignment: Alignment.centerRight,
-                              isDense: true,
-                              underline: Container(),
-                              value: season,
-                              items: [
-                                const DropdownMenuItem(
-                                  value: null,
-                                  child: Text(
-                                    'All  ',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                                ...[
-                                  GMediaSeason.WINTER,
-                                  GMediaSeason.SPRING,
-                                  GMediaSeason.SUMMER,
-                                  GMediaSeason.FALL,
-                                ].map((item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text(item.name),
-                                    )),
-                              ],
-                              onChanged: (v) {
-                                newState(() => season = v);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      //* YEAR
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'YEAR',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            DropdownButton(
-                              borderRadius: BorderRadius.circular(20),
-                              menuMaxHeight: 400,
-                              alignment: Alignment.centerRight,
-                              isDense: true,
-                              underline: Container(),
-                              value: seasonYear,
-                              items: [
-                                const DropdownMenuItem(
-                                  value: null,
-                                  child: Text(
-                                    'All  ',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                                for (int i = DateTime.now().year + 1;
-                                    i >= 1980;
-                                    i--)
-                                  DropdownMenuItem(
-                                    value: i,
-                                    child: Text('$i  '),
-                                  ),
-                              ],
-                              onChanged: (v) {
-                                newState(() => seasonYear = v);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 0,
-                color: Colors.transparent,
-                margin: const EdgeInsets.all(8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //* GENRE
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'GENRE',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                            ),
-                          ),
-                          DropdownButton(
-                            borderRadius: BorderRadius.circular(20),
-                            menuMaxHeight: 400,
-                            alignment: Alignment.centerRight,
-                            isDense: true,
-                            underline: Container(),
-                            value: genre,
-                            items: [
-                              const DropdownMenuItem(
-                                value: null,
-                                child: Text(
-                                  'All  ',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              ...AnilistConstant.mediaGenres
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text('$e  '),
-                                    ),
-                                  )
-                                  .toList(),
-                            ],
-                            onChanged: (v) {
-                              newState(() => genre = v);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    //* TAG
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'TAG',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                            ),
-                          ),
-                          DropdownButton(
-                            borderRadius: BorderRadius.circular(20),
-                            menuMaxHeight: 400,
-                            alignment: Alignment.centerRight,
-                            isDense: true,
-                            underline: Container(),
-                            value: tag,
-                            items: [
-                              const DropdownMenuItem(
-                                value: null,
-                                child: Text(
-                                  'All  ',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              ...AnilistConstant.mediaTags
-                                  .map(
-                                    (e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text('$e  '),
-                                    ),
-                                  )
-                                  .toList(),
-                            ],
-                            onChanged: (v) {
-                              newState(() => tag = v);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        displayMediaFilterSheet = false;
-                      });
-                    },
-                    child: const Text('CLOSE'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        season = null;
-                        seasonYear = null;
-                        genre = null;
-                        tag = null;
-                        displayMediaFilterSheet = false;
-                      });
-                    },
-                    child: const Text('RESET'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        displayMediaFilterSheet = false;
-                      });
-                    },
-                    child: const Text('APPLY'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-            ],
-          );
-        }),
-      ),
+  Future<void> applyFilter() async {
+    final (GMediaType, int?, GMediaSeason?, Set<String>, Set<String>)? data =
+        await context.pushNamed(
+      AppRouteConstant.SearchFilterScreen.name,
+      extra: (mediaType, seasonYear, season, tags, genres),
     );
+    if (data != null) {
+      mediaType = data.$1;
+      seasonYear = data.$2;
+      season = data.$3;
+      tags = data.$4;
+      genres = data.$5;
+
+      setState(() {});
+    }
   }
+
+  Widget get searchAppBar => SafeArea(
+        child: Container(
+          height: 55,
+          decoration: BoxDecoration(
+            color: AppTheme.background,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                padding: const EdgeInsets.all(0),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () => context.pop(),
+                color: Colors.grey,
+              ),
+              Flexible(
+                child: TextField(
+                  controller: textEditingController,
+                  onSubmitted: (v) => setState(() {}),
+                  decoration: InputDecoration(
+                    hintText: 'What are you looking for?',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: InputBorder.none,
+                    isDense: false,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        textEditingController.value = TextEditingValue(
+                          text: '',
+                          selection: TextSelection.fromPosition(
+                            const TextPosition(offset: 0),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.backspace_outlined,
+                        size: 20,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -2),
+                onPressed: applyFilter,
+                icon: Consumer(builder: (context, ref, child) {
+                  final view =
+                      ref.watch(sharedfPrefProvider.notifier).defaultSearchView;
+                  return Icon(
+                    switch (filterCount) {
+                      1 => Icons.filter_1_rounded,
+                      2 => Icons.filter_2_rounded,
+                      3 => Icons.filter_3_rounded,
+                      4 => Icons.filter_4_rounded,
+                      _ => view == SearchView.LIST
+                          ? Icons.view_list
+                          : Icons.grid_view_rounded,
+                    },
+                    size: 25,
+                    color: mediaType == GMediaType.ANIME
+                        ? Colors.blue
+                        : Colors.green,
+                  );
+                }),
+              ),
+              const SizedBox(width: 6),
+            ],
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -395,47 +162,24 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        key: _key,
         backgroundColor: AppTheme.background,
         appBar: bottomSearchBarSetting || widget.hide == true
             ? null
             : PreferredSize(
                 preferredSize: const Size.fromHeight(55),
-                child: SearchAppBar(
-                  filterCount: filterCount,
-                  textEditingController: textEditingController,
-                  mediaType: mediaType,
-                  view: view,
-                  setState: setState,
-                  toggleBottmSheet: () => setState(
-                      () => displayMediaFilterSheet = !displayMediaFilterSheet),
-                ),
-              ),
-        bottomSheet: !displayMediaFilterSheet || widget.hide == true
-            ? null
-            : AnimatedSlide(
-                duration: const Duration(milliseconds: 300),
-                offset:
-                    displayMediaFilterSheet ? Offset.zero : const Offset(0, 2),
-                child: MediaFilterSheet(filterSheet: filterSheet(context)),
+                child: searchAppBar,
               ),
         bottomNavigationBar: !bottomSearchBarSetting || widget.hide == true
             ? null
-            : BottomSearchBar(
-                filterCount: filterCount,
-                textEditingController: textEditingController,
-                mediaType: mediaType,
-                view: view,
-                setState: setState,
-                toggleBottmSheet: () => setState(
-                    () => displayMediaFilterSheet = !displayMediaFilterSheet),
-              ),
+            : searchAppBar,
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SizedBox(
             width: size.width,
             child: Consumer(
               builder: (context, ref, error) {
+                final view =
+                    ref.watch(sharedfPrefProvider.notifier).defaultSearchView;
                 final client = ref.watch(clientProvider);
                 return Operation(
                   client: client!,
@@ -444,20 +188,19 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       ..vars.search = textEditingController.text.isNotEmpty
                           ? textEditingController.text
                           : null
-                      ..vars.type = mediaType.first
+                      ..vars.type = mediaType
                       ..vars.season =
-                          mediaType.first == GMediaType.ANIME ? season : null
-                      ..vars.seasonYear = mediaType.first == GMediaType.ANIME
-                          ? seasonYear
-                          : null
+                          mediaType == GMediaType.ANIME ? season : null
+                      ..vars.seasonYear =
+                          mediaType == GMediaType.ANIME ? seasonYear : null
                       ..vars.formatIn = null
                       ..vars.genreNotIn = null
                       ..vars.tagNotIn = null;
-                    if (tag != null && tag!.isNotEmpty) {
-                      b.vars.tagIn.add(tag);
+                    if (tags.isNotEmpty) {
+                      b.vars.tagIn.addAll(tags);
                     }
-                    if (genre != null && genre!.isNotEmpty) {
-                      b.vars.genreIn.add(genre);
+                    if (genres.isNotEmpty) {
+                      b.vars.genreIn.addAll(genres);
                     }
                     return b;
                   }),
@@ -466,7 +209,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                       return LoadingWidget;
                     } else {
                       final res = response.data?.Page?.media;
-                      if (view.first == SearchView.GRID) {
+                      if (view == SearchView.GRID) {
                         return SearchedMediaGridView(response: res);
                       } else {
                         return SearchedMediaListView(response: res);

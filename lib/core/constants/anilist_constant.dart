@@ -1,5 +1,5 @@
 class AnilistConstant {
-  static const List<String> mediaGenres = [
+  static const Set<String> mediaGenres = {
     "Action",
     "Adventure",
     "Comedy",
@@ -19,9 +19,9 @@ class AnilistConstant {
     "Sports",
     "Supernatural",
     "Thriller"
-  ];
+  };
 
-  static const mediaTags = [
+  static const Set<String> mediaTags = {
     "4-koma",
     "Achromatic",
     "Achronological Order",
@@ -309,5 +309,5 @@ class AnilistConstant {
     "Youkai",
     "Yuri",
     "Zombie"
-  ];
+  };
 }

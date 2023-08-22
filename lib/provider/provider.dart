@@ -1,6 +1,7 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/enum/enum.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final discoverTabProvider = StateProvider<GMediaType>(
@@ -25,9 +26,23 @@ class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
     state = await SharedPreferences.getInstance();
   }
 
-  bool get bottomSearchBar => state!.getBool('bottomSearchBar') ?? true;
+  bool get bottomSearchBar => state!.getBool('bottomSearchBar') ?? false;
   Future<bool> setBottomSearchBar(bool value) async =>
       await state!.setBool('bottomSearchBar', value);
+
+  SearchView get defaultSearchView =>
+      switch (state!.getString('DefaultSearchView')) {
+        'GRID' => SearchView.LIST,
+        _ => SearchView.GRID,
+      };
+
+  Future<bool> toggleDefaultSearchView() async {
+    final value = switch (state!.getString('DefaultSearchView')) {
+      'GRID' => 'LIST',
+      _ => 'GRID',
+    };
+    return await state!.setString('DefaultSearchView', value);
+  }
 }
 
 // * STATE Provider

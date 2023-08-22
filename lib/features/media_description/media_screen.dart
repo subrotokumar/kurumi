@@ -10,6 +10,7 @@ import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
+import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/external_link.dart';
@@ -470,29 +471,33 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                           data?.studios?.nodes != null &&
                                           (data?.studios?.nodes?.isNotEmpty ??
                                               false))
-                                        Column(
-                                          children: [
-                                            InfoTile(
-                                                'Studio',
-                                                data?.studios?.nodes
-                                                        ?.elementAt(0)
-                                                        ?.name ??
-                                                    ''),
-                                            if (data?.type == GMediaType.ANIME)
-                                              for (int i = 1;
-                                                  i <
-                                                      (data?.studios?.nodes
-                                                              ?.length ??
-                                                          0);
-                                                  i++)
-                                                InfoTile(
-                                                  '',
+                                        Builder(builder: (context) {
+                                          log.v(data?.studios?.nodes);
+                                          return Column(
+                                            children: [
+                                              InfoTile(
+                                                  'Studio',
                                                   data?.studios?.nodes
-                                                      ?.elementAt(i)
-                                                      ?.name,
-                                                ),
-                                          ],
-                                        ),
+                                                          ?.elementAt(0)
+                                                          ?.name ??
+                                                      ''),
+                                              if (data?.type ==
+                                                  GMediaType.ANIME)
+                                                for (int i = 1;
+                                                    i <
+                                                        (data?.studios?.nodes
+                                                                ?.length ??
+                                                            0);
+                                                    i++)
+                                                  InfoTile(
+                                                    ' ',
+                                                    data?.studios?.nodes
+                                                        ?.elementAt(i)
+                                                        ?.name,
+                                                  ),
+                                            ],
+                                          );
+                                        }),
                                     ],
                                   ),
                                 ),

@@ -93,60 +93,51 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
         // Default Media Search View
         Consumer(
           builder: (context, ref, child) {
-            final pref = ref.watch(prefProvider);
-            return pref.when(
-              error: (error, stackTrace) => const Card(),
-              loading: () => const Card(),
-              data: (value) {
-                var v = value.getString('DefaultSearchView') ?? 'LIST';
-                var type = v == 'LIST' ? SearchView.LIST : SearchView.GRID;
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: ListTile(
-                    tileColor: const Color(0xff25232a),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                    leading: const Text(
-                      'Default Search View',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
-                    ),
-                    trailing: SegmentedButton(
-                      onSelectionChanged: (v) async {
-                        await value.setString(
-                            'DefaultSearchView', v.first.name);
-                        setState(() {});
-                      },
-                      emptySelectionAllowed: false,
-                      multiSelectionEnabled: false,
-                      showSelectedIcon: false,
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        visualDensity: const VisualDensity(vertical: -3),
-                      ),
-                      segments: const [
-                        ButtonSegment(
-                          value: SearchView.LIST,
-                          label: Text('LIST'),
-                        ),
-                        ButtonSegment(
-                          value: SearchView.GRID,
-                          label: Text('GRID'),
-                        ),
-                      ],
-                      selected: {type},
-                    ),
+            final pref = ref.watch(sharedfPrefProvider.notifier);
+            final view = pref.defaultSearchView;
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: ListTile(
+                tileColor: const Color(0xff25232a),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                leading: const Text(
+                  'Default Search View',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
                   ),
-                );
-              },
+                ),
+                trailing: SegmentedButton(
+                  onSelectionChanged: (v) async {
+                    await pref.toggleDefaultSearchView();
+                    setState(() {});
+                  },
+                  emptySelectionAllowed: false,
+                  multiSelectionEnabled: false,
+                  showSelectedIcon: false,
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    visualDensity: const VisualDensity(vertical: -3),
+                  ),
+                  segments: const [
+                    ButtonSegment(
+                      value: SearchView.LIST,
+                      label: Text('LIST'),
+                    ),
+                    ButtonSegment(
+                      value: SearchView.GRID,
+                      label: Text('GRID'),
+                    ),
+                  ],
+                  selected: {view},
+                ),
+              ),
             );
           },
         ),
