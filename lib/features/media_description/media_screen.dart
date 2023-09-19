@@ -10,7 +10,6 @@ import 'package:kurumi/core/routes/app_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
-import 'package:kurumi/features/anime/widget/timer.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/external_link.dart';
@@ -472,7 +471,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                           (data?.studios?.nodes?.isNotEmpty ??
                                               false))
                                         Builder(builder: (context) {
-                                          log.v(data?.studios?.nodes);
+                                          log.d(data?.studios?.nodes);
                                           return Column(
                                             children: [
                                               InfoTile(

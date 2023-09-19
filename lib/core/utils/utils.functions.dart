@@ -51,6 +51,6 @@ String validMarkdown(String? markdown) {
 
     return '![$imageAlt]($imageUrl)';
   });
-  log.v(res.replaceAll('~', '').replaceAll('_', ''));
+  log.d(res.replaceAll('~', '').replaceAll('_', ''));
   return res.replaceAll('~', '').replaceAll('_', '');
 }

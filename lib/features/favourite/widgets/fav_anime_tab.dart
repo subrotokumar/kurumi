@@ -31,7 +31,7 @@ class FavAnimeTabBarView extends ConsumerWidget {
           if (response?.loading ?? true) {
             return LoadingWidget;
           } else {
-            log.v(response?.data);
+            log.d(response?.data);
             final favAnime = response?.data?.Viewer?.favourites?.anime?.nodes;
             return SingleChildScrollView(
               child: Column(

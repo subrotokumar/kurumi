@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
@@ -87,7 +88,8 @@ class TrendingMedia extends StatelessWidget {
                               },
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                  discoverPageImageRadius),
                               child: InkWell(
                                 child: Hero(
                                   tag: '${data?.elementAt(index)?.id ?? ''}',

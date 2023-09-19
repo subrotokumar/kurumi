@@ -85,6 +85,8 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
   Widget get searchAppBar => SafeArea(
         child: Container(
           height: 55,
+          margin:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           decoration: BoxDecoration(
             color: AppTheme.background,
           ),

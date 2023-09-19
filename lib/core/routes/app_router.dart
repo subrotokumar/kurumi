@@ -157,9 +157,9 @@ final router = Provider<GoRouter>(
       return const ErrorScreen();
     },
     redirect: (context, state) {
-      if (state.location != AppRouteConstant.LoginScreen.name ||
-          state.location != AppRouteConstant.SplashScreen.name) {
-        log.d(state.location);
+      if (state.fullPath != AppRouteConstant.LoginScreen.path ||
+          state.fullPath != AppRouteConstant.SplashScreen.path) {
+        log.d(state.fullPath);
       }
       return null;
     },

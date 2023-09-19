@@ -64,7 +64,7 @@ class FavCharacterGridView extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  log.v(data);
+                  log.d(data);
                   context.pushNamed(
                     AppRouteConstant.CharacterDetailScreen.name,
                     pathParameters: {

@@ -44,7 +44,8 @@ class _VAScreenState extends ConsumerState<VAScreen> {
             if (response == null || response.loading) {
               return Center(child: LoadingWidget);
             } else {
-              log.v(response.data?.Staff, error);
+              log.e(error);
+              log.d(response.data?.Staff?.toJson());
               final data = response.data?.Staff;
               return Stack(
                 children: [

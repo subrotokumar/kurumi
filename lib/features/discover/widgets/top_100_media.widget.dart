@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/constants/anilist_constant.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
@@ -88,7 +90,8 @@ class Top100Media extends StatelessWidget {
                             child: Column(
                               children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(
+                                      discoverPageImageRadius),
                                   child: Hero(
                                     tag: '${data?.elementAt(index)?.id ?? ''}',
                                     child: CachedNetworkImage(
@@ -131,40 +134,29 @@ class Top100Media extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Builder(builder: (context) {
-                            String col = data
-                                    ?.elementAt(index)
-                                    ?.coverImage
-                                    ?.color
-                                    ?.toString() ??
-                                '#ffffff';
-
-                            return Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    color: Color(int.parse(col.substring(1, 7),
-                                            radix: 16) +
-                                        0xFF000000),
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                    ),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 12,
-                                      )
-                                    ]),
-                                child: Text(
-                                  '#${index + 1}',
-                                  style: const TextStyle(shadows: [
-                                    Shadow(
-                                      color: Colors.black,
-                                      blurRadius: 12,
-                                    )
-                                  ]),
-                                ));
-                          }),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: const BoxDecoration(
+                                color: Colors.white30,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(
+                                    discoverPageImageRadius,
+                                  ),
+                                  bottomRight: Radius.circular(10),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 12,
+                                  )
+                                ]),
+                            child: Text(
+                              '${index + 1}',
+                              style: inter.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

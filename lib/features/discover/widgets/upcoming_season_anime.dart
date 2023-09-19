@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/core/routes/app_route_constant.dart';
@@ -119,7 +120,8 @@ class NextSeasonAnimme extends StatelessWidget {
                         child: Column(
                           children: [
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                  discoverPageImageRadius),
                               child: CachedNetworkImage(
                                 height: 130,
                                 width: 100,
@@ -127,6 +129,8 @@ class NextSeasonAnimme extends StatelessWidget {
                                     data?.elementAt(index)?.coverImage?.large ??
                                         '',
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Container(),
                               ),
                             ),
                             const SizedBox(height: 3),

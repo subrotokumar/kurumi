@@ -100,7 +100,6 @@ class NotificationScreen extends StatelessWidget {
                               if (response?.loading ?? true) {
                                 return LoadingWidget;
                               } else {
-                                log.v(response?.data);
                                 final data =
                                     response?.data?.Page?.notifications;
                                 return ListView.builder(

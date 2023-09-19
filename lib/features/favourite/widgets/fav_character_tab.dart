@@ -58,7 +58,7 @@ class FavCharacterTabBarView extends ConsumerWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            log.v(data);
+                            log.d(data);
                             context.pushNamed(
                               AppRouteConstant.CharacterDetailScreen.name,
                               pathParameters: {

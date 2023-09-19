@@ -45,8 +45,8 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                 return LoadingWidget;
               } else {
                 final data = response.data?.Character;
-                log.v(response.hasErrors);
-                log.v(response.data);
+                log.d(response.hasErrors);
+                log.d(response.data);
                 return SingleChildScrollView(
                   child: Column(
                     children: [

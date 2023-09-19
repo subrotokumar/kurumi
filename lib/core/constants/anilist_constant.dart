@@ -311,3 +311,5 @@ class AnilistConstant {
     "Zombie"
   };
 }
+
+const double discoverPageImageRadius = 5;

@@ -56,41 +56,46 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
             child: Stack(
               children: [
                 const BannerWidget(),
-                Container(
-                  width: size.height,
-                  height: size.height / 3,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        style: IconButton.styleFrom(
-                          fixedSize: const Size(30, 40),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                Visibility(
+                  visible: false,
+                  child: Container(
+                    width: size.height,
+                    height: size.height / 3,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          style: IconButton.styleFrom(
+                            fixedSize: const Size(30, 40),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.black26,
+                            side: const BorderSide(
+                              color: Colors.white70,
+                              width: 1.0,
+                            ),
                           ),
-                          backgroundColor: Colors.black26,
-                          side: const BorderSide(
-                            color: Colors.white70,
-                            width: 1.0,
+                          icon: Icon(
+                            Icons.search,
+                            weight: 1.5,
+                            color: Colors.white.withOpacity(0.9),
                           ),
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            context.pushNamed(
+                              AppRouteConstant.SearchScreen.name,
+                              extra: {
+                                'mediaType': ref.read(discoverTabProvider)
+                              },
+                            );
+                          },
                         ),
-                        icon: Icon(
-                          Icons.search,
-                          weight: 1.5,
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                        onPressed: () {
-                          HapticFeedback.mediumImpact();
-                          context.pushNamed(
-                            AppRouteConstant.SearchScreen.name,
-                            extra: {'mediaType': ref.read(discoverTabProvider)},
-                          );
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -128,8 +133,7 @@ class SubTabWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int itemCount = 3;
-    double padding = (itemCount + 1) * 12;
-    double height = (size.width - padding) / (itemCount * 2);
+    double padding = 0;
     const List<MaterialColor> color = [
       Colors.red,
       Colors.blue,
@@ -137,75 +141,101 @@ class SubTabWidget extends StatelessWidget {
       Colors.green
     ];
     return Container(
-      margin: const EdgeInsets.only(top: 30, bottom: 12),
-      child: Consumer(
-        builder: (context, ref, child) => SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(width: 12),
-              Box(
-                height,
-                padding,
-                itemCount,
-                'Notification',
-                color[2],
-                () {
-                  HapticFeedback.mediumImpact();
-                  // ref.read(ActivityPage).jumpToPage(0);
-                  context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
-                },
-                const Icon(Icons.notifications),
-              ),
-              const SizedBox(width: 12),
-              Box(
-                height,
-                padding,
-                itemCount,
-                'Schedule',
-                color[3],
-                () {
-                  HapticFeedback.mediumImpact();
-                  context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 1);
-                },
-                LineIcon.calendar(),
-              ),
-              const SizedBox(width: 12),
-              Consumer(
-                builder: (context, ref, child) {
-                  final DiscoverTabProvider = ref.watch(discoverTabProvider);
-                  return Box(
-                    height,
-                    padding,
-                    itemCount,
-                    DiscoverTabProvider == GMediaType.ANIME ? 'Manga' : 'Anime',
-                    color[0],
-                    () {
-                      HapticFeedback.mediumImpact();
-                      if (DiscoverTabProvider == GMediaType.ANIME) {
-                        ref.watch(discoverTabProvider.notifier).state =
-                            GMediaType.MANGA;
-                      } else {
-                        ref.watch(discoverTabProvider.notifier).state =
-                            GMediaType.ANIME;
-                      }
-                    },
-                    const Icon(Icons.ramen_dining),
-                  );
-                },
-              ),
-              const SizedBox(width: 12),
-            ],
+      margin: const EdgeInsets.only(top: 20, bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(width: 12),
+          Box(
+            padding,
+            itemCount,
+            'Notification',
+            color[2],
+            () {
+              HapticFeedback.mediumImpact();
+              // ref.read(ActivityPage).jumpToPage(0);
+              context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
+            },
+            const Icon(Icons.notifications),
           ),
-        ),
+          const SizedBox(width: 12),
+          Box(
+            padding,
+            itemCount,
+            'Schedule',
+            color[3],
+            () {
+              HapticFeedback.mediumImpact();
+              context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 1);
+            },
+            const LineIcon.calendar(),
+          ),
+          const SizedBox(width: 12),
+          Consumer(builder: (context, ref, child) {
+            return Box(
+              padding,
+              itemCount,
+              'Search',
+              color[1],
+              () {
+                HapticFeedback.mediumImpact();
+                context.pushNamed(
+                  AppRouteConstant.SearchScreen.name,
+                  extra: {'mediaType': ref.read(discoverTabProvider)},
+                );
+              },
+              const LineIcon.searchPlus(),
+            );
+          }),
+          const SizedBox(width: 12),
+          Consumer(
+            builder: (context, ref, child) {
+              final DiscoverTabProvider = ref.watch(discoverTabProvider);
+              return Box(
+                padding,
+                itemCount,
+                DiscoverTabProvider == GMediaType.ANIME ? 'Manga' : 'Anime',
+                color[0],
+                () {
+                  HapticFeedback.mediumImpact();
+                  if (DiscoverTabProvider == GMediaType.ANIME) {
+                    ref.watch(discoverTabProvider.notifier).state =
+                        GMediaType.MANGA;
+                  } else {
+                    ref.watch(discoverTabProvider.notifier).state =
+                        GMediaType.ANIME;
+                  }
+                },
+                const Icon(Icons.ramen_dining),
+              );
+            },
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
     );
   }
 
-  Container Box(double height, double padding, int itemCount, String title,
-      Color col, final func, Icon icon) {
+  Widget Box(double padding, int itemCount, String title, Color col,
+      final onTap, Icon icon) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      height: 35,
+      width: 35,
+      decoration: BoxDecoration(
+        color: col.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        child: Icon(
+          icon.icon,
+          color: Colors.white.withOpacity(0.8),
+        ),
+      ),
+    );
+    // ignore: dead_code
     return Container(
       height: 40,
       // width: (size.width - padding) / itemCount,
@@ -230,7 +260,7 @@ class SubTabWidget extends StatelessWidget {
           fixedSize: const Size.fromHeight(35),
           textStyle: const TextStyle(fontSize: 15),
         ),
-        onPressed: func,
+        onPressed: onTap,
         icon: icon,
         label: Text(title),
       ),

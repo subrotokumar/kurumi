@@ -75,6 +75,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
                       widget.data?.coverImage?.extraLarge ??
                       '',
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(),
                 ),
               ),
             ),
@@ -96,6 +97,7 @@ class _BackgroundImageState extends State<BackgroundImage> {
                         widget.data?.coverImage?.extraLarge ??
                         '',
                     fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Container(),
                   ),
                   fit: BoxFit.cover,
                 ),

@@ -1,30 +1,29 @@
 import 'package:anilist/discover_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class TrendingNowTitle extends StatelessWidget {
-  const TrendingNowTitle({
-    super.key,
-  });
+  const TrendingNowTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
-        text: const TextSpan(
+        text: TextSpan(
           text: 'TRENDING  ',
-          style: TextStyle(
+          style: inter.copyWith(
             fontWeight: FontWeight.w600,
-            color: Color(0xff39FF14),
+            color: const Color(0xff39FF14).withOpacity(0.7),
             letterSpacing: 2,
             fontSize: 18,
           ),
           children: <TextSpan>[
             TextSpan(
               text: 'NOW ',
-              style: TextStyle(color: Colors.white),
+              style: inter.copyWith(color: Colors.white.withOpacity(0.8)),
             )
           ],
         ),
@@ -49,48 +48,37 @@ class PopularThisSeasonTitle extends StatelessWidget {
             final type = ref.watch(discoverTabProvider);
             if (type == GMediaType.ANIME) {
               return RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: 'POPULAR  THIS  ',
-                  style: TextStyle(
+                  style: inter.copyWith(
                     fontWeight: FontWeight.w600,
-                    // color: Colors.amber,
+                    color: Colors.white.withOpacity(0.8),
                     letterSpacing: 2,
                     fontSize: 18,
-                    // shadows: [
-                    //   Shadow(
-                    //     color: Colors.black,
-                    //     blurRadius: 20,
-                    //   )
-                    // ],
                   ),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'SEASON',
-                      style: TextStyle(color: Color(0xffFFFF33)),
+                      style: inter.copyWith(
+                          color: const Color(0xffFFFF33).withOpacity(0.65)),
                     )
                   ],
                 ),
               );
             } else {
               return RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: 'ALL TIME  ',
-                  style: TextStyle(
+                  style: inter.copyWith(
                     fontWeight: FontWeight.w600,
-                    // color: Colors.amber,
+                    color: Colors.white.withOpacity(0.8),
                     letterSpacing: 2,
                     fontSize: 18,
-                    // shadows: [
-                    //   Shadow(
-                    //     color: Colors.black,
-                    //     blurRadius: 20,
-                    //   )
-                    // ],
                   ),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'POPULAR',
-                      style: TextStyle(color: Color(0xffFFFF33)),
+                      style: inter.copyWith(color: const Color(0xffFFFF33)),
                     )
                   ],
                 ),
@@ -118,15 +106,15 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
         children: [
           type == GMediaType.ANIME
               ? RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     text: 'UPCOMING  ',
-                    style: TextStyle(
+                    style: inter.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color(0xff1589FF),
+                      color: const Color(0xff1589FF).withOpacity(0.7),
                       letterSpacing: 2,
                       fontSize: 18,
                       shadows: [
-                        Shadow(
+                        const Shadow(
                           color: Colors.black,
                           blurRadius: 20,
                         )
@@ -135,30 +123,28 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'NEXT',
-                        style: TextStyle(color: Colors.white),
+                        style: inter.copyWith(
+                            color: Colors.white.withOpacity(0.8)),
                       )
                     ],
                   ),
                 )
               : RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     text: 'POPULAR  ',
-                    style: TextStyle(
+                    style: inter.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Color(0xff1589FF),
+                      color: const Color.fromARGB(255, 52, 153, 253)
+                          .withOpacity(0.8),
                       letterSpacing: 2,
                       fontSize: 18,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black,
-                          blurRadius: 20,
-                        )
-                      ],
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'MANHWA',
-                        style: TextStyle(color: Colors.white),
+                        style: inter.copyWith(
+                          color: Colors.white.withOpacity(0.8),
+                        ),
                       )
                     ],
                   ),
@@ -185,12 +171,13 @@ class Top100AnimeTitle extends ConsumerWidget {
           RichText(
             text: TextSpan(
               text: 'TOP  100  ',
-              style: const TextStyle(
+              style: inter.copyWith(
+                color: Colors.white.withOpacity(0.8),
                 fontWeight: FontWeight.w600,
                 letterSpacing: 2,
                 fontSize: 18,
                 shadows: [
-                  Shadow(
+                  const Shadow(
                     color: Colors.black,
                     blurRadius: 20,
                   )
@@ -199,8 +186,8 @@ class Top100AnimeTitle extends ConsumerWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: type.name,
-                  style: const TextStyle(
-                    color: Color(0xffFF6600),
+                  style: inter.copyWith(
+                    color: const Color(0xffFF6600).withOpacity(0.7),
                   ),
                 )
               ],
