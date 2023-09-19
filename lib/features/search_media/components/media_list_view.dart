@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/features/search_media/components/status_widget.dart';
 import 'package:kurumi/provider/provider.dart';
 

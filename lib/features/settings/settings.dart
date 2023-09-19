@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/settings/widgets/account_setting_section.dart';
 import 'package:kurumi/features/settings/widgets/general_setting_section.dart';
@@ -83,10 +83,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                       url:
                                           'https://subrotokumar.github.io/privacy-policy/kurumi.html',
                                     ))),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Privacy Policy'),
+                            Text('Privacy Policy'),
                             LineIcon.link(color: Colors.white),
                           ],
                         ),
@@ -106,10 +106,10 @@ class _SettingScreenState extends State<SettingScreen> {
                                       url:
                                           'https://subrotokumar.github.io/kurumi/changelog.html',
                                     ))),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Change Log'),
+                            Text('Change Log'),
                             LineIcon.link(color: Colors.white),
                           ],
                         ),

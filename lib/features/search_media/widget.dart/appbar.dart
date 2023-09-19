@@ -1,7 +1,7 @@
 import 'package:anilist/medialist_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/enum/enum.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 
 class SearchAppBar extends StatelessWidget {

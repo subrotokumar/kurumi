@@ -1,6 +1,6 @@
 import 'package:anilist/media_detail_query.dart';
 import 'package:flutter/material.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 
 class TagSection extends StatefulWidget {
   const TagSection({

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
@@ -81,7 +81,7 @@ class NotificationScreen extends StatelessWidget {
                                   curve: Curves.linear,
                                 );
                               },
-                              icon: LineIcon.calendar(),
+                              icon: const LineIcon.calendar(),
                             );
                           }),
                         ],

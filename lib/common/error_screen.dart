@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../core/routes/app_route_constant.dart';
+import '../core/routes/router.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({

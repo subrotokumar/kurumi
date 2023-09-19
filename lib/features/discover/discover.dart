@@ -5,12 +5,11 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/discover/widgets/banner.widget.dart';
 import 'package:kurumi/features/discover/widgets/popular_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/review_section.widget.dart';
-import 'package:kurumi/features/discover/widgets/tab_button.widget.dart';
 import 'package:kurumi/features/discover/widgets/title.widget.dart';
 import 'package:kurumi/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/features/discover/widgets/trending_media.widget.dart';
@@ -100,20 +99,22 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: size.height * 0.4),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TabControllerWidget(),
-                      SubTabWidget(size: size),
-                      const TrendingNowTitle(),
-                      const TrendingMedia(),
-                      const PopularThisSeasonTitle(),
-                      const PopularMedia(),
-                      const ReviewSection(),
-                      const UpcomingNextSeasonAnimeTitle(),
-                      const NextSeasonAnimme(),
-                      const Top100AnimeTitle(),
-                      const Top100Media(),
+                      // ANIME / MANGA tab
+                      // TabControllerWidget(),
+                      // 4 Icon Button
+                      SubTabWidget(),
+                      TrendingNowTitle(),
+                      TrendingMedia(),
+                      PopularThisSeasonTitle(),
+                      PopularMedia(),
+                      ReviewSection(),
+                      UpcomingNextSeasonAnimeTitle(),
+                      NextSeasonAnimme(),
+                      Top100AnimeTitle(),
+                      Top100Media(),
                     ],
                   ),
                 )
@@ -127,9 +128,8 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
 }
 
 class SubTabWidget extends StatelessWidget {
-  const SubTabWidget({super.key, required this.size});
+  const SubTabWidget({super.key});
 
-  final Size size;
   @override
   Widget build(BuildContext context) {
     int itemCount = 3;
@@ -141,12 +141,12 @@ class SubTabWidget extends StatelessWidget {
       Colors.green
     ];
     return Container(
-      margin: const EdgeInsets.only(top: 20, bottom: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.only(top: 30, bottom: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(width: 12),
           Box(
             padding,
             itemCount,
@@ -159,7 +159,6 @@ class SubTabWidget extends StatelessWidget {
             },
             const Icon(Icons.notifications),
           ),
-          const SizedBox(width: 12),
           Box(
             padding,
             itemCount,
@@ -171,7 +170,49 @@ class SubTabWidget extends StatelessWidget {
             },
             const LineIcon.calendar(),
           ),
-          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            height: 34,
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.white38),
+            ),
+            child: Consumer(builder: (context, ref, child) {
+              final type = ref.watch(discoverTabProvider);
+              final isAnime = type == GMediaType.ANIME;
+              return Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => ref.watch(discoverTabProvider.notifier).state =
+                        GMediaType.ANIME,
+                    child: Text(
+                      'ANIME',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: isAnime ? Colors.white : Colors.white38,
+                      ),
+                    ),
+                  ),
+                  const Text('  |  '),
+                  GestureDetector(
+                    onTap: () => ref.read(discoverTabProvider.notifier).state =
+                        GMediaType.MANGA,
+                    child: Text(
+                      'MANGA',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: !isAnime ? Colors.white : Colors.white38,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
+          ),
           Consumer(builder: (context, ref, child) {
             return Box(
               padding,
@@ -188,7 +229,6 @@ class SubTabWidget extends StatelessWidget {
               const LineIcon.searchPlus(),
             );
           }),
-          const SizedBox(width: 12),
           Consumer(
             builder: (context, ref, child) {
               final DiscoverTabProvider = ref.watch(discoverTabProvider);
@@ -211,7 +251,6 @@ class SubTabWidget extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(width: 12),
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:kurumi/core/enum/enum.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/provider/provider.dart';
 
 typedef FilterOption = (

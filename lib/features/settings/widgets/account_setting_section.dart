@@ -45,7 +45,7 @@ class AccountSettingSection extends StatelessWidget {
                   'https://anilist.co/settings',
                   mode: LaunchMode.externalApplication,
                 ),
-                icon: LineIcon.link(color: Colors.white),
+                icon: const LineIcon.link(color: Colors.white),
                 label: const Text('Anilist'),
               ),
               ElevatedButton.icon(
@@ -57,7 +57,7 @@ class AccountSettingSection extends StatelessWidget {
                   'https://anilist.co/settings/account',
                   mode: LaunchMode.externalApplication,
                 ),
-                icon: LineIcon.userEdit(color: Colors.white),
+                icon: const LineIcon.userEdit(color: Colors.white),
                 label: const Text('Account'),
               ),
               ElevatedButton.icon(
@@ -69,7 +69,7 @@ class AccountSettingSection extends StatelessWidget {
                   'https://anilist.co/settings/media',
                   mode: LaunchMode.externalApplication,
                 ),
-                icon: LineIcon.list(color: Colors.white),
+                icon: const LineIcon.list(color: Colors.white),
                 label: const Text('Media'),
               ),
               ElevatedButton.icon(
@@ -82,7 +82,7 @@ class AccountSettingSection extends StatelessWidget {
                   'https://anilist.co/settings/import',
                   mode: LaunchMode.externalApplication,
                 ),
-                icon: LineIcon.fileImport(color: Colors.white),
+                icon: const LineIcon.fileImport(color: Colors.white),
                 label: const Text('Import'),
               ),
             ],

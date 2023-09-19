@@ -2,13 +2,14 @@
 
 import 'package:anilist/graphql/__generated__/StaffQuery.data.gql.dart';
 import 'package:anilist/graphql/__generated__/StaffQuery.req.gql.dart';
+import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
@@ -25,6 +26,28 @@ class VAScreen extends ConsumerStatefulWidget {
 
 class _VAScreenState extends ConsumerState<VAScreen> {
   bool showDescription = false;
+
+  void _toggleFav(WidgetRef ref, bool? flag, int id) async {
+    if (flag == null) return;
+    final client = ref.read(clientProvider);
+    if (client == null) return;
+    final res = await client
+        .request(GToggleFavouriteReq(
+          (b) => b..vars.staffId = id,
+        ))
+        .first;
+    final req = GStaffQueryReq((b) => b..vars.id = widget.id);
+    if (res.hasErrors) return;
+
+    final cache = client.cache.readQuery(req);
+    client.cache.writeQuery(
+      req,
+      cache!.rebuild(
+        (p) => p..Staff.isFavourite = !flag,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     log.d(widget.id);
@@ -44,15 +67,11 @@ class _VAScreenState extends ConsumerState<VAScreen> {
             if (response == null || response.loading) {
               return Center(child: LoadingWidget);
             } else {
-              log.e(error);
-              log.d(response.data?.Staff?.toJson());
               final data = response.data?.Staff;
               return Stack(
                 children: [
                   Container(
                     height: 200,
-                    // color:
-                    //     const Color.fromARGB(255, 42, 39, 52).withOpacity(0.5),
                   ),
                   SingleChildScrollView(
                     child: Column(
@@ -69,21 +88,29 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                 onPressed: () => context.pop(),
                                 icon: const Icon(Icons.arrow_back_ios_rounded),
                               ),
-                              OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                ),
-                                onPressed: () async {
-                                  Clipboard.setData(
-                                    ClipboardData(
-                                        text: ref.watch(accessTokenProvider) ??
-                                            ''),
-                                  );
-                                },
-                                icon: LineIcon.heartAlt(),
-                                label: Text(56768.toString()),
-                              ),
+                              Consumer(builder: (context, ref, child) {
+                                return OutlinedButton.icon(
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                  ),
+                                  onPressed: () async {
+                                    _toggleFav(
+                                      ref,
+                                      response.data?.Staff?.isFavourite,
+                                      widget.id,
+                                    );
+                                  },
+                                  icon: LineIcon.heartAlt(
+                                    color: response.data?.Staff?.isFavourite ==
+                                            true
+                                        ? Colors.red
+                                        : null,
+                                  ),
+                                  label: Text(
+                                      '${response.data?.Staff?.favourites ?? 0}'),
+                                );
+                              }),
                             ],
                           ),
                         ),
@@ -265,17 +292,13 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                           GestureDetector(
                                             onTap: () {
                                               HapticFeedback.mediumImpact();
-                                              context.pushNamed(
-                                                AppRouteConstant
-                                                    .CharacterDetailScreen.name,
-                                                pathParameters: {
-                                                  'id': (characterData?.id ?? 0)
-                                                      .toString(),
-                                                  'title': characterData
-                                                          ?.name?.full ??
-                                                      '',
-                                                },
-                                              );
+                                              CharacterDetailRoute(
+                                                id: characterData?.id ?? 0,
+                                                name: characterData?.name?.full
+                                                        ?.replaceAll(
+                                                            ' ', '-') ??
+                                                    '',
+                                              ).push(context);
                                             },
                                             child: ClipRRect(
                                               borderRadius:

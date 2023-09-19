@@ -1,7 +1,7 @@
 import 'package:anilist/medialist_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/enum/enum.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/go_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 
 class BottomSearchBar extends StatelessWidget {

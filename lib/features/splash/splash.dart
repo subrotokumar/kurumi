@@ -12,7 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/core/constants/asset.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class SplashPage extends ConsumerStatefulWidget {

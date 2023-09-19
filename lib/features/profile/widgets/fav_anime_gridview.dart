@@ -4,7 +4,7 @@ import 'package:ferry/ferry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/profile/widgets/show_more.widget.dart';
 

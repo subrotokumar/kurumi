@@ -102,7 +102,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   TextStyle textStyle = const TextStyle(
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     fontSize: 15,
     letterSpacing: 3,
   );
@@ -113,14 +113,16 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            // border: Border.all(color: Colors.white12, width: 0.5),
-            // color: Colors.black38,
-            color: AppTheme.background),
+          borderRadius: BorderRadius.circular(20),
+          color: AppTheme.background,
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(DateFormat().format(time!.toLocal()), style: textStyle),
+            Text(
+              DateFormat('E, d MMM, yyyy | HH:mm').format(time!.toLocal()),
+              style: textStyle,
+            ),
           ],
         ),
       ),

@@ -3,9 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 
-import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/profile/widgets/show_more.widget.dart';
 
@@ -64,14 +63,10 @@ class FavCharacterGridView extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  log.d(data);
-                  context.pushNamed(
-                    AppRouteConstant.CharacterDetailScreen.name,
-                    pathParameters: {
-                      'id': (data?.id ?? 0).toString(),
-                      'title': data?.name?.full ?? ''
-                    },
-                  );
+                  CharacterDetailRoute(
+                    id: data?.id ?? -0,
+                    name: data?.name?.full?.replaceAll(' ', '-') ?? 'NA',
+                  ).push(context);
                 },
                 child: SizedBox.square(
                   child: ClipRRect(

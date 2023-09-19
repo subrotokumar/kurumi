@@ -2,21 +2,20 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:anilist/review_query.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/common/error_screen.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
-import 'package:kurumi/features/character/character_screen.dart';
-import 'package:kurumi/features/character_detail/character_detail_screen.dart';
+import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/features/login/login.dart';
 import 'package:kurumi/features/media_description/media_screen.dart';
-import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/reviews/review_screen.dart';
 import 'package:kurumi/features/search_media/search_filter_screen.dart';
 import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
 import 'package:kurumi/features/va/voice_artist.dart';
+
 export 'package:go_router/go_router.dart';
 
 final router = Provider<GoRouter>(
@@ -87,34 +86,24 @@ final router = Provider<GoRouter>(
           );
         },
       ),
-      GoRoute(
-        name: AppRouteConstant.Character.name,
-        path: '${AppRouteConstant.Character.path}/:id/:name',
-        builder: (context, state) {
-          var id = int.parse(state.pathParameters['id'] ?? '0');
-          String name = state.pathParameters['name'] ?? '';
-          final extra = state.extra as Map;
-          GMediaDetailQueryData_Media_characters_edges? data =
-              (extra['data']) as GMediaDetailQueryData_Media_characters_edges;
-          int index = extra['index'];
-          return CharacterScreen(
-            id: id,
-            name: name,
-            characterData: data,
-            index: index,
-          );
-        },
-      ),
-      GoRoute(
-        name: AppRouteConstant.CharacterDetailScreen.name,
-        path: AppRouteConstant.CharacterDetailScreen.path,
-        builder: (context, state) {
-          var id = int.parse(state.pathParameters['id'] ?? '0');
-          return CharacterDetailScreen(
-            id: id,
-          );
-        },
-      ),
+      // GoRoute(
+      //   name: AppRouteConstant.Character.name,
+      //   path: '${AppRouteConstant.Character.path}/:id/:name',
+      //   builder: (context, state) {
+      //     var id = int.parse(state.pathParameters['id'] ?? '0');
+      //     String name = state.pathParameters['name'] ?? '';
+      //     final extra = state.extra as Map;
+      //     GMediaDetailQueryData_Media_characters_edges? data =
+      //         (extra['data']) as GMediaDetailQueryData_Media_characters_edges;
+      //     int index = extra['index'];
+      //     return CharacterScreen(
+      //       id: id,
+      //       name: name,
+      //       characterData: data,
+      //       index: index,
+      //     );
+      //   },
+      // ),
       GoRoute(
         name: AppRouteConstant.VAScreen.name,
         path: AppRouteConstant.VAScreen.path,
@@ -152,6 +141,7 @@ final router = Provider<GoRouter>(
           );
         },
       ),
+      ...$appRoutes
     ],
     errorBuilder: (context, state) {
       return const ErrorScreen();

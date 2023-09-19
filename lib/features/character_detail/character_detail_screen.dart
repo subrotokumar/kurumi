@@ -1,26 +1,28 @@
 import 'package:anilist/character_query.dart';
 import 'package:anilist/graphql_client.dart';
+import 'package:anilist/toggle_favourite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 
-class CharacterDetailScreen extends StatefulWidget {
+class CharacterDetailScreen extends ConsumerStatefulWidget {
   const CharacterDetailScreen({super.key, required this.id});
   final int id;
 
   @override
-  State<CharacterDetailScreen> createState() => _CharacterDetailScreenState();
+  ConsumerState<CharacterDetailScreen> createState() =>
+      _CharacterDetailScreenState();
 }
 
-class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
+class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
   bool showDescription = false;
   bool showSpoiler = false;
   @override
@@ -45,8 +47,6 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                 return LoadingWidget;
               } else {
                 final data = response.data?.Character;
-                log.d(response.hasErrors);
-                log.d(response.data);
                 return SingleChildScrollView(
                   child: Column(
                     children: [
@@ -61,7 +61,8 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                             ),
-                            onPressed: () {},
+                            onPressed: () async =>
+                                _toggleFav(data?.isFavourite ?? false),
                             icon: LineIcon.heartAlt(
                               color: (data?.isFavourite ?? false)
                                   ? Colors.redAccent
@@ -96,14 +97,6 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                                       ),
                                     ),
                                   ),
-                                  //! ROLE
-                                  // Text(
-                                  //   '',
-                                  //   style: TextStyle(
-                                  //     fontSize: 18,
-                                  //     color: Colors.amber.shade100,
-                                  //   ),
-                                  // ),
                                   const Spacer(),
                                   Visibility(
                                     visible: data?.dateOfBirth?.month != null &&
@@ -532,6 +525,29 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
             },
           );
         }),
+      ),
+    );
+  }
+
+  void _toggleFav(bool flag) async {
+    final client = ref.read(clientProvider);
+    if (client == null) return;
+    final res = await client
+        .request(GToggleFavouriteReq(
+          (b) => b..vars.characterId = widget.id,
+        ))
+        .first;
+    final req = GCharacterDetailQueryReq((b) => b
+      ..vars.id = widget.id
+      ..vars.page = 1);
+    log.d(res.data?.toJson());
+    if (res.hasErrors) return;
+
+    final cache = client.cache.readQuery(req);
+    client.cache.writeQuery(
+      req,
+      cache!.rebuild(
+        (p) => p..Character.isFavourite = !flag,
       ),
     );
   }

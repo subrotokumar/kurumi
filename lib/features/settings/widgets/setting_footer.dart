@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -53,7 +53,7 @@ class SettingFooterSection extends StatelessWidget {
                   mode: LaunchMode.externalApplication,
                 );
               },
-              icon: LineIcon.github(
+              icon: const LineIcon.github(
                 size: 30,
                 color: Colors.black,
               ),
@@ -68,7 +68,7 @@ class SettingFooterSection extends StatelessWidget {
                 'https://www.twitter.com/isubrotokumar',
                 mode: LaunchMode.externalApplication,
               ),
-              icon: LineIcon.twitter(
+              icon: const LineIcon.twitter(
                 color: Colors.black,
                 size: 30,
               ),
@@ -83,7 +83,7 @@ class SettingFooterSection extends StatelessWidget {
                 'https://play.google.com/store/apps/details?id=com.subrotokumar.kurumi',
                 mode: LaunchMode.externalApplication,
               ),
-              icon: LineIcon.googlePlay(
+              icon: const LineIcon.googlePlay(
                 color: Colors.black,
                 size: 30,
               ),
@@ -93,14 +93,14 @@ class SettingFooterSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Text('Version 1.5.0 Beta'),
+        const Text('Version 1.5.1 Beta'),
         const SizedBox(height: 20),
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white30,
             foregroundColor: Colors.white,
           ),
-          icon: LineIcon.alternateSignOut(),
+          icon: const LineIcon.alternateSignOut(),
           onPressed: () async {
             logout();
             context.goNamed(AppRouteConstant.LoginScreen.name);

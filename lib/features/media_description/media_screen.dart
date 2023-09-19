@@ -6,7 +6,7 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/go_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
@@ -406,7 +406,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                Timer(size: size, data: data),
+                                Timer(data: data),
                                 if (data?.nextAiringEpisode?.airingAt != null)
                                   const SizedBox(height: 20),
                                 MediaGenreSection(size: size, data: data),

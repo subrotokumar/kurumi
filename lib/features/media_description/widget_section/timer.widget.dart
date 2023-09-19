@@ -4,13 +4,8 @@ import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/widget/timer.widget.dart';
 
 class Timer extends StatelessWidget {
-  const Timer({
-    super.key,
-    required this.size,
-    required this.data,
-  });
+  const Timer({super.key, required this.data});
 
-  final Size size;
   final GMediaDetailQueryData_Media? data;
 
   @override
@@ -22,7 +17,6 @@ class Timer extends StatelessWidget {
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            // side: BorderSide(color: Colors.grey),
           ),
           color: AppTheme.secondaryColor,
           child: Row(
@@ -32,10 +26,11 @@ class Timer extends StatelessWidget {
               Visibility(
                 visible: data?.nextAiringEpisode?.episode != null,
                 child: Text(
-                  '   EP : ${data?.nextAiringEpisode?.episode}  ',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
+                  '   EP ${data?.nextAiringEpisode?.episode}  ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.white.withOpacity(0.8),
                   ),
                 ),
               ),

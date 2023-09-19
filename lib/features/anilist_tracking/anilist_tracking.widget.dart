@@ -7,7 +7,7 @@ import 'package:anilist/medialist_entry_mutation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/go_router.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class AnilistTrackingWidget extends ConsumerWidget {

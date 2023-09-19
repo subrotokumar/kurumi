@@ -2,7 +2,7 @@ import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 
 class CharactersWidget extends StatelessWidget {
   const CharactersWidget({
@@ -53,17 +53,23 @@ class CharactersWidget extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           HapticFeedback.mediumImpact();
-                          context.pushNamed(
-                            AppRouteConstant.Character.name,
-                            pathParameters: {
-                              'id': (characterData?.id ?? 0).toString(),
-                              'name': characterData?.name?.full ?? '',
-                            },
-                            extra: {
-                              'data': data?.characters?.edges?.elementAt(index),
-                              'index': index
-                            },
-                          );
+                          CharacterDetailRoute(
+                                  id: characterData?.id ?? -1,
+                                  name: characterData?.name?.full
+                                          ?.replaceAll(' ', '-') ??
+                                      'NA')
+                              .push(context);
+                          // context.pushNamed(
+                          //   AppRouteConstant.Character.name,
+                          //   pathParameters: {
+                          //     'id': (characterData?.id ?? 0).toString(),
+                          //     'name': characterData?.name?.full ?? '',
+                          //   },
+                          //   extra: {
+                          //     'data': data?.characters?.edges?.elementAt(index),
+                          //     'index': index
+                          //   },
+                          // );
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:kurumi/core/routes/app_route_constant.dart';
+import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class NextSeasonAnimme extends StatelessWidget {

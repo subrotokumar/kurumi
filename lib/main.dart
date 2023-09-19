@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kurumi/core/routes/app_router.dart';
+import 'package:kurumi/core/routes/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,3 +1,7 @@
+## v1.5.1-beta
+- Major Bug fixes
+- UI Improvement
+
 ## v1.5.0-beta
 - Added Multi Tag and Genre filter option at Media Search Screen
 - Added dedicated Media Search filter screen

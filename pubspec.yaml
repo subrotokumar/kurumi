@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.5.0+32
+version: 1.5.1+33
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -57,6 +57,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  go_router_builder: ^2.3.3
+  build_runner: ^2.4.6
 
 flutter_icons:
   android: "ic_launcher"
