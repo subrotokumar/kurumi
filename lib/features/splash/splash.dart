@@ -1,19 +1,12 @@
 import 'dart:async';
 
-import 'package:anilist/userid.dart';
-import 'package:ferry/ferry.dart';
-import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gql_http_link/gql_http_link.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:kurumi/core/constants/asset.dart';
 import 'package:kurumi/core/routes/router.dart';
-import 'package:kurumi/provider/provider.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
+import 'package:kurumi/provider/init.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -33,70 +26,21 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   @override
   initState() {
-    initialize();
     super.initState();
+    initialize();
   }
 
   Future<void> initialize() async {
-    ref.read(sharedfPrefProvider);
-    AndroidOptions getAndroidOptions() => const AndroidOptions(
-          encryptedSharedPreferences: true,
-        );
-    const flutterSecureStorage = FlutterSecureStorage();
-    final accessToken = await flutterSecureStorage.read(
-      key: 'AniListAccessToken',
-      aOptions: getAndroidOptions(),
-    );
-    //print(accessToken);
-    await Hive.initFlutter();
-    final box = await Hive.openBox('anilist_graphql');
-    await box.clear();
-    final mediaListBox = await Hive.openBox('mediaListBox');
-    await mediaListBox.clear();
-
-    late HttpLink httpLink;
-    if (accessToken == null) {
-      httpLink = HttpLink('https://graphql.anilist.co');
-    } else {
-      httpLink = HttpLink(
-        'https://graphql.anilist.co',
-        defaultHeaders: {'Authorization': 'Bearer $accessToken'},
-      );
+    if (!ref.read(initStatus)) {
+      await ref.read(initStatus.notifier).initialize();
     }
-    final policy = {
-      OperationType.query: FetchPolicy.CacheAndNetwork,
-    };
-    final store = HiveStore(box);
-    final cache = Cache(store: store, possibleTypes: possibleTypesMap);
-    final client = Client(
-      link: httpLink,
-      cache: cache,
-    );
-    ref.read(accessTokenProvider.notifier).state = accessToken;
-    ref.read(clientProvider.notifier).state = client;
-
-    final store1 = HiveStore(mediaListBox);
-    final cache1 = Cache(store: store1, possibleTypes: possibleTypesMap);
-    final client1 =
-        Client(link: httpLink, cache: cache1, defaultFetchPolicies: policy);
-    ref.read(mediaListClientProvider.notifier).state = client1;
-    final event = await client.request(GUserIDReq()).first;
-    if (event.data != null) {
-      ref.read(userId.notifier).state = event.data?.Viewer?.id ?? 0;
-    }
-    final pref = await SharedPreferences.getInstance();
-    if (pref.containsKey('DefaultDiscoverPage')) {
-      if (pref.getString('DefaultDiscoverPage') == 'MANGA') {
-        ref.read(discoverTabProvider.notifier).state = GMediaType.MANGA;
-      }
-    }
-    final isLoggedIn = pref.getBool('isLoggedIn') ?? false;
     timer = Timer(
       const Duration(seconds: 0),
       () {
-        if (isLoggedIn && accessToken != null) {
-          context.goNamed(AppRouteConstant.HomeScreen.name);
+        if (ref.read(initStatus)) {
+          context.go('/home');
         } else {
+          log.i('login');
           context.goNamed(AppRouteConstant.LoginScreen.name);
         }
       },

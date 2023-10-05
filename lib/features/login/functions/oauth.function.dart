@@ -1,6 +1,7 @@
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:kurumi/core/constants/env.dart';
 import 'package:dio/dio.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 
 class Oauth {
   Future<String?> auth() async {
@@ -15,6 +16,7 @@ class Oauth {
       url: authUrl,
       callbackUrlScheme: 'kurumi',
     );
+    log.i(result);
 
     final code = Uri.parse(result).queryParameters['code'];
     // Use this code to get an access token

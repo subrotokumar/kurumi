@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -187,8 +188,14 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.orangeAccent),
                     ),
                     TextSpan(
-                        text:
-                            ' to login/register. Make sure the URL is anilist.co before entering your email and password.'),
+                      text:
+                          ' to login/register. Make sure the URL is anilist.co before entering your email and password.',
+                    ),
+                    TextSpan(
+                      text: '',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.orange),
+                    ),
                   ],
                 ),
               ),
@@ -221,6 +228,20 @@ class _LoginPageState extends State<LoginPage> {
                         minimumSize: const Size(100, 50),
                       ),
                       onPressed: () async {
+                        try {
+                          final box = await Hive.openBox('anilist_graphql');
+                          final mediaListBox =
+                              await Hive.openBox('mediaListBox');
+                          await box.clear();
+                          await mediaListBox.clear();
+                        } catch (e) {
+                          await Hive.initFlutter();
+                          final box = await Hive.openBox('anilist_graphql');
+                          final mediaListBox =
+                              await Hive.openBox('mediaListBox');
+                          await box.clear();
+                          await mediaListBox.clear();
+                        }
                         String? accessToken = await Oauth().auth();
                         if (accessToken != null) {
                           AndroidOptions getAndroidOptions() =>

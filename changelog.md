@@ -1,3 +1,9 @@
+## v1.6.0-beta
+- UI Improvement on Discover Page
+- Deeplinking Support
+- Cache data is set to clear on 1 day interval
+- Bug fixes
+
 ## v1.5.1-beta
 - Major Bug fixes
 - UI Improvement

@@ -21,7 +21,7 @@ class ReviewSection extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      height: 280,
+      height: 320,
       width: size.width,
       child: Consumer(
         builder: (context, ref, child) {

@@ -97,18 +97,13 @@ class PopularMedia extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(
                                   discoverPageImageRadius),
-                              child: Hero(
-                                tag: '${data?.elementAt(index)?.id ?? ''}',
-                                child: CachedNetworkImage(
-                                  height: 130,
-                                  width: 100,
-                                  imageUrl: data
-                                          ?.elementAt(index)
-                                          ?.coverImage
-                                          ?.large ??
-                                      '',
-                                  fit: BoxFit.cover,
-                                ),
+                              child: CachedNetworkImage(
+                                height: 130,
+                                width: 100,
+                                imageUrl:
+                                    data?.elementAt(index)?.coverImage?.large ??
+                                        '',
+                                fit: BoxFit.cover,
                               ),
                             ),
                             const SizedBox(height: 3),

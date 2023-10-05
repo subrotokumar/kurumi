@@ -91,37 +91,34 @@ class TrendingMedia extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   discoverPageImageRadius),
                               child: InkWell(
-                                child: Hero(
-                                  tag: '${data?.elementAt(index)?.id ?? ''}',
-                                  child: CachedNetworkImage(
+                                child: CachedNetworkImage(
+                                  height: 130,
+                                  width: 100,
+                                  imageUrl: data
+                                          ?.elementAt(index)
+                                          ?.coverImage
+                                          ?.large ??
+                                      data
+                                          ?.elementAt(index)
+                                          ?.coverImage
+                                          ?.medium ??
+                                      '',
+                                  errorWidget: (context, url, error) =>
+                                      CachedNetworkImage(
                                     height: 130,
                                     width: 100,
                                     imageUrl: data
                                             ?.elementAt(index)
                                             ?.coverImage
-                                            ?.large ??
+                                            ?.extraLarge ??
                                         data
                                             ?.elementAt(index)
                                             ?.coverImage
                                             ?.medium ??
                                         '',
-                                    errorWidget: (context, url, error) =>
-                                        CachedNetworkImage(
-                                      height: 130,
-                                      width: 100,
-                                      imageUrl: data
-                                              ?.elementAt(index)
-                                              ?.coverImage
-                                              ?.extraLarge ??
-                                          data
-                                              ?.elementAt(index)
-                                              ?.coverImage
-                                              ?.medium ??
-                                          '',
-                                      fit: BoxFit.cover,
-                                    ),
                                     fit: BoxFit.cover,
                                   ),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

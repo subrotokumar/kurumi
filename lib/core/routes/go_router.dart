@@ -3,7 +3,6 @@ import 'package:anilist/review_query.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/common/error_screen.dart';
 import 'package:kurumi/core/routes/router.dart';
-import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
 import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/home/homepage.dart';
@@ -15,6 +14,7 @@ import 'package:kurumi/features/search_media/search_media_page.dart';
 import 'package:kurumi/features/settings/settings.dart';
 import 'package:kurumi/features/splash/splash.dart';
 import 'package:kurumi/features/va/voice_artist.dart';
+import 'package:kurumi/provider/init.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -86,6 +86,30 @@ final router = Provider<GoRouter>(
           );
         },
       ),
+      GoRoute(
+        name: 'media-anime',
+        path: '/anime/:id/:title',
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          String title = state.pathParameters['title'] ?? '';
+          return MediaScreen(
+            id: id,
+            title: title,
+          );
+        },
+      ),
+      GoRoute(
+        name: 'media-manga',
+        path: '/manga/:id/:title',
+        builder: (context, state) {
+          var id = int.parse(state.pathParameters['id'] ?? '0');
+          String title = state.pathParameters['title'] ?? '';
+          return MediaScreen(
+            id: id,
+            title: title,
+          );
+        },
+      ),
       // GoRoute(
       //   name: AppRouteConstant.Character.name,
       //   path: '${AppRouteConstant.Character.path}/:id/:name',
@@ -146,10 +170,15 @@ final router = Provider<GoRouter>(
     errorBuilder: (context, state) {
       return const ErrorScreen();
     },
-    redirect: (context, state) {
-      if (state.fullPath != AppRouteConstant.LoginScreen.path ||
-          state.fullPath != AppRouteConstant.SplashScreen.path) {
-        log.d(state.fullPath);
+    redirect: (context, state) async {
+      final path = state.uri.path;
+      final moveTo =
+          path.endsWith('/') ? path.substring(0, path.length - 1) : path;
+      if (moveTo == '/' || moveTo == '/login' || moveTo == '/splash') {
+      } else if (ref.read(initStatus)) {
+      } else if (moveTo.isNotEmpty) {
+        final status = await ref.read(initStatus.notifier).initialize();
+        return status ? moveTo : '/login';
       }
       return null;
     },
