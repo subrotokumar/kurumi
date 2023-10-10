@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/router.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/search_media/components/status_widget.dart';
 import 'package:kurumi/provider/provider.dart';
 
@@ -30,7 +31,7 @@ class SearchedMediaGridView extends StatelessWidget {
             ? const EdgeInsets.only(top: 30, bottom: 20, left: 16, right: 16)
             : const EdgeInsets.only(top: 10, bottom: 20, left: 16, right: 16),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: size.width > 500 ? 4 : 3,
+          crossAxisCount: isTablet ? 4 : 3,
           childAspectRatio: 2 / 3,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,

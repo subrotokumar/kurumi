@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kurumi/core/routes/router.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/favourite/favourite_screen.dart';
 import 'package:kurumi/features/profile/widgets/show_more.widget.dart';
 
@@ -33,9 +34,10 @@ class FavMangaGridView extends StatelessWidget {
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.all(0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: isTablet ? 4 : 3,
           mainAxisSpacing: 10,
+          childAspectRatio: 1,
         ),
         // scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {

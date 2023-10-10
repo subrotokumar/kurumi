@@ -157,7 +157,7 @@ class SchedulePerDay extends StatelessWidget {
     DateTime start = time;
     DateTime end = time.add(const Duration(days: 1));
     return Consumer(builder: (context, ref, child) {
-      final client = ref.watch(clientProvider);
+      final client = ref.watch(mediaListClientProvider);
       return Operation(
         client: client!,
         operationRequest: GAiringScheduleQueryReq(
@@ -178,19 +178,17 @@ class SchedulePerDay extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16),
               itemBuilder: (context, index) {
                 final item = data.elementAt(index);
-                final time = DateTime.fromMillisecondsSinceEpoch(
+                final dateTime = DateTime.fromMillisecondsSinceEpoch(
                         (item?.airingAt ?? 0) * 1000)
-                    .toLocal()
-                    .toString()
-                    .substring(11, 16);
-                bool isAired = (item?.timeUntilAiring ?? 0).isNegative;
+                    .toLocal();
+                final time = dateTime.toString().substring(11, 16);
+                bool isAired = dateTime.compareTo(DateTime.now()) < 1;
                 final imageURL = item?.media?.coverImage?.large ??
                     item?.media?.coverImage?.medium ??
                     '';
                 final title = item?.media?.title?.userPreferred ??
                     item?.media?.title?.romaji ??
                     '';
-                // final col = item?.media?.coverImage?.color;
                 final country = item?.media?.countryOfOrigin?.value == "JP";
                 if (!country) {
                   return Container();

@@ -114,6 +114,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                       NextSeasonAnimme(),
                       Top100AnimeTitle(),
                       Top100Media(),
+                      SizedBox(height: 10),
                     ],
                   ),
                 )
@@ -143,117 +144,51 @@ class SubTabWidget extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Box(
-              //   padding,
-              //   itemCount,
-              //   'Notification',
-              //   color[2],
-              //   () {
-              //     HapticFeedback.mediumImpact();
-              //     // ref.read(ActivityPage).jumpToPage(0);
-              //     context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
-              //   },
-              //   const Icon(Icons.notifications),
-              // ),
-              // Box(
-              //   padding,
-              //   itemCount,
-              //   'Schedule',
-              //   color[3],
-              //   () {
-              //     HapticFeedback.mediumImpact();
-              //     context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 1);
-              //   },
-              //   const LineIcon.calendar(),
-              // ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                height: 34,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white38),
-                ),
-                child: Consumer(builder: (context, ref, child) {
-                  final type = ref.watch(discoverTabProvider);
-                  final isAnime = type == GMediaType.ANIME;
-                  return Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => ref
-                            .watch(discoverTabProvider.notifier)
-                            .state = GMediaType.ANIME,
-                        child: Text(
-                          'ANIME',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: isAnime ? Colors.white : Colors.white38,
-                          ),
-                        ),
+          Container(
+            width: 180,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            height: 34,
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.white38),
+            ),
+            child: Consumer(builder: (context, ref, child) {
+              final type = ref.watch(discoverTabProvider);
+              final isAnime = type == GMediaType.ANIME;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => ref.watch(discoverTabProvider.notifier).state =
+                        GMediaType.ANIME,
+                    child: Text(
+                      'ANIME',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: isAnime ? Colors.white : Colors.white38,
                       ),
-                      const Text('  |  '),
-                      GestureDetector(
-                        onTap: () => ref
-                            .read(discoverTabProvider.notifier)
-                            .state = GMediaType.MANGA,
-                        child: Text(
-                          'MANGA',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: !isAnime ? Colors.white : Colors.white38,
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                }),
-              ),
-              // Consumer(builder: (context, ref, child) {
-              //   return Box(
-              //     padding,
-              //     itemCount,
-              //     'Search',
-              //     color[1],
-              //     () {
-              //       HapticFeedback.mediumImpact();
-              //       context.pushNamed(
-              //         AppRouteConstant.SearchScreen.name,
-              //         extra: {'mediaType': ref.read(discoverTabProvider)},
-              //       );
-              //     },
-              //     const LineIcon.searchPlus(),
-              //   );
-              // }),
-              // Consumer(
-              //   builder: (context, ref, child) {
-              //     final DiscoverTabProvider = ref.watch(discoverTabProvider);
-              //     return Box(
-              //       padding,
-              //       itemCount,
-              //       DiscoverTabProvider == GMediaType.ANIME ? 'Manga' : 'Anime',
-              //       color[0],
-              //       () {
-              //         HapticFeedback.mediumImpact();
-              //         if (DiscoverTabProvider == GMediaType.ANIME) {
-              //           ref.watch(discoverTabProvider.notifier).state =
-              //               GMediaType.MANGA;
-              //         } else {
-              //           ref.watch(discoverTabProvider.notifier).state =
-              //               GMediaType.ANIME;
-              //         }
-              //       },
-              //       const Icon(Icons.ramen_dining),
-              //     );
-              //   },
-              // ),
-            ],
+                    ),
+                  ),
+                  const Text('  |  '),
+                  GestureDetector(
+                    onTap: () => ref.read(discoverTabProvider.notifier).state =
+                        GMediaType.MANGA,
+                    child: Text(
+                      'MANGA',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: !isAnime ? Colors.white : Colors.white38,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
           ),
           const SizedBox(height: 20),
           Row(

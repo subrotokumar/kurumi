@@ -38,7 +38,7 @@ class PopularMedia extends StatelessWidget {
             operationRequest: GDiscoverMediaReq(
               (b) => b
                 ..vars.page = 1
-                ..vars.perPage = 20
+                ..vars.perPage = 25
                 ..vars.status =
                     type == GMediaType.MANGA ? null : GMediaStatus.RELEASING
                 ..vars.type = type

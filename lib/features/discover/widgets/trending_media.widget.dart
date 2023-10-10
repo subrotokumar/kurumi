@@ -27,7 +27,7 @@ class TrendingMedia extends StatelessWidget {
             operationRequest: GDiscoverMediaReq(
               (b) => b
                 ..vars.page = 1
-                ..vars.perPage = 20
+                ..vars.perPage = 25
                 ..vars.status = GMediaStatus.RELEASING
                 ..vars.type = type
                 ..vars.sort = GMediaSort.TRENDING_DESC,

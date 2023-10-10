@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:anilist/media_detail_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
@@ -10,6 +8,7 @@ import 'package:kurumi/core/routes/go_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/anilist_tracking/anilist_tracking.widget.dart';
+import 'package:kurumi/features/media_description/function/share_media.dart';
 import 'package:kurumi/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/features/media_description/widget_section/external_link.dart';
@@ -22,9 +21,7 @@ import 'package:kurumi/features/media_description/widget_section/trailer.widget.
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:lottie/lottie.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
 import 'widget_section/banner.widget.dart';
@@ -337,6 +334,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                           Theme.of(context)
                                                               .iconTheme
                                                               .color,
+                                                      minimumSize:
+                                                          const Size(116, 40),
                                                     ),
                                                     onPressed: () {
                                                       showBottomSheet(
@@ -350,51 +349,35 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                         ),
                                                       );
                                                     },
-                                                    child: Text(data
-                                                            ?.mediaListEntry
-                                                            ?.status
-                                                            ?.name ??
-                                                        'ADD'),
+                                                    child: Text(
+                                                      data?.mediaListEntry
+                                                              ?.status?.name ??
+                                                          'ADD',
+                                                      style: inter.copyWith(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
                                                   ),
                                                 const SizedBox(width: 5),
                                                 IconButton(
                                                   style: IconButton.styleFrom(
                                                     shape: CircleBorder(
-                                                        side: BorderSide(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .outline)),
+                                                      side: BorderSide(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .outline,
+                                                      ),
+                                                    ),
                                                     foregroundColor:
                                                         Theme.of(context)
                                                             .iconTheme
                                                             .color,
                                                   ),
-                                                  onPressed: () async {
-                                                    final img =
-                                                        await screenshotController
-                                                            .capture();
-                                                    //  final directory =
-                                                    //     await getTemporaryDirectory();
-                                                    final directory =
-                                                        (await getExternalStorageDirectory())
-                                                            ?.path;
-                                                    File imgFile = File(
-                                                        '$directory/kurumi.png');
-                                                    await imgFile
-                                                        .writeAsBytes(img!);
-                                                    Share.shareXFiles(
-                                                      [
-                                                        XFile(
-                                                            '$directory/kurumi.png')
-                                                      ],
-                                                      subject: data?.title
-                                                              ?.userPreferred ??
-                                                          '',
-                                                      text: data?.description ??
-                                                          '',
-                                                    );
-                                                  },
+                                                  onPressed: () => shareMedia(
+                                                    controller:
+                                                        screenshotController,
+                                                    media: data,
+                                                  ),
                                                   icon: const Icon(Icons.share),
                                                 ),
                                               ],

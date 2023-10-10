@@ -17,7 +17,6 @@ class FavCharacterTabBarView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.read(clientProvider);
     final media = MediaQuery.of(context);
-    // return Placeholder();
     return SizedBox(
       width: media.size.width,
       child: Operation(
@@ -40,9 +39,8 @@ class FavCharacterTabBarView extends ConsumerWidget {
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     padding: const EdgeInsets.all(0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isTablet ? 4 : 3,
                       mainAxisSpacing: 10,
                       childAspectRatio: 1,
                     ),

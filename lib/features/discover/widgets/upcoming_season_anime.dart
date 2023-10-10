@@ -41,7 +41,7 @@ class NextSeasonAnimme extends StatelessWidget {
   int nextYear({int? year}) {
     year ??= DateTime.now().year;
     final season = currentSeason();
-    if (season == GMediaSeason.WINTER) {
+    if (season == GMediaSeason.FALL) {
       year++;
     }
     return year;
@@ -55,13 +55,15 @@ class NextSeasonAnimme extends StatelessWidget {
         builder: (context, ref, child) {
           final client = ref.read(clientProvider);
           final type = ref.watch(discoverTabProvider);
-          final reqAnime = GDiscoverMediaReq((b) => b
-            ..vars.page = 1
-            ..vars.perPage = 20
-            ..vars.type = type
-            ..vars.sort = GMediaSort.POPULARITY_DESC
-            ..vars.season = nextSeason()
-            ..vars.seasonYear = nextYear());
+          final reqAnime = GDiscoverMediaReq(
+            (b) => b
+              ..vars.page = 1
+              ..vars.perPage = 25
+              ..vars.type = type
+              ..vars.sort = GMediaSort.POPULARITY_DESC
+              ..vars.season = nextSeason()
+              ..vars.seasonYear = nextYear(),
+          );
           final reqManga = GDiscoverMediaReq(
             (b) => b
               ..vars.page = 1
@@ -99,7 +101,6 @@ class NextSeasonAnimme extends StatelessWidget {
                 return SizedBox(
                   height: 180,
                   child: ListView.builder(
-                    // reverse: true,
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
                     itemCount: response?.data?.Page?.media?.length,

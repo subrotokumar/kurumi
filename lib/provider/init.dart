@@ -24,15 +24,13 @@ class InitStatusNotifier extends StateNotifier<bool> {
   Future<bool> initialize() async {
     final pref = await SharedPreferences.getInstance();
     ref.read(sharedfPrefProvider);
-    AndroidOptions getAndroidOptions() => const AndroidOptions(
-          encryptedSharedPreferences: true,
-        );
+    AndroidOptions getAndroidOptions() =>
+        const AndroidOptions(encryptedSharedPreferences: true);
     const flutterSecureStorage = FlutterSecureStorage();
     final accessToken = await flutterSecureStorage.read(
       key: 'AniListAccessToken',
       aOptions: getAndroidOptions(),
     );
-    //print(accessToken);
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
     final last = DateTime.tryParse(pref.getString('last_cache_cleared') ?? '');
@@ -42,7 +40,6 @@ class InitStatusNotifier extends StateNotifier<bool> {
       pref.setString('last_cache_cleared', DateTime.now().toString());
     }
     final mediaListBox = await Hive.openBox('mediaListBox');
-    // await mediaListBox.clear();
 
     late HttpLink httpLink;
     if (accessToken == null) {

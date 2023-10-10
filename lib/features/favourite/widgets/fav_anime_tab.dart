@@ -40,9 +40,8 @@ class FavAnimeTabBarView extends ConsumerWidget {
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     padding: const EdgeInsets.all(0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isTablet ? 4 : 3,
                       mainAxisSpacing: 10,
                       childAspectRatio: 1,
                     ),

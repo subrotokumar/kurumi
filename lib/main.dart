@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kurumi/core/routes/go_router.dart';
+import 'package:kurumi/core/utils/utils.functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,18 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routerConfig = ref.watch(router);
+
+    final List<DeviceOrientation> orientationList = [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ];
+    if (isTablet) {
+      orientationList.addAll([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    }
+    SystemChrome.setPreferredOrientations(orientationList);
     return MaterialApp.router(
       routerConfig: routerConfig,
       debugShowCheckedModeBanner: false,
