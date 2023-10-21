@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.6.1+35
+version: 1.6.2+35
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -35,7 +35,7 @@ dependencies:
   card_swiper: ^3.0.1
   intl: ^0.18.0
   flutter_markdown: ^0.6.14
-  share_plus: ^8.0.0
+  share_plus: ^7.2.1
   screenshot: ^2.1.0
   path_provider: ^2.0.14
   zoom_widget: ^2.0.1

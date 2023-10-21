@@ -11,7 +11,8 @@ Future<void> shareMedia({
 }) async {
   final mediaType = media?.type == GMediaType.ANIME ? 'anime' : 'manga';
   final id = media?.id ?? 0;
-  final link = 'https://anilist.co/$mediaType/$id/';
+  final title = media?.title?.userPreferred?.replaceAll(' ', '-') ?? 'title';
+  final link = 'https://anilist.co/$mediaType/$id/$title';
   final img = await controller.capture();
   final directory = (await getTemporaryDirectory()).path;
   File imgFile = File('$directory/kurumi.png');
@@ -20,6 +21,6 @@ Future<void> shareMedia({
     [XFile('$directory/kurumi.png')],
     subject: media?.title?.userPreferred ?? '',
     text:
-        '${media?.description?.replaceAll('<br>', '\n') ?? ''}\n\nLink: $link',
+        'Link: $link\n\n${media?.description?.replaceAll('<br><br>', '\n').replaceAll('<br>', '\n').replaceAll('<b>', '').replaceAll('</b>', '').replaceAll('<i>', '').replaceAll('</i>', '').replaceAll('\n\n', '\n') ?? ''}',
   );
 }

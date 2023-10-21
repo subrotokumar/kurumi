@@ -1,3 +1,7 @@
+## v1.6.2-beta
+- Fixed Media Screen shared link and DeepLink compatiblility
+- Code Refactor
+
 ## v1.6.1-beta
 - Resolved various bugs and issues.
 - enhance the overall stability and performance.

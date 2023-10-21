@@ -64,6 +64,7 @@ class Top50Media extends ConsumerWidget {
           return SizedBox(
             height: 160,
             child: ListView.builder(
+              shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 4),
               scrollDirection: Axis.horizontal,
               itemCount: 7,

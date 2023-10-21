@@ -63,7 +63,7 @@ class BannerAppBar extends ConsumerWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 40, 10, 10),
+              padding: const EdgeInsets.fromLTRB(15, 40, 10, 10),
               child: Row(
                 children: [
                   IconButton(
@@ -73,7 +73,7 @@ class BannerAppBar extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       fixedSize: const Size.square(25),
-                      backgroundColor: Colors.black12,
+                      backgroundColor: Colors.black26,
                       side: const BorderSide(color: Colors.white12, width: 0.5),
                     ),
                     onPressed: () {
@@ -84,82 +84,96 @@ class BannerAppBar extends ConsumerWidget {
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       size: 25,
-                      // shadows: [
-                      //   Shadow(
-                      //     color: Colors.black,
-                      //     blurRadius: 5,
-                      //   )
-                      // ],
                     ),
                   ),
                   const Spacer(),
-                  Text(
-                    '${data?.favourites ?? 0}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          )
-                        ]),
-                  ),
-                  Consumer(builder: (context, ref, child) {
-                    return IconButton(
-                      style: IconButton.styleFrom(
-                        foregroundColor: Theme.of(context).iconTheme.color,
-                      ),
-                      onPressed: () {
-                        ref.read(loading.notifier).update((state) => true);
-                        try {
-                          client!
-                              .request(
-                            data?.type == GMediaType.ANIME
-                                ? GToggleFavouriteReq(
-                                    (b) => b..vars.animeId = data?.id)
-                                : GToggleFavouriteReq(
-                                    (b) => b..vars.mangaId = data?.id),
-                          )
-                              .listen((event) {
-                            final req = GMediaDetailQueryReq(
-                              (b) => b
-                                ..vars.id = data?.id
-                                ..vars.limit = 5
-                                ..vars.page = 1
-                                ..vars.perPage = 10,
-                            );
-                            final cache = client.cache.readQuery(req);
-                            client.cache.writeQuery(
-                              req,
-                              cache!.rebuild(
-                                (p) => p
-                                  ..Media.isFavourite =
-                                      !(data?.isFavourite ?? false),
+                  Card(
+                    color: Colors.black12,
+                    elevation: 0,
+                    child: SizedBox(
+                      height: 40,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(width: 10),
+                          Text(
+                            '${data?.favourites ?? 0}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black,
+                                    blurRadius: 5,
+                                  )
+                                ]),
+                          ),
+                          Consumer(builder: (context, ref, child) {
+                            return IconButton(
+                              style: IconButton.styleFrom(
+                                foregroundColor:
+                                    Theme.of(context).iconTheme.color,
+                              ),
+                              onPressed: () {
+                                ref
+                                    .read(loading.notifier)
+                                    .update((state) => true);
+                                try {
+                                  client!
+                                      .request(
+                                    data?.type == GMediaType.ANIME
+                                        ? GToggleFavouriteReq(
+                                            (b) => b..vars.animeId = data?.id)
+                                        : GToggleFavouriteReq(
+                                            (b) => b..vars.mangaId = data?.id),
+                                  )
+                                      .listen((event) {
+                                    final req = GMediaDetailQueryReq(
+                                      (b) => b
+                                        ..vars.id = data?.id
+                                        ..vars.limit = 5
+                                        ..vars.page = 1
+                                        ..vars.perPage = 10,
+                                    );
+                                    final cache = client.cache.readQuery(req);
+                                    client.cache.writeQuery(
+                                      req,
+                                      cache!.rebuild(
+                                        (p) => p
+                                          ..Media.isFavourite =
+                                              !(data?.isFavourite ?? false),
+                                      ),
+                                    );
+                                    ref
+                                        .read(loading.notifier)
+                                        .update((state) => false);
+                                  });
+                                } catch (e) {
+                                  ref
+                                      .read(loading.notifier)
+                                      .update((state) => false);
+                                }
+                              },
+                              icon: Icon(
+                                CupertinoIcons.heart_fill,
+                                size: 25,
+                                color: (data?.isFavourite ?? false)
+                                    ? Colors.redAccent
+                                    : Colors.white,
+                                shadows: const [
+                                  Shadow(
+                                    color: Colors.black,
+                                    blurRadius: 5,
+                                  )
+                                ],
                               ),
                             );
-                            ref.read(loading.notifier).update((state) => false);
-                          });
-                        } catch (e) {
-                          ref.read(loading.notifier).update((state) => false);
-                        }
-                      },
-                      icon: Icon(
-                        CupertinoIcons.heart_fill,
-                        size: 25,
-                        color: (data?.isFavourite ?? false)
-                            ? Colors.redAccent
-                            : Colors.white,
-                        shadows: const [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 5,
-                          )
+                          }),
                         ],
                       ),
-                    );
-                  }),
+                    ),
+                  ),
                 ],
               ),
             ),

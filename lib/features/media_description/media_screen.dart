@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/features/media_description/widget_section/media_loading.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
@@ -68,7 +69,8 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
           ),
           builder: (context, response, error) {
             if (response == null || response.loading) {
-              return LoadingWidget;
+              return const MediaLoading();
+              // return LoadingWidget;
             } else {
               final data = response.data?.Media;
               type = data?.type ?? type;
@@ -321,7 +323,9 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                       );
                                                     },
                                                     icon: const Icon(
-                                                        Icons.add_outlined),
+                                                      Icons.add_outlined,
+                                                      color: Colors.white70,
+                                                    ),
                                                   ),
                                                 if (data?.mediaListEntry
                                                         ?.status !=
@@ -377,7 +381,10 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                                         screenshotController,
                                                     media: data,
                                                   ),
-                                                  icon: const Icon(Icons.share),
+                                                  icon: const Icon(
+                                                    Icons.share,
+                                                    color: Colors.white70,
+                                                  ),
                                                 ),
                                               ],
                                             )
