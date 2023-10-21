@@ -1,20 +1,19 @@
 import 'dart:async';
 
-import 'package:anilist/graphql/__generated__/NotificationQuery.req.gql.dart';
-import 'package:anilist/profile.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:upgrader/upgrader.dart';
+
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/features/activity/activity_screen.dart';
-
 import 'package:kurumi/features/anime/anime_screen.dart';
 import 'package:kurumi/features/discover/discover.dart';
 import 'package:kurumi/features/home/widget/nav_bar.widget.dart';
 import 'package:kurumi/features/manga/manga_screen.dart';
 import 'package:kurumi/features/profile/profile_page.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:upgrader/upgrader.dart';
 
 final currentIndex = StateProvider<int>((ref) => 0);
 final navBarVisibilityProvider = StateProvider<bool>((ref) => true);

@@ -1,16 +1,16 @@
-import 'package:anilist/graphql/__generated__/NotificationQuery.data.gql.dart';
-import 'package:anilist/graphql/__generated__/NotificationQuery.req.gql.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icon.dart';
+
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:line_icons/line_icon.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen(this.controller, {super.key});
@@ -34,9 +34,9 @@ class NotificationScreen extends StatelessWidget {
                 Container(
                   height: size.height,
                   width: size.width,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/gifs/kakashi.gif'),
+                      image: Assets.gifs.kakashi.provider(),
                       fit: BoxFit.cover,
                     ),
                   ),

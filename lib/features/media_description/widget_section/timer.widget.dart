@@ -1,4 +1,4 @@
-import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/anime/widget/timer.widget.dart';

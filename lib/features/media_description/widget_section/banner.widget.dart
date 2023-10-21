@@ -1,5 +1,4 @@
-import 'package:anilist/media_detail_query.dart';
-import 'package:anilist/toggle_favourite.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

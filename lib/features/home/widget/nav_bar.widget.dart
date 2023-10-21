@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/features/home/homepage.dart';
 
 class NavBar extends ConsumerStatefulWidget {
@@ -93,8 +94,7 @@ class _NavBarState extends ConsumerState<NavBar> {
                               .read(animeTabProvider.notifier)
                               .update((state) => 0);
                         },
-                        icon: Image.asset(
-                          'assets/icons/ic_naruto.png',
+                        icon: Assets.icons.icNaruto.image(
                           color: (current == 1) ? Colors.yellow : Colors.white,
                           height: 21,
                         ),

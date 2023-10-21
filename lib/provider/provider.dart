@@ -1,4 +1,4 @@
-import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/enum/enum.dart';

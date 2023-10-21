@@ -1,9 +1,9 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
-
-import 'package:anilist/profile.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:kurumi/core/enum/enum.dart';
 import 'package:kurumi/core/routes/router.dart';
@@ -47,9 +47,9 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/lotties/giphy.gif'),
+          image: Assets.gifs.aurora.provider(),
           fit: BoxFit.cover,
           opacity: 0.4,
         ),

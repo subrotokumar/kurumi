@@ -1,14 +1,12 @@
-import 'package:anilist/discover_media.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry/ferry.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/constants/anilist_constant.dart';
-import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'package:kurumi/core/constants/anilist_constant.dart';
 import 'package:kurumi/core/routes/router.dart';
+import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/provider/provider.dart';
 
 class Top100Media extends StatelessWidget {
@@ -16,18 +14,20 @@ class Top100Media extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
+      width: width,
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Consumer(
         builder: (context, ref, child) {
-          final client = ref.read(clientProvider);
           final type = ref.watch(discoverTabProvider);
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Top50Media(client: client, type: type, page: 1),
-                Top50Media(client: client, type: type, page: 2),
+                Top50Media(type: type, page: 1),
+                Top50Media(type: type, page: 2),
               ],
             ),
           );
@@ -37,20 +37,19 @@ class Top100Media extends StatelessWidget {
   }
 }
 
-class Top50Media extends StatelessWidget {
+class Top50Media extends ConsumerWidget {
   const Top50Media({
     super.key,
-    required this.client,
     required this.type,
     required this.page,
   });
 
-  final Client? client;
   final GMediaType type;
   final int page;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final client = ref.read(clientProvider);
     return Operation(
       client: client!,
       operationRequest: GDiscoverMediaReq(
@@ -93,7 +92,6 @@ class Top50Media extends StatelessWidget {
               ],
             ),
             child: ListView.builder(
-              // reverse: true,
               padding: const EdgeInsets.symmetric(horizontal: 4),
               scrollDirection: Axis.horizontal,
               itemCount: response?.data?.Page?.media?.length ?? 0,

@@ -1,14 +1,16 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/settings/widgets/account_setting_section.dart';
 import 'package:kurumi/features/settings/widgets/general_setting_section.dart';
 import 'package:kurumi/features/settings/widgets/setting_footer.dart';
 import 'package:kurumi/features/webview/webview.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -133,8 +135,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Image.asset(
-                                  'assets/meta/ninja.png',
+                                Assets.meta.ninja.image(
                                   height: 150,
                                   width: 150,
                                 ),

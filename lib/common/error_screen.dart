@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../core/routes/router.dart';
+import 'package:kurumi/core/assets/assets.dart';
+import 'package:kurumi/core/routes/router.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({
@@ -18,8 +18,7 @@ class ErrorScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            LottieBuilder.asset(
-              'assets/lotties/ufo.json',
+            Assets.lotties.ufo.lottie(
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 16),

@@ -1,4 +1,4 @@
-import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 
 class MediaDescription extends StatefulWidget {

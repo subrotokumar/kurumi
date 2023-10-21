@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/core/constants/asset.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/init.dart';
-import 'package:lottie/lottie.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -58,10 +57,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Card(),
-            LottieBuilder.asset(
-              LottieAssets.ghibli,
-              width: 300,
-            ),
+            Assets.lotties.ghibliTribute.lottie(width: 300),
             const Padding(
               padding: EdgeInsets.all(10),
               child: Text(

@@ -1,11 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:math';
-
-import 'package:anilist/review_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/routes/router.dart';

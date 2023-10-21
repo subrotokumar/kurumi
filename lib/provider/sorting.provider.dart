@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, constant_identifier_names
-import 'package:anilist/medialist_collection.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

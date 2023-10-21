@@ -6,7 +6,7 @@ class AnilistConstant {
     "Drama",
     "Ecchi",
     "Fantasy",
-    "Hentai",
+    // "Hentai",
     "Horror",
     "Mahou Shoujo",
     "Mecha",

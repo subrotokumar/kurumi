@@ -1,8 +1,5 @@
-import 'package:anilist/character_query.dart';
-import 'package:anilist/graphql_client.dart';
-import 'package:anilist/toggle_favourite.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

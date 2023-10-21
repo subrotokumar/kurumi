@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -27,9 +30,9 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         height: mediaQueryData.size.height,
         width: mediaQueryData.size.width,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/gifs/splash.gif'),
+            image: Assets.gifs.splash.provider(),
             fit: BoxFit.cover,
           ),
         ),
@@ -100,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             await Future.delayed(
                                 const Duration(milliseconds: 300));
-                            // ignore: use_build_context_synchronously
                             await showLoginDialog(context);
                             setState(() {
                               isVisible = false;
@@ -259,7 +261,6 @@ class _LoginPageState extends State<LoginPage> {
                           );
                           final pref = await SharedPreferences.getInstance();
                           await pref.setBool('isLoggedIn', true);
-                          // ignore: use_build_context_synchronously
                           context.pushReplacementNamed(
                               AppRouteConstant.SplashScreen.name);
                         }

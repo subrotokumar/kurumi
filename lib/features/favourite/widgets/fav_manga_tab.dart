@@ -1,12 +1,12 @@
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:anilist/fav_manga_query.dart';
 
 final _mangaFatchIndex = StateProvider<(int, bool)>((ref) => (2, true));
 

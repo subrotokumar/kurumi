@@ -1,11 +1,8 @@
 import 'dart:async';
-
-import 'package:anilist/userid.dart';
+import 'package:anilist/anilist.dart';
 import 'package:ferry/ferry.dart';
-import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

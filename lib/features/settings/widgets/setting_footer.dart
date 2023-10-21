@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/features/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
@@ -29,10 +30,7 @@ class SettingFooterSection extends StatelessWidget {
               'https://www.buymeacoffee.com/subrotokumar',
               mode: LaunchMode.externalApplication,
             ),
-            child: Image.asset(
-              'assets/images/bmc.png',
-              width: size.width * 0.4,
-            ),
+            child: Assets.images.bmc.image(width: size.width * 0.4),
           ),
         ),
         const SizedBox(height: 8),

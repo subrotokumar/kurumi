@@ -1,9 +1,12 @@
-import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:zoom_widget/zoom_widget.dart';
+
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/go_router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/core/utils/utils.functions.dart';
@@ -20,9 +23,6 @@ import 'package:kurumi/features/media_description/widget_section/timer.widget.da
 import 'package:kurumi/features/media_description/widget_section/trailer.widget.dart';
 import 'package:kurumi/features/media_description/widgets/info_tile.widget.dart';
 import 'package:kurumi/provider/provider.dart';
-import 'package:lottie/lottie.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:zoom_widget/zoom_widget.dart';
 
 import 'widget_section/banner.widget.dart';
 
@@ -78,8 +78,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                 floatingActionButton: Consumer(builder: (context, ref, child) {
                   final flag = ref.watch(_loading);
                   return flag
-                      ? LottieBuilder.asset(
-                          'assets/lotties/loading-gif-animation.json',
+                      ? Assets.lotties.loadingGifAnimation.lottie(
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,

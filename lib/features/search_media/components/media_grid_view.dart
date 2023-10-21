@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, implementation_imports
 
-import 'package:anilist/search_anime_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:built_collection/src/list.dart' show BuiltList;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

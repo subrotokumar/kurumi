@@ -1,5 +1,6 @@
-import 'package:anilist/discover_media.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/constants/anilist_constant.dart';
 
 class MediaFilterSheet extends StatefulWidget {
@@ -27,13 +28,13 @@ class _MediaFilterSheetState extends State<MediaFilterSheet>
         Container(
           height: 250,
           padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             // color: Colors.red,
-            borderRadius: BorderRadius.vertical(
+            borderRadius: const BorderRadius.vertical(
               top: Radius.circular(10),
             ),
             image: DecorationImage(
-              image: AssetImage('assets/lotties/giphy.gif'),
+              image: Assets.gifs.aurora.provider(),
               fit: BoxFit.cover,
               opacity: 0.2,
             ),

@@ -1,8 +1,8 @@
 // ignore_for_file: dead_code, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:logger/logger.dart';
-import 'package:lottie/lottie.dart';
 
 class Col {
   static Color parseHex(String? color, {int? base}) {
@@ -14,8 +14,7 @@ class Col {
 }
 
 Widget get LoadingWidget => Center(
-      child: LottieBuilder.asset(
-        'assets/lotties/loading-gif-animation.json',
+      child: Assets.lotties.loadingGifAnimation.lottie(
         width: 150,
         height: 150,
         fit: BoxFit.cover,
@@ -27,7 +26,7 @@ showSnackBar(BuildContext context, String text,
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Chip(
-          avatar: ClipOval(child: Image.asset('assets/meta/ninja.png')),
+          avatar: ClipOval(child: Assets.meta.ninja.image()),
           label: Text(
             text,
             overflow: TextOverflow.ellipsis,

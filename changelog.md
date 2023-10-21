@@ -1,3 +1,8 @@
+## v1.6.1-beta
+- Resolved various bugs and issues.
+- enhance the overall stability and performance.
+- Improved experience on larger screen devices.
+
 ## v1.6.0-beta
 - UI Improvement on Discover Page
 - Deeplinking Support

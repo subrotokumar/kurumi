@@ -1,8 +1,6 @@
 // ignore_for_file: constant_identifier_names, depend_on_referenced_packages, implementation_imports, curly_braces_in_flow_control_structures
 
-import 'package:anilist/medialist_collection.dart';
-import 'package:anilist/search_anime_query.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/core/enum/enum.dart';

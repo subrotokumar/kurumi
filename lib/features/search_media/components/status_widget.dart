@@ -1,4 +1,4 @@
-import 'package:anilist/search_anime_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/enum/enum.dart';
 

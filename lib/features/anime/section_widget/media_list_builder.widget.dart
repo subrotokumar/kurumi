@@ -1,17 +1,16 @@
-import 'package:anilist/medialist_collection.dart';
-import 'package:anilist/medialist_entry_mutation.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
+
+import 'package:kurumi/core/assets/assets.dart';
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
 import 'package:kurumi/features/home/homepage.dart';
 import 'package:kurumi/provider/provider.dart';
 import 'package:kurumi/provider/sorting.provider.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MediaListBuilderWidget extends StatefulWidget {
   final GMediaListStatus status;
@@ -121,10 +120,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       ),
                     ),
                     const Spacer(),
-                    LottieBuilder.asset(
-                      'assets/lotties/ufo.json',
-                      fit: BoxFit.contain,
-                    ),
+                    Assets.lotties.ufo.lottie(fit: BoxFit.contain),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),

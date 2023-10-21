@@ -1,4 +1,4 @@
-import 'package:anilist/medialist_collection.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/core/enum/enum.dart';
 import 'package:kurumi/core/routes/router.dart';

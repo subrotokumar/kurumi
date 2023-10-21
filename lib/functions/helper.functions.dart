@@ -1,8 +1,6 @@
-import 'package:anilist/medialist_collection.dart';
+import 'package:anilist/anilist.dart';
 import 'package:ferry/ferry.dart';
-import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive/hive.dart';
 import 'package:kurumi/provider/provider.dart';
 

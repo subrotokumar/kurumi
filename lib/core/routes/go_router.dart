@@ -1,5 +1,4 @@
-import 'package:anilist/media_detail_query.dart';
-import 'package:anilist/review_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/common/error_screen.dart';
 import 'package:kurumi/core/routes/router.dart';

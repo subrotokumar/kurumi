@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:anilist/media_detail_query.dart';
+import 'package:anilist/anilist.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';

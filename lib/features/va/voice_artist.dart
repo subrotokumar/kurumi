@@ -1,10 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:anilist/graphql/__generated__/StaffQuery.data.gql.dart';
-import 'package:anilist/graphql/__generated__/StaffQuery.req.gql.dart';
-import 'package:anilist/toggle_favourite.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';

@@ -1,10 +1,10 @@
-import 'package:anilist/profile.dart';
+import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/core/assets/assets.dart';
 
 import 'package:kurumi/core/routes/router.dart';
 import 'package:kurumi/core/themes/app_theme.dart';
@@ -57,8 +57,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               imageUrl:
                                   response.data?.Viewer?.bannerImage ?? '',
                               fit: BoxFit.cover,
-                              errorWidget: (context, url, error) => Image.asset(
-                                'assets/lotties/giphy.gif',
+                              errorWidget: (context, url, error) =>
+                                  Assets.gifs.aurora.image(
                                 width: size.width,
                                 height: 250,
                                 fit: BoxFit.fitWidth,
