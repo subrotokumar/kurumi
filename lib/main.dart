@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kurumi/core/routes/go_router.dart';
-import 'package:kurumi/core/utils/utils.functions.dart';
+import 'package:kurumi/src/core/routes/go_router.dart';
+import 'package:kurumi/src/core/utils/utils.functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final routerConfig = ref.watch(router);
 
-    final List<DeviceOrientation> orientationList = [
+    List<DeviceOrientation> orientationList = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ];
