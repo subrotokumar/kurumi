@@ -84,7 +84,7 @@ class Top50Media extends ConsumerWidget {
         } else {
           final data = response?.data?.Page?.media;
           return Container(
-            height: 180,
+            height: 170,
             decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -126,27 +126,15 @@ class Top50Media extends ConsumerWidget {
                                   data?.elementAt(index)?.coverImage?.large ??
                                       '',
                               fit: BoxFit.cover,
+                              imageBuilder: (context, imageProvider) {
+                                return MediaTitle(
+                                  data: data?.elementAt(index),
+                                  imageProvider: imageProvider,
+                                );
+                              },
                             ),
                           ),
                           const SizedBox(height: 3),
-                          Flexible(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3),
-                              child: Text(
-                                data?.elementAt(index)?.title?.userPreferred ??
-                                    data?.elementAt(index)?.title?.english ??
-                                    '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -181,6 +169,53 @@ class Top50Media extends ConsumerWidget {
           );
         }
       },
+    );
+  }
+}
+
+class MediaTitle extends StatelessWidget {
+  const MediaTitle({
+    super.key,
+    required this.data,
+    required this.imageProvider,
+  });
+
+  final GDiscoverMediaData_Page_media? data;
+  final ImageProvider<Object> imageProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130,
+      width: 100,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.cover,
+        ),
+      ),
+      alignment: Alignment.bottomRight,
+      child: Container(
+        alignment: Alignment.bottomLeft,
+        padding: const EdgeInsets.all(3),
+        child: Text(
+          data?.title?.userPreferred ?? data?.title?.english ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade50,
+            shadows: const [
+              Shadow(color: Colors.black, blurRadius: 1, offset: Offset(1, 0)),
+              Shadow(color: Colors.black, blurRadius: 1, offset: Offset(-1, 0)),
+              Shadow(color: Colors.black, blurRadius: 1, offset: Offset(0, 1)),
+              Shadow(color: Colors.black, blurRadius: 1, offset: Offset(0, -1)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

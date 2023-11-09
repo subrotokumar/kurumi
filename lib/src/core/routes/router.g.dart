@@ -8,6 +8,7 @@ part of 'router.dart';
 
 List<RouteBase> get $appRoutes => [
       $characterDetailRoute,
+      $otherSearchRoute,
     ];
 
 RouteBase get $characterDetailRoute => GoRouteData.$route(
@@ -24,6 +25,28 @@ extension $CharacterDetailRouteExtension on CharacterDetailRoute {
 
   String get location => GoRouteData.$location(
         '/character/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(name)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $otherSearchRoute => GoRouteData.$route(
+      path: '/search/other',
+      factory: $OtherSearchRouteExtension._fromState,
+    );
+
+extension $OtherSearchRouteExtension on OtherSearchRoute {
+  static OtherSearchRoute _fromState(GoRouterState state) => OtherSearchRoute();
+
+  String get location => GoRouteData.$location(
+        '/search/other',
       );
 
   void go(BuildContext context) => context.go(location);

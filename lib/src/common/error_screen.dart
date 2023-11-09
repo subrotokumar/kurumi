@@ -18,36 +18,71 @@ class ErrorScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Assets.lotties.ufo.lottie(
-              fit: BoxFit.contain,
-            ),
             const SizedBox(height: 16),
-            Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.indigo,
-              child: const Text(
-                '404',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 35,
-                  letterSpacing: 3,
+            SizedBox(
+              height: 400,
+              child: Stack(
+                children: [
+                  Assets.lotties.ufo.lottie(
+                    fit: BoxFit.contain,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 100),
+                        Shimmer.fromColors(
+                          baseColor: Colors.white.withOpacity(0.8),
+                          highlightColor: Colors.indigo,
+                          child: const Text(
+                            '404',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 35,
+                              letterSpacing: 3,
+                            ),
+                          ),
+                        ),
+                        Shimmer.fromColors(
+                          baseColor: Colors.white.withOpacity(0.8),
+                          highlightColor: Colors.indigo,
+                          child: const Text(
+                            'NOT FOUND',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white),
+              ),
+              child: CircleAvatar(
+                radius: 30,
+                child: IconButton(
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      context.goNamed(AppRouteConstant.HomeScreen.name);
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
               ),
             ),
-            Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.indigo,
-              child: const Text(
-                'NOT FOUND',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-              ),
-            ),
-            const SizedBox(height: 16),
-            OutlinedButton(
-              onPressed: () =>
-                  context.goNamed(AppRouteConstant.HomeScreen.name),
-              child: const Text('GO TO HOME'),
-            )
           ],
         ),
       ),

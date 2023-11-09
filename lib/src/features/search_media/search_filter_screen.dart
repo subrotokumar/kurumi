@@ -9,6 +9,7 @@ import 'package:kurumi/src/core/enum/enum.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
+final _refreshProvider = StateProvider((ref) => true);
 typedef FilterOption = (
   GMediaType, // media type
   int?, // year
@@ -275,21 +276,24 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       ),
                     ),
                     tileColor: Colors.white12,
-                    title: const TabBar(
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      tabs: [
-                        Text(
-                          ' GENRE',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 18),
-                        ),
-                        Text(
-                          ' TAGS',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 18),
-                        ),
-                      ],
-                    ),
+                    title: Consumer(builder: (context, ref, child) {
+                      ref.watch(_refreshProvider);
+                      return TabBar(
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        tabs: [
+                          Text(
+                            ' GENRE ${genre.isNotEmpty ? '(${genre.length})' : ''}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                          Text(
+                            ' TAGS ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 18),
+                          ),
+                        ],
+                      );
+                    }),
                     subtitle: Container(
                       height: size.height * .3,
                       padding: const EdgeInsets.only(top: 10),
@@ -300,50 +304,16 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                                 .map((e) => StatefulBuilder(
                                         builder: (context, newState) {
                                       bool flag = genre.contains(e);
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (flag)
-                                            genre.remove(e);
-                                          else
-                                            genre.add(e);
-                                          newState(() {});
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 3),
-                                          decoration: BoxDecoration(
-                                            color: flag
-                                                ? Colors.green.withOpacity(.4)
-                                                : Colors.black38,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Text(
-                                            e,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }))
-                                .toList(),
-                          ),
-                          SingleChildScrollView(
-                            child: Wrap(
-                              children: AnilistConstant.mediaTags
-                                  .map((e) => StatefulBuilder(
-                                          builder: (context, newState) {
-                                        bool flag = tagIn.contains(e);
+                                      return Consumer(
+                                          builder: (context, ref, child) {
                                         return GestureDetector(
                                           onTap: () {
-                                            if (flag)
-                                              tagIn.remove(e);
-                                            else
-                                              tagIn.add(e);
+                                            flag
+                                                ? genre.remove(e)
+                                                : genre.add(e);
+                                            ref
+                                                .read(_refreshProvider.notifier)
+                                                .update((s) => !s);
                                             newState(() {});
                                           },
                                           child: Container(
@@ -367,6 +337,54 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                                             ),
                                           ),
                                         );
+                                      });
+                                    }))
+                                .toList(),
+                          ),
+                          SingleChildScrollView(
+                            child: Wrap(
+                              children: AnilistConstant.mediaTags
+                                  .map((e) => StatefulBuilder(
+                                          builder: (context, newState) {
+                                        bool flag = tagIn.contains(e);
+                                        return Consumer(
+                                            builder: (context, ref, child) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              flag
+                                                  ? tagIn.remove(e)
+                                                  : tagIn.add(e);
+                                              ref
+                                                  .read(
+                                                      _refreshProvider.notifier)
+                                                  .update((s) => !s);
+                                              newState(() {});
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.all(5),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 3),
+                                              decoration: BoxDecoration(
+                                                color: flag
+                                                    ? Colors.green
+                                                        .withOpacity(.4)
+                                                    : Colors.black38,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                e,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
                                       }))
                                   .toList(),
                             ),

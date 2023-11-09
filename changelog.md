@@ -1,3 +1,7 @@
+## v1.7.0-beta
+- UI Improvements
+- Added Character and Staff Search
+
 ## v1.6.2-beta
 - Fixed Media Screen shared link and DeepLink compatiblility
 - Code Refactor

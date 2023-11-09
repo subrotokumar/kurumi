@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kurumi/src/features/character_detail/character_detail_screen.dart';
+import 'package:kurumi/src/features/other_search/other_search.dart';
 
 export 'package:go_router/go_router.dart';
 
@@ -19,7 +20,7 @@ class AppRouteConstant {
   static Route Character = Route('character-media', '/character/media');
   static Route Review = Route('review', '/review');
   static Route ACTIVITY = Route('activity', '/activity');
-  static Route VAScreen = Route('staff', '/staff/:id/:name');
+  static Route VAScreen = Route('staff', '/staff/:id');
   static Route FavAnimeScreen = Route('FavAnime', '/user/:username/favorites');
   static Route SearchFilterScreen = Route('FilterScreen', '/search/filter');
 }
@@ -39,4 +40,10 @@ class CharacterDetailRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       CharacterDetailScreen(id: id);
+}
+
+@TypedGoRoute<OtherSearchRoute>(path: '/search/other')
+class OtherSearchRoute extends GoRouteData {
+  @override
+  Widget build(context, state) => const OtherSearch();
 }

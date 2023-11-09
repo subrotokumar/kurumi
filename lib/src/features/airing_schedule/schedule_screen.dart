@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:kurumi/src/core/assets/assets.dart';
+import 'package:shimmer/shimmer.dart';
 
+import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
-import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 class ScheduleScreen extends StatelessWidget {
@@ -52,12 +52,12 @@ class ScheduleScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         Colors.black,
-                        Colors.black87,
-                        Colors.black87,
+                        Colors.black.withOpacity(0.95),
+                        Colors.black.withOpacity(0.95),
                         Colors.black
                       ],
                       begin: Alignment.topCenter,
@@ -71,7 +71,8 @@ class ScheduleScreen extends StatelessWidget {
                     Container(
                       width: size.width,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                              horizontal: 16, vertical: 10)
+                          .copyWith(right: 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -82,18 +83,16 @@ class ScheduleScreen extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Consumer(builder: (context, ref, child) {
-                            return IconButton(
-                              onPressed: () {
-                                controller.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.linear,
-                                );
-                              },
-                              icon: const Icon(Icons.notifications),
-                            );
-                          }),
+                          IconButton(
+                            onPressed: () {
+                              controller.animateToPage(
+                                0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.linear,
+                              );
+                            },
+                            icon: const Icon(Icons.notifications),
+                          ),
                         ],
                       ),
                     ),
@@ -157,7 +156,7 @@ class SchedulePerDay extends StatelessWidget {
     DateTime start = time;
     DateTime end = time.add(const Duration(days: 1));
     return Consumer(builder: (context, ref, child) {
-      final client = ref.watch(mediaListClientProvider);
+      final client = ref.watch(clientProvider);
       return Operation(
         client: client!,
         operationRequest: GAiringScheduleQueryReq(
@@ -169,13 +168,14 @@ class SchedulePerDay extends StatelessWidget {
         ),
         builder: (context, response, error) {
           if (response == null || response.loading == true) {
-            return LoadingWidget;
+            return const AiringScheduleLoadingWidget();
           } else {
             final data = response.data?.Page?.airingSchedules;
-            if (data == null) return const Center(child: Text('Server Error'));
-            // print(data.length);
+            if (data == null) {
+              return Container();
+            }
             return ListView.builder(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               itemBuilder: (context, index) {
                 final item = data.elementAt(index);
                 final dateTime = DateTime.fromMillisecondsSinceEpoch(
@@ -301,5 +301,62 @@ class SchedulePerDay extends StatelessWidget {
         },
       );
     });
+  }
+}
+
+class AiringScheduleLoadingWidget extends StatelessWidget {
+  const AiringScheduleLoadingWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Shimmer.fromColors(
+      highlightColor: Colors.black26,
+      baseColor: Colors.white38,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 70,
+            width: size.width - 40,
+            margin: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 18,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white30,
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: 70,
+                  child: Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white30,
+                        borderRadius: BorderRadius.horizontal(
+                          right: Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

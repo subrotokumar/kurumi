@@ -8,7 +8,7 @@ import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
 
 class NavBar extends ConsumerStatefulWidget {
-  const NavBar({required this.pageController, Key? key}) : super(key: key);
+  const NavBar({required this.pageController, super.key});
   final PageController pageController;
 
   @override

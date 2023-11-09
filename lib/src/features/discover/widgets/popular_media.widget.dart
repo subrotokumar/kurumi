@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/constants/anilist_constant.dart';
 import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -70,7 +71,7 @@ class PopularMedia extends StatelessWidget {
               } else {
                 final data = response?.data?.Page?.media;
                 return SizedBox(
-                  height: 170,
+                  height: 135,
                   // color: Colors.red.withOpacity(0.2),
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -103,33 +104,15 @@ class PopularMedia extends StatelessWidget {
                                     data?.elementAt(index)?.coverImage?.large ??
                                         '',
                                 fit: BoxFit.cover,
+                                imageBuilder: (context, imageProvider) {
+                                  return MediaTitle(
+                                    data: data?.elementAt(index),
+                                    imageProvider: imageProvider,
+                                  );
+                                },
                               ),
                             ),
                             const SizedBox(height: 3),
-                            Flexible(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 3),
-                                child: Text(
-                                  data
-                                          ?.elementAt(index)
-                                          ?.title
-                                          ?.userPreferred ??
-                                      data
-                                          ?.elementAt(index)
-                                          ?.title
-                                          ?.userPreferred ??
-                                      '',
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Colors.white.withOpacity(0.8),
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),

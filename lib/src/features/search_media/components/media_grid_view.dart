@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
-import 'package:kurumi/src/features/search_media/components/status_widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 class SearchedMediaGridView extends StatelessWidget {
@@ -21,7 +20,6 @@ class SearchedMediaGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Consumer(builder: (context, ref, child) {
       final showBottomSearchBar =
           ref.watch(sharedfPrefProvider.notifier).bottomSearchBar;
@@ -59,35 +57,12 @@ class SearchedMediaGridView extends StatelessWidget {
                       // height: 170,
                       fit: BoxFit.cover,
                       imageUrl: data?.coverImage?.large ?? '',
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: StatusWidget(
-                        data: data,
-                        background: Colors.black45,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: double.maxFinite,
-                      color: Colors.black45,
-                      padding: const EdgeInsets.all(2),
-                      child: Text(
-                        data?.title?.userPreferred ?? '',
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: size.width > 500 ? 16 : 12,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1,
-                        ),
-                      ),
+                      imageBuilder: (context, imageProvider) {
+                        return _MediaTitle(
+                          data: data,
+                          imageProvider: imageProvider,
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -97,5 +72,65 @@ class SearchedMediaGridView extends StatelessWidget {
         },
       );
     });
+  }
+}
+
+class _MediaTitle extends StatelessWidget {
+  const _MediaTitle({
+    required this.data,
+    required this.imageProvider,
+  });
+
+  final GSearchAnimeQueryData_Page_media? data;
+  final ImageProvider<Object> imageProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: imageProvider,
+          fit: BoxFit.cover,
+        ),
+      ),
+      alignment: Alignment.bottomRight,
+      child: Container(
+        alignment: Alignment.bottomLeft,
+        padding: const EdgeInsets.all(5),
+        child: Text(
+          data?.title?.userPreferred ?? '',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                color: Colors.black,
+                blurRadius: 1.5,
+                offset: Offset(1, 0),
+              ),
+              Shadow(
+                color: Colors.black,
+                blurRadius: 1.5,
+                offset: Offset(-1, 0),
+              ),
+              Shadow(
+                color: Colors.black,
+                blurRadius: 1.5,
+                offset: Offset(0, 1),
+              ),
+              Shadow(
+                color: Colors.black,
+                blurRadius: 1.5,
+                offset: Offset(0, -1),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

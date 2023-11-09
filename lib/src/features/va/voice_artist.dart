@@ -256,9 +256,11 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20)
+                                        .copyWith(top: 20),
+                                child: const Text(
                                   'CHARACTERS',
                                   style: TextStyle(
                                       fontSize: 20,

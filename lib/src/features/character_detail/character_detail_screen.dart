@@ -9,6 +9,7 @@ import 'package:kurumi/src/core/themes/app_theme.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CharacterDetailScreen extends ConsumerStatefulWidget {
   const CharacterDetailScreen({super.key, required this.id});
@@ -183,8 +184,10 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                               final spoilerDescription = data?.description
                                       .toString()
                                       .replaceAll('\n', '\n\n')
-                                      .replaceAll('~', '_') ??
+                                      .replaceAll('~', '_')
+                                      .replaceAll(':__', "__ ") ??
                                   '';
+
                               RegExp regExp = RegExp(r'\s*_!\s*.+?\s*!_\s*');
                               String noSpoilerDescription =
                                   spoilerDescription.replaceAll(regExp, '');
@@ -304,17 +307,14 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                     ?.length ??
                                 0),
                             itemBuilder: (context, index) {
+                              final va = data
+                                  ?.media?.edges?.first?.voiceActors?[index];
                               return GestureDetector(
                                 onTap: () => context.pushNamed(
                                   AppRouteConstant.VAScreen.name,
                                   pathParameters: {
-                                    'id': (data?.media?.edges?.first
-                                                ?.voiceActors?[index]?.id ??
-                                            -1)
-                                        .toString(),
-                                    'name': data?.media?.edges?.first
-                                            ?.voiceActors?[index]?.name?.full ??
-                                        ''
+                                    'id': (va?.id ?? -1).toString(),
+                                    // 'name': va?.name?.full ?? ''
                                   },
                                 ),
                                 child: Container(
@@ -333,17 +333,19 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(16),
                                             child: CachedNetworkImage(
-                                              imageUrl: data
-                                                      ?.media
-                                                      ?.edges
-                                                      ?.first
-                                                      ?.voiceActors?[index]
-                                                      ?.image
-                                                      ?.large ??
-                                                  '',
+                                              imageUrl: va?.image?.large ?? '',
                                               width: 80,
                                               height: 100,
                                               fit: BoxFit.cover,
+                                              progressIndicatorBuilder:
+                                                  (context, url, progress) =>
+                                                      Shimmer.fromColors(
+                                                baseColor: Colors.white30,
+                                                highlightColor: Colors.black12,
+                                                child: Container(
+                                                  color: Colors.white30,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                           Positioned(
@@ -354,29 +356,22 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                               width: 80,
                                               height: 20,
                                               decoration: const BoxDecoration(
-                                                  color: Colors.black38,
-                                                  borderRadius:
-                                                      BorderRadius.vertical(
-                                                          bottom:
-                                                              Radius.circular(
-                                                                  16))),
+                                                color: Colors.black38,
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                  bottom: Radius.circular(16),
+                                                ),
+                                              ),
                                               child: Center(
                                                 child: Text(
-                                                  data
-                                                          ?.media
-                                                          ?.edges
-                                                          ?.first
-                                                          ?.voiceActors?[index]
-                                                          ?.language
-                                                          ?.name ??
-                                                      '',
+                                                  va?.language?.name ?? '',
                                                   textAlign: TextAlign.center,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: const TextStyle(
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -385,20 +380,11 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        data
-                                                ?.media
-                                                ?.edges
-                                                ?.first
-                                                ?.voiceActors?[index]
-                                                ?.name
-                                                ?.full ??
-                                            '',
+                                        va?.name?.full ?? '',
                                         maxLines: 1,
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 11,
-                                        ),
+                                        style: const TextStyle(fontSize: 11),
                                       ),
                                     ],
                                   ),
@@ -537,7 +523,6 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
     final req = GCharacterDetailQueryReq((b) => b
       ..vars.id = widget.id
       ..vars.page = 1);
-    log.d(res.data?.toJson());
     if (res.hasErrors) return;
 
     final cache = client.cache.readQuery(req);

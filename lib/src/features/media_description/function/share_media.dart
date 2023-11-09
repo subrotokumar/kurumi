@@ -12,7 +12,9 @@ Future<void> shareMedia({
   final mediaType = media?.type == GMediaType.ANIME ? 'anime' : 'manga';
   final id = media?.id ?? 0;
   final title = media?.title?.userPreferred?.replaceAll(' ', '-') ?? 'title';
-  final link = 'https://anilist.co/$mediaType/$id/$title';
+  final link =
+      // media?.siteUrl ??
+      'https://anilist.co/$mediaType/$id/$title';
   final img = await controller.capture();
   final directory = (await getTemporaryDirectory()).path;
   File imgFile = File('$directory/kurumi.png');

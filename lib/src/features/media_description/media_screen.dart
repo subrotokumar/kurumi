@@ -70,7 +70,6 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
           builder: (context, response, error) {
             if (response == null || response.loading) {
               return const MediaLoading();
-              // return LoadingWidget;
             } else {
               final data = response.data?.Media;
               type = data?.type ?? type;
@@ -423,7 +422,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: Colors.white12,
-                                    border: Border.all(color: Colors.white),
+                                    border: Border.all(color: Colors.white70),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -446,6 +445,11 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       InfoTile('Duration', data?.duration,
                                           extra: ' min per ep'),
                                       InfoTile('Status', data?.status?.name),
+                                      InfoTile(
+                                        'Average Score',
+                                        data?.averageScore,
+                                        extra: '%',
+                                      ),
                                       const Divider(),
                                       InfoTile('Season', data?.season,
                                           extra: ' ${data?.seasonYear ?? ''}'),

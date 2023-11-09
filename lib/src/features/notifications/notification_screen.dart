@@ -5,11 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:shimmer/shimmer.dart';
 
-import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
-import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -31,15 +30,16 @@ class NotificationScreen extends StatelessWidget {
             initialIndex: 1,
             child: Stack(
               children: [
+                // ignore: sized_box_for_whitespace
                 Container(
                   height: size.height,
                   width: size.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: Assets.gifs.kakashi.provider(),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   image: DecorationImage(
+                  //     image: Assets.gifs.kakashi.provider(),
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
                 ),
                 Container(
                   decoration: const BoxDecoration(
@@ -61,7 +61,8 @@ class NotificationScreen extends StatelessWidget {
                     Container(
                       width: size.width,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
+                              horizontal: 20, vertical: 5)
+                          .copyWith(right: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -72,18 +73,16 @@ class NotificationScreen extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Consumer(builder: (context, ref, child) {
-                            return IconButton(
-                              onPressed: () {
-                                controller.animateToPage(
-                                  1,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.linear,
-                                );
-                              },
-                              icon: const LineIcon.calendar(),
-                            );
-                          }),
+                          IconButton(
+                            onPressed: () {
+                              controller.animateToPage(
+                                1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.linear,
+                              );
+                            },
+                            icon: const LineIcon.calendar(),
+                          ),
                         ],
                       ),
                     ),
@@ -98,11 +97,36 @@ class NotificationScreen extends StatelessWidget {
                             client: client!,
                             builder: (context, response, error) {
                               if (response?.loading ?? true) {
-                                return LoadingWidget;
+                                return Shimmer.fromColors(
+                                  highlightColor: Colors.black26,
+                                  baseColor: Colors.white38,
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    physics: const ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: 10,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        height: 90,
+                                        width: size.width - 40,
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 18,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white30,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
                               } else {
                                 final data =
                                     response?.data?.Page?.notifications;
                                 return ListView.builder(
+                                  padding: const EdgeInsets.only(bottom: 16),
                                   physics: const ClampingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: data?.length ?? 0,

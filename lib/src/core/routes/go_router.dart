@@ -2,6 +2,7 @@ import 'package:anilist/anilist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/features/activity/activity_screen.dart';
 import 'package:kurumi/src/features/favourite/favourite_screen.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
@@ -21,6 +22,7 @@ final router = Provider<GoRouter>(
   (ref) => GoRouter(
     debugLogDiagnostics: true,
     routes: [
+      ...$appRoutes,
       GoRoute(
         name: 'nativeSplash',
         path: '/',
@@ -109,24 +111,6 @@ final router = Provider<GoRouter>(
           );
         },
       ),
-      // GoRoute(
-      //   name: AppRouteConstant.Character.name,
-      //   path: '${AppRouteConstant.Character.path}/:id/:name',
-      //   builder: (context, state) {
-      //     var id = int.parse(state.pathParameters['id'] ?? '0');
-      //     String name = state.pathParameters['name'] ?? '';
-      //     final extra = state.extra as Map;
-      //     GMediaDetailQueryData_Media_characters_edges? data =
-      //         (extra['data']) as GMediaDetailQueryData_Media_characters_edges;
-      //     int index = extra['index'];
-      //     return CharacterScreen(
-      //       id: id,
-      //       name: name,
-      //       characterData: data,
-      //       index: index,
-      //     );
-      //   },
-      // ),
       GoRoute(
         name: AppRouteConstant.VAScreen.name,
         path: AppRouteConstant.VAScreen.path,
@@ -164,13 +148,13 @@ final router = Provider<GoRouter>(
           );
         },
       ),
-      ...$appRoutes
     ],
     errorBuilder: (context, state) {
       return const ErrorScreen();
     },
     redirect: (context, state) async {
       final path = state.uri.path;
+      log.d('Path => $path');
       final moveTo =
           path.endsWith('/') ? path.substring(0, path.length - 1) : path;
       if (moveTo == '/' || moveTo == '/login' || moveTo == '/splash') {

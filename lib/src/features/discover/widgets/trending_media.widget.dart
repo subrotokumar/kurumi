@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/constants/anilist_constant.dart';
+import 'package:kurumi/src/features/discover/widgets/top_100_media.widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/src/core/routes/router.dart';
@@ -56,7 +57,7 @@ class TrendingMedia extends StatelessWidget {
               } else {
                 final data = response?.data?.Page?.media;
                 return Container(
-                  height: 180,
+                  height: 160,
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
@@ -102,48 +103,18 @@ class TrendingMedia extends StatelessWidget {
                                           ?.coverImage
                                           ?.medium ??
                                       '',
-                                  errorWidget: (context, url, error) =>
-                                      CachedNetworkImage(
-                                    height: 130,
-                                    width: 100,
-                                    imageUrl: data
-                                            ?.elementAt(index)
-                                            ?.coverImage
-                                            ?.extraLarge ??
-                                        data
-                                            ?.elementAt(index)
-                                            ?.coverImage
-                                            ?.medium ??
-                                        '',
-                                    fit: BoxFit.cover,
-                                  ),
+                                  imageBuilder: (context, imageProvider) {
+                                    return MediaTitle(
+                                      data: data?.elementAt(index),
+                                      imageProvider: imageProvider,
+                                    );
+                                  },
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                           ),
                           const SizedBox(height: 3),
-                          Flexible(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Text(
-                                data?.elementAt(index)?.title?.userPreferred ??
-                                    data
-                                        ?.elementAt(index)
-                                        ?.title
-                                        ?.userPreferred ??
-                                    '',
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),

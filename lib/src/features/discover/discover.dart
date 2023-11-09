@@ -211,12 +211,16 @@ class SubTabWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.notifications, size: 16),
+                          Icon(
+                            Icons.notifications,
+                            size: 16,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
                           const SizedBox(width: 5),
                           Text(
                             'Alert',
                             style: inter.copyWith(
-                                color: Colors.white,
+                                color: Colors.white.withOpacity(0.9),
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -245,14 +249,19 @@ class SubTabWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.calendar_month, size: 15),
+                          Icon(
+                            Icons.calendar_month,
+                            size: 15,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
                           const SizedBox(width: 5),
                           Text(
                             'Planner',
                             style: inter.copyWith(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600),
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
@@ -268,6 +277,7 @@ class SubTabWidget extends StatelessWidget {
                     side: BorderSide(color: color[1], width: 0.5),
                   ),
                   child: Consumer(builder: (context, ref, child) {
+                    final discoverTab = ref.watch(discoverTabProvider);
                     return InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
@@ -282,17 +292,21 @@ class SubTabWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.manage_search_rounded,
                               size: 16,
+                              color: Colors.white.withOpacity(0.9),
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              'Search',
+                              discoverTab == GMediaType.ANIME
+                                  ? "Anime"
+                                  : "Manga",
                               style: inter.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600),
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
@@ -308,46 +322,31 @@ class SubTabWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     side: BorderSide(color: color[0], width: 0.5),
                   ),
-                  child: Consumer(
-                    builder: (context, ref, child) {
-                      final DiscoverTabProvider =
-                          ref.watch(discoverTabProvider);
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          if (DiscoverTabProvider == GMediaType.ANIME) {
-                            ref.watch(discoverTabProvider.notifier).state =
-                                GMediaType.MANGA;
-                          } else {
-                            ref.watch(discoverTabProvider.notifier).state =
-                                GMediaType.ANIME;
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.ramen_dining,
-                                size: 16,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                DiscoverTabProvider == GMediaType.ANIME
-                                    ? 'Manga'
-                                    : 'Anime',
-                                style: inter.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () => OtherSearchRoute().push(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.ramen_dining,
+                            size: 16,
+                            color: Colors.white.withOpacity(0.9),
                           ),
-                        ),
-                      );
-                    },
+                          const SizedBox(width: 5),
+                          Text(
+                            'Others',
+                            style: inter.copyWith(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

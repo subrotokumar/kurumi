@@ -154,7 +154,8 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final mq = MediaQuery.of(context);
+    Size size = mq.size;
     final bottomSearchBarSetting =
         ref.watch(sharedfPrefProvider.notifier).bottomSearchBar;
     return GestureDetector(
@@ -169,7 +170,10 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
               ),
         bottomNavigationBar: !bottomSearchBarSetting || widget.hide == true
             ? null
-            : searchAppBar,
+            : Padding(
+                padding: EdgeInsets.only(bottom: mq.viewInsets.bottom),
+                child: searchAppBar,
+              ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SizedBox(

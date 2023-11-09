@@ -93,7 +93,6 @@ class ReviewSection extends StatelessWidget {
                           ),
                           FadingWidget1(),
                           FadingWidget1(),
-                          // FadingWidget2(),
                           Positioned(
                             bottom: 4,
                             child: Container(
@@ -114,7 +113,6 @@ class ReviewSection extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.black54,
-                                    // border: Border.all(color: Colors.white54),
                                     boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black45,
@@ -180,7 +178,7 @@ class ReviewSection extends StatelessWidget {
                                                 maxLines: 4,
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize: 15,
+                                                  fontSize: 13,
                                                 ),
                                               ),
                                               const Spacer(),

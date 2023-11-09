@@ -12,8 +12,8 @@ class InfoTile extends StatelessWidget {
     this.str2, {
     this.extra,
     this.copy = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

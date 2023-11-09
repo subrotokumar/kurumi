@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/constants/anilist_constant.dart';
+import 'package:kurumi/src/features/discover/widgets/top_100_media.widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/src/core/routes/router.dart';
@@ -98,7 +99,7 @@ class NextSeasonAnimme extends StatelessWidget {
               } else {
                 final data = response?.data?.Page?.media;
                 return SizedBox(
-                  height: 180,
+                  height: 160,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
@@ -131,33 +132,15 @@ class NextSeasonAnimme extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
                                     Container(),
+                                imageBuilder: (context, imageProvider) {
+                                  return MediaTitle(
+                                    data: data?.elementAt(index),
+                                    imageProvider: imageProvider,
+                                  );
+                                },
                               ),
                             ),
                             const SizedBox(height: 3),
-                            Flexible(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 3),
-                                child: Text(
-                                  data
-                                          ?.elementAt(index)
-                                          ?.title
-                                          ?.userPreferred ??
-                                      data
-                                          ?.elementAt(index)
-                                          ?.title
-                                          ?.userPreferred ??
-                                      '',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.white.withOpacity(0.8),
-                                  ),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
