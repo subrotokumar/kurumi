@@ -142,15 +142,22 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                   ],
                 );
               } else {
-                final data = order == Sort.ASC
-                    ? response.data?.MediaListCollection?.lists
-                        ?.elementAt(0)
-                        ?.entries
-                    : response.data?.MediaListCollection?.lists
-                        ?.elementAt(0)
-                        ?.entries
-                        ?.reversed
-                        .toList();
+                var data = response.data?.MediaListCollection?.lists
+                    ?.elementAt(0)
+                    ?.entries
+                    ?.toList();
+                if (filter == null) {
+                  data?.sort((a, b) {
+                    final title1 = a?.media?.title?.userPreferred;
+                    final title2 = b?.media?.title?.userPreferred;
+                    if (title1 == null || title2 == null) {
+                      return 0;
+                    } else {
+                      return title1.compareTo(title2);
+                    }
+                  });
+                }
+                if (order == Sort.DESC) data = data?.reversed.toList();
                 final w = MediaQuery.of(context).size.width - 80;
                 return ListView.builder(
                   padding: const EdgeInsets.all(0),

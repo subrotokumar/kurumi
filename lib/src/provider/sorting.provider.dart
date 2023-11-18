@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum Sort { ASC, DESC }
 
 const List<(String, GMediaListSort?)> sortingSettingOption = [
-  ('Default', null),
+  ('Title', null),
   ('Score', GMediaListSort.SCORE),
   ('Progress', GMediaListSort.PROGRESS),
   ('Updated Time', GMediaListSort.UPDATED_TIME),
@@ -15,9 +15,6 @@ const List<(String, GMediaListSort?)> sortingSettingOption = [
   ('Finished On', GMediaListSort.FINISHED_ON),
   ('Popularity', GMediaListSort.MEDIA_POPULARITY),
   ('Priority', GMediaListSort.PRIORITY),
-  ('English Title', GMediaListSort.MEDIA_TITLE_ENGLISH),
-  ('Romaji Title', GMediaListSort.MEDIA_TITLE_ROMAJI),
-  ('Native Title', GMediaListSort.MEDIA_TITLE_ROMAJI),
 ];
 
 final animeSorting = StateNotifierProvider<SortingSetting, SortFilter>(
@@ -59,7 +56,7 @@ class SortingSetting extends StateNotifier<SortFilter> {
   }) async {
     if (index == 0) {
       await pref!.remove(key);
-      state = (0, Sort.ASC);
+      state = (0, sort);
       return true;
     }
     if (await pref!.setStringList(key, [index.toString(), sort.name])) {

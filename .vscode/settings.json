@@ -25,7 +25,10 @@
     ".flutter-plugins-dependencies": true,
     "kurumi.iml": true,
     "build": true,
-    "web": true
+    "web": true,
+    "pubspec.lock": true,
+    "android": true,
+    "ios": true
   },
   "explorerExclude.backup": {},
   "java.configuration.updateBuildConfiguration": "interactive",
