@@ -1,3 +1,6 @@
+## v1.8.1-beta
+- Fixed title sorting
+
 ## v1.8.0-beta
 - UI Improvements
 - Changes to Splash Screen
