@@ -43,11 +43,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/bmc.png
   AssetGenImage get bmc => const AssetGenImage('assets/images/bmc.png');
 
+  $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+
   /// File path: assets/images/splash.jpg
-  AssetGenImage get splash => const AssetGenImage('assets/images/splash.jpg');
+  AssetGenImage get splashJpg =>
+      const AssetGenImage('assets/images/splash.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [bmc, splash];
+  List<AssetGenImage> get values => [bmc, splashJpg];
 }
 
 class $AssetsLottiesGen {
@@ -83,6 +86,93 @@ class $AssetsMetaGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [ninja];
+}
+
+class $AssetsImagesSplashGen {
+  const $AssetsImagesSplashGen();
+
+  /// File path: assets/images/splash/aot.jpg
+  AssetGenImage get aot => const AssetGenImage('assets/images/splash/aot.jpg');
+
+  /// File path: assets/images/splash/chainsaw_man.jpg
+  AssetGenImage get chainsawMan =>
+      const AssetGenImage('assets/images/splash/chainsaw_man.jpg');
+
+  /// File path: assets/images/splash/cyberpunk.jpg
+  AssetGenImage get cyberpunk =>
+      const AssetGenImage('assets/images/splash/cyberpunk.jpg');
+
+  /// File path: assets/images/splash/fate_zero.jpg
+  AssetGenImage get fateZero =>
+      const AssetGenImage('assets/images/splash/fate_zero.jpg');
+
+  /// File path: assets/images/splash/fullmetal_alchemist.jpg
+  AssetGenImage get fullmetalAlchemist =>
+      const AssetGenImage('assets/images/splash/fullmetal_alchemist.jpg');
+
+  /// File path: assets/images/splash/gintama.jpg
+  AssetGenImage get gintama =>
+      const AssetGenImage('assets/images/splash/gintama.jpg');
+
+  /// File path: assets/images/splash/hunter_x_hunter.jpg
+  AssetGenImage get hunterXHunter =>
+      const AssetGenImage('assets/images/splash/hunter_x_hunter.jpg');
+
+  /// File path: assets/images/splash/jujutsu_kaisen.jpg
+  AssetGenImage get jujutsuKaisen =>
+      const AssetGenImage('assets/images/splash/jujutsu_kaisen.jpg');
+
+  /// File path: assets/images/splash/kaguya_sama.jpg
+  AssetGenImage get kaguyaSama =>
+      const AssetGenImage('assets/images/splash/kaguya_sama.jpg');
+
+  /// File path: assets/images/splash/naruto.jpg
+  AssetGenImage get naruto =>
+      const AssetGenImage('assets/images/splash/naruto.jpg');
+
+  /// File path: assets/images/splash/oshi-no-ko.jpg
+  AssetGenImage get oshiNoKo =>
+      const AssetGenImage('assets/images/splash/oshi-no-ko.jpg');
+
+  /// File path: assets/images/splash/sprited_away.jpg
+  AssetGenImage get spritedAway =>
+      const AssetGenImage('assets/images/splash/sprited_away.jpg');
+
+  /// File path: assets/images/splash/spy_x_family.jpg
+  AssetGenImage get spyXFamily =>
+      const AssetGenImage('assets/images/splash/spy_x_family.jpg');
+
+  /// File path: assets/images/splash/vinland_saga.jpg
+  AssetGenImage get vinlandSaga =>
+      const AssetGenImage('assets/images/splash/vinland_saga.jpg');
+
+  /// File path: assets/images/splash/voilet_evergarden.jpg
+  AssetGenImage get voiletEvergarden =>
+      const AssetGenImage('assets/images/splash/voilet_evergarden.jpg');
+
+  /// File path: assets/images/splash/your_name.jpg
+  AssetGenImage get yourName =>
+      const AssetGenImage('assets/images/splash/your_name.jpg');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        aot,
+        chainsawMan,
+        cyberpunk,
+        fateZero,
+        fullmetalAlchemist,
+        gintama,
+        hunterXHunter,
+        jujutsuKaisen,
+        kaguyaSama,
+        naruto,
+        oshiNoKo,
+        spritedAway,
+        spyXFamily,
+        vinlandSaga,
+        voiletEvergarden,
+        yourName
+      ];
 }
 
 class Assets {

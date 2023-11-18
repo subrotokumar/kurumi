@@ -199,7 +199,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             if (controller.page == pageNum) return;
             HapticFeedback.mediumImpact();
             final pref = await SharedPreferences.getInstance();
-            if (pref.getBool('animation') ?? true) {
+            if (pref.getBool('allowAnimation') ?? false) {
               controller.animateToPage(
                 pageNum,
                 curve: Curves.linear,

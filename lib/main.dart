@@ -16,7 +16,6 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routerConfig = ref.watch(router);
-
     List<DeviceOrientation> orientationList = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

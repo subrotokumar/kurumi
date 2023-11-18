@@ -346,188 +346,121 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                           ),
                                         ),
                                         const Spacer(),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                                // top: BorderSide(
-                                                //   color: Colors.white24,
-                                                //   width: 0.8,
-                                                // ),
-                                                ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.035),
-                                                    border: const Border(
-                                                      right: BorderSide(
-                                                        color: Colors.white24,
-                                                        width: 0.5,
-                                                      ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white
+                                                      .withOpacity(0.035),
+                                                  border: const Border(
+                                                    right: BorderSide(
+                                                      color: Colors.white24,
+                                                      width: 0.5,
                                                     ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '?' : (mediaData?.media?.chapters) ?? '?'}',
-                                                      style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '-' : (mediaData?.media?.chapters) ?? '-'}',
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                              // Expanded(
-                                              //   flex: 1,
-                                              //   child: Container(
-                                              //     decoration: BoxDecoration(
-                                              //       color: Colors.white
-                                              //           .withOpacity(0.035),
-                                              //       border: const Border(
-                                              //         right: BorderSide(
-                                              //           color: Colors.white24,
-                                              //           width: 0.5,
-                                              //         ),
-                                              //       ),
-                                              //     ),
-                                              //     child: Center(
-                                              //       child: Builder(
-                                              //         builder: (context) {
-                                              //           final score = mediaData
-                                              //                   ?.media
-                                              //                   ?.averageScore ??
-                                              //               0;
-                                              //           IconData icon;
-                                              //           Color col;
-                                              //           if (score > 85) {
-                                              //             icon = CupertinoIcons
-                                              //                 .smiley;
-                                              //             col = Colors.green;
-                                              //           } else if (score > 70) {
-                                              //             icon = CupertinoIcons
-                                              //                 .smiley;
-                                              //             col = Colors
-                                              //                 .green.shade200;
-                                              //           } else if (score > 50) {
-                                              //             col = Colors.yellow
-                                              //                 .withOpacity(0.8);
-                                              //           } else if (score > 25) {
-                                              //             col = Colors.orange;
-                                              //           } else {
-                                              //             col = Colors.red;
-                                              //           }
-                                              //           return Row(
-                                              //             mainAxisSize:
-                                              //                 MainAxisSize.min,
-                                              //             children: [
-                                              //               // Icon(
-                                              //               //   Icons.thumb_up,
-                                              //               //   color: col,
-                                              //               //   size: 14,
-                                              //               // ),
-                                              //               // const SizedBox(
-                                              //               //     width: 5),
-                                              //               Text(
-                                              //                 '${mediaData?.media?.averageScore}%',
-                                              //                 style: TextStyle(
-                                              //                   color: col,
-                                              //                   fontWeight:
-                                              //                       FontWeight
-                                              //                           .w500,
-                                              //                 ),
-                                              //               ),
-                                              //             ],
-                                              //           );
-                                              //         },
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: Material(
-                                                  color: Colors.white
-                                                      .withOpacity(0.05),
-                                                  child: InkWell(
-                                                    radius: 100,
-                                                    splashColor: Colors.white,
-                                                    onTap: () async {
-                                                      HapticFeedback
-                                                          .mediumImpact();
-                                                      var mediaListEntryMutationReq =
-                                                          GMediaListEntryMutationReq(
-                                                              (b) => b
-                                                                ..vars.id =
-                                                                    mediaData
-                                                                        ?.media
-                                                                        ?.mediaListEntry
-                                                                        ?.id
-                                                                ..vars.mediaId =
-                                                                    mediaData
-                                                                        ?.media
-                                                                        ?.id
-                                                                ..vars
-                                                                    .progress = (mediaData
-                                                                            ?.media
-                                                                            ?.mediaListEntry
-                                                                            ?.progress ??
-                                                                        0) +
-                                                                    1);
-                                                      client
-                                                          .request(
-                                                              mediaListEntryMutationReq)
-                                                          .listen(
-                                                        (response) async {
-                                                          if (response.data !=
-                                                              null) {
-                                                            await client
-                                                                .request(
-                                                                    request)
-                                                                .first;
-                                                          }
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const SizedBox(
-                                                            width: 5),
-                                                        Icon(
-                                                          Icons.add,
-                                                          size: 20,
-                                                          color: Colors
-                                                              .purple.shade100,
-                                                        ),
-                                                        Text(
-                                                          widget.type ==
-                                                                  GMediaType
-                                                                      .ANIME
-                                                              ? '1 EP'
-                                                              : '1 CH',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
+                                            ),
+                                            Consumer(
+                                                builder: (context, ref, child) {
+                                              int pageIndex = widget.type ==
+                                                      GMediaType.ANIME
+                                                  ? ref.watch(animeTabProvider)
+                                                  : ref.watch(mangaTabProvider);
+                                              return Visibility(
+                                                visible: pageIndex == 0,
+                                                child: Expanded(
+                                                  flex: 1,
+                                                  child: Material(
+                                                    color: Colors.white
+                                                        .withOpacity(0.05),
+                                                    child: InkWell(
+                                                      radius: 100,
+                                                      splashColor: Colors.white,
+                                                      onTap: () async {
+                                                        HapticFeedback
+                                                            .mediumImpact();
+                                                        var mediaListEntryMutationReq =
+                                                            GMediaListEntryMutationReq(
+                                                                (b) => b
+                                                                  ..vars.id =
+                                                                      mediaData
+                                                                          ?.media
+                                                                          ?.mediaListEntry
+                                                                          ?.id
+                                                                  ..vars.mediaId =
+                                                                      mediaData
+                                                                          ?.media
+                                                                          ?.id
+                                                                  ..vars.progress =
+                                                                      (mediaData?.media?.mediaListEntry?.progress ??
+                                                                              0) +
+                                                                          1);
+                                                        client
+                                                            .request(
+                                                                mediaListEntryMutationReq)
+                                                            .listen(
+                                                          (response) async {
+                                                            if (response.data !=
+                                                                null) {
+                                                              await client
+                                                                  .request(
+                                                                      request)
+                                                                  .first;
+                                                            }
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          const SizedBox(
+                                                              width: 5),
+                                                          Icon(
+                                                            Icons.add,
+                                                            size: 20,
                                                             color: Colors.purple
                                                                 .shade100,
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 5),
-                                                      ],
+                                                          Text(
+                                                            widget.type ==
+                                                                    GMediaType
+                                                                        .ANIME
+                                                                ? '1 EP'
+                                                                : '1 CH',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Colors
+                                                                  .purple
+                                                                  .shade100,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 5),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
+                                              );
+                                            }),
+                                          ],
                                         ),
                                       ],
                                     ),

@@ -30,11 +30,12 @@ class InitStatusNotifier extends StateNotifier<bool> {
     );
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
-    final last = DateTime.tryParse(pref.getString('last_cache_cleared') ?? '');
+    final last = DateTime.tryParse(pref.getString('lastCacheCleared') ?? '');
+    final now = DateTime.now();
     if (last == null) {
-    } else if (DateTime.now().difference(last).inDays >= 1) {
+    } else if (now.month != last.month || now.difference(last).inDays >= 1) {
       await box.clear();
-      pref.setString('last_cache_cleared', DateTime.now().toString());
+      pref.setString('lastCacheCleared', now.toString());
     }
     final mediaListBox = await Hive.openBox('mediaListBox');
 
@@ -47,9 +48,7 @@ class InitStatusNotifier extends StateNotifier<bool> {
         defaultHeaders: {'Authorization': 'Bearer $accessToken'},
       );
     }
-    final policy = {
-      OperationType.query: FetchPolicy.CacheAndNetwork,
-    };
+    final policy = {OperationType.query: FetchPolicy.CacheAndNetwork};
     final store = HiveStore(box);
     final cache = Cache(store: store, possibleTypes: possibleTypesMap);
     final client = Client(

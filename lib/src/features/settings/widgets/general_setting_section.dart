@@ -144,7 +144,7 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
         Consumer(
           builder: (context, ref, child) {
             final pref = ref.watch(sharedfPrefProvider);
-            var vv = pref!.getBool('animation') ?? true;
+            var vv = pref!.getBool('allowAnimation') ?? false;
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: ListTile(

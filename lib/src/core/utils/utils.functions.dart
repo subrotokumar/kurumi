@@ -60,3 +60,10 @@ bool get isTablet {
       firstView.physicalSize.shortestSide / firstView.devicePixelRatio;
   return logicalShortestSide > 600;
 }
+
+extension BuildContextX on BuildContext {
+  (double, double) get getSize {
+    final size = MediaQuery.of(this).size;
+    return (size.height, size.width);
+  }
+}

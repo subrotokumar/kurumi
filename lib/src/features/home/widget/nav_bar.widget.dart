@@ -34,7 +34,7 @@ class _NavBarState extends ConsumerState<NavBar> {
       final current = ref.read(currentIndex);
       if (current != n) {
         ref.read(currentIndex.notifier).update((state) => n);
-        if (pref.getBool('animation') ?? true) {
+        if (pref.getBool('allowAnimation') ?? false) {
           widget.pageController.animateToPage(
             n,
             duration:

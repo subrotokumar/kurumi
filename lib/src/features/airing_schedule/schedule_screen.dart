@@ -324,35 +324,11 @@ class AiringScheduleLoadingWidget extends StatelessWidget {
             width: size.width - 40,
             margin: const EdgeInsets.symmetric(
               vertical: 8,
-              horizontal: 18,
+              horizontal: 12,
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white30,
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 70,
-                  child: Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white30,
-                        borderRadius: BorderRadius.horizontal(
-                          right: Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            decoration: BoxDecoration(
+              color: Colors.white30,
+              borderRadius: BorderRadius.circular(12),
             ),
           );
         },
