@@ -1,3 +1,7 @@
+## v1.9.0-beta
+- Added `Show Score` toggle on setting screen to hide score on Media List Screen
+- Changes to display on Media Search screen in Listview mode
+
 ## v1.8.1-beta
 - Fixed title sorting
 

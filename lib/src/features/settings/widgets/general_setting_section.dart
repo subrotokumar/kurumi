@@ -141,6 +141,37 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
             );
           },
         ),
+        //* Show Score
+        Consumer(
+          builder: (context, ref, child) {
+            final pref = ref.watch(sharedfPrefProvider.notifier);
+            var vv = pref.showScore;
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: ListTile(
+                tileColor: const Color(0xff25232a),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                leading: const Text(
+                  'Display Score on Medialist',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ),
+                trailing: Switch(
+                  value: vv,
+                  onChanged: (value) async {
+                    await pref.toggleShowScore(value);
+                    setState(() {});
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+        //* Allow Animation
         Consumer(
           builder: (context, ref, child) {
             final pref = ref.watch(sharedfPrefProvider);
@@ -162,7 +193,7 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
                 trailing: Switch(
                   value: vv,
                   onChanged: (v) async {
-                    await pref.setBool('animation', v);
+                    await pref.setBool('allowAnimation', v);
                     setState(() {});
                   },
                 ),

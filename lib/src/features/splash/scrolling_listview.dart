@@ -88,7 +88,7 @@ class _ImageListViewState extends State<ImageListView> {
     if (widget.listReverse) {
       list = list.reversed.toList();
     }
-    const double edge = 150;
+    final double edge = isTablet ? 250 : 150;
     return Transform.rotate(
       angle: 1.95 * pi,
       child: SizedBox(

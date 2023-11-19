@@ -3,6 +3,7 @@ import 'package:anilist/anilist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/core/routes/go_router.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
@@ -176,10 +177,9 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                     value:
                                                         GMediaListStatus.PAUSED,
                                                     groupValue: newStatus,
-                                                    onChanged: (v) {
-                                                      newState(
-                                                          () => newStatus = v);
-                                                    },
+                                                    onChanged: (v) => newState(
+                                                      () => newStatus = v,
+                                                    ),
                                                   ),
                                                 ],
                                               );

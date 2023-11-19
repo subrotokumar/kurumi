@@ -16,3 +16,4 @@ class AppTheme {
 }
 
 final inter = GoogleFonts.inter();
+final poppins = GoogleFonts.poppins();

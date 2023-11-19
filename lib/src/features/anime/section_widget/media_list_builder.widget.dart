@@ -306,9 +306,14 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                       0xFF000000),
                                                 ),
                                               ),
-                                              const SizedBox(width: 7),
-                                              Builder(
-                                                builder: (context) {
+                                              const SizedBox(width: 8),
+                                              Consumer(
+                                                builder: (context, ref, child) {
+                                                  final pref = ref.watch(
+                                                      sharedfPrefProvider
+                                                          .notifier);
+                                                  var showScore =
+                                                      pref.showScore;
                                                   final score = mediaData?.media
                                                           ?.averageScore ??
                                                       0;
@@ -325,27 +330,30 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                   } else {
                                                     col = Colors.red;
                                                   }
-                                                  return Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      const SizedBox(width: 5),
-                                                      const Icon(
-                                                        CupertinoIcons
-                                                            .square_favorites_alt_fill,
-                                                        color: Colors.grey,
-                                                        size: 10,
-                                                      ),
-                                                      const SizedBox(width: 12),
-                                                      Text(
-                                                        '${mediaData?.media?.averageScore}%',
-                                                        style: TextStyle(
-                                                          color: col,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                  return Visibility(
+                                                    visible: showScore,
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Icon(
+                                                          CupertinoIcons
+                                                              .square_fill_line_vertical_square,
+                                                          color: Colors.grey,
+                                                          size: 10,
                                                         ),
-                                                      ),
-                                                    ],
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        Text(
+                                                          '${mediaData?.media?.averageScore}%',
+                                                          style: TextStyle(
+                                                            color: col,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   );
                                                 },
                                               )
@@ -449,7 +457,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                                         .ANIME
                                                                 ? '1 EP'
                                                                 : '1 CH',
-                                                            style: TextStyle(
+                                                            style: poppins
+                                                                .copyWith(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,

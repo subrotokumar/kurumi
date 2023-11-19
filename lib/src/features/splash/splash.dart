@@ -27,7 +27,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   initState() {
     super.initState();
-    initialize();
+    // initialize();
   }
 
   Future<void> initialize() async {
@@ -58,6 +58,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   ];
   @override
   Widget build(BuildContext context) {
+    final (height, _) = context.getSize;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -65,52 +66,57 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Visibility(
-                visible: !isTablet,
-                child: ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                  child: const SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ImageListView(
-                          duration: 18,
-                          firstSet: true,
-                          directionReverse: true,
+              child: OrientationBuilder(builder: (context, orientation) {
+                return Visibility(
+                  visible: !isTablet || orientation == Orientation.portrait,
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        height: isTablet ? height + 200 : null,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ImageListView(
+                              duration: 18,
+                              firstSet: true,
+                              directionReverse: true,
+                            ),
+                            ImageListView(
+                              duration: 14,
+                              firstSet: false,
+                              directionReverse: false,
+                            ),
+                            ImageListView(
+                              duration: 10,
+                              firstSet: true,
+                              directionReverse: true,
+                              listReverse: true,
+                            ),
+                            ImageListView(
+                              duration: 10,
+                              firstSet: false,
+                              directionReverse: false,
+                              listReverse: true,
+                            ),
+                            ImageListView(
+                              duration: 14,
+                              firstSet: true,
+                              directionReverse: true,
+                            ),
+                            ImageListView(
+                              duration: 18,
+                              firstSet: false,
+                              directionReverse: false,
+                            ),
+                          ],
                         ),
-                        ImageListView(
-                          duration: 14,
-                          firstSet: false,
-                          directionReverse: false,
-                        ),
-                        ImageListView(
-                          duration: 10,
-                          firstSet: true,
-                          directionReverse: true,
-                          listReverse: true,
-                        ),
-                        ImageListView(
-                          duration: 10,
-                          firstSet: false,
-                          directionReverse: false,
-                          listReverse: true,
-                        ),
-                        ImageListView(
-                          duration: 14,
-                          firstSet: true,
-                          directionReverse: true,
-                        ),
-                        ImageListView(
-                          duration: 18,
-                          firstSet: false,
-                          directionReverse: false,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
             ),
             Positioned.fill(
               child: Container(
@@ -138,11 +144,11 @@ class _SplashPageState extends ConsumerState<SplashPage> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 50),
-                child: const Text(
+                child: Text(
                   'Kurumi',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: isTablet ? 35 : 24,
                   ),
                 ).animate(onComplete: (c) => c.repeat()).shimmer(
                   duration: 4.seconds,
@@ -154,7 +160,11 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                 ),
               ),
             ),
-            Center(child: Assets.lotties.ghibliTribute.lottie(width: 300)),
+            Center(
+              child: Assets.lotties.ghibliTribute.lottie(
+                width: isTablet ? 500 : 300,
+              ),
+            ),
           ],
         ),
       ),

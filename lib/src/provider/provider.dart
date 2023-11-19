@@ -43,6 +43,13 @@ class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
     };
     return await state!.setString('DefaultSearchView', value);
   }
+
+  bool get showScore => state!.getBool('showScore') ?? false;
+
+  Future<bool> toggleShowScore(bool? value) async {
+    final currentValue = showScore;
+    return await state!.setBool('showScore', value ?? !currentValue);
+  }
 }
 
 // * STATE Provider

@@ -12,6 +12,7 @@ import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/features/profile/widgets/fav_anime_gridview.dart';
 import 'package:kurumi/src/features/profile/widgets/fav_character_gridview.widget.dart';
 import 'package:kurumi/src/features/profile/widgets/fav_manga_gridview.dart';
+import 'package:kurumi/src/features/profile/widgets/high_light_widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 final statsProvider = StateProvider<bool>((ref) => true);
@@ -41,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
               if (response!.loading) {
                 return LoadingWidget;
               }
+              final data = response.data?.Viewer;
               return DefaultTabController(
                 length: 3,
                 child: SingleChildScrollView(
@@ -54,8 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             CachedNetworkImage(
                               width: size.width,
                               height: 250,
-                              imageUrl:
-                                  response.data?.Viewer?.bannerImage ?? '',
+                              imageUrl: data?.bannerImage ?? '',
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
                                   Assets.gifs.aurora.image(
@@ -77,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             Positioned(
-                              right: 20,
+                              right: 10,
                               top: 30,
                               child: IconButton(
                                 style: IconButton.styleFrom(
@@ -85,7 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   backgroundColor: Colors.black45,
-                                  side: const BorderSide(color: Colors.white),
                                 ),
                                 icon: const Icon(
                                   Icons.settings,
@@ -93,7 +93,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 onPressed: () {
                                   HapticFeedback.mediumImpact();
                                   context.pushNamed(
-                                      AppRouteConstant.SettingScreen.name);
+                                    AppRouteConstant.SettingScreen.name,
+                                  );
                                 },
                               ),
                             ),
@@ -120,9 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             color: Colors.white12,
                                           ),
                                           child: CachedNetworkImage(
-                                            imageUrl: response.data?.Viewer
-                                                    ?.avatar?.medium ??
-                                                '',
+                                            imageUrl:
+                                                data?.avatar?.medium ?? '',
                                             height: 100,
                                             width: 100,
                                             fit: BoxFit.cover,
@@ -134,13 +134,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          response.data?.Viewer?.statistics
-                                                  ?.anime?.count
+                                          data?.statistics?.anime?.count
                                                   .toString() ??
                                               '0',
                                           style: const TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500),
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                         const Text('Anime'),
                                       ],
@@ -149,13 +149,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          response.data?.Viewer?.statistics
-                                                  ?.manga?.count
+                                          data?.statistics?.manga?.count
                                                   .toString() ??
                                               '0',
                                           style: const TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w400),
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                         const Text('Manga'),
                                       ],
@@ -174,11 +174,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                             padding: const EdgeInsets.all(12),
                                           ),
-                                          onPressed: () {
-                                            ref
-                                                .read(statsProvider.notifier)
-                                                .update((state) => !val);
-                                          },
+                                          onPressed: () => ref
+                                              .read(statsProvider.notifier)
+                                              .update((state) => !val),
                                           icon: const Icon(
                                               CupertinoIcons.chart_pie),
                                         );
@@ -205,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Row(
                           children: [
                             Text(
-                              response.data?.Viewer?.name ?? '',
+                              data?.name ?? '',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -218,7 +216,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           children: [
-                            Text(response.data?.Viewer?.about ?? ''),
+                            Text(data?.about ?? ''),
                           ],
                         ),
                       ),
@@ -238,18 +236,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                 padding: const EdgeInsets.all(20),
                                 scrollDirection: Axis.horizontal,
                                 children: [
-                                  highlightWidget(
+                                  HighLightWidget(
                                     title: 'Episode\nWatched',
-                                    value: response.data?.Viewer?.statistics
-                                        ?.anime?.episodesWatched
+                                    value: data
+                                        ?.statistics?.anime?.episodesWatched
                                         .toString(),
                                     color: Colors.blue,
                                   ),
                                   const SizedBox(width: 20),
-                                  highlightWidget(
+                                  HighLightWidget(
                                     title: 'Days\nwatched',
-                                    value: ((response.data?.Viewer?.statistics
-                                                    ?.anime?.minutesWatched ??
+                                    value: ((data?.statistics?.anime
+                                                    ?.minutesWatched ??
                                                 0) /
                                             (60.0 * 24))
                                         .floor()
@@ -257,18 +255,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Colors.amber,
                                   ),
                                   const SizedBox(width: 20),
-                                  highlightWidget(
+                                  HighLightWidget(
                                     title: 'Volume\nRead',
-                                    value: response.data?.Viewer?.statistics
-                                        ?.manga?.volumesRead
+                                    value: data?.statistics?.manga?.volumesRead
                                         .toString(),
                                     color: Colors.green,
                                   ),
                                   const SizedBox(width: 20),
-                                  highlightWidget(
+                                  HighLightWidget(
                                     title: 'Chapter\nRead',
-                                    value: response.data?.Viewer?.statistics
-                                        ?.manga?.chaptersRead
+                                    value: data?.statistics?.manga?.chaptersRead
                                         .toString(),
                                     color: Colors.white,
                                   ),
@@ -318,40 +314,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         );
       }),
-    );
-  }
-
-  Container highlightWidget(
-      {String? title, String? value, required Color color}) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      width: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.3),
-            Colors.transparent,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            value ?? '0',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-          ),
-          Text(
-            title ?? '',
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
     );
   }
 }

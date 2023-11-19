@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports, depend_on_referenced_packages
+// ignore_for_file: implementation_imports, depend_on_referenced_packages, curly_braces_in_flow_control_structures
 
 import 'package:anilist/anilist.dart';
 import 'package:built_collection/src/list.dart' show BuiltList;
@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/features/search_media/components/status_widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
@@ -85,7 +85,7 @@ class SearchedMediaListView extends ConsumerWidget {
                             children: [
                               Text(
                                 data?.title?.userPreferred ?? '',
-                                maxLines: 3,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 16),
@@ -102,13 +102,81 @@ class SearchedMediaListView extends ConsumerWidget {
                                   children: [
                                     TextSpan(
                                       text: data?.format?.name != null
-                                          ? ' • ${data?.format?.name[0]}${data?.format?.name.substring(1).toLowerCase()}'
+                                          ? ' • '
                                           : '',
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    TextSpan(
+                                      text: switch (data?.format) {
+                                        GMediaFormat.TV => 'TV',
+                                        GMediaFormat.TV_SHORT => 'TV Short',
+                                        GMediaFormat.OVA => 'ONA',
+                                        null => '',
+                                        _ =>
+                                          '${data?.format?.name[0]}${data?.format?.name.substring(1).toLowerCase()}',
+                                      },
                                       style:
                                           const TextStyle(color: Colors.orange),
                                     ),
+                                    TextSpan(
+                                      text: data?.status != null ? ' • ' : '',
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    TextSpan(
+                                      text: switch (data?.status) {
+                                        GMediaStatus.CANCELLED => 'Cancelled',
+                                        GMediaStatus.FINISHED => 'Finished',
+                                        GMediaStatus.HIATUS => 'Hiatus',
+                                        GMediaStatus.NOT_YET_RELEASED =>
+                                          'Not Released',
+                                        GMediaStatus.RELEASING => 'Releasing',
+                                        _ => '',
+                                      },
+                                      style: TextStyle(
+                                          color: switch (data?.status) {
+                                        GMediaStatus.CANCELLED => Colors.yellow,
+                                        GMediaStatus.FINISHED => Colors.blue,
+                                        GMediaStatus.HIATUS =>
+                                          Colors.pinkAccent,
+                                        GMediaStatus.NOT_YET_RELEASED =>
+                                          Colors.orange,
+                                        GMediaStatus.RELEASING => Colors.green,
+                                        _ => kTransparentColor,
+                                      }),
+                                    ),
                                   ],
                                 ),
+                              ),
+                              const Spacer(),
+                              Builder(
+                                builder: (ctx) {
+                                  if (data?.studios?.edges == null)
+                                    return Container();
+                                  else if (data?.studios?.edges?.isEmpty ??
+                                      true)
+                                    return Container();
+                                  else if (data
+                                          ?.studios?.edges?.first?.node?.name ==
+                                      null)
+                                    return Container();
+                                  else {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        data?.studios?.edges?.first?.node
+                                                ?.name ??
+                                            '',
+                                        style: TextStyle(
+                                          color: Colors.deepPurple.shade200,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
                               ),
                             ],
                           ),

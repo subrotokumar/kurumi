@@ -32,6 +32,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark(useMaterial3: true),
       theme: ThemeData(
+        // primaryTextTheme: GoogleFonts.poppinsTextTheme(),
         useMaterial3: true,
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
