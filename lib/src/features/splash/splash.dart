@@ -27,7 +27,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   initState() {
     super.initState();
-    // initialize();
+    initialize();
   }
 
   Future<void> initialize() async {

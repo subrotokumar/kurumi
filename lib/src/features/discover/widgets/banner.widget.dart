@@ -52,7 +52,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
               return Swiper(
                 index: Random().nextInt(len),
                 autoplay: true,
-                autoplayDelay: 6000,
+                autoplayDelay: 6500,
                 autoplayDisableOnInteraction: true,
                 curve: Curves.easeIn,
                 itemCount: response.data?.Page?.media?.length ?? 16,
@@ -63,7 +63,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                     width: size.width,
                     child: Stack(
                       children: [
-                        BackgroundImage(data: data),
+                        BackgroundImage(data: data, index: index),
                         GestureDetector(
                           onTap: () => context.pushNamed(
                             AppRouteConstant.MediaScreen.name,

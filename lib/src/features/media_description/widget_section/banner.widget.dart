@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
+import 'package:kurumi/src/features/media_description/widgets/moving_media_banner.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 class BannerAppBar extends ConsumerWidget {
@@ -22,21 +23,27 @@ class BannerAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final client = ref.watch(mediaListClientProvider);
+    final bannerAnimation =
+        ref.watch(sharedfPrefProvider.notifier).bannerAnimation;
     return Column(
       children: [
         Stack(
           children: [
-            CachedNetworkImage(
-              imageUrl: data?.bannerImage ??
-                  data?.coverImage?.extraLarge ??
-                  data?.coverImage?.large ??
-                  data?.coverImage?.medium ??
-                  '',
-              width: size.width,
-              height: size.height * .4,
-              fit: data?.bannerImage != null
-                  ? BoxFit.fitHeight
-                  : BoxFit.fitWidth,
+            Visibility(
+              visible: data?.bannerImage != null && bannerAnimation,
+              replacement: CachedNetworkImage(
+                imageUrl: data?.bannerImage ??
+                    data?.coverImage?.extraLarge ??
+                    data?.coverImage?.large ??
+                    data?.coverImage?.medium ??
+                    '',
+                width: size.width,
+                height: size.height * .4,
+                fit: data?.bannerImage != null
+                    ? BoxFit.fitHeight
+                    : BoxFit.fitWidth,
+              ),
+              child: MovingMediaBanner(data: data),
             ),
             Container(
               width: size.width,

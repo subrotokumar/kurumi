@@ -163,7 +163,37 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
                 trailing: Switch(
                   value: vv,
                   onChanged: (value) async {
-                    await pref.toggleShowScore(value);
+                    await pref.toggleShowScore();
+                    setState(() {});
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+        //* Transition Animation
+        Consumer(
+          builder: (context, ref, child) {
+            final pref = ref.watch(sharedfPrefProvider.notifier);
+            var vv = pref.bannerAnimation;
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: ListTile(
+                tileColor: const Color(0xff25232a),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                leading: const Text(
+                  'Banner Animation',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ),
+                trailing: Switch(
+                  value: vv,
+                  onChanged: (v) async {
+                    await pref.toggleBannerAnimation();
                     setState(() {});
                   },
                 ),
@@ -184,7 +214,7 @@ class _GeneralSettingSectionState extends State<GeneralSettingSection> {
                     borderRadius: BorderRadius.circular(10)),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 leading: const Text(
-                  'Allow Animation (Experimental)',
+                  'Transition Animation',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,

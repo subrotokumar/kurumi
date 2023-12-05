@@ -46,9 +46,16 @@ class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
 
   bool get showScore => state!.getBool('showScore') ?? false;
 
-  Future<bool> toggleShowScore(bool? value) async {
+  Future<bool> toggleShowScore({bool? value}) async {
     final currentValue = showScore;
     return await state!.setBool('showScore', value ?? !currentValue);
+  }
+
+  bool get bannerAnimation => state!.getBool('bannerAnimation') ?? true;
+
+  Future<bool> toggleBannerAnimation({bool? value}) async {
+    final currentValue = bannerAnimation;
+    return await state!.setBool('bannerAnimation', value ?? !currentValue);
   }
 }
 
