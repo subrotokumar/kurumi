@@ -9,7 +9,7 @@ import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/media_description/media_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
-import 'package:kurumi/src/features/search_media/search_filter_screen.dart';
+import 'package:kurumi/src/features/search_media/widget/search_filter_screen.dart';
 import 'package:kurumi/src/features/search_media/search_media_page.dart';
 import 'package:kurumi/src/features/settings/settings.dart';
 import 'package:kurumi/src/features/splash/splash.dart';

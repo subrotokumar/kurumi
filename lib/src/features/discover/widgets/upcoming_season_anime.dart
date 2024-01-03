@@ -2,11 +2,10 @@ import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/core/constants/anilist_constant.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/features/discover/widgets/top_100_media.widget.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
 class NextSeasonAnimme extends StatelessWidget {
@@ -26,7 +25,7 @@ class NextSeasonAnimme extends StatelessWidget {
   }
 
   GMediaSeason currentSeason({int? month}) {
-    month ??= DateTime.monthsPerYear;
+    month ??= DateTime.now().month;
     if (month <= 3) {
       return GMediaSeason.WINTER;
     } else if (month <= 6) {

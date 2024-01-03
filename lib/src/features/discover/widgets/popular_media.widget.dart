@@ -39,8 +39,7 @@ class PopularMedia extends StatelessWidget {
               (b) => b
                 ..vars.page = 1
                 ..vars.perPage = 25
-                ..vars.status =
-                    type == GMediaType.MANGA ? null : GMediaStatus.RELEASING
+                ..vars.status = type == GMediaType.MANGA ? null : null
                 ..vars.type = type
                 ..vars.sort = GMediaSort.POPULARITY_DESC
                 ..vars.season = type == GMediaType.MANGA ? null : season()

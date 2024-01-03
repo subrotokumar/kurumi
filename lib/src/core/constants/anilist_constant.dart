@@ -21,6 +21,46 @@ class AnilistConstant {
     "Thriller"
   };
 
+  static const Map<String, String> genreImg = {
+    "Action":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx16498-C6FPmWm59CyP.jpg",
+    "Adventure":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21459-DUKLgasrgeNO.jpg",
+    "Comedy":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21087-UV2tu6exrfXz.jpg",
+    "Drama":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx124194-pWfBqp3GgjOx.jpg",
+    "Ecchi":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/13357.jpg",
+    "Fantasy":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154587-n1fmjRv4JQUd.jpg",
+    // "Hentai",
+    "Horror":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11111-Y4QgkX8gJQCa.png",
+    "Mahou Shoujo":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx530-DsF6LirJUEii.jpg",
+    "Mecha":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1575-ZJYlg8yjvMKI.jpg",
+    "Music":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx130003-5Y8rYzg982sq.png",
+    "Mystery":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx19-ham53gnijfiN.jpg",
+    "Psychological":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9253-7pdcVzQSkKxT.jpg",
+    "Romance":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx112641-zoGC8d6FaPXU.jpg",
+    "Sci-Fi":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx131586-k0X2kVpUOkqX.jpg",
+    "Slice of Life":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20954-UMb6Kl7ZL8Ke.jpg",
+    "Sports":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20992-aHgNbcalVEqk.png",
+    "Supernatural":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx21519-XIr3PeczUjjF.png",
+    "Thriller":
+        "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawCwhzhi96X.jpg"
+  };
+
   static const Set<String> mediaTags = {
     "4-koma",
     "Achromatic",

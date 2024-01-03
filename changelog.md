@@ -1,3 +1,7 @@
+## v1.10.1-beta
+- Bug fixes
+- UI improvement to Media search screen
+
 ## v1.10.0-beta
 - Animated Media Banner Image
 

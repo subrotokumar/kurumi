@@ -91,7 +91,7 @@ class SettingFooterSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Text('Version 1.9.0 Beta'),
+        const Text('Version 1.10.1'),
         const SizedBox(height: 20),
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
