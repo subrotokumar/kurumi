@@ -8,6 +8,7 @@ import 'package:kurumi/src/features/favourite/favourite_screen.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/media_description/media_screen.dart';
+import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
 import 'package:kurumi/src/features/search_media/widget/search_filter_screen.dart';
 import 'package:kurumi/src/features/search_media/search_media_page.dart';
@@ -146,6 +147,13 @@ final router = Provider<GoRouter>(
             id: id,
             reviewData: data,
           );
+        },
+      ),
+      GoRoute(
+        path: '/media-review/:id',
+        builder: (context, state) {
+          int id = int.parse(state.pathParameters['id'] ?? '0');
+          return ReviewByIdScreen(id: id);
         },
       ),
     ],

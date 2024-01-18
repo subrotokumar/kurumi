@@ -30,16 +30,9 @@ class NotificationScreen extends StatelessWidget {
             initialIndex: 1,
             child: Stack(
               children: [
-                // ignore: sized_box_for_whitespace
-                Container(
+                SizedBox(
                   height: size.height,
                   width: size.width,
-                  // decoration: BoxDecoration(
-                  //   image: DecorationImage(
-                  //     image: Assets.gifs.kakashi.provider(),
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  // ),
                 ),
                 Container(
                   decoration: const BoxDecoration(

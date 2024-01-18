@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.10.1+42
+version: 1.11.0+43
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -43,6 +43,8 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   share_plus: ^7.2.1
   flutter_animate: ^4.2.0+1
+  phosphor_flutter: ^2.0.1
+  syncfusion_flutter_charts: ^24.1.45+2
 
 dev_dependencies:
   flutter_test:

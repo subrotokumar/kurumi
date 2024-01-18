@@ -7,6 +7,7 @@ import 'package:kurumi/src/core/themes/app_theme.dart';
 import 'package:kurumi/src/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/src/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AnimeScreen extends ConsumerStatefulWidget {
@@ -160,7 +161,7 @@ class VerticleNavigationBar extends StatelessWidget {
                     type: GMediaType.ANIME,
                   );
                 },
-                icon: const Icon(Icons.filter_alt_rounded),
+                icon: Icon(PhosphorIcons.slidersHorizontal()),
               );
             })
           ],
@@ -217,7 +218,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
           },
           child: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.w700),
+            style: Poppins(fontWeight: FontWeight.w700),
           ),
         ),
       ),

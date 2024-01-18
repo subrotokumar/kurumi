@@ -1,6 +1,7 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ExternalLinkWidget extends StatelessWidget {
@@ -15,15 +16,15 @@ class ExternalLinkWidget extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'External Links',
-                  style: TextStyle(
+                  style: Poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),

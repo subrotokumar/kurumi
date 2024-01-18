@@ -14,6 +14,7 @@ import 'package:kurumi/src/features/discover/widgets/top_100_media.widget.dart';
 import 'package:kurumi/src/features/discover/widgets/trending_media.widget.dart';
 import 'package:kurumi/src/features/discover/widgets/upcoming_season_anime.dart';
 import 'package:kurumi/src/provider/provider.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DiscoverTab extends ConsumerStatefulWidget {
   const DiscoverTab({super.key});
@@ -212,7 +213,7 @@ class SubTabWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            PhosphorIcons.notification(PhosphorIconsStyle.bold),
                             size: 16,
                             color: Colors.white.withOpacity(0.9),
                           ),
@@ -250,7 +251,7 @@ class SubTabWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.calendar_month,
+                            PhosphorIcons.calendar(PhosphorIconsStyle.bold),
                             size: 15,
                             color: Colors.white.withOpacity(0.9),
                           ),
@@ -293,7 +294,8 @@ class SubTabWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.manage_search_rounded,
+                              PhosphorIcons.listMagnifyingGlass(
+                                  PhosphorIconsStyle.bold),
                               size: 16,
                               color: Colors.white.withOpacity(0.9),
                             ),

@@ -1,6 +1,7 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class TrailerWidget extends StatelessWidget {
@@ -23,9 +24,9 @@ class TrailerWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Trailer',
-              style: TextStyle(
+              style: Poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),

@@ -879,6 +879,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  phosphor_flutter:
+    dependency: "direct main"
+    description:
+      name: phosphor_flutter
+      sha256: "3b3e6e4cbda8208f8c1431b0999842f0b76db73853dd824fd4847a9f0166931a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   platform:
     dependency: transitive
     description:
@@ -1132,6 +1140,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "02c11d461f4177c60a4cdd501594bb6678f46bee8754f678c7e41c2109f935e7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.45+2"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "205a4dda469ffd1b579cc9400a9b6df266c049cf9401da53944060c0515ea91e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.46"
   synchronized:
     dependency: transitive
     description:

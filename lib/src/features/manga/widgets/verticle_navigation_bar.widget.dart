@@ -2,6 +2,8 @@ import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/src/core/core.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/src/features/anime/section_widget/sorting_dialog.widget.dart';
@@ -62,7 +64,7 @@ class VerticleNavigationBar extends StatelessWidget {
                     type: GMediaType.MANGA,
                   );
                 },
-                icon: const Icon(Icons.filter_alt_rounded),
+                icon: Icon(PhosphorIcons.slidersHorizontal()),
               );
             })
           ],
@@ -118,7 +120,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
           },
           child: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.w700),
+            style: Poppins(fontWeight: FontWeight.w700),
           ),
         ),
       ),

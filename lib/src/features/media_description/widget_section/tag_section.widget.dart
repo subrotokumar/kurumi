@@ -1,6 +1,6 @@
 import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
-import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/core/core.dart';
 
 class TagSection extends StatefulWidget {
   const TagSection({
@@ -28,9 +28,9 @@ class _TagSectionState extends State<TagSection> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'TAGS',
-                style: TextStyle(
+                style: Poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),

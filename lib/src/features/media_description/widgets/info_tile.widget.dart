@@ -7,12 +7,14 @@ class InfoTile extends StatelessWidget {
   final dynamic str2;
   final String? extra;
   final bool copy;
+  final bool? strong;
   const InfoTile(
     this.str1,
     this.str2, {
     this.extra,
     this.copy = false,
     super.key,
+    this.strong,
   });
 
   @override
@@ -52,9 +54,13 @@ class InfoTile extends StatelessWidget {
                   Text(
                     str2!.toString() + (extra ?? ''),
                     style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: copy ? Colors.amber.shade50 : Colors.white),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: switch (strong) {
+                        true => Colors.orange,
+                        _ => copy ? Colors.amber.shade50 : Colors.white,
+                      },
+                    ),
                   ),
                   if (copy)
                     const Icon(

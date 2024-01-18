@@ -15,7 +15,6 @@ class ReviewScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: const Color(0xff1f1f1f),
       body: SizedBox(

@@ -457,8 +457,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                                         .ANIME
                                                                 ? '1 EP'
                                                                 : '1 CH',
-                                                            style: poppins
-                                                                .copyWith(
+                                                            style: Poppins(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,

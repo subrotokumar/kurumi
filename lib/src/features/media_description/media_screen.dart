@@ -1,22 +1,23 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/features/media_description/widget_section/media_loading.dart';
+import 'package:kurumi/src/features/media_description/widget_section/end_drawer.dart';
+import 'package:kurumi/src/features/media_description/widget_section/theme_section.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
 import 'package:kurumi/src/core/assets/assets.dart';
-import 'package:kurumi/src/core/routes/go_router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
-import 'package:kurumi/src/features/anilist_tracking/anilist_tracking.widget.dart';
-import 'package:kurumi/src/features/media_description/function/share_media.dart';
 import 'package:kurumi/src/features/media_description/widget_section/character.widget.dart';
 import 'package:kurumi/src/features/media_description/widget_section/description.widget.dart';
 import 'package:kurumi/src/features/media_description/widget_section/external_link.dart';
 import 'package:kurumi/src/features/media_description/widget_section/genre.widget.dart';
+import 'package:kurumi/src/features/media_description/widget_section/header.widget.dart';
+import 'package:kurumi/src/features/media_description/widget_section/media_loading.dart';
 import 'package:kurumi/src/features/media_description/widget_section/recommendation.widget.dart';
 import 'package:kurumi/src/features/media_description/widget_section/relations.widget.dart';
 import 'package:kurumi/src/features/media_description/widget_section/tag_section.widget.dart';
@@ -41,6 +42,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
   final _loading = StateProvider<bool>((ref) => false);
   GMediaType type = GMediaType.ANIME;
   ScreenshotController screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -73,8 +75,9 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
             } else {
               final data = response.data?.Media;
               type = data?.type ?? type;
-              Color color = Col.parseHex(data?.coverImage?.color);
               return Scaffold(
+                endDrawerEnableOpenDragGesture: false,
+                endDrawer: MediaEndDrawer(data: data),
                 key: mediaScreenKey,
                 floatingActionButton: Consumer(builder: (context, ref, child) {
                   final flag = ref.watch(_loading);
@@ -120,278 +123,19 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                               );
                             },
                             child: BannerAppBar(
-                                data: data, size: size, loading: _loading),
+                              data: data,
+                              size: size,
+                              loading: _loading,
+                            ),
                           ),
                           SafeArea(
                             child: Column(
                               children: [
                                 SizedBox(height: size.height * .3),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: Row(
-                                    children: [
-                                      Hero(
-                                        tag: '${data?.id ?? ''}',
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  var width =
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width;
-                                                  return AlertDialog(
-                                                    backgroundColor:
-                                                        AppTheme.secondaryColor,
-                                                    contentPadding:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    content: Hero(
-                                                      tag: '${data?.id ?? ''}',
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: data
-                                                                  ?.coverImage
-                                                                  ?.extraLarge ??
-                                                              data?.coverImage
-                                                                  ?.large ??
-                                                              '',
-                                                          width: width,
-                                                          height: width * 5 / 4,
-                                                          fit: BoxFit.cover,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              CachedNetworkImage(
-                                                            imageUrl: data
-                                                                    ?.coverImage
-                                                                    ?.large ??
-                                                                data?.coverImage
-                                                                    ?.medium ??
-                                                                '',
-                                                            width: width,
-                                                            height:
-                                                                width * 5 / 4,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    actions: [
-                                                      OutlinedButton(
-                                                        onPressed: () =>
-                                                            context.pop(),
-                                                        child:
-                                                            const Text('CLOSE'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: CachedNetworkImage(
-                                              imageUrl: data
-                                                      ?.coverImage?.large ??
-                                                  data?.coverImage?.medium ??
-                                                  '',
-                                              fit: BoxFit.cover,
-                                              height: 160,
-                                              width: 120,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      CachedNetworkImage(
-                                                imageUrl: data?.coverImage
-                                                        ?.extraLarge ??
-                                                    data?.coverImage?.large ??
-                                                    '',
-                                                fit: BoxFit.cover,
-                                                height: 160,
-                                                width: 120,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      SizedBox(
-                                        height: 160,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    '${data?.format?.toString().replaceAll('_', ' ') ?? ''} • ',
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15,
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                      text:
-                                                          '${data?.startDate?.year ?? ''} • '),
-                                                  TextSpan(
-                                                      text: data?.status?.name
-                                                              .toString()
-                                                              .replaceAll(
-                                                                  '_YET_',
-                                                                  ' ') ??
-                                                          ''),
-                                                ],
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                String title = data?.title
-                                                        ?.userPreferred ??
-                                                    data?.title
-                                                        ?.userPreferred ??
-                                                    data?.title?.romaji ??
-                                                    '';
-                                                Clipboard.setData(
-                                                    ClipboardData(text: title));
-                                                showSnackBar(context,
-                                                    'Copied  \'$title\'');
-                                              },
-                                              child: SizedBox(
-                                                width: size.width - 180,
-                                                child: Wrap(
-                                                  children: [
-                                                    Text(
-                                                      data?.title
-                                                              ?.userPreferred ??
-                                                          data?.title
-                                                              ?.userPreferred ??
-                                                          data?.title?.romaji ??
-                                                          '',
-                                                      maxLines: 3,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: color,
-                                                        fontSize: 19,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                if (data?.mediaListEntry
-                                                        ?.status ==
-                                                    null)
-                                                  IconButton(
-                                                    style: IconButton.styleFrom(
-                                                      shape: CircleBorder(
-                                                          side: BorderSide(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .outline)),
-                                                      foregroundColor:
-                                                          Theme.of(context)
-                                                              .iconTheme
-                                                              .color,
-                                                    ),
-                                                    onPressed: () {
-                                                      showBottomSheet(
-                                                        context: context,
-                                                        backgroundColor:
-                                                            AppTheme
-                                                                .secondaryColor,
-                                                        builder: (context) =>
-                                                            AnilistTrackingWidget(
-                                                                media: data),
-                                                      );
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.add_outlined,
-                                                      color: Colors.white70,
-                                                    ),
-                                                  ),
-                                                if (data?.mediaListEntry
-                                                        ?.status !=
-                                                    null)
-                                                  OutlinedButton(
-                                                    style: OutlinedButton
-                                                        .styleFrom(
-                                                      foregroundColor:
-                                                          Theme.of(context)
-                                                              .iconTheme
-                                                              .color,
-                                                      minimumSize:
-                                                          const Size(116, 40),
-                                                    ),
-                                                    onPressed: () {
-                                                      showBottomSheet(
-                                                        context: context,
-                                                        backgroundColor:
-                                                            AppTheme
-                                                                .secondaryColor,
-                                                        builder: (context) =>
-                                                            AnilistTrackingWidget(
-                                                          media: data,
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Text(
-                                                      data?.mediaListEntry
-                                                              ?.status?.name ??
-                                                          'ADD',
-                                                      style: inter.copyWith(
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                const SizedBox(width: 5),
-                                                IconButton(
-                                                  style: IconButton.styleFrom(
-                                                    shape: CircleBorder(
-                                                      side: BorderSide(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .outline,
-                                                      ),
-                                                    ),
-                                                    foregroundColor:
-                                                        Theme.of(context)
-                                                            .iconTheme
-                                                            .color,
-                                                  ),
-                                                  onPressed: () => shareMedia(
-                                                    controller:
-                                                        screenshotController,
-                                                    media: data,
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.share,
-                                                    color: Colors.white70,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                MediaHeaderSection(
+                                  data: data,
+                                  controller: screenshotController,
+                                  loading: _loading,
                                 ),
                                 const SizedBox(height: 20),
                                 Timer(data: data),
@@ -403,16 +147,25 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                 const SizedBox(height: 20),
                                 CharactersWidget(data: data, size: size),
                                 const SizedBox(height: 20),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'OVERVIEW',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'OVERVIEW',
+                                          style: Poppins(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        StatDistributionIcon(
+                                          data: data,
+                                          size: 20,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -421,8 +174,11 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                       horizontal: 20, vertical: 10),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: Colors.white12,
-                                    border: Border.all(color: Colors.white70),
+                                    color: Colors.white.withOpacity(0.09),
+                                    border: Border.all(
+                                      color: Colors.white70,
+                                      width: 0.5,
+                                    ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -449,6 +205,11 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                         'Average Score',
                                         data?.averageScore,
                                         extra: '%',
+                                      ),
+                                      InfoTile(
+                                        'Favourites',
+                                        data?.favourites,
+                                        strong: true,
                                       ),
                                       const Divider(),
                                       InfoTile('Season', data?.season,
@@ -490,6 +251,7 @@ class _MediaScreenState extends ConsumerState<MediaScreen> {
                                             ],
                                           );
                                         }),
+                                      ThemeSection(data: data),
                                     ],
                                   ),
                                 ),

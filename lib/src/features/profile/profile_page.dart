@@ -1,6 +1,5 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +13,7 @@ import 'package:kurumi/src/features/profile/widgets/fav_character_gridview.widge
 import 'package:kurumi/src/features/profile/widgets/fav_manga_gridview.dart';
 import 'package:kurumi/src/features/profile/widgets/high_light_widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 final statsProvider = StateProvider<bool>((ref) => true);
 
@@ -85,10 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  backgroundColor: Colors.black45,
+                                  backgroundColor: Colors.black38,
                                 ),
-                                icon: const Icon(
-                                  Icons.settings,
+                                icon: Icon(
+                                  PhosphorIcons.gear(),
                                 ),
                                 onPressed: () {
                                   HapticFeedback.mediumImpact();
@@ -137,12 +137,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                           data?.statistics?.anime?.count
                                                   .toString() ??
                                               '0',
-                                          style: const TextStyle(
+                                          style: Poppins(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        const Text('Anime'),
+                                        Text('Anime', style: Poppins()),
                                       ],
                                     ),
                                     Column(
@@ -152,12 +152,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                           data?.statistics?.manga?.count
                                                   .toString() ??
                                               '0',
-                                          style: const TextStyle(
+                                          style: Poppins(
                                             fontSize: 24,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        const Text('Manga'),
+                                        Text('Manga', style: Poppins()),
                                       ],
                                     ),
                                     Consumer(
@@ -177,8 +177,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           onPressed: () => ref
                                               .read(statsProvider.notifier)
                                               .update((state) => !val),
-                                          icon: const Icon(
-                                              CupertinoIcons.chart_pie),
+                                          icon: Icon(
+                                            PhosphorIcons.chartPieSlice(),
+                                          ),
                                         );
                                       },
                                     ),
@@ -197,9 +198,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 23)
+                            .copyWith(top: 8),
                         child: Row(
                           children: [
                             Text(
@@ -213,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 23),
                         child: Row(
                           children: [
                             Text(
@@ -224,6 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 8),
                       Consumer(builder: (context, ref, child) {
                         final stat = ref.watch(statsProvider);
                         return AnimatedSlide(
@@ -282,21 +284,23 @@ class _ProfilePageState extends State<ProfilePage> {
                         tabs: [
                           Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Icon(CupertinoIcons.tv),
+                            child: Icon(PhosphorIconsRegular.monitorPlay),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Icon(CupertinoIcons.book),
+                            child: Icon(PhosphorIconsRegular.books),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Icon(CupertinoIcons.heart_circle_fill),
+                            child: Icon(PhosphorIconsRegular.finnTheHuman),
                           ),
                         ],
                       ),
                       Container(
-                        constraints:
-                            BoxConstraints(maxHeight: size.height * .6),
+                        constraints: BoxConstraints(
+                            maxHeight: size.height -
+                                55 -
+                                MediaQuery.of(context).padding.top),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: TabBarView(

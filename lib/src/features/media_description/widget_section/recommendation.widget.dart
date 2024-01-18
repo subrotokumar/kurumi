@@ -1,7 +1,7 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/core/core.dart';
 
 class RecommendationWidget extends StatelessWidget {
   const RecommendationWidget({
@@ -30,9 +30,9 @@ class RecommendationWidget extends StatelessWidget {
               Container(
                 width: size.width,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: const Text(
+                child: Text(
                   'Recommendations',
-                  style: TextStyle(
+                  style: Poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),

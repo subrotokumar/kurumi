@@ -2,7 +2,7 @@ import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/core/core.dart';
 
 class CharactersWidget extends StatelessWidget {
   const CharactersWidget({
@@ -23,11 +23,11 @@ class CharactersWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               'CHARACTERS',
-              style: TextStyle(
+              style: Poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
