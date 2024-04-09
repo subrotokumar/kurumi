@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/core/assets/assets.dart';
-import 'package:kurumi/src/core/constants/anilist_constant.dart';
-import 'package:kurumi/src/core/enum/enum.dart';
-import 'package:kurumi/src/core/routes/router.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+import 'package:kurumi/src/core/core.dart';
+import 'package:kurumi/src/features/search_media/studio_selector_page.dart';
 import 'package:kurumi/src/features/search_media/widget/filter_option_widget.dart';
 import 'package:kurumi/src/provider/provider.dart';
 
@@ -17,7 +17,8 @@ typedef FilterOption = (
   int?, // year
   GMediaSeason?, // season
   Set<String>, // tag
-  Set<String> // genre
+  Set<String>, // genre
+  Set<String>, // studio
 );
 
 class SearchFilterScreen extends StatefulWidget {
@@ -34,16 +35,18 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
   GMediaSeason? season;
   Set<String> tagIn = {};
   Set<String> genre = {};
+  Set<String> studio = {};
 
   @override
   void initState() {
     super.initState();
-    final (type, yy, ss, tag, gen) = widget.filterOption;
+    final (type, yy, ss, tag, gen, std) = widget.filterOption;
     mediaType = type;
     year = yy;
     tagIn = tag;
     genre = gen;
     season = ss;
+    studio = std;
   }
 
   @override
@@ -289,202 +292,43 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                     clipBehavior: Clip.hardEdge,
                     child: Column(
                       children: [
-                        TabBar(
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          tabs: [
-                            Text(
-                              ' GENRE ${genre.isNotEmpty ? '(${genre.length})' : ''}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
-                            ),
-                            Text(
-                              ' TAGS ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 18),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 32,
+                          child: TabBar(
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            tabs: [
+                              Text(
+                                ' GENRE ${genre.isNotEmpty ? '(${genre.length})' : ''}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              Text(
+                                ' TAG ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              // Text(
+                              //   ' STUDIO ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
+                              //   style: const TextStyle(
+                              //     fontWeight: FontWeight.w500,
+                              //     fontSize: 16,
+                              //   ),
+                              // ),
+                            ],
+                          ),
                         ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: TabBarView(
                               children: [
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 5 / 3,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                  ),
-                                  itemCount: AnilistConstant.mediaGenres.length,
-                                  itemBuilder: (context, index) {
-                                    final e = AnilistConstant.mediaGenres
-                                        .elementAt(index);
-                                    return StatefulBuilder(
-                                        builder: (context, newState) {
-                                      bool flag = genre.contains(e);
-                                      return Consumer(
-                                          builder: (context, ref, child) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            flag
-                                                ? genre.remove(e)
-                                                : genre.add(e);
-                                            ref
-                                                .read(_refreshProvider.notifier)
-                                                .update((s) => !s);
-                                            newState(() {});
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.all(5),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 3),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: flag
-                                                    ? Colors.white
-                                                    : Colors.transparent,
-                                                width: 1,
-                                              ),
-                                              image: DecorationImage(
-                                                image:
-                                                    CachedNetworkImageProvider(
-                                                  AnilistConstant.genreImg[e]!,
-                                                ),
-                                                fit: BoxFit.cover,
-                                                opacity: flag ? .5 : .3,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              e,
-                                              style: TextStyle(
-                                                color: Colors.white
-                                                    .withOpacity(0.85),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                    });
-                                  },
-                                ),
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1,
-                                    childAspectRatio: 7 / 1,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 5,
-                                  ),
-                                  itemCount: AnilistConstant.mediaTags.length,
-                                  itemBuilder: (context, index) {
-                                    final e = AnilistConstant.mediaTags
-                                        .elementAt(index);
-                                    return StatefulBuilder(
-                                      builder: (context, newState) {
-                                        bool flag = tagIn.contains(e);
-                                        return Consumer(
-                                          builder: (context, ref, child) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                flag
-                                                    ? tagIn.remove(e)
-                                                    : tagIn.add(e);
-                                                ref
-                                                    .read(_refreshProvider
-                                                        .notifier)
-                                                    .update((s) => !s);
-                                                newState(() {});
-                                              },
-                                              child: Container(
-                                                alignment: Alignment.centerLeft,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 15,
-                                                  vertical: 3,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: flag
-                                                      ? Colors.green
-                                                          .withOpacity(.4)
-                                                      : Colors.black38,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: Text(
-                                                  e,
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                                // SingleChildScrollView(
-                                //   child: Wrap(
-                                //     children: AnilistConstant.mediaTags
-                                //         .map((e) => StatefulBuilder(
-                                //                 builder: (context, newState) {
-                                //               bool flag = tagIn.contains(e);
-                                //               return Consumer(builder:
-                                //                   (context, ref, child) {
-                                //                 return GestureDetector(
-                                //                   onTap: () {
-                                //                     flag
-                                //                         ? tagIn.remove(e)
-                                //                         : tagIn.add(e);
-                                //                     ref
-                                //                         .read(_refreshProvider
-                                //                             .notifier)
-                                //                         .update((s) => !s);
-                                //                     newState(() {});
-                                //                   },
-                                //                   child: Container(
-                                //                     margin:
-                                //                         const EdgeInsets.all(5),
-                                //                     padding: const EdgeInsets
-                                //                         .symmetric(
-                                //                         horizontal: 8,
-                                //                         vertical: 3),
-                                //                     decoration: BoxDecoration(
-                                //                       color: flag
-                                //                           ? Colors.green
-                                //                               .withOpacity(.4)
-                                //                           : Colors.black38,
-                                //                       borderRadius:
-                                //                           BorderRadius.circular(
-                                //                               10),
-                                //                     ),
-                                //                     child: Text(
-                                //                       e,
-                                //                       style: const TextStyle(
-                                //                         color: Colors.white,
-                                //                         fontWeight:
-                                //                             FontWeight.w400,
-                                //                         fontSize: 15,
-                                //                       ),
-                                //                     ),
-                                //                   ),
-                                //                 );
-                                //               });
-                                //             }))
-                                //         .toList(),
-                                //   ),
-                                // ),
+                                GenreSelector(genre: genre),
+                                TagSelector(tagIn: tagIn),
+                                // StudioSelector(studio: studio)
                               ],
                             ),
                           ),
@@ -524,7 +368,9 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                     Flexible(
                       child: OutlinedButton(
                         onPressed: () {
-                          context.pop((mediaType, year, season, tagIn, genre));
+                          context.pop(
+                            (mediaType, year, season, tagIn, genre, studio),
+                          );
                         },
                         child: const Text('APPLY'),
                       ),
@@ -536,6 +382,216 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TagSelector extends StatelessWidget {
+  const TagSelector({
+    super.key,
+    required this.tagIn,
+  });
+
+  final Set<String> tagIn;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
+        childAspectRatio: 7 / 1,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+      ),
+      itemCount: AnilistConstant.mediaTags.length,
+      itemBuilder: (context, index) {
+        final e = AnilistConstant.mediaTags.elementAt(index);
+        return StatefulBuilder(
+          builder: (context, newState) {
+            bool flag = tagIn.contains(e);
+            return Consumer(
+              builder: (context, ref, child) {
+                return GestureDetector(
+                  onTap: () {
+                    flag ? tagIn.remove(e) : tagIn.add(e);
+                    ref.read(_refreshProvider.notifier).update((s) => !s);
+                    newState(() {});
+                  },
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color:
+                          flag ? Colors.green.withOpacity(.4) : Colors.black38,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      e,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class GenreSelector extends StatelessWidget {
+  const GenreSelector({
+    super.key,
+    required this.genre,
+  });
+
+  final Set<String> genre;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 5 / 3,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
+      itemCount: AnilistConstant.mediaGenres.length,
+      itemBuilder: (context, index) {
+        final e = AnilistConstant.mediaGenres.elementAt(index);
+        return StatefulBuilder(builder: (context, newState) {
+          bool flag = genre.contains(e);
+          return Consumer(builder: (context, ref, child) {
+            return GestureDetector(
+              onTap: () {
+                flag ? genre.remove(e) : genre.add(e);
+                ref.read(_refreshProvider.notifier).update((s) => !s);
+                newState(() {});
+              },
+              child: Container(
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: flag ? Colors.white : Colors.transparent,
+                    width: 1,
+                  ),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                      AnilistConstant.genreImg[e]!,
+                    ),
+                    fit: BoxFit.cover,
+                    opacity: flag ? .5 : .3,
+                  ),
+                ),
+                child: Text(
+                  e,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.85),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            );
+          });
+        });
+      },
+    );
+  }
+}
+
+class StudioSelector extends StatefulWidget {
+  const StudioSelector({
+    super.key,
+    required this.studio,
+  });
+
+  final Set<String> studio;
+
+  @override
+  State<StudioSelector> createState() => _StudioSelectorState();
+}
+
+class _StudioSelectorState extends State<StudioSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
+        childAspectRatio: 7 / 1,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+      ),
+      itemCount: widget.studio.length + 1,
+      itemBuilder: (context, index) {
+        if (index == widget.studio.length) {
+          return GestureDetector(
+            onTap: () async {
+              String value = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudioSelectorPage(),
+                    ),
+                  ) ??
+                  '';
+              if (value.isEmpty) return;
+              setState(() => widget.studio.add(value));
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.black38,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 18,
+                    child: Icon(
+                      PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Add Studio',
+                    style: Poppins(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return GestureDetector(
+            onTap: () {},
+            child: Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.black38,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                widget.studio.elementAt(index),
+                style: Poppins(fontWeight: FontWeight.w500),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

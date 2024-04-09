@@ -4,10 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kurumi/src/core/routes/go_router.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(Phoenix(child: const ProviderScope(child: MyApp())));
 }
 
 class MyApp extends ConsumerWidget {

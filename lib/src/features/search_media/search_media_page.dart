@@ -18,11 +18,13 @@ class SearchMedia extends ConsumerStatefulWidget {
     this.tag,
     this.genre,
     this.hide,
+    this.studio,
   });
   final GMediaType? mediaType;
   final String? tag;
   final String? genre;
   final bool? hide;
+  final String? studio;
 
   @override
   ConsumerState<SearchMedia> createState() => _SearchMediaState();
@@ -34,6 +36,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
   GMediaSeason? season;
   Set<String> genres = {};
   Set<String> tags = {};
+  Set<String> studio = {};
   int? seasonYear;
 
   int get filterCount {
@@ -41,6 +44,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
     if (season != null) count++;
     if (seasonYear != null) count++;
     if (genres.isNotEmpty) count++;
+    if (tags.isNotEmpty) count++;
     if (tags.isNotEmpty) count++;
     return count;
   }
@@ -54,6 +58,9 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
     if (widget.tag != null) {
       tags = {widget.tag!};
     }
+    if (widget.studio != null) {
+      studio = {widget.studio!};
+    }
     super.initState();
   }
 
@@ -64,10 +71,16 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
   }
 
   Future<void> applyFilter() async {
-    final (GMediaType, int?, GMediaSeason?, Set<String>, Set<String>)? data =
-        await context.pushNamed(
+    final (
+      GMediaType,
+      int?,
+      GMediaSeason?,
+      Set<String>,
+      Set<String>,
+      Set<String>
+    )? data = await context.pushNamed(
       AppRouteConstant.SearchFilterScreen.name,
-      extra: (mediaType, seasonYear, season, tags, genres),
+      extra: (mediaType, seasonYear, season, tags, genres, studio),
     );
     if (data != null) {
       mediaType = data.$1;
@@ -75,7 +88,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
       season = data.$3;
       tags = data.$4;
       genres = data.$5;
-
+      studio = data.$6;
       setState(() {});
     }
   }

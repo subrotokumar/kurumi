@@ -1,3 +1,8 @@
+## v1.12.0
+
+- Added `Clear Cache` button on Setting Screen
+- Bug fixes
+
 ## v1.11.0
 
 - UI Improvement

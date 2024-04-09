@@ -1,7 +1,10 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 
@@ -50,151 +53,165 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 250,
+                        height: 255,
                         child: Stack(
                           children: [
-                            CachedNetworkImage(
-                              width: size.width,
+                            SizedBox(
                               height: 250,
-                              imageUrl: data?.bannerImage ?? '',
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Assets.gifs.aurora.image(
-                                width: size.width,
-                                height: 250,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.transparent,
-                                    AppTheme.background,
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 10,
-                              top: 30,
-                              child: IconButton(
-                                style: IconButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                              child: Stack(
+                                children: [
+                                  CachedNetworkImage(
+                                    width: size.width,
+                                    height: 250,
+                                    imageUrl: data?.bannerImage ?? '',
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) =>
+                                        Assets.gifs.aurora.image(
+                                      width: size.width,
+                                      height: 250,
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
-                                  backgroundColor: Colors.black38,
-                                ),
-                                icon: Icon(
-                                  PhosphorIcons.gear(),
-                                ),
-                                onPressed: () {
-                                  HapticFeedback.mediumImpact();
-                                  context.pushNamed(
-                                    AppRouteConstant.SettingScreen.name,
-                                  );
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.white38),
-                                            color: Colors.white12,
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                data?.avatar?.medium ?? '',
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.transparent,
+                                          AppTheme.background,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
                                       ),
                                     ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          data?.statistics?.anime?.count
-                                                  .toString() ??
-                                              '0',
-                                          style: Poppins(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                  ),
+                                  Positioned(
+                                    right: 10,
+                                    top: 30,
+                                    child: IconButton(
+                                      style: IconButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
-                                        Text('Anime', style: Poppins()),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          data?.statistics?.manga?.count
-                                                  .toString() ??
-                                              '0',
-                                          style: Poppins(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        Text('Manga', style: Poppins()),
-                                      ],
-                                    ),
-                                    Consumer(
-                                      builder: (context, ref, child) {
-                                        final val = ref.watch(statsProvider);
-                                        return IconButton(
-                                          style: IconButton.styleFrom(
-                                            backgroundColor: val
-                                                ? Colors.green.withOpacity(0.2)
-                                                : Colors.white10,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            padding: const EdgeInsets.all(12),
-                                          ),
-                                          onPressed: () => ref
-                                              .read(statsProvider.notifier)
-                                              .update((state) => !val),
-                                          icon: Icon(
-                                            PhosphorIcons.chartPieSlice(),
-                                          ),
+                                        backgroundColor: Colors.black38,
+                                      ),
+                                      icon: Icon(
+                                        PhosphorIcons.gear(),
+                                      ),
+                                      onPressed: () {
+                                        HapticFeedback.mediumImpact();
+                                        context.pushNamed(
+                                          AppRouteConstant.SettingScreen.name,
                                         );
                                       },
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 0,
+                                    right: 0,
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          InkWell(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      color: Colors.white38),
+                                                  color: Colors.white12,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      data?.avatar?.medium ??
+                                                          '',
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                data?.statistics?.anime?.count
+                                                        .toString() ??
+                                                    '0',
+                                                style: Poppins(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Text('Anime', style: Poppins()),
+                                            ],
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                data?.statistics?.manga?.count
+                                                        .toString() ??
+                                                    '0',
+                                                style: Poppins(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Text('Manga', style: Poppins()),
+                                            ],
+                                          ),
+                                          Consumer(
+                                            builder: (context, ref, child) {
+                                              final val =
+                                                  ref.watch(statsProvider);
+                                              return IconButton(
+                                                style: IconButton.styleFrom(
+                                                  backgroundColor: val
+                                                      ? Colors.green
+                                                          .withOpacity(0.2)
+                                                      : Colors.white10,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.all(12),
+                                                ),
+                                                onPressed: () => ref
+                                                    .read(
+                                                        statsProvider.notifier)
+                                                    .update((state) => !val),
+                                                icon: Icon(
+                                                  PhosphorIcons.chartPieSlice(),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Positioned(
-                              bottom: -5,
+                            Align(
+                              alignment: Alignment.bottomCenter,
                               child: Container(
-                                width: size.width,
                                 height: 10,
                                 color: AppTheme.background,
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),

@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.11.0+43
+version: 1.12.0+44
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -45,6 +45,7 @@ dependencies:
   flutter_animate: ^4.2.0+1
   phosphor_flutter: ^2.0.1
   syncfusion_flutter_charts: ^24.1.45+2
+  flutter_phoenix: ^1.1.1
 
 dev_dependencies:
   flutter_test:
