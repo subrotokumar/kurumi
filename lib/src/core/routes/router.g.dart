@@ -9,6 +9,7 @@ part of 'router.dart';
 List<RouteBase> get $appRoutes => [
       $characterDetailRoute,
       $otherSearchRoute,
+      $threeXThreeRoute,
     ];
 
 RouteBase get $characterDetailRoute => GoRouteData.$route(
@@ -47,6 +48,28 @@ extension $OtherSearchRouteExtension on OtherSearchRoute {
 
   String get location => GoRouteData.$location(
         '/search/other',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $threeXThreeRoute => GoRouteData.$route(
+      path: '/9x9',
+      factory: $ThreeXThreeRouteExtension._fromState,
+    );
+
+extension $ThreeXThreeRouteExtension on ThreeXThreeRoute {
+  static ThreeXThreeRoute _fromState(GoRouterState state) => ThreeXThreeRoute();
+
+  String get location => GoRouteData.$location(
+        '/9x9',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -137,7 +137,7 @@ class _InAppWebviewState extends ConsumerState<InAppWebview> {
                       borderRadius: BorderRadius.circular(16),
                       child: InAppWebView(
                         key: webViewKey,
-                        initialUrlRequest: URLRequest(url: Uri.parse(url)),
+                        initialUrlRequest: URLRequest(url: WebUri(url)),
                         initialOptions: options,
                         pullToRefreshController: pullToRefreshController,
                         onWebViewCreated: (controller) {

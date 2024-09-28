@@ -8,7 +8,7 @@
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
-import 'package:lottie/lottie.dart';
+import 'package:lottie/lottie.dart' as _lottie;
 
 class $AssetsGifsGen {
   const $AssetsGifsGen();
@@ -40,9 +40,14 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/anime_grid.png
+  AssetGenImage get animeGrid =>
+      const AssetGenImage('assets/images/anime_grid.png');
+
   /// File path: assets/images/bmc.png
   AssetGenImage get bmc => const AssetGenImage('assets/images/bmc.png');
 
+  /// Directory path: assets/images/splash
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 
   /// File path: assets/images/splash.jpg
@@ -50,7 +55,7 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/splash.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [bmc, splashJpg];
+  List<AssetGenImage> get values => [animeGrid, bmc, splashJpg];
 }
 
 class $AssetsLottiesGen {
@@ -126,6 +131,10 @@ class $AssetsImagesSplashGen {
   AssetGenImage get kaguyaSama =>
       const AssetGenImage('assets/images/splash/kaguya_sama.jpg');
 
+  /// File path: assets/images/splash/lightning.png
+  AssetGenImage get lightning =>
+      const AssetGenImage('assets/images/splash/lightning.png');
+
   /// File path: assets/images/splash/naruto.jpg
   AssetGenImage get naruto =>
       const AssetGenImage('assets/images/splash/naruto.jpg');
@@ -165,6 +174,7 @@ class $AssetsImagesSplashGen {
         hunterXHunter,
         jujutsuKaisen,
         kaguyaSama,
+        lightning,
         naruto,
         oshiNoKo,
         spritedAway,
@@ -186,9 +196,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -260,23 +277,31 @@ class AssetGenImage {
 }
 
 class LottieGenImage {
-  const LottieGenImage(this._assetName);
+  const LottieGenImage(
+    this._assetName, {
+    this.flavors = const {},
+  });
 
   final String _assetName;
+  final Set<String> flavors;
 
-  LottieBuilder lottie({
+  _lottie.LottieBuilder lottie({
     Animation<double>? controller,
     bool? animate,
-    FrameRate? frameRate,
+    _lottie.FrameRate? frameRate,
     bool? repeat,
     bool? reverse,
-    LottieDelegates? delegates,
-    LottieOptions? options,
-    void Function(LottieComposition)? onLoaded,
-    LottieImageProviderFactory? imageProviderFactory,
+    _lottie.LottieDelegates? delegates,
+    _lottie.LottieOptions? options,
+    void Function(_lottie.LottieComposition)? onLoaded,
+    _lottie.LottieImageProviderFactory? imageProviderFactory,
     Key? key,
     AssetBundle? bundle,
-    Widget Function(BuildContext, Widget, LottieComposition?)? frameBuilder,
+    Widget Function(
+      BuildContext,
+      Widget,
+      _lottie.LottieComposition?,
+    )? frameBuilder,
     ImageErrorWidgetBuilder? errorBuilder,
     double? width,
     double? height,
@@ -287,7 +312,7 @@ class LottieGenImage {
     FilterQuality? filterQuality,
     void Function(String)? onWarning,
   }) {
-    return Lottie.asset(
+    return _lottie.Lottie.asset(
       _assetName,
       controller: controller,
       animate: animate,

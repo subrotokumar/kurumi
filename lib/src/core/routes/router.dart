@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kurumi/src/features/character_detail/character_detail_screen.dart';
 import 'package:kurumi/src/features/other_search/other_search.dart';
-
+import 'package:kurumi/src/features/three_x_three/three_x_three_screen.dart';
 export 'package:go_router/go_router.dart';
 
 part 'router.g.dart';
@@ -46,4 +46,10 @@ class CharacterDetailRoute extends GoRouteData {
 class OtherSearchRoute extends GoRouteData {
   @override
   Widget build(context, state) => const OtherSearch();
+}
+
+@TypedGoRoute<ThreeXThreeRoute>(path: '/9x9')
+class ThreeXThreeRoute extends GoRouteData {
+  @override
+  Widget build(context, state) => const ThreeXThreeScreen();
 }

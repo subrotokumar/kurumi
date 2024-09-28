@@ -26,6 +26,8 @@ class SharedPreferencesNotifier extends StateNotifier<SharedPreferences?> {
     state = await SharedPreferences.getInstance();
   }
 
+  SharedPreferences? get pref => state;
+
   bool get bottomSearchBar => state!.getBool('bottomSearchBar') ?? false;
   Future<bool> setBottomSearchBar(bool value) async =>
       await state!.setBool('bottomSearchBar', value);

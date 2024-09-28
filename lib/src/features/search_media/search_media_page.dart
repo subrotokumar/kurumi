@@ -10,6 +10,7 @@ import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/features/search_media/components/media_grid_view.dart';
 import 'package:kurumi/src/features/search_media/components/media_list_view.dart';
 import 'package:kurumi/src/provider/provider.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SearchMedia extends ConsumerStatefulWidget {
   const SearchMedia({
@@ -104,7 +105,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
             children: [
               IconButton(
                 padding: const EdgeInsets.all(0),
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                icon: const Icon(PhosphorIconsBold.caretLeft),
                 onPressed: () => context.pop(),
                 color: Colors.grey,
               ),
@@ -117,6 +118,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                     hintStyle: const TextStyle(color: Colors.grey),
                     border: InputBorder.none,
                     isDense: false,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 15),
                     suffixIcon: IconButton(
                       onPressed: () {
                         textEditingController.value = TextEditingValue(
@@ -127,7 +129,7 @@ class _SearchMediaState extends ConsumerState<SearchMedia> {
                         );
                       },
                       icon: const Icon(
-                        Icons.backspace_outlined,
+                        PhosphorIconsBold.backspace,
                         size: 20,
                         color: Colors.grey,
                       ),

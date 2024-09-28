@@ -29,23 +29,22 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.background,
-      body: CustomRefreshIndicator(
-        builder: MaterialIndicatorDelegate(
-          builder: (context, controller) {
-            return const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.search,
-                color: Colors.blue,
-                size: 30,
-              ),
-            );
-          },
-        ),
+      body: CustomMaterialIndicator(
         onRefresh: () async {
           context.pushNamed(
             AppRouteConstant.SearchScreen.name,
             extra: {'mediaType': ref.read(discoverTabProvider)},
+          );
+        },
+        leadingScrollIndicatorVisible: true,
+        indicatorBuilder: (context, controller) {
+          return const CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Icon(
+              Icons.search,
+              color: Colors.blue,
+              size: 30,
+            ),
           );
         },
         child: SingleChildScrollView(
@@ -285,7 +284,7 @@ class SubTabWidget extends StatelessWidget {
                         HapticFeedback.mediumImpact();
                         context.pushNamed(
                           AppRouteConstant.SearchScreen.name,
-                          extra: {'mediaType': ref.read(discoverTabProvider)},
+                          extra: {'mediaType': discoverTab},
                         );
                       },
                       child: Padding(
@@ -301,9 +300,7 @@ class SubTabWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              discoverTab == GMediaType.ANIME
-                                  ? "Anime"
-                                  : "Manga",
+                              'Search',
                               style: inter.copyWith(
                                 color: Colors.white.withOpacity(0.9),
                                 fontSize: 13,

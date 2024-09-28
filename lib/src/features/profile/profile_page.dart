@@ -1,10 +1,7 @@
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 
@@ -82,6 +79,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
                                       ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 60,
+                                    top: 30,
+                                    child: IconButton(
+                                      style: IconButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        backgroundColor: Colors.black38,
+                                      ),
+                                      icon: const Icon(
+                                          PhosphorIconsBold.dotsNine),
+                                      onPressed: () {
+                                        HapticFeedback.mediumImpact();
+                                        ThreeXThreeRoute().push(context);
+                                      },
                                     ),
                                   ),
                                   Positioned(
