@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
+import 'package:kurumi/src/core/constants/constants.dart';
 import 'package:kurumi/src/core/routes/router.dart';
+import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/profile/function/logout.function.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -91,7 +94,16 @@ class SettingFooterSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Text('Version 1.13.0'),
+        CupertinoButton(
+          child: const Text('Version 1.13.0'),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: kTransparentColor,
+              builder: (context) => const WhatsNewWidget(),
+            );
+          },
+        ),
         const SizedBox(height: 20),
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -127,17 +128,20 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: Colors.indigoAccent.shade400,
+                        color: Colors.grey.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
-                        'Nothing Found',
-                        style: TextStyle(
+                      child: Text(
+                        'Empty List',
+                        textAlign: TextAlign.center,
+                        style: Poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
+                          color: Colors.white.withOpacity(0.6),
                         ),
                       ),
                     ),
+                    const Gap(50),
                     const Spacer(),
                   ],
                 );

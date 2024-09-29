@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.13.0+44
+version: 1.13.0+45
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

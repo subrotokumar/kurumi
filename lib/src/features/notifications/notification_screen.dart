@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -116,8 +117,38 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                final data =
-                                    response?.data?.Page?.notifications;
+                                // final data =
+                                //     response?.data?.Page?.notifications;
+                                final data = [];
+                                if (data?.length == 0) {
+                                  return Center(
+                                    child: Column(
+                                      children: [
+                                        Assets.lotties.ufo
+                                            .lottie(fit: BoxFit.contain),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Text(
+                                            'No new notifications\nat this time',
+                                            textAlign: TextAlign.center,
+                                            style: Poppins(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                                 return ListView.builder(
                                   padding: const EdgeInsets.only(bottom: 16),
                                   physics: const ClampingScrollPhysics(),

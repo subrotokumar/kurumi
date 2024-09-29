@@ -7,7 +7,9 @@ import 'package:share_plus/share_plus.dart';
 
 Future<void> shareMedia({
   required ScreenshotController controller,
-  required GMediaDetailQueryData_Media? media,
+  GMediaDetailQueryData_Media? media,
+  String? shareSubject,
+  String? shareTitle,
 }) async {
   final mediaType = media?.type == GMediaType.ANIME ? 'anime' : 'manga';
   final id = media?.id ?? 0;
@@ -21,8 +23,8 @@ Future<void> shareMedia({
   await imgFile.writeAsBytes(img!);
   Share.shareXFiles(
     [XFile('$directory/kurumi.png')],
-    subject: media?.title?.userPreferred ?? '',
-    text:
+    subject: shareSubject ?? media?.title?.userPreferred ?? '',
+    text: shareTitle ??
         'Link: $link\n\n${media?.description?.replaceAll('<br><br>', '\n').replaceAll('<br>', '\n').replaceAll('<b>', '').replaceAll('</b>', '').replaceAll('<i>', '').replaceAll('</i>', '').replaceAll('\n\n', '\n') ?? ''}',
   );
 }

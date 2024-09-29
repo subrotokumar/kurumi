@@ -1,3 +1,8 @@
+## v1.13.0
+
+- Added a feature to create anime/manga 3x3 grids.
+- Accessible by clicking the 9-dot icon on the profile screen.
+
 ## v1.12.0
 
 - Added `Clear Cache` button on Setting Screen

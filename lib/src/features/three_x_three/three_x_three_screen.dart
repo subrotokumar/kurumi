@@ -8,9 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/core.dart';
+import 'package:kurumi/src/features/media_description/function/share_media.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 
 class ThreeXThreeScreen extends ConsumerStatefulWidget {
   const ThreeXThreeScreen({super.key});
@@ -21,6 +23,7 @@ class ThreeXThreeScreen extends ConsumerStatefulWidget {
 
 class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
   bool editModel = false;
+  final screenshotContr = ScreenshotController();
 
   final colList = [
     Colors.red,
@@ -121,15 +124,43 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
         child: AppBar(
           elevation: 0,
           backgroundColor: kTransparentColor,
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(PhosphorIcons.caretLeft()),
+          leadingWidth: 100,
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Row(
+              children: [
+                const Gap(12),
+                Icon(PhosphorIcons.caretLeft()),
+                const Gap(10),
+                Text(
+                  '3x3',
+                  style: Poppins(
+                    fontSize: 20,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
-          title: const Text('3x3'),
-          titleTextStyle: Poppins(fontSize: 20, letterSpacing: 2),
-          centerTitle: true,
           actions: [
-            IconButton(onPressed: () => {}, icon: Icon(PhosphorIcons.info())),
+            IconButton(
+              onPressed: () async {
+                imageList = List<String>.filled(9, "");
+                await saveList();
+                setState(() {});
+              },
+              icon: Icon(PhosphorIcons.trashSimple()),
+            ),
+            IconButton(
+              onPressed: () => shareMedia(
+                controller: screenshotContr,
+                media: null,
+                shareTitle: "",
+                shareSubject: "Kurumi",
+              ),
+              icon: Icon(PhosphorIcons.shareFat()),
+            ),
             const Gap(8),
           ],
         ),
@@ -152,57 +183,61 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
                 children: [
                   const Gap(20),
                   const Spacer(),
-                  ReorderableGridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(10),
-                    shrinkWrap: true,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    crossAxisCount: 3,
-                    onReorder: (oldIndex, newIndex) async {
-                      setState(() {
-                        final element = imageList.removeAt(oldIndex);
-                        imageList.insert(newIndex, element);
-                      });
-                      await ref
-                          .read(sharedfPrefProvider)
-                          ?.setStringList('3x3', imageList);
-                      setState(() {});
-                    },
-                    children: [
-                      for (int index = 0; index < 9; index++)
-                        Builder(
-                          key: ValueKey(index.toString()),
-                          builder: (context) {
-                            String imageUrl = '';
-                            try {
-                              imageUrl = imageList[index];
-                            } catch (_) {}
+                  Screenshot(
+                    controller: screenshotContr,
+                    child: ReorderableGridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(10),
+                      shrinkWrap: true,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      crossAxisCount: 3,
+                      onReorder: (oldIndex, newIndex) async {
+                        setState(() {
+                          final element = imageList.removeAt(oldIndex);
+                          imageList.insert(newIndex, element);
+                        });
+                        await ref
+                            .read(sharedfPrefProvider)
+                            ?.setStringList('3x3', imageList);
+                        setState(() {});
+                      },
+                      children: [
+                        for (int index = 0; index < 9; index++)
+                          Builder(
+                            key: ValueKey(index.toString()),
+                            builder: (context) {
+                              String imageUrl = '';
+                              try {
+                                imageUrl = imageList[index];
+                              } catch (_) {}
 
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(3),
-                              child: InkWell(
-                                onTap: () async {
-                                  if (imageUrl.isEmpty) {
-                                    await browse(index);
-                                    // ignore: use_build_context_synchronously
-                                    return;
-                                  }
-                                  await openSelection(index);
-                                },
-                                child: CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, e, child) => Container(
-                                    color: kBlackColor.withOpacity(0.3),
-                                    child: Icon(PhosphorIcons.plus()),
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(3),
+                                child: InkWell(
+                                  onTap: () async {
+                                    if (imageUrl.isEmpty) {
+                                      await browse(index);
+                                      // ignore: use_build_context_synchronously
+                                      return;
+                                    }
+                                    await openSelection(index);
+                                  },
+                                  child: CachedNetworkImage(
+                                    imageUrl: imageUrl,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, e, child) =>
+                                        Container(
+                                      color: kBlackColor.withOpacity(0.3),
+                                      child: Icon(PhosphorIcons.plus()),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                    ],
+                              );
+                            },
+                          ),
+                      ],
+                    ),
                   ),
                   const Spacer(),
                   Container(
@@ -214,7 +249,7 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
                     ),
                     color: kWhiteColor.withOpacity(0.4),
                     child: Text(
-                      'Data are store locally on device.',
+                      'Data is stored locally on the device',
                       style: Poppins(color: kWhiteColor),
                     ),
                   ),
