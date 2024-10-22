@@ -32,6 +32,7 @@ void callbackDispatcher() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // ignore: dead_code
   if (false) {
     await Workmanager().initialize(callbackDispatcher);
     await Workmanager().registerPeriodicTask(

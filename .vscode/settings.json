@@ -1,36 +1,5 @@
 {
   "files.exclude": {
-    "**/.git": false,
-    "**/.svn": false,
-    "**/.hg": false,
-    "**/CVS": false,
-    "**/.DS_Store": false,
-    "**/Thumbs.db": false,
-    "**/.classpath": false,
-    "**/.project": false,
-    "**/.settings": false,
-    "**/.factorypath": false,
-    "macos": false,
-    "test": false,
-    "**/windows": false,
-    "windows": false,
-    "**/.idea": false,
-    ".idea": false,
-    ".vscode": false,
-    ".dart_tool": false,
-    "linux": false,
-    ".flutter-plugins": false,
-    ".metadata": false,
-    "analysis_options.yaml": false,
-    ".flutter-plugins-dependencies": false,
-    "kurumi.iml": false,
-    "build": false,
-    "web": false,
-    "pubspec.lock": false,
-    "android": false,
-    "ios": false
-  },
-  "explorerExclude.backup": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
@@ -61,6 +30,7 @@
     "android": true,
     "ios": true
   },
+  "explorerExclude.backup": {},
   "java.configuration.updateBuildConfiguration": "interactive",
   "cSpell.words": ["gifs", "gridview", "ionicons", "LTRB", "swiper"]
 }

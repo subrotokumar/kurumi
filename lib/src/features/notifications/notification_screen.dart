@@ -117,9 +117,8 @@ class NotificationScreen extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                // final data =
-                                //     response?.data?.Page?.notifications;
-                                final data = [];
+                                final data =
+                                    response?.data?.Page?.notifications;
                                 if (data?.length == 0) {
                                   return Center(
                                     child: Column(
