@@ -23,6 +23,7 @@ class AppRouteConstant {
   static Route VAScreen = Route('staff', '/staff/:id');
   static Route FavAnimeScreen = Route('FavAnime', '/user/:username/favorites');
   static Route SearchFilterScreen = Route('FilterScreen', '/search/filter');
+  static Route NewsScreenScreen = Route('NewsScreen', '/news');
 }
 
 class Route {

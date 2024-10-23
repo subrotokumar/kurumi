@@ -35,10 +35,10 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
   final List changes = [
     {
       "id": 1,
-      "title": "3x3 Maker for Anime & Manga",
+      "title": "Feature",
       "detail": [
-        "Added a feature to create anime/manga 3x3 grids.",
-        "Accessible by clicking the 9-dot icon on the profile screen."
+        "Added a dedicated News Page to the Dashboard",
+        "Allows users to view and share the latest news directly within Kurumi"
       ],
     },
   ];
@@ -63,7 +63,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
         children: [
           ListTile(
             title: const Text("What's New"),
-            subtitle: const Text('v1.13.0'),
+            subtitle: const Text('v1.14.0'),
             trailing: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: const Icon(CupertinoIcons.clear),
@@ -139,13 +139,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> whatsNewWidget(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
     await Future.delayed(2.seconds);
-    if (pref.getBool('whatsnew@0.13.0') != true) {
+    if (pref.getBool('whatsnew@0.14.0') != true) {
       showModalBottomSheet(
         context: context,
         backgroundColor: kTransparentColor,
         builder: (context) => const WhatsNewWidget(),
       );
-      await pref.setBool('whatsnew@0.13.0', true);
+      await pref.setBool('whatsnew@0.14.0', true);
     }
   }
 

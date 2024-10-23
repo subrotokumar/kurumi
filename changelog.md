@@ -1,3 +1,10 @@
+## v1.14.0
+
+- Feat:
+  - Added a dedicated News Page to the Dashboard
+  - Allows users to view and share the latest news directly within Kurumi
+
+
 ## v1.13.0
 
 - Fix

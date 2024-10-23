@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.13.1+47
+version: 1.14.0+48
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -51,6 +51,8 @@ dependencies:
   http: ^1.2.2
   gap: ^3.0.1
   reorderable_grid_view: ^2.2.8
+  xml2json: ^6.2.5
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:

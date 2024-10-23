@@ -95,7 +95,7 @@ class SettingFooterSection extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         CupertinoButton(
-          child: const Text('Version 1.13.1'),
+          child: const Text('Version 1.14.0'),
           onPressed: () {
             showModalBottomSheet(
               context: context,

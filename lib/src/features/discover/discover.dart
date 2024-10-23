@@ -4,6 +4,7 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
 import 'package:kurumi/src/features/discover/widgets/banner.widget.dart';
@@ -135,7 +136,8 @@ class SubTabWidget extends StatelessWidget {
       Colors.red,
       Colors.blue,
       Colors.yellow,
-      Colors.green
+      Colors.green,
+      Colors.orange,
     ];
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -314,8 +316,14 @@ class SubTabWidget extends StatelessWidget {
                   }),
                 ),
               ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Flexible(flex: 2, child: SizedBox()),
               Flexible(
-                flex: 1,
+                flex: 3,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -349,8 +357,45 @@ class SubTabWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              Flexible(
+                flex: 3,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: color[4], width: 0.5),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    onTap: () => context
+                        .pushNamed(AppRouteConstant.NewsScreenScreen.name),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.ramen_dining,
+                            size: 16,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'News',
+                            style: inter.copyWith(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Flexible(flex: 2, child: SizedBox()),
             ],
-          ),
+          )
         ],
       ),
     );
