@@ -8,6 +8,7 @@ import 'package:kurumi/src/features/favourite/favourite_screen.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/media_description/media_screen.dart';
+import 'package:kurumi/src/features/new_media_description/new_media_screen.dart';
 import 'package:kurumi/src/features/news/news_screen.dart';
 import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
@@ -83,10 +84,11 @@ final router = Provider<GoRouter>(
         builder: (context, state) {
           var id = int.parse(state.pathParameters['id'] ?? '0');
           String title = state.pathParameters['title'] ?? '';
-          return MediaScreen(
-            id: id,
-            title: title,
-          );
+
+          bool? newUi = (state.extra as bool?) ?? (isTablet ? false : true);
+          return newUi == true
+              ? NewMediaScreen(id: id, title: title)
+              : MediaScreen(id: id, title: title);
         },
       ),
       GoRoute(

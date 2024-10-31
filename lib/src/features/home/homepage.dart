@@ -37,8 +37,8 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
       "id": 1,
       "title": "Feature",
       "detail": [
-        "Added a dedicated News Page to the Dashboard",
-        "Allows users to view and share the latest news directly within Kurumi"
+        "New ui design for media detail screen",
+        "New ui design for character detail screen",
       ],
     },
   ];
@@ -63,7 +63,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
         children: [
           ListTile(
             title: const Text("What's New"),
-            subtitle: const Text('v1.14.0'),
+            subtitle: const Text('v1.15.0'),
             trailing: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: const Icon(CupertinoIcons.clear),
@@ -145,7 +145,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         backgroundColor: kTransparentColor,
         builder: (context) => const WhatsNewWidget(),
       );
-      await pref.setBool('whatsnew@0.14.0', true);
+      await pref.setBool('whatsnew@0.15.0', true);
     }
   }
 

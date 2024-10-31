@@ -1,3 +1,8 @@
+## v1.15.0
+
+- Feat:
+  - New UI for media and character detail screen
+
 ## v1.14.0
 
 - Feat:

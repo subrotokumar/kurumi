@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
-import 'thumbnail.dart';
-
 @immutable
 class Item {
   final String? guid;

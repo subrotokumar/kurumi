@@ -119,7 +119,7 @@ class NotificationScreen extends StatelessWidget {
                               } else {
                                 final data =
                                     response?.data?.Page?.notifications;
-                                if (data?.length == 0) {
+                                if (data?.isEmpty ?? true) {
                                   return Center(
                                     child: Column(
                                       children: [
@@ -189,7 +189,7 @@ class NotificationScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white10,
                                         border: diff < 1
-                                            ? Border.all(color: Colors.white)
+                                            ? Border.all(color: Colors.white38)
                                             : null,
                                       ),
                                       child: InkWell(

@@ -77,14 +77,19 @@ class _SettingScreenState extends State<SettingScreen> {
                               borderRadius: BorderRadius.circular(10)),
                           foregroundColor: Colors.white70,
                         ),
-                        onPressed: () async => Navigator.push(
+                        onPressed: () async {
+                          const url =
+                              'https://subrotokumar.github.io/privacy-policy/kurumi.html';
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const InAppWebview(
-                                      title: 'Kurumi',
-                                      url:
-                                          'https://subrotokumar.github.io/privacy-policy/kurumi.html',
-                                    ))),
+                              builder: (context) => const InAppWebview(
+                                title: 'Kurumi',
+                                url: url,
+                              ),
+                            ),
+                          );
+                        },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
