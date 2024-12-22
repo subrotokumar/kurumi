@@ -84,8 +84,8 @@ final router = Provider<GoRouter>(
         builder: (context, state) {
           var id = int.parse(state.pathParameters['id'] ?? '0');
           String title = state.pathParameters['title'] ?? '';
-
-          bool? newUi = (state.extra as bool?) ?? (isTablet ? false : true);
+          bool? newUi =
+              true ?? (state.extra as bool?) ?? (isTablet ? false : true);
           return newUi == true
               ? NewMediaScreen(id: id, title: title)
               : MediaScreen(id: id, title: title);

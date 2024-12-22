@@ -47,3 +47,6 @@ app.*.map.json
 key.properties
 *.jks
 env.dart
+
+# FVM Version Cache
+.fvm/

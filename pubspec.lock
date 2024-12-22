@@ -767,14 +767,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  ionicons:
-    dependency: "direct main"
-    description:
-      name: ionicons
-      sha256: "5496bc65a16115ecf05b15b78f494ee4a8869504357668f0a11d689e970523cf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
   js:
     dependency: transitive
     description:
@@ -1288,18 +1280,18 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: d39bd6022083f66e24664d562c6416c25465fb2969df2080a9eac242ef371361
+      sha256: ab73109c586f5ec2b01adc2672026a1fb3f93b2b5f6061ba8d7126c119061002
       url: "https://pub.dev"
     source: hosted
-    version: "26.2.7"
+    version: "24.2.9"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: fd4d2cdbf8d0d1e3441817cb8a03f896566fad5187788957e78492fe16800388
+      sha256: "7666506885ebc8f62bb928ad4588a73e20caaff2b2cf2b2b56f67d98f4113525"
       url: "https://pub.dev"
     source: hosted
-    version: "26.2.7"
+    version: "24.2.9"
   synchronized:
     dependency: transitive
     description:
@@ -1557,5 +1549,5 @@ packages:
     source: hosted
     version: "2.0.1"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.4.0 <3.6.0"
   flutter: ">=3.22.0"

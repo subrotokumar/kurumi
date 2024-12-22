@@ -49,6 +49,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
     Colors.lightBlue,
     Colors.pinkAccent
   ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +64,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
         children: [
           ListTile(
             title: const Text("What's New"),
-            subtitle: const Text('v1.15.0'),
+            subtitle: const Text('v$kVersion'),
             trailing: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: const Icon(CupertinoIcons.clear),

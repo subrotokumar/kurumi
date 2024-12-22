@@ -39,7 +39,7 @@ showSnackBar(BuildContext context, String text,
       ),
     );
 
-final log = Logger();
+final log = Logger(filter: ProductionFilter());
 
 String validMarkdown(String? markdown) {
   if (markdown == null) return '';

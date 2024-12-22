@@ -141,9 +141,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: Colors.white38),
-                                                  color: Colors.white12,
                                                 ),
                                                 child: CachedNetworkImage(
                                                   imageUrl:
