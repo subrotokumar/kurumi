@@ -3,7 +3,7 @@ description: Unofficial anilist client
 
 publish_to: "none"
 
-version: 1.15.1+50
+version: 2.0.0+54
 
 environment:
   sdk: ">=3.0.0 <3.6.0"
@@ -52,6 +52,8 @@ dependencies:
   reorderable_grid_view: ^2.2.8
   xml2json: ^6.2.5
   collection: ^1.18.0
+  ferry_flutter: ^0.8.1
+  flutter_heatmap_calendar: ^1.0.5
 
 dev_dependencies:
   flutter_test:

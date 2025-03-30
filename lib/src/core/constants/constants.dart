@@ -6,4 +6,4 @@ const kBlackColor = Colors.black;
 const kTransparentColor = Colors.transparent;
 final kBackgroundColor = AppTheme.background;
 final kSecondaryColor = AppTheme.secondaryColor;
-const kVersion = "1.15.1";
+const kVersion = "2.0.0";

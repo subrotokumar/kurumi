@@ -35,10 +35,15 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
   final List changes = [
     {
       "id": 1,
-      "title": "Feature",
+      "title": "New Overview Tab in Profile Section",
       "detail": [
-        "New ui design for media detail screen",
-        "New ui design for character detail screen",
+        "See a summary of your favorite genres",
+        "View your activity history on a heatmap",
+        "Check a chart of your format preferences",
+        "See how your statuses are distributed",
+        "Get detailed status statistics",
+        "Track your overall progress",
+        "View total episodes watched",
       ],
     },
   ];
@@ -140,13 +145,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> whatsNewWidget(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
     await Future.delayed(2.seconds);
-    if (pref.getBool('whatsnew@0.14.0') != true) {
+    if (pref.getBool('whatsnew@$kVersion') != true) {
       showModalBottomSheet(
         context: context,
         backgroundColor: kTransparentColor,
         builder: (context) => const WhatsNewWidget(),
       );
-      await pref.setBool('whatsnew@0.15.0', true);
+      await pref.setBool('whatsnew@$kVersion', true);
     }
   }
 
