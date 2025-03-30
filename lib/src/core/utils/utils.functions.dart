@@ -22,22 +22,24 @@ Widget get LoadingWidget => Center(
     );
 
 showSnackBar(BuildContext context, String text,
-        {Duration duration = const Duration(seconds: 2)}) =>
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Chip(
-          avatar: ClipOval(child: Assets.meta.ninja.image()),
-          label: Text(
-            text,
-            overflow: TextOverflow.ellipsis,
-          ),
+    {Duration duration = const Duration(seconds: 2)}) {
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Chip(
+        avatar: ClipOval(child: Assets.meta.ninja.image()),
+        label: Text(
+          text,
+          overflow: TextOverflow.ellipsis,
         ),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        duration: duration,
-        elevation: 0,
       ),
-    );
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      duration: duration,
+      elevation: 0,
+    ),
+  );
+}
 
 final log = Logger(filter: ProductionFilter());
 

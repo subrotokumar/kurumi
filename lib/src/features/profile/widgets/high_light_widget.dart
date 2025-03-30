@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HighLightWidget extends StatelessWidget {
   final String? title;
   final String? value;
+  final String? subfix;
   final Color color;
   const HighLightWidget({
     this.title,
     this.value,
+    this.subfix,
     required this.color,
     super.key,
   });
@@ -33,9 +36,25 @@ class HighLightWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            value ?? '0',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                value ?? '0',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              const Gap(10),
+              if (subfix != null)
+                Text(
+                  subfix!,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                ),
+            ],
           ),
           Text(
             title ?? '',

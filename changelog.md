@@ -1,3 +1,14 @@
+## v2.0.0
+
+- Feat: New Overview Tab in Profile Section
+  - See a summary of your favorite genres
+  - View your activity history on a heatmap
+  - Check a chart of your format preferences
+  - See how your statuses are distributed
+  - Get detailed status statistics
+  - Track your overall progress
+  - View total episodes watched
+
 ## v1.15.0
 
 - Feat:
@@ -9,12 +20,10 @@
   - Added a dedicated News Page to the Dashboard
   - Allows users to view and share the latest news directly within Kurumi
 
-
 ## v1.13.0
 
 - Fix
   - Notification Screen not fetching data from API
-
 
 ## v1.13.0
 
