@@ -36,6 +36,7 @@ class GenreOverview extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Gap(15),
           Text(
             ' Genre Overview',
             style: Poppins(fontSize: 16, fontWeight: FontWeight.w500),
@@ -135,6 +136,7 @@ class GenreOverview extends StatelessWidget {
               ),
             ),
           ),
+          Gap(15),
         ],
       ),
     );

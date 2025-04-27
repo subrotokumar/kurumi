@@ -2,13 +2,12 @@ import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/core.dart';
-import 'package:kurumi/src/features/profile/widgets/overview_section.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class EpisodeCountDistributionChart extends StatelessWidget {
-  const EpisodeCountDistributionChart({super.key, required this.widget});
+  const EpisodeCountDistributionChart({super.key, this.data});
 
-  final OverviewSection widget;
+  final GProfileData_Viewer_statistics_anime? data;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,7 @@ class EpisodeCountDistributionChart extends StatelessWidget {
       Color(0xFF008000), // Green
     ];
     return Visibility(
-      visible: widget.data?.statistics?.anime?.lengths != null &&
-          (widget.data?.statistics?.anime?.lengths?.length ?? 0) > 0,
+      visible: data?.lengths != null && (data?.lengths?.length ?? 0) > 0,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 15),
         child: Column(
@@ -39,7 +37,7 @@ class EpisodeCountDistributionChart extends StatelessWidget {
             const Gap(20),
             Builder(
               builder: (context) {
-                var data = widget.data?.statistics?.anime?.lengths?.toList();
+                var dataset = data?.lengths?.toList();
                 return SfCartesianChart(
                   primaryYAxis: const CategoryAxis(isVisible: true),
                   primaryXAxis: const CategoryAxis(),
@@ -47,7 +45,7 @@ class EpisodeCountDistributionChart extends StatelessWidget {
                   series: [
                     ColumnSeries<GProfileData_Viewer_statistics_anime_lengths?,
                         String>(
-                      dataSource: data,
+                      dataSource: dataset,
                       pointColorMapper: (datum, index) =>
                           colorList.elementAt(index),
                       xValueMapper: (data, _) => data?.length,
