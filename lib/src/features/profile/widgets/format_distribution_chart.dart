@@ -22,7 +22,7 @@ class _FormatDistributionChartState
   Widget build(BuildContext context) {
     final (_, w) = context.getSize;
     return Visibility(
-      visible: true,
+      visible: widget.data != null && (widget.data?.length ?? 0) > 0,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 15),
         child: Column(

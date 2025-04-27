@@ -255,38 +255,8 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
                   ),
                 ),
               ),
-              const Gap(30),
               GenreOverview(widget: widget),
-              const Gap(30),
-              Text(
-                ' Activity History',
-                style: Poppins(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              const Gap(20),
-              HeatMap(
-                defaultColor: Colors.indigo.shade50,
-                startDate: DateTime.now().subtract(30.days * 6),
-                endDate: DateTime.now(),
-                datasets: dataset,
-                showColorTip: true,
-                colorMode: ColorMode.color,
-                showText: true,
-                scrollable: true,
-                colorsets: {
-                  1: Colors.indigo.shade200,
-                  2: Colors.indigo.shade300,
-                  3: Colors.indigo.shade400,
-                  4: Colors.indigo.shade600,
-                },
-                onClick: (value) {
-                  final activities = dateToAmount[value];
-                  if (activities == null) return;
-                  String message =
-                      "${DateFormat.MMMMEEEEd().format(value)} | Activity : $activities";
-                  showSnackBar(context, message, duration: 2.seconds);
-                },
-              ),
-              const Gap(30),
+              ActivityHistory(dataset: dataset, dateToAmount: dateToAmount),
               FormatDistributionChart(
                 data: widget.data?.statistics?.anime?.formats,
                 totalMedia: widget.data?.statistics?.anime?.count,
@@ -298,12 +268,67 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
               ScoreDistributionChart(
                 data: widget.data?.statistics?.anime?.scores,
               ),
-              EpisodeCountDistributionChart(widget: widget),
+              EpisodeCountDistributionChart(
+                data: widget.data?.statistics?.anime,
+              ),
               const Gap(50),
             ],
           ),
         ),
       );
     }
+  }
+}
+
+class ActivityHistory extends StatelessWidget {
+  const ActivityHistory({
+    super.key,
+    required this.dataset,
+    required this.dateToAmount,
+  });
+
+  final Map<DateTime, int> dataset;
+  final Map<DateTime, int> dateToAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: dataset.isNotEmpty,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Gap(15),
+          Text(
+            ' Activity History',
+            style: Poppins(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          const Gap(20),
+          HeatMap(
+            defaultColor: Colors.indigo.shade50,
+            startDate: DateTime.now().subtract(30.days * 6),
+            endDate: DateTime.now(),
+            datasets: dataset,
+            showColorTip: true,
+            colorMode: ColorMode.color,
+            showText: true,
+            scrollable: true,
+            colorsets: {
+              1: Colors.indigo.shade200,
+              2: Colors.indigo.shade300,
+              3: Colors.indigo.shade400,
+              4: Colors.indigo.shade600,
+            },
+            onClick: (value) {
+              final activities = dateToAmount[value];
+              if (activities == null) return;
+              String message =
+                  "${DateFormat.MMMMEEEEd().format(value)} | Activity : $activities";
+              showSnackBar(context, message, duration: 2.seconds);
+            },
+          ),
+          const Gap(15),
+        ],
+      ),
+    );
   }
 }
