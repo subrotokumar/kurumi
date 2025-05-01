@@ -12,6 +12,7 @@ import 'package:kurumi/src/features/profile/widgets/format_distribution_chart.da
 import 'package:kurumi/src/features/profile/widgets/genre_overview.dart';
 import 'package:kurumi/src/features/profile/widgets/score_distribution.dart';
 import 'package:kurumi/src/features/profile/widgets/status_distribution_chart.dart';
+import 'package:kurumi/src/provider/provider.dart';
 
 class OverviewSection extends ConsumerStatefulWidget {
   final GProfileData_Viewer? data;
@@ -126,11 +127,11 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
                                         .data?.favourites?.anime?.nodes
                                         ?.elementAt(index)
                                         ?.coverImage
-                                        ?.medium ??
+                                        ?.large ??
                                     widget.data?.favourites?.anime?.nodes
                                         ?.elementAt(index)
                                         ?.coverImage
-                                        ?.large ??
+                                        ?.medium ??
                                     '';
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
@@ -169,11 +170,11 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
                                         .data?.favourites?.manga?.nodes
                                         ?.elementAt(index)
                                         ?.coverImage
-                                        ?.medium ??
+                                        ?.large ??
                                     widget.data?.favourites?.manga?.nodes
                                         ?.elementAt(index)
                                         ?.coverImage
-                                        ?.large ??
+                                        ?.medium ??
                                     '';
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
@@ -228,8 +229,8 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
                               final data = widget
                                   .data?.favourites?.characters?.nodes
                                   ?.elementAt(index);
-                              final imageUrl = data?.image?.medium ??
-                                  data?.image?.large ??
+                              final imageUrl = data?.image?.large ??
+                                  data?.image?.medium ??
                                   '';
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
@@ -280,7 +281,7 @@ class _OverviewSectionState extends ConsumerState<OverviewSection> {
   }
 }
 
-class ActivityHistory extends StatelessWidget {
+class ActivityHistory extends ConsumerStatefulWidget {
   const ActivityHistory({
     super.key,
     required this.dataset,
@@ -291,35 +292,72 @@ class ActivityHistory extends StatelessWidget {
   final Map<DateTime, int> dateToAmount;
 
   @override
+  ConsumerState<ActivityHistory> createState() => _ActivityHistoryState();
+}
+
+class _ActivityHistoryState extends ConsumerState<ActivityHistory> {
+  bool showText = true;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      showText =
+          ref.read(sharedfPrefProvider)?.getBool("ActivityHistory/showText") ??
+              showText;
+    });
+  }
+
+  Future voidToggle(bool? value) async {
+    showText = value ?? !showText;
+    ref
+        .read(sharedfPrefProvider)
+        ?.setBool("ActivityHistory/showText", showText);
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: dataset.isNotEmpty,
+      visible: widget.dataset.isNotEmpty,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Gap(15),
-          Text(
-            ' Activity History',
-            style: Poppins(fontSize: 16, fontWeight: FontWeight.w500),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                ' Activity History',
+                style: Poppins(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              Transform.scale(
+                scale: 0.7,
+                child: Switch(
+                  value: showText,
+                  onChanged: voidToggle,
+                ),
+              )
+            ],
           ),
           const Gap(20),
           HeatMap(
             defaultColor: Colors.indigo.shade50,
             startDate: DateTime.now().subtract(30.days * 6),
             endDate: DateTime.now(),
-            datasets: dataset,
+            datasets: widget.dataset,
             showColorTip: true,
             colorMode: ColorMode.color,
-            showText: true,
+            showText: showText,
             scrollable: true,
             colorsets: {
-              1: Colors.indigo.shade200,
-              2: Colors.indigo.shade300,
-              3: Colors.indigo.shade400,
-              4: Colors.indigo.shade600,
+              1: Colors.indigo.shade300,
+              2: Colors.indigo.shade500,
+              3: Colors.indigo.shade700,
+              4: Colors.indigo.shade900,
             },
             onClick: (value) {
-              final activities = dateToAmount[value];
+              final activities = widget.dateToAmount[value];
               if (activities == null) return;
               String message =
                   "${DateFormat.MMMMEEEEd().format(value)} | Activity : $activities";

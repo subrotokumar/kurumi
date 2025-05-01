@@ -58,6 +58,7 @@ class _StatusDistributionChartState
                     xValueMapper: (data, _) => data!.status?.name,
                     yValueMapper: (data, _) => data!.count,
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    legendIconType: LegendIconType.pentagon,
                   )
                 ],
               ),
@@ -84,19 +85,21 @@ class _StatusDistributionChartState
                           ),
                         ),
                         Card(
-                          child: Builder(builder: (context) {
-                            final total = widget.totalMedia ?? 0;
-                            final val = item.count;
-                            final percentage =
-                                total == 0 ? 0 : (val / total) * 100;
-                            return Text(
-                              '${percentage.toInt()} %',
-                              style: Poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            );
-                          }),
+                          child: Builder(
+                            builder: (context) {
+                              final total = widget.totalMedia ?? 0;
+                              final val = item.count;
+                              final percentage =
+                                  total == 0 ? 0 : (val / total) * 100;
+                              return Text(
+                                '${percentage.toInt()} %',
+                                style: Poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
