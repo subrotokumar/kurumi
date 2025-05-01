@@ -50,11 +50,24 @@ class EpisodeCountDistributionChart extends StatelessWidget {
                           colorList.elementAt(index),
                       xValueMapper: (data, _) => data?.length,
                       yValueMapper: (data, _) => data?.count.toDouble(),
-                      name: 'Users',
+                      name: 'Episode Count',
                     ),
                   ],
                 );
               },
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.center,
+              child: Text(
+                'The X-axis represents different episode count ranges, and the Y-axis shows the number of anime that fall within each range.',
+                textAlign: TextAlign.justify,
+                style: Poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white54,
+                ),
+              ),
             ),
           ],
         ),

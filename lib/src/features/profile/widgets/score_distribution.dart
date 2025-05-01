@@ -64,11 +64,24 @@ class _ScoreDistributionChartState
                           colorList.elementAt(index),
                       xValueMapper: (data, _) => data?.score.toString(),
                       yValueMapper: (data, _) => data?.count.toDouble(),
-                      name: 'Users',
+                      name: 'Score',
                     ),
                   ],
                 );
               },
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.center,
+              child: Text(
+                'The X-axis represents scores ranging from 0 to 100, and the Y-axis shows the number of media entries that received each score."',
+                textAlign: TextAlign.justify,
+                style: Poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white54,
+                ),
+              ),
             ),
           ],
         ),
