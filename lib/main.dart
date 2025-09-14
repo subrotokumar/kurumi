@@ -5,41 +5,41 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kurumi/src/core/routes/go_router.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:kurumi/src/provider/notification.provider.dart';
-import 'package:workmanager/workmanager.dart';
+// import 'package:kurumi/src/provider/notification.provider.dart';
+// import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    try {
-      log.d("Task: $task");
-      log.d("Input Data: $inputData");
-      switch (task) {
-        case "notification_update":
-          await NotificationService.fetch();
-          break;
-        default:
-      }
-      return Future.value(true);
-    } catch (error, stack) {
-      log.w(error.toString());
-      log.f(stack.toString());
-      return Future.value(false);
-    }
-  });
-}
+// @pragma('vm:entry-point')
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     try {
+//       log.d("Task: $task");
+//       log.d("Input Data: $inputData");
+//       switch (task) {
+//         case "notification_update":
+//           await NotificationService.fetch();
+//           break;
+//         default:
+//       }
+//       return Future.value(true);
+//     } catch (error, stack) {
+//       log.w(error.toString());
+//       log.f(stack.toString());
+//       return Future.value(false);
+//     }
+//   });
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // ignore: dead_code
-  if (false) {
-    await Workmanager().initialize(callbackDispatcher);
-    await Workmanager().registerPeriodicTask(
-      "kurumi-notification-update-task",
-      "notification_update",
-    );
-  }
+  // if (false) {
+  //   await Workmanager().initialize(callbackDispatcher);
+  //   await Workmanager().registerPeriodicTask(
+  //     "kurumi-notification-update-task",
+  //     "notification_update",
+  //   );
+  // }
   runApp(
     Phoenix(child: const ProviderScope(child: MyApp())),
   );

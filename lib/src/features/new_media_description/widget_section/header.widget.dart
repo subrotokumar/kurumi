@@ -52,7 +52,8 @@ class MediaHeaderSection extends ConsumerWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(7),
                             child: CachedNetworkImage(
-                              imageUrl: data?.coverImage?.extraLarge ??
+                              imageUrl:
+                                  data?.coverImage?.extraLarge ??
                                   data?.coverImage?.large ??
                                   '',
                               width: width,
@@ -60,13 +61,14 @@ class MediaHeaderSection extends ConsumerWidget {
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
                                   CachedNetworkImage(
-                                imageUrl: data?.coverImage?.large ??
-                                    data?.coverImage?.medium ??
-                                    '',
-                                width: width,
-                                height: width * 3 / 4,
-                                fit: BoxFit.cover,
-                              ),
+                                    imageUrl:
+                                        data?.coverImage?.large ??
+                                        data?.coverImage?.medium ??
+                                        '',
+                                    width: width,
+                                    height: width * 3 / 4,
+                                    fit: BoxFit.cover,
+                                  ),
                             ),
                           ),
                         ),
@@ -87,7 +89,8 @@ class MediaHeaderSection extends ConsumerWidget {
                   height: (size.width / 3) * 4 / 3,
                   width: size.width / 3,
                   errorWidget: (context, url, error) => CachedNetworkImage(
-                    imageUrl: data?.coverImage?.extraLarge ??
+                    imageUrl:
+                        data?.coverImage?.extraLarge ??
                         data?.coverImage?.large ??
                         '',
                     fit: BoxFit.cover,
@@ -99,7 +102,8 @@ class MediaHeaderSection extends ConsumerWidget {
           const Gap(10),
           GestureDetector(
             onTap: () {
-              String title = data?.title?.userPreferred ??
+              String title =
+                  data?.title?.userPreferred ??
                   data?.title?.userPreferred ??
                   data?.title?.romaji ??
                   '';
@@ -128,17 +132,14 @@ class MediaHeaderSection extends ConsumerWidget {
           RichText(
             text: TextSpan(
               text: '${data?.format?.toString().replaceAll('_', ' ') ?? ''} • ',
-              style: Poppins(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
+              style: Poppins(fontWeight: FontWeight.w500, fontSize: 15),
               children: [
                 TextSpan(text: '${data?.startDate?.year ?? ''} • '),
                 TextSpan(
-                    text: data?.status?.name
-                            .toString()
-                            .replaceAll('_YET_', ' ') ??
-                        ''),
+                  text:
+                      data?.status?.name.toString().replaceAll('_YET_', ' ') ??
+                      '',
+                ),
               ],
             ),
           ),
@@ -147,64 +148,66 @@ class MediaHeaderSection extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Builder(builder: (context) {
-                Color col = switch (data?.mediaListEntry?.status) {
-                  GMediaListStatus.CURRENT => Colors.greenAccent,
-                  GMediaListStatus.COMPLETED => Colors.blue,
-                  GMediaListStatus.PLANNING => Colors.grey,
-                  GMediaListStatus.PAUSED => Colors.yellow,
-                  GMediaListStatus.DROPPED => Colors.red,
-                  _ => Colors.white.withOpacity(0.9),
-                };
-                return IconButton(
+              Builder(
+                builder: (context) {
+                  Color col = switch (data?.mediaListEntry?.status) {
+                    GMediaListStatus.CURRENT => Colors.greenAccent,
+                    GMediaListStatus.COMPLETED => Colors.blue,
+                    GMediaListStatus.PLANNING => Colors.grey,
+                    GMediaListStatus.PAUSED => Colors.yellow,
+                    GMediaListStatus.DROPPED => Colors.red,
+                    _ => Colors.white.withValues(alpha: 0.9),
+                  };
+                  return IconButton(
                     style: IconButton.styleFrom(
                       shape: CircleBorder(
                         side: BorderSide(
                           width: 0.8,
                           color: data?.mediaListEntry?.status == null
                               ? Theme.of(context).colorScheme.outline
-                              : col.withOpacity(0.5),
+                              : col.withValues(alpha: 0.5),
                         ),
                       ),
                       backgroundColor: data?.mediaListEntry?.status == null
-                          ? Colors.white.withOpacity(0.09)
-                          : col.withOpacity(0.2),
+                          ? Colors.white.withValues(alpha: 0.09)
+                          : col.withValues(alpha: 0.2),
                     ),
                     onPressed: () => showBottomSheet(
-                          context: context,
-                          backgroundColor: AppTheme.secondaryColor,
-                          builder: (context) =>
-                              AnilistTrackingWidget(media: data),
-                        ),
+                      context: context,
+                      backgroundColor: AppTheme.secondaryColor,
+                      builder: (context) => AnilistTrackingWidget(media: data),
+                    ),
                     icon: switch (data?.mediaListEntry?.status) {
                       GMediaListStatus.CURRENT => Icon(
-                          PhosphorIcons.play(PhosphorIconsStyle.fill),
-                          color: col,
-                          size: 18,
-                        ),
+                        PhosphorIcons.play(PhosphorIconsStyle.fill),
+                        color: col,
+                        size: 18,
+                      ),
                       GMediaListStatus.COMPLETED => Icon(
-                          PhosphorIcons.checkFat(PhosphorIconsStyle.fill),
-                          color: col,
-                          size: 18,
-                        ),
+                        PhosphorIcons.checkFat(PhosphorIconsStyle.fill),
+                        color: col,
+                        size: 18,
+                      ),
                       GMediaListStatus.PLANNING => Icon(
-                          PhosphorIcons.planet(PhosphorIconsStyle.fill),
-                          color: col,
-                          size: 18,
-                        ),
+                        PhosphorIcons.planet(PhosphorIconsStyle.fill),
+                        color: col,
+                        size: 18,
+                      ),
                       GMediaListStatus.DROPPED => Icon(
-                          PhosphorIcons.trash(PhosphorIconsStyle.fill),
-                          color: col,
-                          size: 18,
-                        ),
+                        PhosphorIcons.trash(PhosphorIconsStyle.fill),
+                        color: col,
+                        size: 18,
+                      ),
                       GMediaListStatus.PAUSED => Icon(PhosphorIcons.pause()),
                       _ => Icon(
-                          PhosphorIcons.plus(PhosphorIconsStyle.bold),
-                          color: col,
-                          size: 18,
-                        ),
-                    });
-              }),
+                        PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                        color: col,
+                        size: 18,
+                      ),
+                    },
+                  );
+                },
+              ),
               const SizedBox(width: 5),
               IconButton(
                 style: IconButton.styleFrom(
@@ -215,7 +218,7 @@ class MediaHeaderSection extends ConsumerWidget {
                     ),
                   ),
                   foregroundColor: Theme.of(context).iconTheme.color,
-                  backgroundColor: Colors.white.withOpacity(0.09),
+                  backgroundColor: Colors.white.withValues(alpha: 0.09),
                 ),
                 onPressed: () => showModalBottomSheet(
                   enableDrag: true,
@@ -249,11 +252,14 @@ class MediaHeaderSection extends ConsumerWidget {
                                   onPressed: () {
                                     final mediaType =
                                         data?.type == GMediaType.ANIME
-                                            ? 'anime'
-                                            : 'manga';
+                                        ? 'anime'
+                                        : 'manga';
                                     final id = data?.id ?? 0;
-                                    final title = data?.title?.userPreferred
-                                            ?.replaceAll(' ', '-') ??
+                                    final title =
+                                        data?.title?.userPreferred?.replaceAll(
+                                          ' ',
+                                          '-',
+                                        ) ??
                                         'title';
                                     final link =
                                         'https://anilist.co/$mediaType/$id/$title';
@@ -283,10 +289,7 @@ class MediaHeaderSection extends ConsumerWidget {
                     );
                   },
                 ),
-                icon: Icon(
-                  PhosphorIcons.shareNetwork(),
-                  size: 20,
-                ),
+                icon: Icon(PhosphorIcons.shareNetwork(), size: 20),
               ),
               const SizedBox(width: 5),
               IconButton(
@@ -295,15 +298,17 @@ class MediaHeaderSection extends ConsumerWidget {
                     side: BorderSide(
                       width: 0.8,
                       color: switch (data?.isFavourite) {
-                        true => Colors.pinkAccent.shade200.withOpacity(0.5),
+                        true => Colors.pinkAccent.shade200.withValues(
+                          alpha: 0.5,
+                        ),
                         _ => Theme.of(context).colorScheme.outline,
                       },
                     ),
                   ),
                   foregroundColor: Theme.of(context).iconTheme.color,
                   backgroundColor: switch (data?.isFavourite) {
-                    true => Colors.pink.withOpacity(0.1),
-                    _ => Colors.white.withOpacity(0.09),
+                    true => Colors.pink.withValues(alpha: 0.1),
+                    _ => Colors.white.withValues(alpha: 0.09),
                   },
                 ),
                 onPressed: () async {
@@ -311,30 +316,33 @@ class MediaHeaderSection extends ConsumerWidget {
                   try {
                     client!
                         .request(
-                      data?.type == GMediaType.ANIME
-                          ? GToggleFavouriteReq(
-                              (b) => b..vars.animeId = data?.id)
-                          : GToggleFavouriteReq(
-                              (b) => b..vars.mangaId = data?.id),
-                    )
+                          data?.type == GMediaType.ANIME
+                              ? GToggleFavouriteReq(
+                                  (b) => b..vars.animeId = data?.id,
+                                )
+                              : GToggleFavouriteReq(
+                                  (b) => b..vars.mangaId = data?.id,
+                                ),
+                        )
                         .listen((event) {
-                      final req = GMediaDetailQueryReq(
-                        (b) => b
-                          ..vars.id = data?.id
-                          ..vars.limit = 5
-                          ..vars.page = 1
-                          ..vars.perPage = 10,
-                      );
-                      final cache = client.cache.readQuery(req);
-                      client.cache.writeQuery(
-                        req,
-                        cache!.rebuild(
-                          (p) => p
-                            ..Media.isFavourite = !(data?.isFavourite ?? false),
-                        ),
-                      );
-                      ref.read(loading.notifier).update((state) => false);
-                    });
+                          final req = GMediaDetailQueryReq(
+                            (b) => b
+                              ..vars.id = data?.id
+                              ..vars.limit = 5
+                              ..vars.page = 1
+                              ..vars.perPage = 10,
+                          );
+                          final cache = client.cache.readQuery(req);
+                          client.cache.writeQuery(
+                            req,
+                            cache!.rebuild(
+                              (p) => p
+                                ..Media.isFavourite =
+                                    !(data?.isFavourite ?? false),
+                            ),
+                          );
+                          ref.read(loading.notifier).update((state) => false);
+                        });
                   } catch (e) {
                     ref.read(loading.notifier).update((state) => false);
                   }
@@ -345,10 +353,7 @@ class MediaHeaderSection extends ConsumerWidget {
                         color: Colors.pink,
                         size: 20,
                       )
-                    : Icon(
-                        PhosphorIcons.heart(),
-                        size: 20,
-                      ),
+                    : Icon(PhosphorIcons.heart(), size: 20),
               ),
             ],
           ),

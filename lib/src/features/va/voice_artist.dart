@@ -31,9 +31,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
     final client = ref.read(clientProvider);
     if (client == null) return;
     final res = await client
-        .request(GToggleFavouriteReq(
-          (b) => b..vars.staffId = id,
-        ))
+        .request(GToggleFavouriteReq((b) => b..vars.staffId = id))
         .first;
     final req = GStaffQueryReq((b) => b..vars.id = widget.id);
     if (res.hasErrors) return;
@@ -41,9 +39,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
     final cache = client.cache.readQuery(req);
     client.cache.writeQuery(
       req,
-      cache!.rebuild(
-        (p) => p..Staff.isFavourite = !flag,
-      ),
+      cache!.rebuild((p) => p..Staff.isFavourite = !flag),
     );
   }
 
@@ -59,9 +55,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
         width: size.width,
         child: Operation(
           client: client!,
-          operationRequest: GStaffQueryReq(
-            (b) => b..vars.id = widget.id,
-          ),
+          operationRequest: GStaffQueryReq((b) => b..vars.id = widget.id),
           builder: (context, response, error) {
             if (response == null || response.loading) {
               return Center(child: LoadingWidget);
@@ -69,17 +63,16 @@ class _VAScreenState extends ConsumerState<VAScreen> {
               final data = response.data?.Staff;
               return Stack(
                 children: [
-                  Container(
-                    height: 200,
-                  ),
+                  Container(height: 200),
                   SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(
                           height: 150,
                           width: size.width,
-                          padding: const EdgeInsets.symmetric(horizontal: 10)
-                              .copyWith(top: 50, bottom: 40),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ).copyWith(top: 50, bottom: 40),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -87,29 +80,34 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                 onPressed: () => context.pop(),
                                 icon: const Icon(Icons.arrow_back_ios_rounded),
                               ),
-                              Consumer(builder: (context, ref, child) {
-                                return OutlinedButton.icon(
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                  ),
-                                  onPressed: () async {
-                                    _toggleFav(
-                                      ref,
-                                      response.data?.Staff?.isFavourite,
-                                      widget.id,
-                                    );
-                                  },
-                                  icon: LineIcon.heartAlt(
-                                    color: response.data?.Staff?.isFavourite ==
-                                            true
-                                        ? Colors.red
-                                        : null,
-                                  ),
-                                  label: Text(
-                                      '${response.data?.Staff?.favourites ?? 0}'),
-                                );
-                              }),
+                              Consumer(
+                                builder: (context, ref, child) {
+                                  return OutlinedButton.icon(
+                                    style: OutlinedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      _toggleFav(
+                                        ref,
+                                        response.data?.Staff?.isFavourite,
+                                        widget.id,
+                                      );
+                                    },
+                                    icon: LineIcon.heartAlt(
+                                      color:
+                                          response.data?.Staff?.isFavourite ==
+                                              true
+                                          ? Colors.red
+                                          : null,
+                                    ),
+                                    label: Text(
+                                      '${response.data?.Staff?.favourites ?? 0}',
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -125,7 +123,8 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: CachedNetworkImage(
-                                  imageUrl: data?.image?.medium ??
+                                  imageUrl:
+                                      data?.image?.medium ??
                                       data?.image?.large ??
                                       '',
                                   width: 120,
@@ -161,17 +160,19 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                           visible: true,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15)
-                                .copyWith(top: 30),
+                              horizontal: 20,
+                              vertical: 15,
+                            ).copyWith(top: 30),
                             child: const Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'BIO',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -181,69 +182,79 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                         // * Bio Information Start
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Builder(builder: (context) {
-                            List<(IconData, String)> param = [];
-                            if (data?.bloodType != null) {
-                              param
-                                  .add((Icons.bloodtype, '${data?.bloodType}'));
-                            }
-                            if (data?.age != null) {
-                              param.add((Icons.timelapse, '${data?.age} Year'));
-                            }
-                            // if (data?.homeTown != null) {
-                            //   param.add((
-                            //     Icons.location_on_outlined,
-                            //     '${data?.homeTown!.substring(0, data.homeTown!.indexOf(','))}'
-                            //   ));
-                            // }
-                            if (data?.languageV2 != null) {
-                              param
-                                  .add((Icons.language, '${data?.languageV2}'));
-                            }
-                            if (data?.dateOfBirth?.day != null &&
-                                data?.dateOfBirth?.month != null) {
-                              param.add((
-                                Icons.cake_outlined,
-                                '${data?.dateOfBirth?.day} / ${data?.dateOfBirth?.month}'
-                              ));
-                            }
-                            return GridView.builder(
-                              padding: const EdgeInsets.all(0),
-                              shrinkWrap: true,
-                              physics: const ClampingScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 5,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                              ),
-                              itemCount: param.length,
-                              itemBuilder: (context, index) => Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    width: 0.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppTheme.secondaryColor,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Icon(param.elementAt(index).$1, size: 16),
-                                    Text(
-                                      param.elementAt(index).$2,
-                                      overflow: TextOverflow.ellipsis,
+                          child: Builder(
+                            builder: (context) {
+                              List<(IconData, String)> param = [];
+                              if (data?.bloodType != null) {
+                                param.add((
+                                  Icons.bloodtype,
+                                  '${data?.bloodType}',
+                                ));
+                              }
+                              if (data?.age != null) {
+                                param.add((
+                                  Icons.timelapse,
+                                  '${data?.age} Year',
+                                ));
+                              }
+                              // if (data?.homeTown != null) {
+                              //   param.add((
+                              //     Icons.location_on_outlined,
+                              //     '${data?.homeTown!.substring(0, data.homeTown!.indexOf(','))}'
+                              //   ));
+                              // }
+                              if (data?.languageV2 != null) {
+                                param.add((
+                                  Icons.language,
+                                  '${data?.languageV2}',
+                                ));
+                              }
+                              if (data?.dateOfBirth?.day != null &&
+                                  data?.dateOfBirth?.month != null) {
+                                param.add((
+                                  Icons.cake_outlined,
+                                  '${data?.dateOfBirth?.day} / ${data?.dateOfBirth?.month}',
+                                ));
+                              }
+                              return GridView.builder(
+                                padding: const EdgeInsets.all(0),
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 5,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
                                     ),
-                                  ],
+                                itemCount: param.length,
+                                itemBuilder: (context, index) => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey.withValues(alpha: 0.3),
+                                      width: 0.5,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppTheme.secondaryColor,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(param.elementAt(index).$1, size: 16),
+                                      Text(
+                                        param.elementAt(index).$2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            },
+                          ),
                         ),
                         // * Bio Information End
                         // * Description
@@ -251,22 +262,24 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                         // ** Description End
                         // * character
                         Visibility(
-                          visible: data?.characters?.nodes != null &&
+                          visible:
+                              data?.characters?.nodes != null &&
                               (data?.characters?.nodes?.isNotEmpty ?? false),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20)
-                                        .copyWith(top: 20),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ).copyWith(top: 20),
                                 child: const Text(
                                   'CHARACTERS',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -274,13 +287,16 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                 width: size.width,
                                 child: ListView.builder(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
                                   scrollDirection: Axis.horizontal,
                                   itemCount:
                                       data?.characters?.nodes?.length ?? 0,
                                   itemBuilder: (context, index) {
                                     final characterData = data
-                                        ?.characters?.nodes
+                                        ?.characters
+                                        ?.nodes
                                         ?.elementAt(index);
                                     return Container(
                                       width: 80,
@@ -295,9 +311,12 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                               HapticFeedback.mediumImpact();
                                               CharacterDetailRoute(
                                                 id: characterData?.id ?? 0,
-                                                name: characterData?.name?.full
+                                                name:
+                                                    characterData?.name?.full
                                                         ?.replaceAll(
-                                                            ' ', '-') ??
+                                                          ' ',
+                                                          '-',
+                                                        ) ??
                                                     '',
                                               ).push(context);
                                             },
@@ -311,10 +330,13 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                                   height: 80,
                                                   width: 80,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: characterData
-                                                          ?.image?.large ??
+                                                  imageUrl:
                                                       characterData
-                                                          ?.image?.medium ??
+                                                          ?.image
+                                                          ?.large ??
+                                                      characterData
+                                                          ?.image
+                                                          ?.medium ??
                                                       '',
                                                 ),
                                               ),
@@ -326,8 +348,9 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
-                                            style:
-                                                const TextStyle(fontSize: 11),
+                                            style: const TextStyle(
+                                              fontSize: 11,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -345,16 +368,19 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                               data?.characterMedia?.nodes?.isNotEmpty ?? false,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'APPEARED IN',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -382,15 +408,12 @@ class _VAScreenState extends ConsumerState<VAScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: BorderSide(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withValues(alpha: 0.3),
             width: 0.5,
           ),
         ),
-        margin: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 30,
-        ),
-        color: AppTheme.secondaryColor.withOpacity(0.5),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        color: AppTheme.secondaryColor.withValues(alpha: 0.5),
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             padding: const EdgeInsets.all(10),
@@ -406,15 +429,13 @@ class _VAScreenState extends ConsumerState<VAScreen> {
                 onTapLink: (text, href, title) {
                   log.d(href);
                   if (href == null) return;
-                  launchUrlString(
-                    href,
-                    mode: LaunchMode.externalApplication,
-                  );
+                  launchUrlString(href, mode: LaunchMode.externalApplication);
                 },
                 styleSheet: MarkdownStyleSheet(
                   a: const TextStyle(color: Colors.green),
                 ),
-                data: data?.description
+                data:
+                    data?.description
                         .toString()
                         .replaceAll('\n', '\n\n')
                         .replaceAll('~', '_') ??
@@ -432,10 +453,7 @@ class _VAScreenState extends ConsumerState<VAScreen> {
 }
 
 class MediaSection extends StatelessWidget {
-  const MediaSection({
-    super.key,
-    required this.data,
-  });
+  const MediaSection({super.key, required this.data});
 
   final GStaffQueryData_Staff? data;
 
@@ -450,8 +468,9 @@ class MediaSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: data?.characterMedia?.nodes?.length ?? 0,
           itemBuilder: (context, index) {
-            final relatedAnimeData =
-                data?.characterMedia?.nodes?.elementAt(index);
+            final relatedAnimeData = data?.characterMedia?.nodes?.elementAt(
+              index,
+            );
             return Container(
               width: 100,
               margin: const EdgeInsets.only(left: 12),

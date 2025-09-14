@@ -53,7 +53,9 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
           width: w,
           child: Consumer(
             builder: (context, ref, child) {
-              return ref.watch(newsProvider).when(
+              return ref
+                  .watch(newsProvider)
+                  .when(
                     data: (data) {
                       final list = data.rss?.channel?.item ?? [];
                       return ListView.separated(
@@ -64,12 +66,16 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                         itemCount: list.length,
                         itemBuilder: (context, index) {
                           final entry = list.elementAt(index);
-                          final pubDate =
-                              list.elementAt(index).pubDate.toString();
-                          DateFormat dateFormat =
-                              DateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-                          DateTime? parsedPubDate =
-                              dateFormat.tryParse(pubDate, true)?.add(7.hours);
+                          final pubDate = list
+                              .elementAt(index)
+                              .pubDate
+                              .toString();
+                          DateFormat dateFormat = DateFormat(
+                            "EEE, dd MMM yyyy HH:mm:ss Z",
+                          );
+                          DateTime? parsedPubDate = dateFormat
+                              .tryParse(pubDate, true)
+                              ?.add(7.hours);
                           DateTime now = DateTime.now();
                           Duration diff = now.difference(parsedPubDate ?? now);
                           String diffStr = '';
@@ -81,7 +87,7 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                             diffStr = '${diff.inMinutes}m';
                           }
                           return InkWell(
-                            splashColor: Colors.white.withOpacity(0.06),
+                            splashColor: Colors.white.withValues(alpha: 0.06),
                             onTap: () => setState(() {
                               lastOpened = index;
                               Navigator.push(
@@ -97,8 +103,8 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                               height: 160,
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(
-                                  lastOpened == index ? 0.05 : 0,
+                                color: Colors.white.withValues(
+                                  alpha: lastOpened == index ? 0.05 : 0,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
@@ -122,8 +128,9 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                                           entry.title ?? '',
                                           maxLines: 3,
                                           style: Poppins(
-                                            color:
-                                                Colors.white.withOpacity(0.9),
+                                            color: Colors.white.withValues(
+                                              alpha: 0.9,
+                                            ),
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -170,7 +177,8 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Hero(
-                                                tag: entry.thumbnail ??
+                                                tag:
+                                                    entry.thumbnail ??
                                                     entry.guid ??
                                                     index,
                                                 child: CachedNetworkImage(
@@ -207,9 +215,11 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                             Assets.lotties.ufo.lottie(fit: BoxFit.contain),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
                               decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.2),
+                                color: Colors.grey.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
@@ -218,7 +228,7 @@ class _NewsScreenState extends ConsumerState<NewsScreen> {
                                 style: Poppins(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.white.withOpacity(0.6),
+                                  color: Colors.white.withValues(alpha: 0.6),
                                 ),
                               ),
                             ),

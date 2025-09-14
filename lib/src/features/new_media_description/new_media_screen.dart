@@ -56,13 +56,15 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           await client
-              .request(GMediaDetailQueryReq(
-                (b) => b
-                  ..vars.id = widget.id
-                  ..vars.limit = 5
-                  ..vars.page = 1
-                  ..vars.perPage = 10,
-              ))
+              .request(
+                GMediaDetailQueryReq(
+                  (b) => b
+                    ..vars.id = widget.id
+                    ..vars.limit = 5
+                    ..vars.page = 1
+                    ..vars.perPage = 10,
+                ),
+              )
               .first;
         },
         child: Operation(
@@ -97,21 +99,26 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                     endDrawerEnableOpenDragGesture: false,
                     endDrawer: MediaEndDrawer(data: data),
                     key: mediaScreenKey,
-                    floatingActionButton:
-                        Consumer(builder: (context, ref, child) {
-                      final flag = ref.watch(_loading);
-                      return flag
-                          ? Assets.lotties.loadingGifAnimation.lottie(
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : Container();
-                    }),
+                    floatingActionButton: Consumer(
+                      builder: (context, ref, child) {
+                        final flag = ref.watch(_loading);
+                        return flag
+                            ? Assets.lotties.loadingGifAnimation.lottie(
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Container();
+                      },
+                    ),
                     floatingActionButtonLocation:
                         FloatingActionButtonLocation.centerDocked,
-                    backgroundColor:
-                        const Color.fromARGB(255, 29, 29, 29).withOpacity(0.8),
+                    backgroundColor: const Color.fromARGB(
+                      255,
+                      29,
+                      29,
+                      29,
+                    ).withValues(alpha: 0.8),
                     body: CustomScrollView(
                       slivers: [
                         SliverToBoxAdapter(
@@ -134,11 +141,14 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                                 backgroundColor:
                                                     AppTheme.background,
                                                 child: CachedNetworkImage(
-                                                  imageUrl: data?.bannerImage ??
-                                                      data?.coverImage
+                                                  imageUrl:
+                                                      data?.bannerImage ??
+                                                      data
+                                                          ?.coverImage
                                                           ?.extraLarge ??
                                                       data?.coverImage?.large ??
-                                                      data?.coverImage
+                                                      data
+                                                          ?.coverImage
                                                           ?.medium ??
                                                       '',
                                                   fit: BoxFit.fitWidth,
@@ -176,7 +186,8 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                           const Gap(20),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                              horizontal: 20,
+                                            ),
                                             child: Align(
                                               alignment: Alignment.centerLeft,
                                               child: Row(
@@ -204,8 +215,9 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                             ),
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
-                                              color: Colors.white
-                                                  .withOpacity(0.09),
+                                              color: Colors.white.withValues(
+                                                alpha: 0.09,
+                                              ),
                                               border: Border.all(
                                                 color: Colors.white12,
                                                 width: 0.5,
@@ -226,19 +238,31 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                                   copy: true,
                                                 ),
                                                 const Divider(),
-                                                InfoTile('Format',
-                                                    data?.format?.name),
                                                 InfoTile(
-                                                    'Episodes', data?.episodes),
+                                                  'Format',
+                                                  data?.format?.name,
+                                                ),
                                                 InfoTile(
-                                                    'Volumes', data?.volumes),
+                                                  'Episodes',
+                                                  data?.episodes,
+                                                ),
                                                 InfoTile(
-                                                    'Chapters', data?.chapters),
+                                                  'Volumes',
+                                                  data?.volumes,
+                                                ),
                                                 InfoTile(
-                                                    'Duration', data?.duration,
-                                                    extra: ' min per ep'),
-                                                InfoTile('Status',
-                                                    data?.status?.name),
+                                                  'Chapters',
+                                                  data?.chapters,
+                                                ),
+                                                InfoTile(
+                                                  'Duration',
+                                                  data?.duration,
+                                                  extra: ' min per ep',
+                                                ),
+                                                InfoTile(
+                                                  'Status',
+                                                  data?.status?.name,
+                                                ),
                                                 InfoTile(
                                                   'Average Score',
                                                   data?.averageScore,
@@ -250,13 +274,20 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                                   strong: true,
                                                 ),
                                                 const Divider(),
-                                                InfoTile('Season', data?.season,
-                                                    extra:
-                                                        ' ${data?.seasonYear ?? ''}'),
-                                                InfoTile('Start At',
-                                                    '${data?.startDate?.day ?? ''}-${data?.startDate?.month ?? ''}-${data?.startDate?.year ?? ''}'),
-                                                InfoTile('End At',
-                                                    '${data?.endDate?.day ?? ''}-${data?.endDate?.month ?? ''}-${data?.endDate?.year ?? ''}'),
+                                                InfoTile(
+                                                  'Season',
+                                                  data?.season,
+                                                  extra:
+                                                      ' ${data?.seasonYear ?? ''}',
+                                                ),
+                                                InfoTile(
+                                                  'Start At',
+                                                  '${data?.startDate?.day ?? ''}-${data?.startDate?.month ?? ''}-${data?.startDate?.year ?? ''}',
+                                                ),
+                                                InfoTile(
+                                                  'End At',
+                                                  '${data?.endDate?.day ?? ''}-${data?.endDate?.month ?? ''}-${data?.endDate?.year ?? ''}',
+                                                ),
                                                 if (data?.type ==
                                                     GMediaType.ANIME)
                                                   const Divider(),
@@ -264,40 +295,53 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                                         GMediaType.ANIME &&
                                                     data?.studios?.nodes !=
                                                         null &&
-                                                    (data?.studios?.nodes
+                                                    (data
+                                                            ?.studios
+                                                            ?.nodes
                                                             ?.isNotEmpty ??
                                                         false))
-                                                  Builder(builder: (context) {
-                                                    log.d(data?.studios?.nodes);
-                                                    return Column(
-                                                      children: [
-                                                        InfoTile(
+                                                  Builder(
+                                                    builder: (context) {
+                                                      log.d(
+                                                        data?.studios?.nodes,
+                                                      );
+                                                      return Column(
+                                                        children: [
+                                                          InfoTile(
                                                             'Studio',
                                                             data?.studios?.nodes
                                                                     ?.elementAt(
-                                                                        0)
+                                                                      0,
+                                                                    )
                                                                     ?.name ??
-                                                                ''),
-                                                        if (data?.type ==
-                                                            GMediaType.ANIME)
-                                                          for (int i = 1;
+                                                                '',
+                                                          ),
+                                                          if (data?.type ==
+                                                              GMediaType.ANIME)
+                                                            for (
+                                                              int i = 1;
                                                               i <
                                                                   (data
                                                                           ?.studios
                                                                           ?.nodes
                                                                           ?.length ??
                                                                       0);
-                                                              i++)
-                                                            InfoTile(
-                                                              ' ',
-                                                              data?.studios
-                                                                  ?.nodes
-                                                                  ?.elementAt(i)
-                                                                  ?.name,
-                                                            ),
-                                                      ],
-                                                    );
-                                                  }),
+                                                              i++
+                                                            )
+                                                              InfoTile(
+                                                                ' ',
+                                                                data
+                                                                    ?.studios
+                                                                    ?.nodes
+                                                                    ?.elementAt(
+                                                                      i,
+                                                                    )
+                                                                    ?.name,
+                                                              ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
                                                 ThemeSection(data: data),
                                               ],
                                             ),
@@ -306,9 +350,11 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
                                           TagSection(data: data),
                                           const Gap(20),
                                           RelationsWidget(
-                                              relations: data?.relations),
+                                            relations: data?.relations,
+                                          ),
                                           RecommendationWidget(
-                                              data: response.data?.Page),
+                                            data: response.data?.Page,
+                                          ),
                                           TrailerWidget(data: data, size: size),
                                           ExternalLinkWidget(data: data),
                                           const Gap(20),

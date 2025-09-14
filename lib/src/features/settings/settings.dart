@@ -59,8 +59,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 /// Account Setting
                 const AccountSettingSection(),
                 Padding(
-                  padding:
-                      const EdgeInsets.all(10.0).copyWith(bottom: 10, top: 20),
+                  padding: const EdgeInsets.all(
+                    10.0,
+                  ).copyWith(bottom: 10, top: 20),
                   child: GridView(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
@@ -74,7 +75,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           foregroundColor: Colors.white70,
                         ),
                         onPressed: () async {
@@ -83,10 +85,8 @@ class _SettingScreenState extends State<SettingScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const InAppWebview(
-                                title: 'Kurumi',
-                                url: url,
-                              ),
+                              builder: (context) =>
+                                  const InAppWebview(title: 'Kurumi', url: url),
                             ),
                           );
                         },
@@ -103,16 +103,18 @@ class _SettingScreenState extends State<SettingScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          foregroundColor: Colors.white.withOpacity(0.9),
+                          foregroundColor: Colors.white.withValues(alpha: 0.9),
                         ),
                         onPressed: () async => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const InAppWebview(
-                                      title: 'Change Log',
-                                      url:
-                                          'https://subrotokumar.github.io/kurumi/changelog.html',
-                                    ))),
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const InAppWebview(
+                              title: 'Change Log',
+                              url:
+                                  'https://subrotokumar.github.io/kurumi/changelog.html',
+                            ),
+                          ),
+                        ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -125,12 +127,15 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   child: ListTile(
                     tileColor: const Color(0xff25232a),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     onTap: () async {
                       showDialog(
@@ -165,8 +170,9 @@ class _SettingScreenState extends State<SettingScreen> {
                                           .externalNonBrowserApplication,
                                     );
                                   },
-                                  child:
-                                      const Text('  Rate us on Play Store  '),
+                                  child: const Text(
+                                    '  Rate us on Play Store  ',
+                                  ),
                                 ),
                                 TextButton(
                                   onPressed: () => context.pop(),
@@ -185,8 +191,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         fontSize: 18,
                       ),
                     ),
-                    trailing: const Icon(Icons.star_rate_outlined,
-                        color: Colors.white),
+                    trailing: const Icon(
+                      Icons.star_rate_outlined,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 const SettingFooterSection(),

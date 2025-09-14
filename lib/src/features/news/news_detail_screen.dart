@@ -47,10 +47,7 @@ class NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
               onPressed: () {
                 Share.shareUri(Uri.parse(widget.data.link ?? ''));
               },
-              icon: const Icon(
-                Icons.ios_share_rounded,
-                color: Colors.white54,
-              ),
+              icon: const Icon(Icons.ios_share_rounded, color: Colors.white54),
             ),
           ),
           const Gap(5),
@@ -94,10 +91,7 @@ class NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 dateFormat.format(parsedPubDate),
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white60,
-                ),
+                style: const TextStyle(fontSize: 14, color: Colors.white60),
               ),
             ),
             const Gap(30),
@@ -116,10 +110,7 @@ class NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 widget.data.description ?? '',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white60,
-                ),
+                style: const TextStyle(fontSize: 16, color: Colors.white60),
               ),
             ),
             const Gap(40),
@@ -136,12 +127,9 @@ class NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: Colors.white30,
-                      width: 0.5,
-                    ),
+                    border: Border.all(color: Colors.white30, width: 0.5),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,

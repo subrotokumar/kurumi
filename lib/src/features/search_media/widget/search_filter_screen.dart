@@ -77,9 +77,13 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                 children: [
                   FilterOptionWidget(
                     backgroundColor: mediaType == GMediaType.ANIME
-                        ? const Color.fromARGB(255, 254, 91, 91)
-                            .withOpacity(0.4)
-                        : Colors.yellow.shade100.withOpacity(.2),
+                        ? const Color.fromARGB(
+                            255,
+                            254,
+                            91,
+                            91,
+                          ).withValues(alpha: 0.4)
+                        : Colors.yellow.shade100.withValues(alpha: .2),
                     icon: Icon(
                       mediaType == GMediaType.ANIME
                           ? Icons.live_tv_sharp
@@ -91,7 +95,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       mediaType = switch (mediaType.name) {
                         'ANIME' => GMediaType.MANGA,
                         'MANGA' => GMediaType.ANIME,
-                        _ => mediaType
+                        _ => mediaType,
                       };
                     }),
                     subtitle: 'Media Type',
@@ -104,8 +108,8 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       final view = pref.defaultSearchView;
                       return FilterOptionWidget(
                         backgroundColor: view == SearchView.LIST
-                            ? Colors.lightBlueAccent.withOpacity(.2)
-                            : Colors.lightGreenAccent.withOpacity(.2),
+                            ? Colors.lightBlueAccent.withValues(alpha: .2)
+                            : Colors.lightGreenAccent.withValues(alpha: .2),
                         icon: Icon(
                           view == SearchView.LIST
                               ? Icons.view_list
@@ -128,8 +132,9 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
               Row(
                 children: [
                   FilterOptionWidget(
-                    backgroundColor:
-                        year == null ? Colors.white10 : Colors.white30,
+                    backgroundColor: year == null
+                        ? Colors.white10
+                        : Colors.white30,
                     icon: const Icon(
                       Icons.calendar_month_sharp,
                       color: Colors.white60,
@@ -166,15 +171,18 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                                     },
                                     children: [
                                       const Text('ALL'),
-                                      for (int i = DateTime.now().year + 1;
-                                          i >= 1980;
-                                          i--)
+                                      for (
+                                        int i = DateTime.now().year + 1;
+                                        i >= 1980;
+                                        i--
+                                      )
                                         Text(
                                           i.toString(),
                                           style: TextStyle(
-                                              color: currentYear == i
-                                                  ? Colors.amber
-                                                  : null),
+                                            color: currentYear == i
+                                                ? Colors.amber
+                                                : null,
+                                          ),
                                         ),
                                     ],
                                   ),
@@ -204,8 +212,9 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   ),
                   const SizedBox(width: 12),
                   FilterOptionWidget(
-                    backgroundColor:
-                        season == null ? Colors.white10 : Colors.white30,
+                    backgroundColor: season == null
+                        ? Colors.white10
+                        : Colors.white30,
                     icon: const Icon(
                       Icons.sunny_snowing,
                       color: Colors.white60,
@@ -285,8 +294,9 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                       side: BorderSide(
-                        color:
-                            genre.isEmpty ? Colors.transparent : Colors.white30,
+                        color: genre.isEmpty
+                            ? Colors.transparent
+                            : Colors.white30,
                       ),
                     ),
                     clipBehavior: Clip.hardEdge,
@@ -351,33 +361,38 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                             season = null;
                             tagIn = {};
                             genre = {};
-                          })
+                          }),
                         },
                         child: const Text('CLEAR'),
                       ),
                     ),
+                    // Flexible(
+                    //   child: OutlinedButton(
+                    //     onPressed: () {
+                    //       Set<String> a = {}, b = {};
+                    //       context.pop((mediaType, null, null, a, b));
+                    //     },
+                    //     child: const Text('RESET'),
+                    //   ),
+                    // ),
                     Flexible(
                       child: OutlinedButton(
                         onPressed: () {
-                          Set<String> a = {}, b = {};
-                          context.pop((mediaType, null, null, a, b));
-                        },
-                        child: const Text('RESET'),
-                      ),
-                    ),
-                    Flexible(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          context.pop(
-                            (mediaType, year, season, tagIn, genre, studio),
-                          );
+                          context.pop((
+                            mediaType,
+                            year,
+                            season,
+                            tagIn,
+                            genre,
+                            studio,
+                          ));
                         },
                         child: const Text('APPLY'),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -387,10 +402,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
 }
 
 class TagSelector extends StatelessWidget {
-  const TagSelector({
-    super.key,
-    required this.tagIn,
-  });
+  const TagSelector({super.key, required this.tagIn});
 
   final Set<String> tagIn;
 
@@ -399,8 +411,8 @@ class TagSelector extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 7 / 1,
+        crossAxisCount: 2,
+        childAspectRatio: 7 / 2.5,
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
       ),
@@ -425,8 +437,9 @@ class TagSelector extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          flag ? Colors.green.withOpacity(.4) : Colors.black38,
+                      color: flag
+                          ? Colors.green.withValues(alpha: .4)
+                          : Colors.black38,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -449,10 +462,7 @@ class TagSelector extends StatelessWidget {
 }
 
 class GenreSelector extends StatelessWidget {
-  const GenreSelector({
-    super.key,
-    required this.genre,
-  });
+  const GenreSelector({super.key, required this.genre});
 
   final Set<String> genre;
 
@@ -461,7 +471,7 @@ class GenreSelector extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         childAspectRatio: 5 / 3,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -469,54 +479,58 @@ class GenreSelector extends StatelessWidget {
       itemCount: AnilistConstant.mediaGenres.length,
       itemBuilder: (context, index) {
         final e = AnilistConstant.mediaGenres.elementAt(index);
-        return StatefulBuilder(builder: (context, newState) {
-          bool flag = genre.contains(e);
-          return Consumer(builder: (context, ref, child) {
-            return GestureDetector(
-              onTap: () {
-                flag ? genre.remove(e) : genre.add(e);
-                ref.read(_refreshProvider.notifier).update((s) => !s);
-                newState(() {});
-              },
-              child: Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: flag ? Colors.white : Colors.transparent,
-                    width: 1,
-                  ),
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      AnilistConstant.genreImg[e]!,
+        return StatefulBuilder(
+          builder: (context, newState) {
+            bool flag = genre.contains(e);
+            return Consumer(
+              builder: (context, ref, child) {
+                return GestureDetector(
+                  onTap: () {
+                    flag ? genre.remove(e) : genre.add(e);
+                    ref.read(_refreshProvider.notifier).update((s) => !s);
+                    newState(() {});
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
                     ),
-                    fit: BoxFit.cover,
-                    opacity: flag ? .5 : .3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: flag ? Colors.white : Colors.transparent,
+                        width: 1,
+                      ),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          AnilistConstant.genreImg[e]!,
+                        ),
+                        fit: BoxFit.cover,
+                        opacity: flag ? .5 : .3,
+                      ),
+                    ),
+                    child: Text(
+                      e,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
-                child: Text(
-                  e,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.85),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+                );
+              },
             );
-          });
-        });
+          },
+        );
       },
     );
   }
 }
 
 class StudioSelector extends StatefulWidget {
-  const StudioSelector({
-    super.key,
-    required this.studio,
-  });
+  const StudioSelector({super.key, required this.studio});
 
   final Set<String> studio;
 
@@ -540,7 +554,8 @@ class _StudioSelectorState extends State<StudioSelector> {
         if (index == widget.studio.length) {
           return GestureDetector(
             onTap: () async {
-              String value = await Navigator.push(
+              String value =
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const StudioSelectorPage(),

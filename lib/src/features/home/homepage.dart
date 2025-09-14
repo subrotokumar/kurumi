@@ -35,15 +35,11 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
   final List changes = [
     {
       "id": 1,
-      "title": "New Overview Tab in Profile Section",
+      "title": "Search By Screenshot Feature",
       "detail": [
-        "See a summary of your favorite genres",
-        "View your activity history on a heatmap",
-        "Check a chart of your format preferences",
-        "See how your statuses are distributed",
-        "Get detailed status statistics",
-        "Track your overall progress",
-        "View total episodes watched",
+        "Allow users to upload a screenshot and find matching anime information",
+        "Implemented image upload & processing flow",
+        "Updated UI with `Trace by Screenshot` button on",
       ],
     },
   ];
@@ -52,7 +48,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
     Colors.green,
     Colors.orange,
     Colors.lightBlue,
-    Colors.pinkAccent
+    Colors.pinkAccent,
   ];
 
   @override
@@ -61,8 +57,8 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
       height: 300,
       margin: const EdgeInsets.all(7),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.8),
-        border: Border.all(color: kWhiteColor.withOpacity(0.4)),
+        color: Colors.black.withValues(alpha: 0.8),
+        border: Border.all(color: kWhiteColor.withValues(alpha: 0.4)),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -102,19 +98,14 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
                             child: Icon(Icons.square, size: 8),
                           ),
                           const Gap(10),
-                          Expanded(
-                            child: Text(
-                              e.toString(),
-                              style: Poppins(),
-                            ),
-                          ),
+                          Expanded(child: Text(e.toString(), style: Poppins())),
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
         ],
       ),
     );
@@ -161,9 +152,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     await client?.request(GProfileReq()).first;
     final clientM = ref.read(mediaListClientProvider);
     await clientM
-        ?.request(GNotificationsQueryReq(
-          (b) => b..vars.reset = false,
-        ))
+        ?.request(GNotificationsQueryReq((b) => b..vars.reset = false))
         .first;
   }
 
@@ -218,7 +207,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   AnimeScreen(),
                   MangaScreen(),
                   ActivityScreen(),
-                  ProfilePage()
+                  ProfilePage(),
                 ],
               ),
             ),

@@ -31,7 +31,9 @@ class Timer extends StatelessWidget {
       height: 20,
       margin: const EdgeInsets.symmetric(vertical: 14),
       alignment: Alignment.center,
-      color: diffHour < 24 ? Colors.green.withOpacity(0.7) : Colors.white12,
+      color: diffHour < 24
+          ? Colors.green.withValues(alpha: 0.7)
+          : Colors.white12,
       child: Text(
         '$prefix airs in $count $suffix',
         style: Poppins(fontSize: 12),

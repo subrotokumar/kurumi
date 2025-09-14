@@ -5,9 +5,7 @@ import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 
 class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({
-    super.key,
-  });
+  const ErrorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +21,7 @@ class ErrorScreen extends StatelessWidget {
               height: 400,
               child: Stack(
                 children: [
-                  Assets.lotties.ufo.lottie(
-                    fit: BoxFit.contain,
-                  ),
+                  Assets.lotties.ufo.lottie(fit: BoxFit.contain),
                   Align(
                     alignment: Alignment.center,
                     child: Column(
@@ -33,7 +29,7 @@ class ErrorScreen extends StatelessWidget {
                       children: [
                         const SizedBox(height: 100),
                         Shimmer.fromColors(
-                          baseColor: Colors.white.withOpacity(0.8),
+                          baseColor: Colors.white.withValues(alpha: 0.8),
                           highlightColor: Colors.indigo,
                           child: const Text(
                             '404',
@@ -45,12 +41,14 @@ class ErrorScreen extends StatelessWidget {
                           ),
                         ),
                         Shimmer.fromColors(
-                          baseColor: Colors.white.withOpacity(0.8),
+                          baseColor: Colors.white.withValues(alpha: 0.8),
                           highlightColor: Colors.indigo,
                           child: const Text(
                             'NOT FOUND',
                             style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ],

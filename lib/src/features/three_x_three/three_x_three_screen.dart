@@ -32,7 +32,7 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
     Colors.orange,
     Colors.green,
     Colors.yellow,
-    Colors.blue
+    Colors.blue,
   ];
 
   List<String> imageList = List.filled(9, "");
@@ -81,15 +81,10 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
       ),
       backgroundColor: kTransparentColor,
       builder: (_) => Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-          color: kBlackColor.withOpacity(0.8),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          color: kBlackColor.withValues(alpha: 0.8),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -229,9 +224,11 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
                                     fit: BoxFit.cover,
                                     errorWidget: (context, e, child) =>
                                         Container(
-                                      color: kBlackColor.withOpacity(0.3),
-                                      child: Icon(PhosphorIcons.plus()),
-                                    ),
+                                          color: kBlackColor.withValues(
+                                            alpha: 0.3,
+                                          ),
+                                          child: Icon(PhosphorIcons.plus()),
+                                        ),
                                   ),
                                 ),
                               );
@@ -248,7 +245,7 @@ class _ThreeXThreeScreenState extends ConsumerState<ThreeXThreeScreen> {
                       vertical: 5,
                       horizontal: 20,
                     ),
-                    color: kWhiteColor.withOpacity(0.4),
+                    color: kWhiteColor.withValues(alpha: 0.4),
                     child: Text(
                       'Data is stored locally on the device',
                       style: Poppins(color: kWhiteColor),
@@ -294,7 +291,7 @@ class _ThreeXThreeBuilderScreenState extends State<ThreeXThreeBuilderScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            color: kBlackColor.withOpacity(0.6),
+            color: kBlackColor.withValues(alpha: 0.6),
           ),
           child: SafeArea(
             child: Column(
@@ -308,10 +305,7 @@ class _ThreeXThreeBuilderScreenState extends State<ThreeXThreeBuilderScreen> {
                       child: const Icon(PhosphorIconsBold.caretLeft, size: 20),
                     ),
                     const Gap(10),
-                    Text(
-                      'Search',
-                      style: Poppins(fontSize: 20),
-                    ),
+                    Text('Search', style: Poppins(fontSize: 20)),
                     const Spacer(),
                     CupertinoSlidingSegmentedControl(
                       groupValue: searchType,
@@ -323,13 +317,13 @@ class _ThreeXThreeBuilderScreenState extends State<ThreeXThreeBuilderScreen> {
                         if (value == null) return;
                         setState(() => searchType = value);
                       },
-                    )
+                    ),
                   ],
                 ),
                 const Gap(20),
                 CupertinoTextField(
                   controller: search,
-                  style: Poppins(color: kWhiteColor.withOpacity(0.8)),
+                  style: Poppins(color: kWhiteColor.withValues(alpha: 0.8)),
                   onSubmitted: (v) => setState(() {}),
                   suffix: Padding(
                     padding: const EdgeInsets.only(right: 10),
@@ -337,82 +331,96 @@ class _ThreeXThreeBuilderScreenState extends State<ThreeXThreeBuilderScreen> {
                   ),
                 ),
                 const Gap(20),
-                Consumer(builder: (context, ref, child) {
-                  final client = ref.watch(clientProvider);
-                  return Operation(
-                    client: client!,
-                    operationRequest: GSearchAnimeQueryReq((b) {
-                      return b
-                        ..vars.search = search.text.isEmpty ? null : search.text
-                        ..vars.type = searchType
-                        ..vars.formatIn = null
-                        ..vars.genreNotIn = null
-                        ..vars.tagNotIn = null;
-                    }),
-                    builder: (context, response, error) {
-                      if (response == null || response.loading) {
-                        return Center(child: LoadingWidget);
-                      } else {
-                        final mediaList = response.data?.Page?.media;
-                        return SizedBox(
-                          height: 500,
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            shrinkWrap: true,
-                            itemCount: mediaList?.length ?? 0,
-                            separatorBuilder: (context, index) => const Gap(10),
-                            itemBuilder: (context, index) {
-                              final media = mediaList?.elementAt(index);
-                              return InkWell(
-                                onTap: () {
-                                  context.pop(media?.coverImage?.large);
-                                },
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: kWhiteColor.withOpacity(0.7),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final client = ref.watch(clientProvider);
+                    return Operation(
+                      client: client!,
+                      operationRequest: GSearchAnimeQueryReq((b) {
+                        return b
+                          ..vars.search = search.text.isEmpty
+                              ? null
+                              : search.text
+                          ..vars.type = searchType
+                          ..vars.formatIn = null
+                          ..vars.genreNotIn = null
+                          ..vars.tagNotIn = null;
+                      }),
+                      builder: (context, response, error) {
+                        if (response == null || response.loading) {
+                          return Center(child: LoadingWidget);
+                        } else {
+                          final mediaList = response.data?.Page?.media;
+                          return SizedBox(
+                            height: 500,
+                            child: ListView.separated(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                              ),
+                              shrinkWrap: true,
+                              itemCount: mediaList?.length ?? 0,
+                              separatorBuilder: (context, index) =>
+                                  const Gap(10),
+                              itemBuilder: (context, index) {
+                                final media = mediaList?.elementAt(index);
+                                return InkWell(
+                                  onTap: () {
+                                    context.pop(media?.coverImage?.large);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: kWhiteColor.withValues(
+                                              alpha: 0.7,
+                                            ),
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            5,
+                                          ),
                                         ),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: CachedNetworkImage(
-                                        height: 120,
-                                        width: 90,
-                                        imageUrl:
-                                            media?.coverImage?.large ?? '',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    const Gap(10),
-                                    Container(
-                                      width: w * .6,
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      child: Text(
-                                        mediaList?[index]
-                                                ?.title
-                                                ?.userPreferred ??
-                                            '',
-                                        maxLines: 2,
-                                        style: Poppins(
-                                          color: kWhiteColor.withOpacity(0.7),
+                                        child: CachedNetworkImage(
+                                          height: 120,
+                                          width: 90,
+                                          imageUrl:
+                                              media?.coverImage?.large ?? '',
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    },
-                  );
-                }),
+                                      const Gap(10),
+                                      Container(
+                                        width: w * .6,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        child: Text(
+                                          mediaList?[index]
+                                                  ?.title
+                                                  ?.userPreferred ??
+                                              '',
+                                          maxLines: 2,
+                                          style: Poppins(
+                                            color: kWhiteColor.withValues(
+                                              alpha: 0.7,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),

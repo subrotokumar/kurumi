@@ -19,8 +19,11 @@ import 'package:kurumi/src/provider/sorting.provider.dart';
 class MediaListBuilderWidget extends StatefulWidget {
   final GMediaListStatus status;
   final GMediaType type;
-  const MediaListBuilderWidget(
-      {required this.status, required this.type, super.key});
+  const MediaListBuilderWidget({
+    required this.status,
+    required this.type,
+    super.key,
+  });
 
   @override
   State<MediaListBuilderWidget> createState() => _MediaListBuilderWidgetState();
@@ -34,7 +37,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
         final anilistUserId = ref.watch(userId);
         final client = ref.watch(mediaListClientProvider);
         final (filterIndex, order) = ref.watch(
-            widget.type == GMediaType.ANIME ? animeSorting : mangaSorting);
+          widget.type == GMediaType.ANIME ? animeSorting : mangaSorting,
+        );
         final filter = sortingSettingOption[filterIndex].$2;
         final request = filter == null
             ? GMediaListCollectionReq(
@@ -86,31 +90,33 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Consumer(builder: (context, ref, child) {
-                            int pageIndex = widget.type == GMediaType.ANIME
-                                ? ref.watch(animeTabProvider)
-                                : ref.watch(mangaTabProvider);
-                            return Text(
-                              [
-                                'Ongoing',
-                                'Planning',
-                                'Completed',
-                                'On Hold',
-                                'Dropped'
-                              ][pageIndex],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 30,
-                                color: [
-                                  Colors.green,
-                                  Colors.orange,
-                                  Colors.blue,
-                                  Colors.pinkAccent,
-                                  Colors.yellow,
+                          Consumer(
+                            builder: (context, ref, child) {
+                              int pageIndex = widget.type == GMediaType.ANIME
+                                  ? ref.watch(animeTabProvider)
+                                  : ref.watch(mangaTabProvider);
+                              return Text(
+                                [
+                                  'Ongoing',
+                                  'Planning',
+                                  'Completed',
+                                  'On Hold',
+                                  'Dropped',
                                 ][pageIndex],
-                              ),
-                            );
-                          }),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 30,
+                                  color: [
+                                    Colors.green,
+                                    Colors.orange,
+                                    Colors.blue,
+                                    Colors.pinkAccent,
+                                    Colors.yellow,
+                                  ][pageIndex],
+                                ),
+                              );
+                            },
+                          ),
                           Text(
                             ' ${widget.type == GMediaType.ANIME ? 'Anime ' : 'Manga '}',
                             style: const TextStyle(
@@ -127,9 +133,11 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                     Assets.lotties.ufo.lottie(fit: BoxFit.contain),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -138,7 +146,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         style: Poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                         ),
                       ),
                     ),
@@ -174,31 +182,33 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Consumer(builder: (context, ref, child) {
-                              int pageIndex = widget.type == GMediaType.ANIME
-                                  ? ref.watch(animeTabProvider)
-                                  : ref.watch(mangaTabProvider);
-                              return Text(
-                                [
-                                  'Ongoing',
-                                  'Planning',
-                                  'Completed',
-                                  'On Hold',
-                                  'Dropped'
-                                ][pageIndex],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 30,
-                                  color: [
-                                    Colors.green,
-                                    Colors.orange,
-                                    Colors.blue,
-                                    Colors.pinkAccent,
-                                    Colors.yellow,
+                            Consumer(
+                              builder: (context, ref, child) {
+                                int pageIndex = widget.type == GMediaType.ANIME
+                                    ? ref.watch(animeTabProvider)
+                                    : ref.watch(mangaTabProvider);
+                                return Text(
+                                  [
+                                    'Ongoing',
+                                    'Planning',
+                                    'Completed',
+                                    'On Hold',
+                                    'Dropped',
                                   ][pageIndex],
-                                ),
-                              );
-                            }),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 30,
+                                    color: [
+                                      Colors.green,
+                                      Colors.orange,
+                                      Colors.blue,
+                                      Colors.pinkAccent,
+                                      Colors.yellow,
+                                    ][pageIndex],
+                                  ),
+                                );
+                              },
+                            ),
                             Text(
                               ' ${widget.type == GMediaType.ANIME ? 'Anime' : 'Manga'}',
                               style: const TextStyle(
@@ -215,7 +225,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                     final mediaData = data?.elementAt(index - 1);
                     String col =
                         mediaData?.media?.coverImage?.color?.toString() ??
-                            '#ffffff';
+                        '#ffffff';
                     return GestureDetector(
                       onDoubleTap: () {
                         setState(() {});
@@ -245,8 +255,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                   height: 120,
                                   fit: BoxFit.cover,
                                   width: 100,
-                                  imageUrl: mediaData
-                                          ?.media?.coverImage?.large ??
+                                  imageUrl:
+                                      mediaData?.media?.coverImage?.large ??
                                       mediaData?.media?.coverImage?.medium ??
                                       '',
                                 ),
@@ -255,7 +265,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                             SizedBox(
                               width: w - 100,
                               child: Container(
-                                color: mediaData?.media?.status ==
+                                color:
+                                    mediaData?.media?.status ==
                                         GMediaStatus.RELEASING
                                     ? Colors.green
                                     : AppTheme.background,
@@ -280,15 +291,20 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                         Container(
                                           width: double.maxFinite,
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
+                                            vertical: 5,
+                                            horizontal: 10,
+                                          ),
                                           child: Text(
-                                            mediaData?.media?.title
+                                            mediaData
+                                                    ?.media
+                                                    ?.title
                                                     ?.userPreferred ??
                                                 '',
                                             maxLines: 3,
                                             style: TextStyle(
-                                              color: Colors.white
-                                                  .withOpacity(0.85),
+                                              color: Colors.white.withValues(
+                                                alpha: 0.85,
+                                              ),
                                               fontWeight: FontWeight.w500,
                                               fontSize: 14,
                                             ),
@@ -296,7 +312,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                            horizontal: 10,
+                                          ),
                                           child: Row(
                                             children: [
                                               Text(
@@ -305,21 +322,27 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     '',
                                                 style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(int.parse(
+                                                  color: Color(
+                                                    int.parse(
                                                           col.substring(1, 7),
-                                                          radix: 16) +
-                                                      0xFF000000),
+                                                          radix: 16,
+                                                        ) +
+                                                        0xFF000000,
+                                                  ),
                                                 ),
                                               ),
                                               const SizedBox(width: 8),
                                               Consumer(
                                                 builder: (context, ref, child) {
                                                   final pref = ref.watch(
-                                                      sharedfPrefProvider
-                                                          .notifier);
+                                                    sharedfPrefProvider
+                                                        .notifier,
+                                                  );
                                                   var showScore =
                                                       pref.showScore;
-                                                  final score = mediaData?.media
+                                                  final score =
+                                                      mediaData
+                                                          ?.media
                                                           ?.averageScore ??
                                                       0;
                                                   Color col;
@@ -329,7 +352,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     col = Colors.green.shade200;
                                                   } else if (score > 50) {
                                                     col = Colors.yellow
-                                                        .withOpacity(0.8);
+                                                        .withValues(alpha: 0.8);
                                                   } else if (score > 25) {
                                                     col = Colors.orange;
                                                   } else {
@@ -348,7 +371,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                           size: 10,
                                                         ),
                                                         const SizedBox(
-                                                            width: 8),
+                                                          width: 8,
+                                                        ),
                                                         Text(
                                                           '${mediaData?.media?.averageScore}%',
                                                           style: TextStyle(
@@ -361,7 +385,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     ),
                                                   );
                                                 },
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -374,7 +398,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white
-                                                      .withOpacity(0.035),
+                                                      .withValues(alpha: 0.035),
                                                   border: const Border(
                                                     right: BorderSide(
                                                       color: Colors.white24,
@@ -394,92 +418,109 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                               ),
                                             ),
                                             Consumer(
-                                                builder: (context, ref, child) {
-                                              int pageIndex = widget.type ==
-                                                      GMediaType.ANIME
-                                                  ? ref.watch(animeTabProvider)
-                                                  : ref.watch(mangaTabProvider);
-                                              return Visibility(
-                                                visible: pageIndex == 0,
-                                                child: Expanded(
-                                                  flex: 1,
-                                                  child: Material(
-                                                    color: Colors.white
-                                                        .withOpacity(0.05),
-                                                    child: InkWell(
-                                                      radius: 100,
-                                                      splashColor: Colors.white,
-                                                      onTap: () async {
-                                                        HapticFeedback
-                                                            .mediumImpact();
-                                                        var mediaListEntryMutationReq =
-                                                            GMediaListEntryMutationReq(
-                                                                (b) => b
-                                                                  ..vars.id =
-                                                                      mediaData
+                                              builder: (context, ref, child) {
+                                                int pageIndex =
+                                                    widget.type ==
+                                                        GMediaType.ANIME
+                                                    ? ref.watch(
+                                                        animeTabProvider,
+                                                      )
+                                                    : ref.watch(
+                                                        mangaTabProvider,
+                                                      );
+                                                return Visibility(
+                                                  visible: pageIndex == 0,
+                                                  child: Expanded(
+                                                    flex: 1,
+                                                    child: Material(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                            alpha: 0.05,
+                                                          ),
+                                                      child: InkWell(
+                                                        radius: 100,
+                                                        splashColor:
+                                                            Colors.white,
+                                                        onTap: () async {
+                                                          HapticFeedback.mediumImpact();
+                                                          var mediaListEntryMutationReq = GMediaListEntryMutationReq(
+                                                            (b) => b
+                                                              ..vars
+                                                                  .id = mediaData
+                                                                  ?.media
+                                                                  ?.mediaListEntry
+                                                                  ?.id
+                                                              ..vars.mediaId =
+                                                                  mediaData
+                                                                      ?.media
+                                                                      ?.id
+                                                              ..vars.progress =
+                                                                  (mediaData
                                                                           ?.media
                                                                           ?.mediaListEntry
-                                                                          ?.id
-                                                                  ..vars.mediaId =
-                                                                      mediaData
-                                                                          ?.media
-                                                                          ?.id
-                                                                  ..vars.progress =
-                                                                      (mediaData?.media?.mediaListEntry?.progress ??
-                                                                              0) +
-                                                                          1);
-                                                        client
-                                                            .request(
-                                                                mediaListEntryMutationReq)
-                                                            .listen(
-                                                          (response) async {
-                                                            if (response.data !=
-                                                                null) {
-                                                              await client
-                                                                  .request(
-                                                                      request)
-                                                                  .first;
-                                                            }
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const SizedBox(
-                                                              width: 5),
-                                                          Icon(
-                                                            Icons.add,
-                                                            size: 20,
-                                                            color: Colors.purple
-                                                                .shade100,
-                                                          ),
-                                                          Text(
-                                                            widget.type ==
-                                                                    GMediaType
-                                                                        .ANIME
-                                                                ? '1 EP'
-                                                                : '1 CH',
-                                                            style: Poppins(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
+                                                                          ?.progress ??
+                                                                      0) +
+                                                                  1,
+                                                          );
+                                                          client
+                                                              .request(
+                                                                mediaListEntryMutationReq,
+                                                              )
+                                                              .listen((
+                                                                response,
+                                                              ) async {
+                                                                if (response
+                                                                        .data !=
+                                                                    null) {
+                                                                  await client
+                                                                      .request(
+                                                                        request,
+                                                                      )
+                                                                      .first;
+                                                                }
+                                                              });
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Icon(
+                                                              Icons.add,
+                                                              size: 20,
                                                               color: Colors
                                                                   .purple
                                                                   .shade100,
                                                             ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 5),
-                                                        ],
+                                                            Text(
+                                                              widget.type ==
+                                                                      GMediaType
+                                                                          .ANIME
+                                                                  ? '1 EP'
+                                                                  : '1 CH',
+                                                              style: Poppins(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: Colors
+                                                                    .purple
+                                                                    .shade100,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                            }),
+                                                );
+                                              },
+                                            ),
                                           ],
                                         ),
                                       ],

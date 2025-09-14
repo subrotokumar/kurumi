@@ -12,7 +12,8 @@ class ExternalLinkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: data?.externalLinks != null &&
+      visible:
+          data?.externalLinks != null &&
           (data?.externalLinks?.isNotEmpty ?? false),
       child: Column(
         children: [
@@ -25,10 +26,7 @@ class ExternalLinkWidget extends StatelessWidget {
               children: [
                 Text(
                   'External Links',
-                  style: Poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Poppins(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -40,67 +38,77 @@ class ExternalLinkWidget extends StatelessWidget {
             child: Wrap(
               alignment: WrapAlignment.start,
               children: [
-                for (int index = 0;
-                    index < (data?.externalLinks?.length ?? 0);
-                    index++)
-                  Builder(builder: (context) {
-                    String col = data?.externalLinks
-                            ?.elementAt(index)
-                            ?.color
-                            ?.toString() ??
-                        '#2d2d2d00';
-                    String imgUrl =
-                        data?.externalLinks?.elementAt(index)?.icon ?? '';
-                    Color iconColor = Color(
-                      int.parse(col.substring(1, 7), radix: 16) + 0xFF000000,
-                    ).withOpacity(0.7).withAlpha(200);
-                    return GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          data?.externalLinks?.elementAt(index)?.url ?? '',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 10, bottom: 10),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 9,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: iconColor,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white70, width: 0.7),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CachedNetworkImage(
-                              height: 15,
-                              color: kWhiteColor,
-                              imageUrl: imgUrl,
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.web,
-                                color: kWhiteColor,
-                                size: 15,
-                              ),
-                              memCacheHeight: 25,
-                              memCacheWidth: 25,
+                for (
+                  int index = 0;
+                  index < (data?.externalLinks?.length ?? 0);
+                  index++
+                )
+                  Builder(
+                    builder: (context) {
+                      String col =
+                          data?.externalLinks
+                              ?.elementAt(index)
+                              ?.color
+                              ?.toString() ??
+                          '#2d2d2d00';
+                      String imgUrl =
+                          data?.externalLinks?.elementAt(index)?.icon ?? '';
+                      Color iconColor = Color(
+                        int.parse(col.substring(1, 7), radix: 16) + 0xFF000000,
+                      ).withValues(alpha: 0.7).withAlpha(200);
+                      return GestureDetector(
+                        onTap: () {
+                          launchUrlString(
+                            data?.externalLinks?.elementAt(index)?.url ?? '',
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10, bottom: 10),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 9,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: iconColor,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white70,
+                              width: 0.7,
                             ),
-                            const Gap(5),
-                            Text(
-                              data?.externalLinks?.elementAt(index)?.site ?? '',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                height: 15,
+                                color: kWhiteColor,
+                                imageUrl: imgUrl,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                      Icons.web,
+                                      color: kWhiteColor,
+                                      size: 15,
+                                    ),
+                                memCacheHeight: 25,
+                                memCacheWidth: 25,
                               ),
-                            )
-                          ],
+                              const Gap(5),
+                              Text(
+                                data?.externalLinks?.elementAt(index)?.site ??
+                                    '',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    },
+                  ),
               ],
             ),
           ),

@@ -10,11 +10,7 @@ import 'package:kurumi/src/provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class BannerAppBar extends ConsumerWidget {
-  const BannerAppBar({
-    super.key,
-    required this.data,
-    required this.loading,
-  });
+  const BannerAppBar({super.key, required this.data, required this.loading});
 
   final GMediaDetailQueryData_Media? data;
 
@@ -23,8 +19,9 @@ class BannerAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    final bannerAnimation =
-        ref.watch(sharedfPrefProvider.notifier).bannerAnimation;
+    final bannerAnimation = ref
+        .watch(sharedfPrefProvider.notifier)
+        .bannerAnimation;
     return Column(
       children: [
         Stack(
@@ -32,7 +29,8 @@ class BannerAppBar extends ConsumerWidget {
             Visibility(
               visible: data?.bannerImage != null && bannerAnimation,
               replacement: CachedNetworkImage(
-                imageUrl: data?.bannerImage ??
+                imageUrl:
+                    data?.bannerImage ??
                     data?.coverImage?.extraLarge ??
                     data?.coverImage?.large ??
                     data?.coverImage?.medium ??
@@ -52,9 +50,9 @@ class BannerAppBar extends ConsumerWidget {
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
-                    AppTheme.background.withOpacity(.1),
-                    AppTheme.background.withOpacity(.4),
-                    AppTheme.background.withOpacity(0.7),
+                    AppTheme.background.withValues(alpha: .1),
+                    AppTheme.background.withValues(alpha: .4),
+                    AppTheme.background.withValues(alpha: 0.7),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -106,11 +104,7 @@ class BannerAppBar extends ConsumerWidget {
 }
 
 class StatDistributionIcon extends StatelessWidget {
-  const StatDistributionIcon({
-    super.key,
-    required this.data,
-    this.size,
-  });
+  const StatDistributionIcon({super.key, required this.data, this.size});
   final double? size;
   final GMediaDetailQueryData_Media? data;
 
@@ -119,9 +113,7 @@ class StatDistributionIcon extends StatelessWidget {
     return IconButton(
       style: IconButton.styleFrom(
         foregroundColor: Theme.of(context).iconTheme.color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         fixedSize: const Size.square(25),
         side: const BorderSide(color: Colors.white12, width: 0.5),
       ),
@@ -130,9 +122,7 @@ class StatDistributionIcon extends StatelessWidget {
           isScrollControlled: true,
           context: context,
           builder: (context) {
-            return MediaStateWidget(
-              data: data,
-            );
+            return MediaStateWidget(data: data);
           },
         );
       },
@@ -158,10 +148,7 @@ List<Color> colorList = const [
 ];
 
 class MediaStateWidget extends StatefulWidget {
-  const MediaStateWidget({
-    super.key,
-    this.data,
-  });
+  const MediaStateWidget({super.key, this.data});
   final GMediaDetailQueryData_Media? data;
 
   @override
@@ -170,13 +157,13 @@ class MediaStateWidget extends StatefulWidget {
 
 class _MediaStateWidgetState extends State<MediaStateWidget> {
   Color getColor(GMediaListStatus s) => switch (s) {
-        GMediaListStatus.CURRENT => Colors.greenAccent,
-        GMediaListStatus.COMPLETED => Colors.blue,
-        GMediaListStatus.PLANNING => Colors.pink,
-        GMediaListStatus.PAUSED => Colors.yellow,
-        GMediaListStatus.DROPPED => Colors.red,
-        _ => Colors.white.withOpacity(0.9),
-      };
+    GMediaListStatus.CURRENT => Colors.greenAccent,
+    GMediaListStatus.COMPLETED => Colors.blue,
+    GMediaListStatus.PLANNING => Colors.pink,
+    GMediaListStatus.PAUSED => Colors.yellow,
+    GMediaListStatus.DROPPED => Colors.red,
+    _ => Colors.white.withValues(alpha: 0.9),
+  };
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -192,7 +179,7 @@ class _MediaStateWidgetState extends State<MediaStateWidget> {
             Text(
               'Distribution',
               style: Poppins(
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withValues(alpha: 0.95),
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -203,17 +190,17 @@ class _MediaStateWidgetState extends State<MediaStateWidget> {
                 Text(
                   'STATUS',
                   style: Poppins(
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withValues(alpha: 0.95),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   'SCORE',
                   style: Poppins(
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withValues(alpha: 0.95),
                     fontWeight: FontWeight.w600,
                   ),
-                )
+                ),
               ],
             ),
             Container(
@@ -233,32 +220,35 @@ class _MediaStateWidgetState extends State<MediaStateWidget> {
                     series: <CircularSeries>[
                       // Render pie chart
                       DoughnutSeries<
-                          GMediaDetailQueryData_Media_stats_statusDistribution?,
-                          String>(
+                        GMediaDetailQueryData_Media_stats_statusDistribution?,
+                        String
+                      >(
                         dataSource:
                             widget.data?.stats?.statusDistribution?.toList() ??
-                                [],
+                            [],
                         pointColorMapper: (data, _) => getColor(data!.status!),
                         xValueMapper: (data, _) => data!.status!.name,
                         yValueMapper: (data, _) => data!.amount,
-                        dataLabelSettings:
-                            const DataLabelSettings(isVisible: true),
-                      )
+                        dataLabelSettings: const DataLabelSettings(
+                          isVisible: true,
+                        ),
+                      ),
                     ],
                   ),
                   Builder(
                     builder: (context) {
                       final data =
                           (widget.data?.stats?.scoreDistribution?.asList() ??
-                              []);
+                          []);
                       return SfCartesianChart(
                         primaryYAxis: const CategoryAxis(isVisible: true),
                         primaryXAxis: const CategoryAxis(),
                         tooltipBehavior: TooltipBehavior(enable: true),
                         series: [
                           ColumnSeries<
-                              GMediaDetailQueryData_Media_stats_scoreDistribution?,
-                              String>(
+                            GMediaDetailQueryData_Media_stats_scoreDistribution?,
+                            String
+                          >(
                             dataSource: data,
                             pointColorMapper: (datum, index) =>
                                 colorList.elementAt(index),

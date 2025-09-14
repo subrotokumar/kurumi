@@ -12,6 +12,7 @@ import 'package:kurumi/src/features/new_media_description/new_media_screen.dart'
 import 'package:kurumi/src/features/news/news_screen.dart';
 import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
+import 'package:kurumi/src/features/search_media/image_search_page.dart';
 import 'package:kurumi/src/features/search_media/widget/search_filter_screen.dart';
 import 'package:kurumi/src/features/search_media/search_media_page.dart';
 import 'package:kurumi/src/features/settings/settings.dart';
@@ -71,12 +72,13 @@ final router = Provider<GoRouter>(
           final GMediaType mediaType = extra['mediaType'] as GMediaType;
           final String? tags = extra['tags'] as String?;
           final String? genre = extra['genre'] as String?;
-          return SearchMedia(
-            mediaType: mediaType,
-            tag: tags,
-            genre: genre,
-          );
+          return SearchMedia(mediaType: mediaType, tag: tags, genre: genre);
         },
+      ),
+      GoRoute(
+        name: AppRouteConstant.ImageSearchScreen.name,
+        path: AppRouteConstant.ImageSearchScreen.path,
+        builder: (context, state) => ImageSearchScreen(),
       ),
       GoRoute(
         name: AppRouteConstant.MediaScreen.name,
@@ -97,10 +99,7 @@ final router = Provider<GoRouter>(
         builder: (context, state) {
           var id = int.parse(state.pathParameters['id'] ?? '0');
           String title = state.pathParameters['title'] ?? '';
-          return MediaScreen(
-            id: id,
-            title: title,
-          );
+          return MediaScreen(id: id, title: title);
         },
       ),
       GoRoute(
@@ -109,10 +108,7 @@ final router = Provider<GoRouter>(
         builder: (context, state) {
           var id = int.parse(state.pathParameters['id'] ?? '0');
           String title = state.pathParameters['title'] ?? '';
-          return MediaScreen(
-            id: id,
-            title: title,
-          );
+          return MediaScreen(id: id, title: title);
         },
       ),
       GoRoute(
@@ -134,9 +130,7 @@ final router = Provider<GoRouter>(
         name: AppRouteConstant.SearchFilterScreen.name,
         path: AppRouteConstant.SearchFilterScreen.path,
         builder: (context, state) {
-          return SearchFilterScreen(
-            filterOption: state.extra as FilterOption,
-          );
+          return SearchFilterScreen(filterOption: state.extra as FilterOption);
         },
       ),
       GoRoute(
@@ -146,10 +140,7 @@ final router = Provider<GoRouter>(
           int id = int.parse(state.pathParameters['id'] ?? '0');
           GReviewQueryData_Page_reviews? data =
               state.extra as GReviewQueryData_Page_reviews;
-          return ReviewScreen(
-            id: id,
-            reviewData: data,
-          );
+          return ReviewScreen(id: id, reviewData: data);
         },
       ),
       GoRoute(
@@ -173,8 +164,9 @@ final router = Provider<GoRouter>(
     redirect: (context, state) async {
       final path = state.uri.path;
       log.d('Path => $path');
-      final moveTo =
-          path.endsWith('/') ? path.substring(0, path.length - 1) : path;
+      final moveTo = path.endsWith('/')
+          ? path.substring(0, path.length - 1)
+          : path;
       if (moveTo == '/' || moveTo == '/login' || moveTo == '/splash') {
       } else if (ref.read(initStatus)) {
       } else if (moveTo.isNotEmpty) {

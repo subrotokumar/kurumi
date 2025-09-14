@@ -24,22 +24,24 @@ class StatsWidget extends StatelessWidget {
               timeline: 'Current',
             ),
             for (int i = 0; i < rankData.length && i < 2; i++)
-              Builder(builder: (context) {
-                final rank = rankData.elementAt(i);
-                final title = switch (rank?.type) {
-                  GMediaRankType.RATED => 'HIGHEST RATED',
-                  GMediaRankType.POPULAR => 'MOST POPULAR',
-                  _ => '',
-                };
-                final timeline = rank?.allTime == true
-                    ? 'All Time'
-                    : '${rank?.season == null ? '' : rank?.season?.name} ${rank?.year ?? ''}';
-                return RankingStats(
-                  title: title,
-                  value: '#${rank?.rank ?? 0}',
-                  timeline: timeline,
-                );
-              })
+              Builder(
+                builder: (context) {
+                  final rank = rankData.elementAt(i);
+                  final title = switch (rank?.type) {
+                    GMediaRankType.RATED => 'HIGHEST RATED',
+                    GMediaRankType.POPULAR => 'MOST POPULAR',
+                    _ => '',
+                  };
+                  final timeline = rank?.allTime == true
+                      ? 'All Time'
+                      : '${rank?.season == null ? '' : rank?.season?.name} ${rank?.year ?? ''}';
+                  return RankingStats(
+                    title: title,
+                    value: '#${rank?.rank ?? 0}',
+                    timeline: timeline,
+                  );
+                },
+              ),
           ],
         ),
       );
@@ -68,7 +70,7 @@ class RankingStats extends StatelessWidget {
           style: GoogleFonts.urbanist(
             height: 1,
             fontSize: 13,
-            color: Colors.grey.withOpacity(0.9),
+            color: Colors.grey.withValues(alpha: 0.9),
             fontWeight: FontWeight.w500,
           ),
         ),

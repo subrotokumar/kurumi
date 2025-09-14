@@ -41,11 +41,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
         indicatorBuilder: (context, controller) {
           return const CircleAvatar(
             backgroundColor: Colors.white,
-            child: Icon(
-              Icons.search,
-              color: Colors.blue,
-              size: 30,
-            ),
+            child: Icon(Icons.search, color: Colors.blue, size: 30),
           );
         },
         child: SingleChildScrollView(
@@ -60,7 +56,9 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                     width: size.height,
                     height: size.height / 3,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 40, horizontal: 16),
+                      vertical: 40,
+                      horizontal: 16,
+                    ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -80,14 +78,14 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                           icon: Icon(
                             Icons.search,
                             weight: 1.5,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                           ),
                           onPressed: () {
                             HapticFeedback.mediumImpact();
                             context.pushNamed(
                               AppRouteConstant.SearchScreen.name,
                               extra: {
-                                'mediaType': ref.read(discoverTabProvider)
+                                'mediaType': ref.read(discoverTabProvider),
                               },
                             );
                           },
@@ -117,7 +115,7 @@ class _DiscoverTabState extends ConsumerState<DiscoverTab> {
                       SizedBox(height: 10),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -138,6 +136,7 @@ class SubTabWidget extends StatelessWidget {
       Colors.yellow,
       Colors.green,
       Colors.orange,
+      Colors.purple,
     ];
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -156,47 +155,51 @@ class SubTabWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               // border: Border.all(color: Colors.white38),
             ),
-            child: Consumer(builder: (context, ref, child) {
-              final type = ref.watch(discoverTabProvider);
-              final isAnime = type == GMediaType.ANIME;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => ref.watch(discoverTabProvider.notifier).state =
-                        GMediaType.ANIME,
-                    child: Text(
-                      'ANIME',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: isAnime ? Colors.white : Colors.white38,
+            child: Consumer(
+              builder: (context, ref, child) {
+                final type = ref.watch(discoverTabProvider);
+                final isAnime = type == GMediaType.ANIME;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () =>
+                          ref.watch(discoverTabProvider.notifier).state =
+                              GMediaType.ANIME,
+                      child: Text(
+                        'ANIME',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: isAnime ? Colors.white : Colors.white38,
+                        ),
                       ),
                     ),
-                  ),
-                  const Text('  |  '),
-                  GestureDetector(
-                    onTap: () => ref.read(discoverTabProvider.notifier).state =
-                        GMediaType.MANGA,
-                    child: Text(
-                      'MANGA',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: !isAnime ? Colors.white : Colors.white38,
+                    const Text('  |  '),
+                    GestureDetector(
+                      onTap: () =>
+                          ref.read(discoverTabProvider.notifier).state =
+                              GMediaType.MANGA,
+                      child: Text(
+                        'MANGA',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: !isAnime ? Colors.white : Colors.white38,
+                        ),
                       ),
                     ),
-                  )
-                ],
-              );
-            }),
+                  ],
+                );
+              },
+            ),
           ),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Card(
-                color: color[3].withOpacity(0.4),
+                color: color[3].withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                   // side: BorderSide(color: color[3], width: 0.5),
@@ -212,14 +215,14 @@ class SubTabWidget extends StatelessWidget {
                     child: Icon(
                       PhosphorIcons.notification(PhosphorIconsStyle.bold),
                       size: 21,
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: .9),
                     ),
                   ),
                 ),
               ),
               const Gap(10),
               Card(
-                color: color[2].withOpacity(0.4),
+                color: color[2].withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   // side: BorderSide(color: color[2], width: 0.5),
@@ -235,44 +238,82 @@ class SubTabWidget extends StatelessWidget {
                     child: Icon(
                       PhosphorIcons.calendar(PhosphorIconsStyle.bold),
                       size: 20,
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                     ),
                   ),
                 ),
               ),
               const Gap(10),
               Card(
-                color: color[1].withOpacity(0.4),
+                color: color[1].withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   // side: BorderSide(color: color[1], width: 0.5),
                 ),
-                child: Consumer(builder: (context, ref, child) {
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final discoverTab = ref.watch(discoverTabProvider);
+                    return InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        HapticFeedback.mediumImpact();
+                        context.pushNamed(
+                          AppRouteConstant.SearchScreen.name,
+                          extra: {'mediaType': discoverTab},
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          PhosphorIcons.listMagnifyingGlass(
+                            PhosphorIconsStyle.bold,
+                          ),
+                          size: 21,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              Consumer(
+                builder: (context, ref, child) {
                   final discoverTab = ref.watch(discoverTabProvider);
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    onTap: () {
-                      HapticFeedback.mediumImpact();
-                      context.pushNamed(
-                        AppRouteConstant.SearchScreen.name,
-                        extra: {'mediaType': discoverTab},
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Icon(
-                        PhosphorIcons.listMagnifyingGlass(
-                            PhosphorIconsStyle.bold),
-                        size: 21,
-                        color: Colors.white.withOpacity(0.9),
+                  return Visibility(
+                    visible: discoverTab == GMediaType.ANIME,
+                    child: Card(
+                      margin: EdgeInsets.only(left: 10),
+                      color: color[5].withValues(alpha: 0.4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        // side: BorderSide(color: color[1], width: 0.5),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.pushNamed(
+                            AppRouteConstant.ImageSearchScreen.name,
+                            extra: {'mediaType': discoverTab},
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Icon(
+                            PhosphorIcons.images(PhosphorIconsStyle.bold),
+                            size: 21,
+                            color: Colors.white.withValues(alpha: 0.9),
+                          ),
+                        ),
                       ),
                     ),
                   );
-                }),
+                },
               ),
               const Gap(10),
               Card(
-                color: color[0].withOpacity(0.4),
+                color: color[0].withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   // side: BorderSide(color: color[0], width: 0.5),
@@ -285,14 +326,14 @@ class SubTabWidget extends StatelessWidget {
                     child: Icon(
                       Icons.ramen_dining,
                       size: 21,
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                     ),
                   ),
                 ),
               ),
               const Gap(10),
               Card(
-                color: color[4].withOpacity(0.4),
+                color: color[4].withValues(alpha: 0.4),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   // side: BorderSide(color: color[4], width: 0.5),
@@ -306,11 +347,11 @@ class SubTabWidget extends StatelessWidget {
                     child: Icon(
                       Icons.newspaper,
                       size: 21,
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -318,22 +359,25 @@ class SubTabWidget extends StatelessWidget {
     );
   }
 
-  Widget Box(double padding, int itemCount, String title, Color col,
-      final onTap, Icon icon) {
+  Widget Box(
+    double padding,
+    int itemCount,
+    String title,
+    Color col,
+    final onTap,
+    Icon icon,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 35,
       width: 35,
       decoration: BoxDecoration(
-        color: col.withOpacity(0.5),
+        color: col.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: InkWell(
         onTap: onTap,
-        child: Icon(
-          icon.icon,
-          color: Colors.white.withOpacity(0.8),
-        ),
+        child: Icon(icon.icon, color: Colors.white.withValues(alpha: 0.8)),
       ),
     );
     // ignore: dead_code
@@ -343,12 +387,12 @@ class SubTabWidget extends StatelessWidget {
       decoration: BoxDecoration(
         // shape: BoxShape.circle,
         borderRadius: BorderRadius.circular(20),
-        color: col.withOpacity(0.4),
+        color: col.withValues(alpha: 0.4),
         gradient: LinearGradient(
           colors: [
-            col.withOpacity(0.6),
-            col.withOpacity(0.3),
-            Colors.transparent
+            col.withValues(alpha: 0.6),
+            col.withValues(alpha: 0.3),
+            Colors.transparent,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

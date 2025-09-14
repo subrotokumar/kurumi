@@ -30,8 +30,8 @@ class ReviewScreen extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: [
                       Colors.transparent,
-                      const Color(0xff1f1f1f).withOpacity(.1),
-                      const Color(0xff1f1f1f).withOpacity(.6),
+                      const Color(0xff1f1f1f).withValues(alpha: .1),
+                      const Color(0xff1f1f1f).withValues(alpha: .6),
                       const Color(0xff1f1f1f),
                     ].reversed.toList(),
                     begin: Alignment.topCenter,
@@ -45,22 +45,23 @@ class ReviewScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 30),
-                      Builder(builder: (context) {
-                        return Markdown(
-                          padding: const EdgeInsets.all(0),
-                          data: validMarkdown(reviewData.body),
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          selectable: true,
-                          styleSheet: MarkdownStyleSheet(
-                            p: const TextStyle(
-                              fontSize: 16,
+                      Builder(
+                        builder: (context) {
+                          return Markdown(
+                            padding: const EdgeInsets.all(0),
+                            data: validMarkdown(reviewData.body),
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            selectable: true,
+                            styleSheet: MarkdownStyleSheet(
+                              p: const TextStyle(fontSize: 16),
+                              blockquoteDecoration: const BoxDecoration(
+                                color: Colors.white12,
+                              ),
                             ),
-                            blockquoteDecoration:
-                                const BoxDecoration(color: Colors.white12),
-                          ),
-                        );
-                      }),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 12),
                       SizedBox(
                         height: 24,
@@ -110,7 +111,7 @@ class ReviewScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -125,8 +126,8 @@ class ReviewScreen extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: [
                       Colors.transparent,
-                      AppTheme.background.withOpacity(.1),
-                      AppTheme.background.withOpacity(.6),
+                      AppTheme.background.withValues(alpha: .1),
+                      AppTheme.background.withValues(alpha: .6),
                       AppTheme.background,
                     ].reversed.toList(),
                     begin: Alignment.topCenter,
@@ -150,7 +151,8 @@ class ReviewScreen extends ConsumerWidget {
                 child: Stack(
                   children: [
                     CachedNetworkImage(
-                      imageUrl: reviewData.media?.bannerImage ??
+                      imageUrl:
+                          reviewData.media?.bannerImage ??
                           reviewData.media?.coverImage?.large ??
                           '',
                       height: size.height * .3,
@@ -163,8 +165,8 @@ class ReviewScreen extends ConsumerWidget {
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            AppTheme.background.withOpacity(.1),
-                            AppTheme.background.withOpacity(.6),
+                            AppTheme.background.withValues(alpha: .1),
+                            AppTheme.background.withValues(alpha: .6),
                             AppTheme.background,
                           ],
                           begin: Alignment.topCenter,
@@ -208,10 +210,7 @@ class ReviewScreen extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            Container(
-                              height: 1,
-                              color: Colors.white,
-                            ),
+                            Container(height: 1, color: Colors.white),
                           ],
                         ),
                       ),
@@ -236,12 +235,7 @@ class ReviewScreen extends ConsumerWidget {
                         icon: const Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 25,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black,
-                              blurRadius: 5,
-                            )
-                          ],
+                          shadows: [Shadow(color: Colors.black, blurRadius: 5)],
                         ),
                       ),
                     ),

@@ -32,10 +32,7 @@ class NotificationScreen extends StatelessWidget {
             initialIndex: 1,
             child: Stack(
               children: [
-                SizedBox(
-                  height: size.height,
-                  width: size.width,
-                ),
+                SizedBox(height: size.height, width: size.width),
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -43,7 +40,7 @@ class NotificationScreen extends StatelessWidget {
                         Colors.black,
                         Colors.black87,
                         Colors.black87,
-                        Colors.black
+                        Colors.black,
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -56,8 +53,9 @@ class NotificationScreen extends StatelessWidget {
                     Container(
                       width: size.width,
                       padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5)
-                          .copyWith(right: 5),
+                        horizontal: 20,
+                        vertical: 5,
+                      ).copyWith(right: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -110,8 +108,9 @@ class NotificationScreen extends StatelessWidget {
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.white30,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
                                       );
                                     },
@@ -124,15 +123,21 @@ class NotificationScreen extends StatelessWidget {
                                   return Center(
                                     child: Column(
                                       children: [
-                                        Assets.lotties.ufo
-                                            .lottie(fit: BoxFit.contain),
+                                        Assets.lotties.ufo.lottie(
+                                          fit: BoxFit.contain,
+                                        ),
                                         Container(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 8),
+                                            horizontal: 16,
+                                            vertical: 8,
+                                          ),
                                           decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            color: Colors.grey.withValues(
+                                              alpha: 0.2,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
                                           ),
                                           child: Text(
                                             'No new notifications\nat this time',
@@ -140,8 +145,9 @@ class NotificationScreen extends StatelessWidget {
                                             style: Poppins(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w500,
-                                              color:
-                                                  Colors.white.withOpacity(0.6),
+                                              color: Colors.white.withValues(
+                                                alpha: 0.6,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -155,8 +161,9 @@ class NotificationScreen extends StatelessWidget {
                                   shrinkWrap: true,
                                   itemCount: data?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    final type =
-                                        data?.elementAt(index)?.G__typename;
+                                    final type = data
+                                        ?.elementAt(index)
+                                        ?.G__typename;
                                     // ignore: prefer_typing_uninitialized_variables
                                     late final item;
                                     if (type !=
@@ -167,15 +174,18 @@ class NotificationScreen extends StatelessWidget {
                                     bool isAiring =
                                         type == 'AiringNotification';
                                     if (isAiring) {
-                                      item = data?.elementAt(index)
-                                          as GNotificationsQueryData_Page_notifications__asAiringNotification;
+                                      item =
+                                          data?.elementAt(index)
+                                              as GNotificationsQueryData_Page_notifications__asAiringNotification;
                                     } else {
-                                      item = data?.elementAt(index)
-                                          as GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification;
+                                      item =
+                                          data?.elementAt(index)
+                                              as GNotificationsQueryData_Page_notifications__asRelatedMediaAdditionNotification;
                                     }
                                     DateTime time =
                                         DateTime.fromMillisecondsSinceEpoch(
-                                            (item?.createdAt ?? 0) * 1000);
+                                          (item?.createdAt ?? 0) * 1000,
+                                        );
 
                                     int diff = time.difference(today).inDays;
                                     diff = diff < 0 ? -diff : diff;
@@ -201,7 +211,10 @@ class NotificationScreen extends StatelessWidget {
                                             pathParameters: {
                                               'id': (item?.media?.id ?? 0)
                                                   .toString(),
-                                              'title': item.media?.title
+                                              'title':
+                                                  item
+                                                      .media
+                                                      ?.title
                                                       ?.userPreferred ??
                                                   '',
                                             },
@@ -213,8 +226,11 @@ class NotificationScreen extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: CachedNetworkImage(
-                                                imageUrl: item?.media
-                                                        ?.coverImage?.large ??
+                                                imageUrl:
+                                                    item
+                                                        ?.media
+                                                        ?.coverImage
+                                                        ?.large ??
                                                     "",
                                                 height: 90,
                                                 width: 70,
@@ -225,9 +241,11 @@ class NotificationScreen extends StatelessWidget {
                                               width: size.width - 20 - 90,
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                          vertical: 8)
-                                                      .copyWith(
-                                                          left: 15, right: 8),
+                                                    vertical: 8,
+                                                  ).copyWith(
+                                                    left: 15,
+                                                    right: 8,
+                                                  ),
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -237,21 +255,25 @@ class NotificationScreen extends StatelessWidget {
                                                     alignment:
                                                         Alignment.centerLeft,
                                                     child: Text(
-                                                      type == 'AiringNotification'
+                                                      type ==
+                                                              'AiringNotification'
                                                           ? 'Episode ${item.episode} of ${item.media?.title?.userPreferred ?? ''} aired.'
                                                           : '${item.media?.title?.userPreferred ?? ''} was recently added to the site.',
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: isAiring
-                                                              ? Colors
-                                                                  .blue.shade100
-                                                              : Colors.amber
-                                                                  .shade50),
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: isAiring
+                                                            ? Colors
+                                                                  .blue
+                                                                  .shade100
+                                                            : Colors
+                                                                  .amber
+                                                                  .shade50,
+                                                      ),
                                                     ),
                                                   ),
                                                   Align(
