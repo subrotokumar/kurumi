@@ -34,27 +34,24 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     if (!ref.read(initStatus)) {
       await ref.read(initStatus.notifier).initialize();
     }
-    timer = Timer(
-      3500.milliseconds,
-      () {
-        if (ref.read(initStatus)) {
-          context.go('/home');
-        } else {
-          log.i('login');
-          context.goNamed(AppRouteConstant.LoginScreen.name);
-        }
-      },
-    );
+    timer = Timer(3500.milliseconds, () {
+      if (ref.read(initStatus)) {
+        context.go('/home');
+      } else {
+        log.i('login');
+        context.goNamed(AppRouteConstant.LoginScreen.name);
+      }
+    });
   }
 
   final colors = [
-    kBlackColor.withOpacity(0.8),
-    kBlackColor.withOpacity(0.6),
-    kBlackColor.withOpacity(0.4),
-    kBlackColor.withOpacity(0.1),
-    kBlackColor.withOpacity(0.4),
-    kBlackColor.withOpacity(0.6),
-    kBlackColor.withOpacity(0.8),
+    kBlackColor.withValues(alpha: 0.8),
+    kBlackColor.withValues(alpha: 0.6),
+    kBlackColor.withValues(alpha: 0.4),
+    kBlackColor.withValues(alpha: 0.1),
+    kBlackColor.withValues(alpha: 0.4),
+    kBlackColor.withValues(alpha: 0.6),
+    kBlackColor.withValues(alpha: 0.8),
   ];
   @override
   Widget build(BuildContext context) {
@@ -66,57 +63,59 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: OrientationBuilder(builder: (context, orientation) {
-                return Visibility(
-                  visible: !isTablet || orientation == Orientation.portrait,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: isTablet ? height + 200 : null,
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageListView(
-                              duration: 18,
-                              firstSet: true,
-                              directionReverse: true,
-                            ),
-                            ImageListView(
-                              duration: 14,
-                              firstSet: false,
-                              directionReverse: false,
-                            ),
-                            ImageListView(
-                              duration: 10,
-                              firstSet: true,
-                              directionReverse: true,
-                              listReverse: true,
-                            ),
-                            ImageListView(
-                              duration: 10,
-                              firstSet: false,
-                              directionReverse: false,
-                              listReverse: true,
-                            ),
-                            ImageListView(
-                              duration: 14,
-                              firstSet: true,
-                              directionReverse: true,
-                            ),
-                            ImageListView(
-                              duration: 18,
-                              firstSet: false,
-                              directionReverse: false,
-                            ),
-                          ],
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  return Visibility(
+                    visible: !isTablet || orientation == Orientation.portrait,
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                      child: SingleChildScrollView(
+                        child: SizedBox(
+                          height: isTablet ? height + 200 : null,
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ImageListView(
+                                duration: 18,
+                                firstSet: true,
+                                directionReverse: true,
+                              ),
+                              ImageListView(
+                                duration: 14,
+                                firstSet: false,
+                                directionReverse: false,
+                              ),
+                              ImageListView(
+                                duration: 10,
+                                firstSet: true,
+                                directionReverse: true,
+                                listReverse: true,
+                              ),
+                              ImageListView(
+                                duration: 10,
+                                firstSet: false,
+                                directionReverse: false,
+                                listReverse: true,
+                              ),
+                              ImageListView(
+                                duration: 14,
+                                firstSet: true,
+                                directionReverse: true,
+                              ),
+                              ImageListView(
+                                duration: 18,
+                                firstSet: false,
+                                directionReverse: false,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                },
+              ),
             ),
             Positioned.fill(
               child: Container(
@@ -144,20 +143,19 @@ class _SplashPageState extends ConsumerState<SplashPage> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 50),
-                child: Text(
-                  'Kurumi',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: isTablet ? 35 : 24,
-                  ),
-                ).animate(onComplete: (c) => c.repeat()).shimmer(
-                  duration: 4.seconds,
-                  colors: [
-                    kWhiteColor,
-                    Colors.grey,
-                    kWhiteColor,
-                  ],
-                ),
+                child:
+                    Text(
+                          'Kurumi',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: isTablet ? 35 : 24,
+                          ),
+                        )
+                        .animate(onComplete: (c) => c.repeat())
+                        .shimmer(
+                          duration: 4.seconds,
+                          colors: [kWhiteColor, Colors.grey, kWhiteColor],
+                        ),
               ),
             ),
             Center(

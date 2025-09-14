@@ -33,11 +33,7 @@ class MediaLoading extends StatelessWidget {
                     padding: const EdgeInsets.all(30.0).copyWith(top: 40),
                     child: const Row(
                       children: [
-                        Loading(
-                          radius: 10,
-                          height: 40,
-                          width: 40,
-                        ),
+                        Loading(radius: 10, height: 40, width: 40),
                         Spacer(),
                         Loading(radius: 10, height: 40, width: 40),
                       ],
@@ -63,13 +59,19 @@ class MediaLoading extends StatelessWidget {
                             Row(
                               children: [
                                 ClipOval(
-                                  child:
-                                      Loading(height: 40, width: 40, radius: 5),
+                                  child: Loading(
+                                    height: 40,
+                                    width: 40,
+                                    radius: 5,
+                                  ),
                                 ),
                                 SizedBox(width: 30),
                                 ClipOval(
-                                  child:
-                                      Loading(height: 40, width: 40, radius: 5),
+                                  child: Loading(
+                                    height: 40,
+                                    width: 40,
+                                    radius: 5,
+                                  ),
                                 ),
                               ],
                             ),
@@ -114,8 +116,12 @@ class MediaLoading extends StatelessWidget {
 }
 
 class Loading extends StatelessWidget {
-  const Loading(
-      {super.key, required this.height, required this.width, this.radius});
+  const Loading({
+    super.key,
+    required this.height,
+    required this.width,
+    this.radius,
+  });
   final double height;
   final double width;
   final double? radius;
@@ -125,13 +131,9 @@ class Loading extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius ?? 0),
       child: Shimmer.fromColors(
-        baseColor: Colors.white.withOpacity(0.3),
+        baseColor: Colors.white.withValues(alpha: 0.3),
         highlightColor: Colors.black38,
-        child: Container(
-          height: height,
-          width: width,
-          color: Colors.white,
-        ),
+        child: Container(height: height, width: width, color: Colors.white),
       ),
     );
   }

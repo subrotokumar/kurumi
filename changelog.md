@@ -1,3 +1,10 @@
+## v2.1.0
+
+Feat: Search By Screenshot Feature
+  - Allow users to upload a screenshot and find matching anime information
+  - Implemented image upload & processing flow
+  - Updated UI with "Trace by Screenshot" button on Dashboard Screen
+
 ## v2.0.0
 
 - Feat: New Overview Tab in Profile Section

@@ -51,8 +51,10 @@ class PopularMedia extends StatelessWidget {
                 return SizedBox(
                   height: 160,
                   child: ListView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
                     scrollDirection: Axis.horizontal,
                     itemCount: 7,
                     itemBuilder: (context, index) => Shimmer.fromColors(
@@ -60,10 +62,7 @@ class PopularMedia extends StatelessWidget {
                       highlightColor: Colors.black12,
                       child: const Card(
                         margin: EdgeInsets.symmetric(horizontal: 5),
-                        child: SizedBox(
-                          height: 120,
-                          width: 100,
-                        ),
+                        child: SizedBox(height: 120, width: 100),
                       ),
                     ),
                   ),
@@ -72,7 +71,7 @@ class PopularMedia extends StatelessWidget {
                 final data = response?.data?.Page?.media;
                 return SizedBox(
                   height: 135,
-                  // color: Colors.red.withOpacity(0.2),
+                  // color: Colors.red.withValues(alpha:0.2),
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,
@@ -89,20 +88,21 @@ class PopularMedia extends StatelessWidget {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
                                 data?.elementAt(index)?.title?.userPreferred ??
-                                    '',
+                                '',
                           },
                         ),
                         child: Column(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(
-                                  discoverPageImageRadius),
+                                discoverPageImageRadius,
+                              ),
                               child: CachedNetworkImage(
                                 height: 130,
                                 width: 100,
                                 imageUrl:
                                     data?.elementAt(index)?.coverImage?.large ??
-                                        '',
+                                    '',
                                 fit: BoxFit.cover,
                                 imageBuilder: (context, imageProvider) {
                                   return MediaTitle(

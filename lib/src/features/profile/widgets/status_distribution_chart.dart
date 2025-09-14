@@ -18,13 +18,13 @@ class StatusDistributionChart extends ConsumerStatefulWidget {
 class _StatusDistributionChartState
     extends ConsumerState<StatusDistributionChart> {
   Color getStatusColor(GMediaListStatus s) => switch (s) {
-        GMediaListStatus.COMPLETED => Colors.purple.shade300,
-        GMediaListStatus.CURRENT => Colors.green,
-        GMediaListStatus.DROPPED => Colors.pink,
-        GMediaListStatus.PAUSED => Colors.yellow,
-        GMediaListStatus.PLANNING => Colors.brown,
-        _ => Colors.white.withOpacity(0.9),
-      };
+    GMediaListStatus.COMPLETED => Colors.purple.shade300,
+    GMediaListStatus.CURRENT => Colors.green,
+    GMediaListStatus.DROPPED => Colors.pink,
+    GMediaListStatus.PAUSED => Colors.yellow,
+    GMediaListStatus.PLANNING => Colors.brown,
+    _ => Colors.white.withValues(alpha: 0.9),
+  };
   @override
   Widget build(BuildContext context) {
     final (_, w) = context.getSize;
@@ -50,8 +50,10 @@ class _StatusDistributionChartState
                 ),
                 tooltipBehavior: TooltipBehavior(enable: true),
                 series: <CircularSeries>[
-                  DoughnutSeries<GProfileData_Viewer_statistics_anime_statuses?,
-                      String>(
+                  DoughnutSeries<
+                    GProfileData_Viewer_statistics_anime_statuses?,
+                    String
+                  >(
                     dataSource: widget.data?.toList() ?? [],
                     pointColorMapper: (data, _) =>
                         getStatusColor(data!.status!),
@@ -59,7 +61,7 @@ class _StatusDistributionChartState
                     yValueMapper: (data, _) => data!.count,
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
                     legendIconType: LegendIconType.pentagon,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -89,8 +91,9 @@ class _StatusDistributionChartState
                             builder: (context) {
                               final total = widget.totalMedia ?? 0;
                               final val = item.count;
-                              final percentage =
-                                  total == 0 ? 0 : (val / total) * 100;
+                              final percentage = total == 0
+                                  ? 0
+                                  : (val / total) * 100;
                               return Text(
                                 '${percentage.toInt()} %',
                                 style: Poppins(

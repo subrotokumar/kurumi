@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                   margin: const EdgeInsets.all(0),
                   color: isVisible
                       ? Colors.transparent
-                      : Colors.black.withOpacity(0.2),
+                      : Colors.black.withValues(alpha: 0.2),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
@@ -95,14 +95,15 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             fixedSize: const Size.fromHeight(50),
                             foregroundColor: Colors.white,
-                            backgroundColor: Colors.blue.withOpacity(0.7),
+                            backgroundColor: Colors.blue.withValues(alpha: 0.7),
                           ),
                           onPressed: () async {
                             setState(() {
                               isVisible = true;
                             });
                             await Future.delayed(
-                                const Duration(milliseconds: 300));
+                              const Duration(milliseconds: 300),
+                            );
                             await showLoginDialog(context);
                             setState(() {
                               isVisible = false;
@@ -125,10 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Icons.arrow_forward_ios_rounded,
                                 size: 30,
                                 shadows: [
-                                  Shadow(
-                                    color: Colors.grey,
-                                    blurRadius: 3,
-                                  )
+                                  Shadow(color: Colors.grey, blurRadius: 3),
                                 ],
                               ),
                             ],
@@ -150,10 +148,9 @@ class _LoginPageState extends State<LoginPage> {
     return showModalBottomSheet(
       backgroundColor: Colors.black38,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(10),
-          ),
-          side: BorderSide(color: Colors.grey)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+        side: BorderSide(color: Colors.grey),
+      ),
       elevation: 50,
       useSafeArea: true,
       context: context,
@@ -186,8 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                     TextSpan(
                       text: 'anilist.co',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orangeAccent),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orangeAccent,
+                      ),
                     ),
                     TextSpan(
                       text:
@@ -196,7 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                     TextSpan(
                       text: '',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.orange),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
+                      ),
                     ),
                   ],
                 ),
@@ -211,9 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                       foregroundColor: const Color(0xfff7f2f9),
                       backgroundColor: Colors.transparent,
                       minimumSize: const Size(100, 50),
-                      side: const BorderSide(
-                        color: Color(0xfff7f2f9),
-                      ),
+                      side: const BorderSide(color: Color(0xfff7f2f9)),
                     ),
                     onPressed: () async {
                       launchUrlString('https://anilist.co/signup');
@@ -232,15 +230,17 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () async {
                         try {
                           final box = await Hive.openBox('anilist_graphql');
-                          final mediaListBox =
-                              await Hive.openBox('mediaListBox');
+                          final mediaListBox = await Hive.openBox(
+                            'mediaListBox',
+                          );
                           await box.clear();
                           await mediaListBox.clear();
                         } catch (e) {
                           await Hive.initFlutter();
                           final box = await Hive.openBox('anilist_graphql');
-                          final mediaListBox =
-                              await Hive.openBox('mediaListBox');
+                          final mediaListBox = await Hive.openBox(
+                            'mediaListBox',
+                          );
                           await box.clear();
                           await mediaListBox.clear();
                         }
@@ -253,7 +253,8 @@ class _LoginPageState extends State<LoginPage> {
                           FlutterSecureStorage flutterSecureStorage =
                               const FlutterSecureStorage();
                           await flutterSecureStorage.deleteAll(
-                              aOptions: getAndroidOptions());
+                            aOptions: getAndroidOptions(),
+                          );
                           await flutterSecureStorage.write(
                             key: 'AniListAccessToken',
                             value: accessToken,
@@ -262,7 +263,8 @@ class _LoginPageState extends State<LoginPage> {
                           final pref = await SharedPreferences.getInstance();
                           await pref.setBool('isLoggedIn', true);
                           context.pushReplacementNamed(
-                              AppRouteConstant.SplashScreen.name);
+                            AppRouteConstant.SplashScreen.name,
+                          );
                         }
                       },
                       child: const Text('Login'),

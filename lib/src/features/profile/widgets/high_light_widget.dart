@@ -24,10 +24,7 @@ class HighLightWidget extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.3),
-            Colors.transparent,
-          ],
+          colors: [color.withValues(alpha: 0.3), Colors.transparent],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -41,8 +38,10 @@ class HighLightWidget extends StatelessWidget {
             children: [
               Text(
                 value ?? '0',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const Gap(10),
               if (subfix != null)
@@ -56,10 +55,7 @@ class HighLightWidget extends StatelessWidget {
                 ),
             ],
           ),
-          Text(
-            title ?? '',
-            style: GoogleFonts.poppins(fontSize: 15),
-          ),
+          Text(title ?? '', style: GoogleFonts.poppins(fontSize: 15)),
         ],
       ),
     );

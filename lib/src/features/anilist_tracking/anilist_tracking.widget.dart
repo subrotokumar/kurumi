@@ -45,52 +45,60 @@ class AnilistTrackingWidget extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Consumer(builder: (context, ref, child) {
-                    final client = ref.watch(mediaListClientProvider);
-                    // final userID = ref.watch(userId);
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: PopupMenuButton(
-                        itemBuilder: (_) => [
-                          PopupMenuItem(
-                            child: const Text(
-                              'Delete Entry',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final client = ref.watch(mediaListClientProvider);
+                      // final userID = ref.watch(userId);
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: PopupMenuButton(
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              child: const Text(
+                                'Delete Entry',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
                               ),
+                              onTap: () async {
+                                final deleteReq = GDeleteMediaListEntryReq(
+                                  (b) => b..vars.id = mediaListEntry?.id,
+                                );
+                                final deletedItem = await client
+                                    ?.request(deleteReq)
+                                    .first;
+                                if (deletedItem
+                                        ?.data
+                                        ?.DeleteMediaListEntry
+                                        ?.deleted ==
+                                    true) {
+                                  client
+                                      ?.request(
+                                        GMediaDetailQueryReq(
+                                          (b) => b
+                                            ..vars.id = mediaId
+                                            ..vars.limit = 5
+                                            ..vars.page = 1
+                                            ..vars.perPage = 10,
+                                        ),
+                                      )
+                                      .listen((event) {
+                                        if (event.data != null) {
+                                          context.pop();
+                                          return;
+                                        }
+                                      });
+                                }
+                                return;
+                              },
                             ),
-                            onTap: () async {
-                              final deleteReq = GDeleteMediaListEntryReq(
-                                  (b) => b..vars.id = mediaListEntry?.id);
-                              final deletedItem =
-                                  await client?.request(deleteReq).first;
-                              if (deletedItem
-                                      ?.data?.DeleteMediaListEntry?.deleted ==
-                                  true) {
-                                client
-                                    ?.request(GMediaDetailQueryReq(
-                                  (b) => b
-                                    ..vars.id = mediaId
-                                    ..vars.limit = 5
-                                    ..vars.page = 1
-                                    ..vars.perPage = 10,
-                                ))
-                                    .listen((event) {
-                                  if (event.data != null) {
-                                    context.pop();
-                                    return;
-                                  }
-                                });
-                              }
-                              return;
-                            },
-                          ),
-                        ],
-                        child: const Icon(Icons.more_vert_rounded),
-                      ),
-                    );
-                  }),
+                          ],
+                          child: const Icon(Icons.more_vert_rounded),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
               Container(
@@ -112,11 +120,13 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                 height: 50,
                                 decoration: const BoxDecoration(
                                   border: Border(
-                                      right: BorderSide(color: Colors.white)),
+                                    right: BorderSide(color: Colors.white),
+                                  ),
                                 ),
                                 child: InkWell(
                                   borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(20)),
+                                    topLeft: Radius.circular(20),
+                                  ),
                                   onTap: () {
                                     GMediaListStatus? newStatus = status;
                                     showDialog(
@@ -129,47 +139,55 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   RadioListTile(
-                                                    title:
-                                                        const Text('Current'),
+                                                    title: const Text(
+                                                      'Current',
+                                                    ),
                                                     value: GMediaListStatus
                                                         .CURRENT,
                                                     groupValue: newStatus,
                                                     onChanged: (v) {
                                                       newState(
-                                                          () => newStatus = v);
+                                                        () => newStatus = v,
+                                                      );
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title:
-                                                        const Text('Completed'),
+                                                    title: const Text(
+                                                      'Completed',
+                                                    ),
                                                     value: GMediaListStatus
                                                         .COMPLETED,
                                                     groupValue: newStatus,
                                                     onChanged: (v) {
                                                       newState(
-                                                          () => newStatus = v);
+                                                        () => newStatus = v,
+                                                      );
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title:
-                                                        const Text('Planning'),
+                                                    title: const Text(
+                                                      'Planning',
+                                                    ),
                                                     value: GMediaListStatus
                                                         .PLANNING,
                                                     groupValue: newStatus,
                                                     onChanged: (v) {
                                                       newState(
-                                                          () => newStatus = v);
+                                                        () => newStatus = v,
+                                                      );
                                                     },
                                                   ),
                                                   RadioListTile(
-                                                    title:
-                                                        const Text('Dropped'),
+                                                    title: const Text(
+                                                      'Dropped',
+                                                    ),
                                                     value: GMediaListStatus
                                                         .DROPPED,
                                                     groupValue: newStatus,
                                                     onChanged: (v) {
                                                       newState(
-                                                          () => newStatus = v);
+                                                        () => newStatus = v,
+                                                      );
                                                     },
                                                   ),
                                                   RadioListTile(
@@ -263,7 +281,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                             onPressed: () {
                                               setState(() {
                                                 int? n = int.tryParse(
-                                                    controller.text);
+                                                  controller.text,
+                                                );
                                                 if (n == null) return;
                                                 if (media?.episodes != null &&
                                                     n >
@@ -300,11 +319,13 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                 height: 50,
                                 decoration: const BoxDecoration(
                                   border: Border(
-                                      left: BorderSide(color: Colors.white)),
+                                    left: BorderSide(color: Colors.white),
+                                  ),
                                 ),
                                 child: InkWell(
                                   borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(20)),
+                                    bottomLeft: Radius.circular(20),
+                                  ),
                                   onTap: () async {
                                     String? val = await showDialog(
                                       context: context,
@@ -331,15 +352,19 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                                   itemExtent: 30,
                                                   onSelectedItemChanged: (v) {
                                                     double n = 0 + v * .1;
-                                                    value =
-                                                        n.toStringAsFixed(1);
+                                                    value = n.toStringAsFixed(
+                                                      1,
+                                                    );
                                                   },
                                                   children: [
-                                                    for (double i = 0;
-                                                        i <= 10.0;
-                                                        i = i + 0.1)
+                                                    for (
+                                                      double i = 0;
+                                                      i <= 10.0;
+                                                      i = i + 0.1
+                                                    )
                                                       Text(
-                                                          i.toStringAsFixed(1)),
+                                                        i.toStringAsFixed(1),
+                                                      ),
                                                   ],
                                                 ),
                                               ),
@@ -384,9 +409,7 @@ class AnilistTrackingWidget extends ConsumerWidget {
                       Container(
                         height: 50,
                         decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(color: Colors.white),
-                          ),
+                          border: Border(top: BorderSide(color: Colors.white)),
                         ),
                         child: Row(
                           children: [
@@ -405,7 +428,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                       initialDate: DateTime.now(),
                                       firstDate:
                                           DateTime.fromMicrosecondsSinceEpoch(
-                                              0),
+                                            0,
+                                          ),
                                       lastDate: DateTime.now(),
                                     );
                                     if (time == null) return;
@@ -413,14 +437,16 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                     setState(() {});
                                   },
                                   borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(20)),
+                                    bottomLeft: Radius.circular(20),
+                                  ),
                                   child: Center(
                                     child: Text(
                                       startDate == null
                                           ? 'Start Date'
-                                          : startDate
-                                              .toString()
-                                              .substring(0, 10),
+                                          : startDate.toString().substring(
+                                              0,
+                                              10,
+                                            ),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 18,
@@ -436,7 +462,8 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                   var time = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: startDate ??
+                                    firstDate:
+                                        startDate ??
                                         DateTime.fromMicrosecondsSinceEpoch(0),
                                     lastDate: DateTime.now(),
                                   );
@@ -445,14 +472,16 @@ class AnilistTrackingWidget extends ConsumerWidget {
                                   setState(() {});
                                 },
                                 borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(20)),
+                                  bottomLeft: Radius.circular(20),
+                                ),
                                 child: Center(
                                   child: Text(
                                     completedAt == null
                                         ? 'Completed Date'
-                                        : completedAt
-                                            .toString()
-                                            .substring(0, 10),
+                                        : completedAt.toString().substring(
+                                            0,
+                                            10,
+                                          ),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 18,
@@ -484,108 +513,123 @@ class AnilistTrackingWidget extends ConsumerWidget {
                           final userID = ref.read(userId);
                           var mediaListEntryMutationReq =
                               GMediaListEntryMutationReq(
-                            (b) => b
-                              ..vars.id = mediaListEntry?.id
-                              ..vars.mediaId = mediaId
-                              ..vars.status = status
-                              ..vars.progress = progress
-                              ..vars.score = score
-                              ..vars.startedAt.day = startDate?.day
-                              ..vars.startedAt.month = startDate?.month
-                              ..vars.startedAt.year = startDate?.year
-                              ..vars.completedAt.day = completedAt?.day
-                              ..vars.completedAt.month = completedAt?.month
-                              ..vars.completedAt.year = completedAt?.year,
-                          );
-                          client?.request(mediaListEntryMutationReq).listen(
-                            (response) async {
-                              final oldStatus = mediaListEntry?.status;
-                              final newStatus =
-                                  response.data?.SaveMediaListEntry?.status;
-                              final flag = oldStatus != newStatus;
-                              final req = GMediaDetailQueryReq(
                                 (b) => b
-                                  ..vars.id = mediaId
-                                  ..vars.limit = 5
-                                  ..vars.page = 1
-                                  ..vars.perPage = 10,
+                                  ..vars.id = mediaListEntry?.id
+                                  ..vars.mediaId = mediaId
+                                  ..vars.status = status
+                                  ..vars.progress = progress
+                                  ..vars.score = score
+                                  ..vars.startedAt.day = startDate?.day
+                                  ..vars.startedAt.month = startDate?.month
+                                  ..vars.startedAt.year = startDate?.year
+                                  ..vars.completedAt.day = completedAt?.day
+                                  ..vars.completedAt.month = completedAt?.month
+                                  ..vars.completedAt.year = completedAt?.year,
                               );
-                              final cache = client.cache.readQuery(req);
-                              final updatedCache = cache?.rebuild(
+                          client?.request(mediaListEntryMutationReq).listen((
+                            response,
+                          ) async {
+                            final oldStatus = mediaListEntry?.status;
+                            final newStatus =
+                                response.data?.SaveMediaListEntry?.status;
+                            final flag = oldStatus != newStatus;
+                            final req = GMediaDetailQueryReq(
+                              (b) => b
+                                ..vars.id = mediaId
+                                ..vars.limit = 5
+                                ..vars.page = 1
+                                ..vars.perPage = 10,
+                            );
+                            final cache = client.cache.readQuery(req);
+                            final updatedCache = cache?.rebuild(
+                              (b) => b
+                                ..Media.mediaListEntry.replace(
+                                  GMediaDetailQueryData_Media_mediaListEntry(
+                                    (b) => b
+                                      ..id =
+                                          response.data!.SaveMediaListEntry!.id
+                                      ..mediaId = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.mediaId
+                                      ..userId = userID
+                                      ..status = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.status
+                                      ..score = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.score
+                                      ..progress = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.progress
+                                      ..progressVolumes = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.progressVolumes
+                                      ..repeat = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.repeat
+                                      ..priority = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.priority
+                                      ..notes = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.notes
+                                      ..startedAt.day = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.startedAt
+                                          ?.day
+                                      ..startedAt.month = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.startedAt
+                                          ?.month
+                                      ..startedAt.year = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.startedAt
+                                          ?.year
+                                      ..completedAt.day = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.completedAt
+                                          ?.day
+                                      ..completedAt.month = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.completedAt
+                                          ?.month
+                                      ..completedAt.year = response
+                                          .data
+                                          ?.SaveMediaListEntry
+                                          ?.completedAt
+                                          ?.year,
+                                  ),
+                                ),
+                            );
+                            client.cache.writeQuery(req, updatedCache);
+                            if (flag || true) {
+                              final mediaListClient = ref.read(
+                                mediaListClientProvider,
+                              );
+                              final request = GMediaListCollectionReq(
                                 (b) => b
-                                  ..Media.mediaListEntry.replace(
-                                        GMediaDetailQueryData_Media_mediaListEntry(
-                                          (b) => b
-                                            ..id = response
-                                                .data!.SaveMediaListEntry!.id
-                                            ..mediaId = response.data
-                                                ?.SaveMediaListEntry?.mediaId
-                                            ..userId = userID
-                                            ..status = response.data
-                                                ?.SaveMediaListEntry?.status
-                                            ..score = response
-                                                .data?.SaveMediaListEntry?.score
-                                            ..progress = response.data
-                                                ?.SaveMediaListEntry?.progress
-                                            ..progressVolumes = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.progressVolumes
-                                            ..repeat = response.data
-                                                ?.SaveMediaListEntry?.repeat
-                                            ..priority = response.data
-                                                ?.SaveMediaListEntry?.priority
-                                            ..notes = response
-                                                .data?.SaveMediaListEntry?.notes
-                                            ..startedAt.day = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.day
-                                            ..startedAt.month = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.month
-                                            ..startedAt.year = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.startedAt
-                                                ?.year
-                                            ..completedAt.day = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.day
-                                            ..completedAt.month = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.month
-                                            ..completedAt.year = response
-                                                .data
-                                                ?.SaveMediaListEntry
-                                                ?.completedAt
-                                                ?.year,
-                                        ),
-                                      ),
+                                  ..vars.status = oldStatus ?? newStatus
+                                  ..vars.type = media?.type
+                                  ..vars.userId = userID,
                               );
-                              client.cache.writeQuery(req, updatedCache);
-                              if (flag || true) {
-                                final mediaListClient =
-                                    ref.read(mediaListClientProvider);
-                                final request = GMediaListCollectionReq(
-                                  (b) => b
-                                    ..vars.status = oldStatus ?? newStatus
-                                    ..vars.type = media?.type
-                                    ..vars.userId = userID,
-                                );
 
-                                await mediaListClient?.request(request).first;
-                                context.pop();
-                              }
-                            },
-                          );
+                              await mediaListClient?.request(request).first;
+                              context.pop();
+                            }
+                          });
                         },
                         child: const Text('APPLY'),
                       );

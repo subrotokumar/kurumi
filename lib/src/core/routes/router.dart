@@ -15,6 +15,7 @@ class AppRouteConstant {
   static Route LoginScreen = Route('login', '/login');
   static Route ErrorScreen = Route('error', '/error');
   static Route SearchScreen = Route('search', '/search');
+  static Route ImageSearchScreen = Route('ImageSearch', '/search/image');
   static Route SettingScreen = Route('settings', '/settings');
   static Route MediaScreen = Route('media', '/media');
   static Route Character = Route('character-media', '/character/media');

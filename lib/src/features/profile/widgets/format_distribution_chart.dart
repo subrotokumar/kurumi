@@ -43,14 +43,16 @@ class _FormatDistributionChartState
                 ),
                 tooltipBehavior: TooltipBehavior(enable: true),
                 series: <CircularSeries>[
-                  DoughnutSeries<GProfileData_Viewer_statistics_anime_formats?,
-                      String>(
+                  DoughnutSeries<
+                    GProfileData_Viewer_statistics_anime_formats?,
+                    String
+                  >(
                     dataSource: widget.data?.toList() ?? [],
                     pointColorMapper: (data, _) => getColor(data!.format!),
                     xValueMapper: (data, _) => data!.format?.name,
                     yValueMapper: (data, _) => data!.count,
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -76,19 +78,22 @@ class _FormatDistributionChartState
                           ),
                         ),
                         Card(
-                          child: Builder(builder: (context) {
-                            final total = widget.totalMedia ?? 0;
-                            final val = item.count;
-                            final percentage =
-                                total == 0 ? 0 : (val / total) * 100;
-                            return Text(
-                              '${percentage.toInt()} %',
-                              style: Poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            );
-                          }),
+                          child: Builder(
+                            builder: (context) {
+                              final total = widget.totalMedia ?? 0;
+                              final val = item.count;
+                              final percentage = total == 0
+                                  ? 0
+                                  : (val / total) * 100;
+                              return Text(
+                                '${percentage.toInt()} %',
+                                style: Poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -103,14 +108,14 @@ class _FormatDistributionChartState
   }
 
   Color getColor(GMediaFormat s) => switch (s) {
-        GMediaFormat.OVA => Colors.greenAccent,
-        GMediaFormat.TV => Colors.blue.shade400,
-        GMediaFormat.MOVIE => Colors.brown,
-        GMediaFormat.TV_SHORT => Colors.orange,
-        GMediaFormat.SPECIAL => Colors.yellow,
-        GMediaFormat.ONE_SHOT => Colors.red,
-        GMediaFormat.MUSIC => Colors.green,
-        GMediaFormat.ONA => Colors.purple,
-        _ => Colors.white.withOpacity(0.9),
-      };
+    GMediaFormat.OVA => Colors.greenAccent,
+    GMediaFormat.TV => Colors.blue.shade400,
+    GMediaFormat.MOVIE => Colors.brown,
+    GMediaFormat.TV_SHORT => Colors.orange,
+    GMediaFormat.SPECIAL => Colors.yellow,
+    GMediaFormat.ONE_SHOT => Colors.red,
+    GMediaFormat.MUSIC => Colors.green,
+    GMediaFormat.ONA => Colors.purple,
+    _ => Colors.white.withValues(alpha: 0.9),
+  };
 }

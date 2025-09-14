@@ -42,9 +42,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
             ),
             builder: (context, response, error) {
               if (response == null) {
-                return const Center(
-                  child: Text('404'),
-                );
+                return const Center(child: Text('404'));
               }
               if (response.loading) {
                 return LoadingWidget;
@@ -79,11 +77,11 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  AppTheme.background.withOpacity(0.2),
-                                  AppTheme.background.withOpacity(0.3),
-                                  AppTheme.background.withOpacity(0.8),
-                                  AppTheme.background.withOpacity(0.9),
-                                  AppTheme.background.withOpacity(1),
+                                  AppTheme.background.withValues(alpha: 0.2),
+                                  AppTheme.background.withValues(alpha: 0.3),
+                                  AppTheme.background.withValues(alpha: 0.8),
+                                  AppTheme.background.withValues(alpha: 0.9),
+                                  AppTheme.background.withValues(alpha: 1),
                                   AppTheme.background,
                                 ],
                                 begin: Alignment.topCenter,
@@ -122,7 +120,7 @@ class _BannerWidgetState extends ConsumerState<BannerWidget> {
                                       Shadow(
                                         color: AppTheme.background,
                                         blurRadius: 10,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),

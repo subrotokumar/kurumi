@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/core.dart';
 
 class MediaGenreSection extends StatelessWidget {
-  const MediaGenreSection({
-    super.key,
-    required this.data,
-  });
+  const MediaGenreSection({super.key, required this.data});
 
   final GMediaDetailQueryData_Media? data;
 
@@ -23,16 +20,10 @@ class MediaGenreSection extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(7),
               ),
-              color: Colors.white.withOpacity(0.2),
-              margin: const EdgeInsets.only(
-                right: 8,
-                bottom: 8,
-              ),
+              color: Colors.white.withValues(alpha: 0.2),
+              margin: const EdgeInsets.only(right: 8, bottom: 8),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 child: InkWell(
                   onTap: () {
                     context.pushNamed(

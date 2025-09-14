@@ -42,11 +42,13 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
           } else {
             final data = response.data?.Character;
             final dateOfBirth = DateFormat()
-                .format(DateTime(
-                  2000,
-                  data?.dateOfBirth?.month ?? 0,
-                  data?.dateOfBirth?.day ?? 0,
-                ))
+                .format(
+                  DateTime(
+                    2000,
+                    data?.dateOfBirth?.month ?? 0,
+                    data?.dateOfBirth?.day ?? 0,
+                  ),
+                )
                 .toString();
             return Container(
               decoration: BoxDecoration(
@@ -58,8 +60,12 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 0.2, sigmaY: 0.2),
                 child: Scaffold(
-                  backgroundColor:
-                      const Color.fromARGB(255, 29, 29, 29).withOpacity(0.9),
+                  backgroundColor: const Color.fromARGB(
+                    255,
+                    29,
+                    29,
+                    29,
+                  ).withValues(alpha: 0.9),
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -79,8 +85,9 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                       width: 0.1,
                                     ),
                                   ),
-                                  visualDensity:
-                                      const VisualDensity(vertical: -3),
+                                  visualDensity: const VisualDensity(
+                                    vertical: -3,
+                                  ),
                                   backgroundColor: Colors.white10,
                                   fixedSize: const Size.fromHeight(15),
                                   padding: const EdgeInsets.symmetric(
@@ -129,7 +136,7 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                     Visibility(
                                       visible:
                                           data?.dateOfBirth?.month != null &&
-                                              data?.dateOfBirth?.day != null,
+                                          data?.dateOfBirth?.day != null,
                                       child: RichText(
                                         text: TextSpan(
                                           text: ' Date of Birth : ',
@@ -140,7 +147,7 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                 0,
                                                 dateOfBirth.indexOf(','),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -152,9 +159,7 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                           text: ' Age : ',
                                           style: const TextStyle(),
                                           children: [
-                                            TextSpan(
-                                              text: data?.age ?? '',
-                                            )
+                                            TextSpan(text: data?.age ?? ''),
                                           ],
                                         ),
                                       ),
@@ -166,9 +171,7 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                           text: ' Gender : ',
                                           style: const TextStyle(),
                                           children: [
-                                            TextSpan(
-                                              text: data?.gender ?? '',
-                                            )
+                                            TextSpan(text: data?.gender ?? ''),
                                           ],
                                         ),
                                       ),
@@ -202,10 +205,11 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                               ),
                             ),
                             margin: const EdgeInsets.all(15),
-                            color: Colors.black.withOpacity(0.09),
+                            color: Colors.black.withValues(alpha: 0.09),
                             child: StatefulBuilder(
                               builder: (context, newState) {
-                                final spoilerDescription = data?.description
+                                final spoilerDescription =
+                                    data?.description
                                         .toString()
                                         .replaceAll('\n', '\n\n')
                                         .replaceAll('~', '_')
@@ -213,8 +217,8 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                     '';
 
                                 RegExp regExp = RegExp(r'\s*_!\s*.+?\s*!_\s*');
-                                String noSpoilerDescription =
-                                    spoilerDescription.replaceAll(regExp, '');
+                                String noSpoilerDescription = spoilerDescription
+                                    .replaceAll(regExp, '');
                                 final containSpoiler =
                                     spoilerDescription != noSpoilerDescription;
                                 return Column(
@@ -226,8 +230,10 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                           : const BoxConstraints(),
                                       child: GestureDetector(
                                         onTap: () {
-                                          newState(() => showDescription =
-                                              !showDescription);
+                                          newState(
+                                            () => showDescription =
+                                                !showDescription,
+                                          );
                                         },
                                         child: SingleChildScrollView(
                                           child: Column(
@@ -236,18 +242,29 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                 onTapLink: (text, href, title) {
                                                   if (href == null) return;
                                                   if (href.startsWith(
-                                                      'https://anilist.co/')) {
-                                                    context.push(href.replaceAll(
+                                                    'https://anilist.co/',
+                                                  )) {
+                                                    context.push(
+                                                      href.replaceAll(
                                                         'https://anilist.co',
-                                                        ''));
+                                                        '',
+                                                      ),
+                                                    );
                                                   }
                                                 },
-                                                padding:
-                                                    const EdgeInsets.all(0),
+                                                padding: const EdgeInsets.all(
+                                                  0,
+                                                ),
                                                 data: showSpoiler
                                                     ? spoilerDescription
-                                                        .replaceAll("_!", "**")
-                                                        .replaceAll("!_", "**")
+                                                          .replaceAll(
+                                                            "_!",
+                                                            "**",
+                                                          )
+                                                          .replaceAll(
+                                                            "!_",
+                                                            "**",
+                                                          )
                                                     : noSpoilerDescription,
                                                 shrinkWrap: true,
                                                 physics:
@@ -265,31 +282,39 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                         if (containSpoiler)
                                           TextButton(
                                             style: TextButton.styleFrom(
-                                                padding: EdgeInsets.zero,
-                                                foregroundColor: showSpoiler
-                                                    ? null
-                                                    : Colors.redAccent),
-                                            onPressed: () => newState(() =>
-                                                showSpoiler = !showSpoiler),
-                                            child: Text(showSpoiler
-                                                ? 'Hide Spoiler'
-                                                : 'Show Spoiler'),
+                                              padding: EdgeInsets.zero,
+                                              foregroundColor: showSpoiler
+                                                  ? null
+                                                  : Colors.redAccent,
+                                            ),
+                                            onPressed: () => newState(
+                                              () => showSpoiler = !showSpoiler,
+                                            ),
+                                            child: Text(
+                                              showSpoiler
+                                                  ? 'Hide Spoiler'
+                                                  : 'Show Spoiler',
+                                            ),
                                           ),
                                         const Spacer(),
                                         IconButton(
                                           style: IconButton.styleFrom(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                              horizontal: 10,
+                                            ),
                                           ),
-                                          onPressed: () => newState(() =>
-                                              showDescription =
-                                                  !showDescription),
-                                          icon: Icon(showDescription
-                                              ? Icons.arrow_drop_up_outlined
-                                              : Icons.arrow_drop_down),
+                                          onPressed: () => newState(
+                                            () => showDescription =
+                                                !showDescription,
+                                          ),
+                                          icon: Icon(
+                                            showDescription
+                                                ? Icons.arrow_drop_up_outlined
+                                                : Icons.arrow_drop_down,
+                                          ),
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ].reversed.toList(),
                                 );
                               },
@@ -298,12 +323,19 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                         ),
                         //* VA TITLE
                         Visibility(
-                          visible: data?.media?.edges?.first?.voiceActors
+                          visible:
+                              data
+                                  ?.media
+                                  ?.edges
+                                  ?.first
+                                  ?.voiceActors
                                   ?.isNotEmpty ??
                               false,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 15),
+                              horizontal: 20,
+                              vertical: 15,
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -320,7 +352,12 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                         ),
                         //* VA SECTION
                         Visibility(
-                          visible: data?.media?.edges?.first?.voiceActors
+                          visible:
+                              data
+                                  ?.media
+                                  ?.edges
+                                  ?.first
+                                  ?.voiceActors
                                   ?.isNotEmpty ??
                               false,
                           child: SizedBox(
@@ -328,14 +365,23 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                             width: size.width,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              itemCount: (data?.media?.edges?.first?.voiceActors
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                              ),
+                              itemCount:
+                                  (data
+                                      ?.media
+                                      ?.edges
+                                      ?.first
+                                      ?.voiceActors
                                       ?.length ??
                                   0),
                               itemBuilder: (context, index) {
                                 final va = data
-                                    ?.media?.edges?.first?.voiceActors?[index];
+                                    ?.media
+                                    ?.edges
+                                    ?.first
+                                    ?.voiceActors?[index];
                                 return GestureDetector(
                                   onTap: () => context.pushNamed(
                                     AppRouteConstant.VAScreen.name,
@@ -348,7 +394,8 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                     width: 85,
                                     height: 145,
                                     margin: const EdgeInsets.symmetric(
-                                        horizontal: 5),
+                                      horizontal: 5,
+                                    ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -366,15 +413,18 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                 height: 100,
                                                 fit: BoxFit.cover,
                                                 progressIndicatorBuilder:
-                                                    (context, url, progress) =>
-                                                        Shimmer.fromColors(
-                                                  baseColor: Colors.white30,
-                                                  highlightColor:
-                                                      Colors.black12,
-                                                  child: Container(
-                                                    color: Colors.white30,
-                                                  ),
-                                                ),
+                                                    (
+                                                      context,
+                                                      url,
+                                                      progress,
+                                                    ) => Shimmer.fromColors(
+                                                      baseColor: Colors.white30,
+                                                      highlightColor:
+                                                          Colors.black12,
+                                                      child: Container(
+                                                        color: Colors.white30,
+                                                      ),
+                                                    ),
                                               ),
                                             ),
                                             Positioned(
@@ -388,8 +438,10 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                   color: Colors.black38,
                                                   borderRadius:
                                                       BorderRadius.vertical(
-                                                    bottom: Radius.circular(16),
-                                                  ),
+                                                        bottom: Radius.circular(
+                                                          16,
+                                                        ),
+                                                      ),
                                                 ),
                                                 child: Center(
                                                   child: Text(
@@ -429,7 +481,9 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                           visible: data?.media?.edges?.isNotEmpty ?? false,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
+                              horizontal: 20,
+                              vertical: 20,
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -451,12 +505,15 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                             height: 200,
                             child: ListView.builder(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
                               scrollDirection: Axis.horizontal,
                               itemCount: data?.media?.edges?.length ?? 0,
                               itemBuilder: (context, index) {
-                                final relatedAnimeData =
-                                    data?.media?.edges?.elementAt(index)?.node;
+                                final relatedAnimeData = data?.media?.edges
+                                    ?.elementAt(index)
+                                    ?.node;
                                 return Container(
                                   width: 100,
                                   margin: const EdgeInsets.only(left: 12),
@@ -472,12 +529,15 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                             GestureDetector(
                                               onTap: () => context.pushNamed(
                                                 AppRouteConstant
-                                                    .MediaScreen.name,
+                                                    .MediaScreen
+                                                    .name,
                                                 pathParameters: {
-                                                  'id': (relatedAnimeData?.id ??
-                                                          0)
-                                                      .toString(),
-                                                  'title': relatedAnimeData
+                                                  'id':
+                                                      (relatedAnimeData?.id ??
+                                                              0)
+                                                          .toString(),
+                                                  'title':
+                                                      relatedAnimeData
                                                           ?.title
                                                           ?.userPreferred ??
                                                       '',
@@ -487,8 +547,10 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                 height: 130,
                                                 width: 100,
                                                 fit: BoxFit.cover,
-                                                imageUrl: relatedAnimeData
-                                                        ?.coverImage?.large ??
+                                                imageUrl:
+                                                    relatedAnimeData
+                                                        ?.coverImage
+                                                        ?.large ??
                                                     '',
                                               ),
                                             ),
@@ -501,7 +563,8 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                                 child: Center(
                                                   child: Text(
                                                     relatedAnimeData
-                                                            ?.format?.name ??
+                                                            ?.format
+                                                            ?.name ??
                                                         '',
                                                     style: const TextStyle(
                                                       fontWeight:
@@ -519,7 +582,8 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
                                         height: 35,
                                         child: Text(
                                           relatedAnimeData
-                                                  ?.title?.userPreferred ??
+                                                  ?.title
+                                                  ?.userPreferred ??
                                               '',
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
@@ -551,21 +615,19 @@ class _CharacterDetailScreenState extends ConsumerState<CharacterDetailScreen> {
     final client = ref.read(clientProvider);
     if (client == null) return;
     final res = await client
-        .request(GToggleFavouriteReq(
-          (b) => b..vars.characterId = widget.id,
-        ))
+        .request(GToggleFavouriteReq((b) => b..vars.characterId = widget.id))
         .first;
-    final req = GCharacterDetailQueryReq((b) => b
-      ..vars.id = widget.id
-      ..vars.page = 1);
+    final req = GCharacterDetailQueryReq(
+      (b) => b
+        ..vars.id = widget.id
+        ..vars.page = 1,
+    );
     if (res.hasErrors) return;
 
     final cache = client.cache.readQuery(req);
     client.cache.writeQuery(
       req,
-      cache!.rebuild(
-        (p) => p..Character.isFavourite = !flag,
-      ),
+      cache!.rebuild((p) => p..Character.isFavourite = !flag),
     );
   }
 }

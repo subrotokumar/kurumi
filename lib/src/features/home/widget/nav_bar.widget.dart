@@ -37,8 +37,9 @@ class _NavBarState extends ConsumerState<NavBar> {
         if (pref.getBool('allowAnimation') ?? false) {
           widget.pageController.animateToPage(
             n,
-            duration:
-                Duration(milliseconds: (current - n).abs() > 2 ? 500 : 200),
+            duration: Duration(
+              milliseconds: (current - n).abs() > 2 ? 500 : 200,
+            ),
             curve: Curves.fastOutSlowIn,
           );
         } else {
@@ -62,7 +63,7 @@ class _NavBarState extends ConsumerState<NavBar> {
           width: width - 50,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 50, 50, 50).withOpacity(0.9),
+            color: const Color.fromARGB(255, 50, 50, 50).withValues(alpha: 0.9),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
