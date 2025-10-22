@@ -32,18 +32,6 @@ class WhatsNewWidget extends StatefulWidget {
 }
 
 class _WhatsNewWidgetState extends State<WhatsNewWidget> {
-  final List changes = [
-    {
-      "id": 1,
-      "title": "Search By Screenshot Feature",
-      "detail": [
-        "Allow users to upload a screenshot and find matching anime information",
-        "Implemented image upload & processing flow",
-        "Updated UI with `Trace by Screenshot` button on",
-      ],
-    },
-  ];
-
   final colorList = [
     Colors.green,
     Colors.orange,
@@ -71,7 +59,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
               child: const Icon(CupertinoIcons.clear),
             ),
           ),
-          for (final part in changes)
+          for (final part in kChanges)
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 20),
               child: Column(
@@ -86,7 +74,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
                       color: colorList[part['id'] % 4],
                     ),
                   ),
-                  const Gap(7),
+                  const Gap(5),
                   ...(part["detail"] as List).map(
                     (e) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
@@ -103,6 +91,7 @@ class _WhatsNewWidgetState extends State<WhatsNewWidget> {
                       ),
                     ),
                   ),
+                  Gap(5),
                 ],
               ),
             ),
@@ -136,7 +125,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> whatsNewWidget(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
     await Future.delayed(2.seconds);
-    if (pref.getBool('whatsnew@$kVersion') != true) {
+    if (pref.getBool('whatsnew@$kVersion') != false) {
       showModalBottomSheet(
         context: context,
         backgroundColor: kTransparentColor,

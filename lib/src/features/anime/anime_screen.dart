@@ -2,8 +2,8 @@ import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/core/routes/router.dart';
-import 'package:kurumi/src/core/themes/app_theme.dart';
+import 'package:gap/gap.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/src/features/anime/section_widget/sorting_dialog.widget.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
@@ -52,6 +52,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                         ),
                       ),
                     ),
+                    Gap(5),
                     VerticleNavigationBar(controller: controller),
                   ],
                 ),
@@ -91,6 +92,10 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
                               status: GMediaListStatus.DROPPED,
                               type: GMediaType.ANIME,
                             ),
+                            MediaListBuilderWidget(
+                              status: GMediaListStatus.REPEATING,
+                              type: GMediaType.ANIME,
+                            ),
                           ],
                         ),
                       ),
@@ -107,10 +112,7 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
 }
 
 class VerticleNavigationBar extends StatelessWidget {
-  const VerticleNavigationBar({
-    super.key,
-    required this.controller,
-  });
+  const VerticleNavigationBar({super.key, required this.controller});
 
   final PageController controller;
 
@@ -151,19 +153,26 @@ class VerticleNavigationBar extends StatelessWidget {
               pageNum: 4,
               ref: ref,
             ),
-            const SizedBox(height: 10),
-            Consumer(builder: (context, ref, child) {
-              return IconButton(
-                onPressed: () {
-                  sortingDialog(
-                    context: context,
-                    ref: ref,
-                    type: GMediaType.ANIME,
-                  );
-                },
-                icon: Icon(PhosphorIcons.slidersHorizontal()),
-              );
-            })
+            MediaCollectionTypeWidget(
+              controller: controller,
+              title: 'Repeating',
+              pageNum: 5,
+              ref: ref,
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                return IconButton(
+                  onPressed: () {
+                    sortingDialog(
+                      context: context,
+                      ref: ref,
+                      type: GMediaType.ANIME,
+                    );
+                  },
+                  icon: Icon(PhosphorIcons.slidersHorizontal()),
+                );
+              },
+            ),
           ],
         );
       },
@@ -188,7 +197,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     int pageIndex = ref.read(animeTabProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: isSmartwatch ? 0 : 5),
       child: RotatedBox(
         quarterTurns: 3,
         child: TextButton(
@@ -209,17 +218,9 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             } else {
               controller.jumpToPage(pageNum);
             }
-            // controller.animateToPage(
-            //   pageNum,
-            //   curve: Curves.linear,
-            //   duration: const Duration(milliseconds: 500),
-            // );
             ref.read(animeTabProvider.notifier).update((state) => pageNum);
           },
-          child: Text(
-            title,
-            style: Poppins(fontWeight: FontWeight.w700),
-          ),
+          child: Text(title, style: Poppins(fontWeight: FontWeight.w600)),
         ),
       ),
     );

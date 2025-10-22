@@ -1,3 +1,11 @@
+## v2.2.0
+
+Feat: 
+  - Repeating Media List section added.
+
+Improve:
+  - UI Improvement.
+
 ## v2.1.0
 
 Feat: Search By Screenshot Feature

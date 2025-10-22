@@ -2,7 +2,7 @@ export './assets/assets.dart';
 
 //* Constants
 export './constants/anilist_constant.dart';
-export './constants/constants.dart';
+export 'constants/properties.dart';
 export './constants/env.dart';
 
 //* Constants

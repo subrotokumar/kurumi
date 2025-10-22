@@ -105,16 +105,21 @@ class _SettingScreenState extends State<SettingScreen> {
                           ),
                           foregroundColor: Colors.white.withValues(alpha: 0.9),
                         ),
-                        onPressed: () async => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const InAppWebview(
-                              title: 'Change Log',
-                              url:
-                                  'https://subrotokumar.github.io/kurumi/changelog.html',
-                            ),
-                          ),
-                        ),
+                        onPressed: () async {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const InAppWebview(
+                          //       title: 'Change Log',
+                          //       url:
+                          //           'https://subrotokumar.github.io/kurumi/changelog.html',
+                          //     ),
+                          //   ),
+                          // );
+                          launchUrlString(
+                            'https://subrotokumar.github.io/kurumi/changelog.html',
+                          );
+                        },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

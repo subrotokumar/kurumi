@@ -1,8 +1,8 @@
 import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kurumi/src/core/routes/router.dart';
-import 'package:kurumi/src/core/themes/app_theme.dart';
+import 'package:gap/gap.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/features/anime/section_widget/media_list_builder.widget.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/manga/widgets/verticle_navigation_bar.widget.dart';
@@ -39,34 +39,39 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
               Container(
                 width: 40,
                 color: AppTheme.secondaryColor,
-                child: Consumer(builder: (context, ref, child) {
-                  ref.watch(mangaTabProvider);
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: Center(
-                          child: IconButton(
-                            onPressed: () {
-                              context.pushNamed(
-                                AppRouteConstant.SearchScreen.name,
-                                extra: {'mediaType': GMediaType.MANGA},
-                              );
-                            },
-                            icon: const Icon(Icons.search_rounded),
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    ref.watch(mangaTabProvider);
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {
+                                context.pushNamed(
+                                  AppRouteConstant.SearchScreen.name,
+                                  extra: {'mediaType': GMediaType.MANGA},
+                                );
+                              },
+                              icon: const Icon(Icons.search_rounded),
+                            ),
                           ),
                         ),
-                      ),
-                      VerticleNavigationBar(controller: controller),
-                    ],
-                  );
-                }),
+                        Gap(5),
+                        VerticleNavigationBar(controller: controller),
+                      ],
+                    );
+                  },
+                ),
               ),
               Container(
                 height: size.height,
                 width: size.width - 40,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmartwatch ? 0 : 10,
+                ),
                 child: SafeArea(
                   child: Consumer(
                     builder: (context, ref, child) => PageView(
@@ -74,7 +79,7 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                       onPageChanged: (value) => {
                         ref
                             .read(mangaTabProvider.notifier)
-                            .update((state) => value)
+                            .update((state) => value),
                       },
                       children: const [
                         MediaListBuilderWidget(
@@ -95,6 +100,10 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
                         ),
                         MediaListBuilderWidget(
                           status: GMediaListStatus.DROPPED,
+                          type: GMediaType.MANGA,
+                        ),
+                        MediaListBuilderWidget(
+                          status: GMediaListStatus.REPEATING,
                           type: GMediaType.MANGA,
                         ),
                       ],

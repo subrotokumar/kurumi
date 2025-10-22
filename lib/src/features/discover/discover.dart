@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
+import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/features/discover/widgets/banner.widget.dart';
 import 'package:kurumi/src/features/discover/widgets/popular_media.widget.dart';
 import 'package:kurumi/src/features/discover/widgets/review_section.widget.dart';
@@ -195,164 +196,175 @@ class SubTabWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                color: color[3].withValues(alpha: 0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  // side: BorderSide(color: color[3], width: 0.5),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    HapticFeedback.mediumImpact();
-                    context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 0);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      PhosphorIcons.notification(PhosphorIconsStyle.bold),
-                      size: 21,
-                      color: Colors.white.withValues(alpha: .9),
+          Builder(
+            builder: (context) {
+              final iconWidth = isSmartwatch ? 20.0 : 28.0;
+              final iconStyle = isSmartwatch
+                  ? PhosphorIconsStyle.bold
+                  : PhosphorIconsStyle.regular;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Card(
+                    color: color[3].withValues(alpha: 0.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      // side: BorderSide(color: color[3], width: 0.5),
                     ),
-                  ),
-                ),
-              ),
-              const Gap(10),
-              Card(
-                color: color[2].withValues(alpha: 0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  // side: BorderSide(color: color[2], width: 0.5),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    HapticFeedback.mediumImpact();
-                    context.pushNamed(AppRouteConstant.ACTIVITY.name, extra: 1);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      PhosphorIcons.calendar(PhosphorIconsStyle.bold),
-                      size: 20,
-                      color: Colors.white.withValues(alpha: 0.9),
-                    ),
-                  ),
-                ),
-              ),
-              const Gap(10),
-              Card(
-                color: color[1].withValues(alpha: 0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  // side: BorderSide(color: color[1], width: 0.5),
-                ),
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    final discoverTab = ref.watch(discoverTabProvider);
-                    return InkWell(
+                    child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
                         HapticFeedback.mediumImpact();
                         context.pushNamed(
-                          AppRouteConstant.SearchScreen.name,
-                          extra: {'mediaType': discoverTab},
+                          AppRouteConstant.ACTIVITY.name,
+                          extra: 0,
                         );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: Icon(
-                          PhosphorIcons.listMagnifyingGlass(
-                            PhosphorIconsStyle.bold,
-                          ),
-                          size: 21,
+                          PhosphorIcons.notification(iconStyle),
+                          size: iconWidth,
+                          color: Colors.white.withValues(alpha: .9),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Gap(10),
+                  Card(
+                    color: color[2].withValues(alpha: 0.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      // side: BorderSide(color: color[2], width: 0.5),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        HapticFeedback.mediumImpact();
+                        context.pushNamed(
+                          AppRouteConstant.ACTIVITY.name,
+                          extra: 1,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          PhosphorIcons.calendar(iconStyle),
+                          size: iconWidth,
                           color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-
-              Consumer(
-                builder: (context, ref, child) {
-                  final discoverTab = ref.watch(discoverTabProvider);
-                  return Visibility(
-                    visible: discoverTab == GMediaType.ANIME,
-                    child: Card(
-                      margin: EdgeInsets.only(left: 10),
-                      color: color[5].withValues(alpha: 0.4),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        // side: BorderSide(color: color[1], width: 0.5),
-                      ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.pushNamed(
-                            AppRouteConstant.ImageSearchScreen.name,
-                            extra: {'mediaType': discoverTab},
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            PhosphorIcons.images(PhosphorIconsStyle.bold),
-                            size: 21,
-                            color: Colors.white.withValues(alpha: 0.9),
+                    ),
+                  ),
+                  const Gap(10),
+                  Card(
+                    color: color[1].withValues(alpha: 0.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        final discoverTab = ref.watch(discoverTabProvider);
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          onTap: () {
+                            HapticFeedback.mediumImpact();
+                            context.pushNamed(
+                              AppRouteConstant.SearchScreen.name,
+                              extra: {'mediaType': discoverTab},
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Icon(
+                              PhosphorIcons.listMagnifyingGlass(iconStyle),
+                              size: iconWidth,
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
                           ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final discoverTab = ref.watch(discoverTabProvider);
+                      return Visibility(
+                        visible: discoverTab == GMediaType.ANIME,
+                        child: Card(
+                          margin: EdgeInsets.only(left: 10),
+                          color: color[5].withValues(alpha: 0.4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              HapticFeedback.mediumImpact();
+                              context.pushNamed(
+                                AppRouteConstant.ImageSearchScreen.name,
+                                extra: {'mediaType': discoverTab},
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Icon(
+                                PhosphorIcons.images(iconStyle),
+                                size: iconWidth,
+                                color: Colors.white.withValues(alpha: 0.9),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const Gap(10),
+                  Card(
+                    color: color[0].withValues(alpha: 0.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      // side: BorderSide(color: color[0], width: 0.5),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => OtherSearchRoute().push(context),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          PhosphorIcons.bowlFood(iconStyle),
+                          size: iconWidth,
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-              const Gap(10),
-              Card(
-                color: color[0].withValues(alpha: 0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  // side: BorderSide(color: color[0], width: 0.5),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () => OtherSearchRoute().push(context),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      Icons.ramen_dining,
-                      size: 21,
-                      color: Colors.white.withValues(alpha: 0.9),
+                  ),
+                  const Gap(10),
+                  Card(
+                    color: color[4].withValues(alpha: 0.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      // side: BorderSide(color: color[4], width: 0.5),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => context.pushNamed(
+                        AppRouteConstant.NewsScreenScreen.name,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          PhosphorIcons.newspaper(iconStyle),
+                          size: iconWidth,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              const Gap(10),
-              Card(
-                color: color[4].withValues(alpha: 0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  // side: BorderSide(color: color[4], width: 0.5),
-                ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () =>
-                      context.pushNamed(AppRouteConstant.NewsScreenScreen.name),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      Icons.newspaper,
-                      size: 21,
-                      color: Colors.white.withValues(alpha: 0.9),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ],
       ),

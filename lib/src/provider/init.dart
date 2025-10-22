@@ -22,12 +22,10 @@ class InitStatusNotifier extends StateNotifier<bool> {
   Future<bool> initialize() async {
     final pref = await SharedPreferences.getInstance();
     ref.read(sharedfPrefProvider);
-    AndroidOptions getAndroidOptions() =>
-        const AndroidOptions(encryptedSharedPreferences: true);
-    const flutterSecureStorage = FlutterSecureStorage();
-    final accessToken = await flutterSecureStorage.read(
+
+    final accessToken = await FlutterSecureStorage().read(
       key: 'AniListAccessToken',
-      aOptions: getAndroidOptions(),
+      aOptions: const AndroidOptions(encryptedSharedPreferences: true),
     );
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');
@@ -40,30 +38,28 @@ class InitStatusNotifier extends StateNotifier<bool> {
     }
     final mediaListBox = await Hive.openBox('mediaListBox');
 
-    late HttpLink httpLink;
     await Clipboard.setData(ClipboardData(text: accessToken ?? ""));
-    if (accessToken == null) {
-      httpLink = HttpLink('https://graphql.anilist.co');
-    } else {
-      httpLink = HttpLink(
-        'https://graphql.anilist.co',
-        defaultHeaders: {'Authorization': 'Bearer $accessToken'},
-      );
-    }
-    final policy = {OperationType.query: FetchPolicy.CacheAndNetwork};
+
+    HttpLink httpLink = HttpLink(
+      'https://graphql.anilist.co',
+      defaultHeaders: accessToken == null
+          ? {}
+          : {'Authorization': 'Bearer $accessToken'},
+    );
+
     final store = HiveStore(box);
     final cache = Cache(store: store, possibleTypes: possibleTypesMap);
-    final client = Client(
-      link: httpLink,
-      cache: cache,
-    );
+    final client = Client(link: httpLink, cache: cache);
     ref.read(accessTokenProvider.notifier).state = accessToken;
     ref.read(clientProvider.notifier).state = client;
 
     final store1 = HiveStore(mediaListBox);
     final cache1 = Cache(store: store1, possibleTypes: possibleTypesMap);
-    final client1 =
-        Client(link: httpLink, cache: cache1, defaultFetchPolicies: policy);
+    final client1 = Client(
+      link: httpLink,
+      cache: cache1,
+      defaultFetchPolicies: {OperationType.query: FetchPolicy.CacheAndNetwork},
+    );
     ref.read(mediaListClientProvider.notifier).state = client1;
     final event = await client.request(GUserIDReq()).first;
     if (event.data != null) {

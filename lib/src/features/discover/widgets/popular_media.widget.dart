@@ -71,7 +71,6 @@ class PopularMedia extends StatelessWidget {
                 final data = response?.data?.Page?.media;
                 return SizedBox(
                   height: 135,
-                  // color: Colors.red.withValues(alpha:0.2),
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,

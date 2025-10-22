@@ -20,6 +20,7 @@ Future<void> sortingDialog({
     context: context,
     builder: (context) {
       return AlertDialog(
+        backgroundColor: Color(0xff272227).withValues(alpha: 0.92),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -28,49 +29,49 @@ Future<void> sortingDialog({
               children: [
                 const Text(
                   'Sort',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
-                StatefulBuilder(builder: (context, newState) {
-                  return SegmentedButton(
-                    onSelectionChanged: (v) async {
-                      order = v.first;
-                      newState(() {});
-                    },
-                    emptySelectionAllowed: false,
-                    multiSelectionEnabled: false,
-                    showSelectedIcon: false,
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                StatefulBuilder(
+                  builder: (context, newState) {
+                    return SegmentedButton(
+                      onSelectionChanged: (v) async {
+                        order = v.first;
+                        newState(() {});
+                      },
+                      emptySelectionAllowed: false,
+                      multiSelectionEnabled: false,
+                      showSelectedIcon: false,
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        visualDensity: const VisualDensity(vertical: -3),
                       ),
-                      visualDensity: const VisualDensity(vertical: -3),
-                    ),
-                    segments: [
-                      ButtonSegment(
-                        value: Sort.ASC,
-                        label: Text(Sort.ASC.name),
-                      ),
-                      ButtonSegment(
-                        value: Sort.DESC,
-                        label: Text(Sort.DESC.name),
-                      ),
-                    ],
-                    selected: {order},
-                  );
-                }),
+                      segments: [
+                        ButtonSegment(
+                          value: Sort.ASC,
+                          label: Text(Sort.ASC.name),
+                        ),
+                        ButtonSegment(
+                          value: Sort.DESC,
+                          label: Text(Sort.DESC.name),
+                        ),
+                      ],
+                      selected: {order},
+                    );
+                  },
+                ),
               ],
             ),
             SizedBox(
               height: 200,
               child: CupertinoPicker(
-                scrollController:
-                    FixedExtentScrollController(initialItem: optionSelected),
+                scrollController: FixedExtentScrollController(
+                  initialItem: optionSelected,
+                ),
                 itemExtent: 50,
                 onSelectedItemChanged: (v) {
                   optionSelected = v;
@@ -79,10 +80,8 @@ Future<void> sortingDialog({
                   for (int i = 0; i < sortingSettingOption.length; i++)
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        sortingSettingOption.elementAt(i).$1,
-                      ),
-                    )
+                      child: Text(sortingSettingOption.elementAt(i).$1),
+                    ),
                 ],
               ),
             ),
@@ -93,17 +92,19 @@ Future<void> sortingDialog({
             onPressed: () => Navigator.pop(context),
             child: const Text('CANCEL'),
           ),
-          Consumer(builder: (context, ref, child) {
-            return TextButton(
-              onPressed: () async {
-                await ref
-                    .read(sortType.notifier)
-                    .changeSorting(index: optionSelected, sort: order);
-                Navigator.pop(context);
-              },
-              child: const Text('APPLY'),
-            );
-          }),
+          Consumer(
+            builder: (context, ref, child) {
+              return TextButton(
+                onPressed: () async {
+                  await ref
+                      .read(sortType.notifier)
+                      .changeSorting(index: optionSelected, sort: order);
+                  Navigator.pop(context);
+                },
+                child: const Text('APPLY'),
+              );
+            },
+          ),
         ],
       );
     },
