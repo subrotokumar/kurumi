@@ -13,7 +13,6 @@ class BannerAppBar extends ConsumerWidget {
   const BannerAppBar({super.key, required this.data, required this.loading});
 
   final GMediaDetailQueryData_Media? data;
-
   final StateProvider<bool> loading;
 
   @override
@@ -72,11 +71,7 @@ class BannerAppBar extends ConsumerWidget {
                       fixedSize: const Size.square(25),
                       side: const BorderSide(color: Colors.white12, width: 0.5),
                     ),
-                    onPressed: () {
-                      if (context.canPop()) {
-                        context.pop();
-                      }
-                    },
+                    onPressed: () => context.pop(),
                     icon: Icon(
                       PhosphorIcons.arrowUpLeft(PhosphorIconsStyle.regular),
                       size: 25.0,
@@ -84,9 +79,7 @@ class BannerAppBar extends ConsumerWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: () {
-                      Scaffold.of(context).openEndDrawer();
-                    },
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
                     icon: Icon(
                       PhosphorIcons.sidebar(PhosphorIconsStyle.regular),
                       color: Colors.white,

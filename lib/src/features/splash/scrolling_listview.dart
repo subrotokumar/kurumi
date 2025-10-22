@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
-import 'package:kurumi/src/core/constants/constants.dart';
+import 'package:kurumi/src/core/constants/properties.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
 
 class ImageListView extends StatefulWidget {

@@ -10,10 +10,7 @@ import 'package:kurumi/src/features/anime/section_widget/sorting_dialog.widget.d
 import 'package:kurumi/src/features/home/homepage.dart';
 
 class VerticleNavigationBar extends StatelessWidget {
-  const VerticleNavigationBar({
-    super.key,
-    required this.controller,
-  });
+  const VerticleNavigationBar({super.key, required this.controller});
 
   final PageController controller;
 
@@ -54,19 +51,26 @@ class VerticleNavigationBar extends StatelessWidget {
               pageNum: 4,
               ref: ref,
             ),
-            const SizedBox(height: 10),
-            Consumer(builder: (context, ref, child) {
-              return IconButton(
-                onPressed: () {
-                  sortingDialog(
-                    context: context,
-                    ref: ref,
-                    type: GMediaType.MANGA,
-                  );
-                },
-                icon: Icon(PhosphorIcons.slidersHorizontal()),
-              );
-            })
+            MediaCollectionTypeWidget(
+              controller: controller,
+              title: 'Repeating',
+              pageNum: 5,
+              ref: ref,
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                return IconButton(
+                  onPressed: () {
+                    sortingDialog(
+                      context: context,
+                      ref: ref,
+                      type: GMediaType.MANGA,
+                    );
+                  },
+                  icon: Icon(PhosphorIcons.slidersHorizontal()),
+                );
+              },
+            ),
           ],
         );
       },
@@ -75,12 +79,13 @@ class VerticleNavigationBar extends StatelessWidget {
 }
 
 class MediaCollectionTypeWidget extends StatelessWidget {
-  const MediaCollectionTypeWidget(
-      {super.key,
-      required this.controller,
-      required this.title,
-      required this.pageNum,
-      required this.ref});
+  const MediaCollectionTypeWidget({
+    super.key,
+    required this.controller,
+    required this.title,
+    required this.pageNum,
+    required this.ref,
+  });
   final PageController controller;
   final String title;
   final int pageNum;
@@ -90,7 +95,7 @@ class MediaCollectionTypeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     int pageIndex = ref.read(mangaTabProvider);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: RotatedBox(
         quarterTurns: 3,
         child: TextButton(
@@ -111,17 +116,9 @@ class MediaCollectionTypeWidget extends StatelessWidget {
             } else {
               controller.jumpToPage(pageNum);
             }
-            // controller.animateToPage(
-            //   pageNum,
-            //   curve: Curves.linear,
-            //   duration: const Duration(milliseconds: 600),
-            // );
             ref.read(mangaTabProvider.notifier).update((state) => pageNum);
           },
-          child: Text(
-            title,
-            style: Poppins(fontWeight: FontWeight.w700),
-          ),
+          child: Text(title, style: Poppins(fontWeight: FontWeight.w600)),
         ),
       ),
     );

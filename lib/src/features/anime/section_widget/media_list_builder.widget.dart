@@ -1,4 +1,5 @@
 import 'package:anilist/anilist.dart';
+import 'package:ferry/ferry.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/src/core/assets/assets.dart';
@@ -30,6 +32,30 @@ class MediaListBuilderWidget extends StatefulWidget {
 }
 
 class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
+  Future plusEpisode(
+    GMediaListCollectionData_MediaListCollection_lists_entries? mediaData,
+    Client? client,
+    GMediaListCollectionReq request, {
+    int count = 1,
+  }) async {
+    HapticFeedback.mediumImpact();
+    if (count == -1 && (mediaData?.media?.mediaListEntry?.progress ?? 0) == 0) {
+      return;
+    }
+    var mediaListEntryMutationReq = GMediaListEntryMutationReq(
+      (b) => b
+        ..vars.id = mediaData?.media?.mediaListEntry?.id
+        ..vars.mediaId = mediaData?.media?.id
+        ..vars.progress =
+            (mediaData?.media?.mediaListEntry?.progress ?? 0) + count,
+    );
+    client?.request(mediaListEntryMutationReq).listen((response) async {
+      if (response.data != null) {
+        await client.request(request).first;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -102,8 +128,9 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                   'Completed',
                                   'On Hold',
                                   'Dropped',
+                                  'Repeating',
                                 ][pageIndex],
-                                style: TextStyle(
+                                style: Poppins(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 30,
                                   color: [
@@ -112,6 +139,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                     Colors.blue,
                                     Colors.pinkAccent,
                                     Colors.yellow,
+                                    Colors.purple,
                                   ][pageIndex],
                                 ),
                               );
@@ -131,16 +159,8 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                     ),
                     const Spacer(),
                     Assets.lotties.ufo.lottie(fit: BoxFit.contain),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
+                    Chip(
+                      label: Text(
                         'Empty List',
                         textAlign: TextAlign.center,
                         style: Poppins(
@@ -194,8 +214,9 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                     'Completed',
                                     'On Hold',
                                     'Dropped',
+                                    'Repeating',
                                   ][pageIndex],
-                                  style: TextStyle(
+                                  style: Poppins(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 30,
                                     color: [
@@ -204,6 +225,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                       Colors.blue,
                                       Colors.pinkAccent,
                                       Colors.yellow,
+                                      Colors.purpleAccent,
                                     ][pageIndex],
                                   ),
                                 );
@@ -301,12 +323,12 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     ?.userPreferred ??
                                                 '',
                                             maxLines: 3,
-                                            style: TextStyle(
+                                            style: Poppins(
                                               color: Colors.white.withValues(
                                                 alpha: 0.85,
                                               ),
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 14,
+                                              fontSize: 13,
                                             ),
                                           ),
                                         ),
@@ -322,6 +344,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                     '',
                                                 style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
+                                                  fontSize: 13,
                                                   color: Color(
                                                     int.parse(
                                                           col.substring(1, 7),
@@ -375,8 +398,9 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                         ),
                                                         Text(
                                                           '${mediaData?.media?.averageScore}%',
-                                                          style: TextStyle(
+                                                          style: Poppins(
                                                             color: col,
+                                                            fontSize: 12,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
@@ -393,8 +417,34 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                         Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white10,
+                                                border: const Border(
+                                                  right: BorderSide(
+                                                    color: Colors.white24,
+                                                    width: 0.5,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  widget.type ==
+                                                          GMediaType.ANIME
+                                                      ? 'EP'
+                                                      : 'CH',
+                                                  style: Poppins(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.blue.shade100,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             Expanded(
-                                              flex: 1,
+                                              flex: 3,
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white
@@ -409,7 +459,7 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                 child: Center(
                                                   child: Text(
                                                     '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '-' : (mediaData?.media?.chapters) ?? '-'}',
-                                                    style: const TextStyle(
+                                                    style: Poppins(
                                                       fontWeight:
                                                           FontWeight.w500,
                                                     ),
@@ -441,79 +491,62 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                                                         radius: 100,
                                                         splashColor:
                                                             Colors.white,
-                                                        onTap: () async {
-                                                          HapticFeedback.mediumImpact();
-                                                          var mediaListEntryMutationReq = GMediaListEntryMutationReq(
-                                                            (b) => b
-                                                              ..vars
-                                                                  .id = mediaData
-                                                                  ?.media
-                                                                  ?.mediaListEntry
-                                                                  ?.id
-                                                              ..vars.mediaId =
-                                                                  mediaData
-                                                                      ?.media
-                                                                      ?.id
-                                                              ..vars.progress =
-                                                                  (mediaData
-                                                                          ?.media
-                                                                          ?.mediaListEntry
-                                                                          ?.progress ??
-                                                                      0) +
-                                                                  1,
-                                                          );
-                                                          client
-                                                              .request(
-                                                                mediaListEntryMutationReq,
-                                                              )
-                                                              .listen((
-                                                                response,
-                                                              ) async {
-                                                                if (response
-                                                                        .data !=
-                                                                    null) {
-                                                                  await client
-                                                                      .request(
-                                                                        request,
-                                                                      )
-                                                                      .first;
-                                                                }
-                                                              });
-                                                        },
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
+                                                        onTap: () async =>
+                                                            plusEpisode(
+                                                              mediaData,
+                                                              client,
+                                                              request,
                                                             ),
-                                                            Icon(
-                                                              Icons.add,
-                                                              size: 20,
-                                                              color: Colors
-                                                                  .purple
-                                                                  .shade100,
+                                                        child: Icon(
+                                                          PhosphorIcons.plus(),
+                                                          size: 20,
+                                                          color: Colors
+                                                              .purple
+                                                              .shade100,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            Consumer(
+                                              builder: (context, ref, child) {
+                                                int pageIndex =
+                                                    widget.type ==
+                                                        GMediaType.ANIME
+                                                    ? ref.watch(
+                                                        animeTabProvider,
+                                                      )
+                                                    : ref.watch(
+                                                        mangaTabProvider,
+                                                      );
+                                                return Visibility(
+                                                  visible: pageIndex == 0,
+                                                  child: Expanded(
+                                                    flex: 1,
+                                                    child: Material(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                            alpha: 0.05,
+                                                          ),
+                                                      child: InkWell(
+                                                        radius: 100,
+                                                        splashColor:
+                                                            Colors.white,
+                                                        onTap: () async =>
+                                                            plusEpisode(
+                                                              mediaData,
+                                                              client,
+                                                              request,
+                                                              count: -1,
                                                             ),
-                                                            Text(
-                                                              widget.type ==
-                                                                      GMediaType
-                                                                          .ANIME
-                                                                  ? '1 EP'
-                                                                  : '1 CH',
-                                                              style: Poppins(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .purple
-                                                                    .shade100,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                          ],
+                                                        child: Icon(
+                                                          PhosphorIcons.minus(),
+                                                          size: 20,
+                                                          color: Colors
+                                                              .purple
+                                                              .shade100,
                                                         ),
                                                       ),
                                                     ),

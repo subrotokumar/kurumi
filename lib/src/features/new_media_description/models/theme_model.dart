@@ -6,15 +6,9 @@ import 'package:flutter/foundation.dart';
 class ThemeModel {
   List<String> openings;
   List<String> endings;
-  ThemeModel({
-    required this.openings,
-    required this.endings,
-  });
+  ThemeModel({required this.openings, required this.endings});
 
-  ThemeModel copyWith({
-    List<String>? openings,
-    List<String>? endings,
-  }) {
+  ThemeModel copyWith({List<String>? openings, List<String>? endings}) {
     return ThemeModel(
       openings: openings ?? this.openings,
       endings: endings ?? this.endings,
@@ -22,10 +16,7 @@ class ThemeModel {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'openings': openings,
-      'endings': endings,
-    };
+    return <String, dynamic>{'openings': openings, 'endings': endings};
   }
 
   String toJson() => json.encode(toMap());

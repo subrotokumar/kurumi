@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/features/anilist_tracking/anilist_tracking.widget.dart';
-import 'package:kurumi/src/features/media_description/function/share_media.dart';
+import 'package:kurumi/src/features/new_media_description/function/share_media.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:screenshot/screenshot.dart';
@@ -156,6 +156,7 @@ class MediaHeaderSection extends ConsumerWidget {
                     GMediaListStatus.PLANNING => Colors.grey,
                     GMediaListStatus.PAUSED => Colors.yellow,
                     GMediaListStatus.DROPPED => Colors.red,
+                    GMediaListStatus.REPEATING => Colors.purpleAccent,
                     _ => Colors.white.withValues(alpha: 0.9),
                   };
                   return IconButton(
@@ -174,7 +175,7 @@ class MediaHeaderSection extends ConsumerWidget {
                     ),
                     onPressed: () => showBottomSheet(
                       context: context,
-                      backgroundColor: AppTheme.secondaryColor,
+                      backgroundColor: kTransparentColor,
                       builder: (context) => AnilistTrackingWidget(media: data),
                     ),
                     icon: switch (data?.mediaListEntry?.status) {
@@ -198,7 +199,12 @@ class MediaHeaderSection extends ConsumerWidget {
                         color: col,
                         size: 18,
                       ),
-                      GMediaListStatus.PAUSED => Icon(PhosphorIcons.pause()),
+                      GMediaListStatus.PAUSED => Icon(
+                        PhosphorIconsRegular.pauseCircle,
+                      ),
+                      GMediaListStatus.REPEATING => Icon(
+                        PhosphorIconsBold.repeat,
+                      ),
                       _ => Icon(
                         PhosphorIcons.plus(PhosphorIconsStyle.bold),
                         color: col,
@@ -223,31 +229,45 @@ class MediaHeaderSection extends ConsumerWidget {
                 onPressed: () => showModalBottomSheet(
                   enableDrag: true,
                   context: context,
+                  elevation: 0,
+                  useSafeArea: true,
+                  backgroundColor: kTransparentColor,
                   builder: (context) {
                     return Container(
-                      padding: const EdgeInsets.all(20),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 40,
+                      ).copyWith(bottom: 50),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ).copyWith(top: 20),
+                      decoration: BoxDecoration(
+                        color: Color(0xff272227).withValues(alpha: 0.92),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                       child: ListView(
                         shrinkWrap: true,
                         children: [
                           Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'SHARE',
+                              'Share',
                               style: Poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const Gap(10),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Flexible(
                                 flex: 1,
-                                child: OutlinedButton(
+                                child: OutlinedButton.icon(
                                   style: OutlinedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(40),
+                                    backgroundColor: Colors.white10,
+                                    foregroundColor: Colors.white70,
                                   ),
                                   onPressed: () {
                                     final mediaType =
@@ -263,23 +283,35 @@ class MediaHeaderSection extends ConsumerWidget {
                                         'title';
                                     final link =
                                         'https://anilist.co/$mediaType/$id/$title';
-                                    Share.shareUri(Uri.parse(link));
+                                    SharePlus.instance.share(
+                                      ShareParams(uri: Uri.parse(link)),
+                                    );
                                   },
-                                  child: const Text("LINK"),
+                                  icon: Icon(PhosphorIconsRegular.link),
+                                  label: Text(
+                                    "Link",
+                                    style: Poppins(fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
                               const Gap(20),
                               Flexible(
                                 flex: 1,
-                                child: OutlinedButton(
+                                child: OutlinedButton.icon(
                                   style: OutlinedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(40),
+                                    backgroundColor: Colors.white10,
+                                    foregroundColor: Colors.white70,
                                   ),
                                   onPressed: () => shareMedia(
                                     controller: controller,
                                     media: data,
                                   ),
-                                  child: const Text("IMAGE"),
+                                  icon: Icon(PhosphorIconsRegular.image),
+                                  label: Text(
+                                    "Image",
+                                    style: Poppins(fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
                             ],

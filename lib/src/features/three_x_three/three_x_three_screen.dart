@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/core.dart';
-import 'package:kurumi/src/features/media_description/function/share_media.dart';
+import 'package:kurumi/src/features/new_media_description/function/share_media.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

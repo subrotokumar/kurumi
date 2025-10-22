@@ -14,24 +14,24 @@ class Col {
 }
 
 Widget get LoadingWidget => Center(
-      child: Assets.lotties.loadingGifAnimation.lottie(
-        width: 150,
-        height: 150,
-        fit: BoxFit.cover,
-      ),
-    );
+  child: Assets.lotties.loadingGifAnimation.lottie(
+    width: 150,
+    height: 150,
+    fit: BoxFit.cover,
+  ),
+);
 
-showSnackBar(BuildContext context, String text,
-    {Duration duration = const Duration(seconds: 2)}) {
+showSnackBar(
+  BuildContext context,
+  String text, {
+  Duration duration = const Duration(seconds: 2),
+}) {
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Chip(
         avatar: ClipOval(child: Assets.meta.ninja.image()),
-        label: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-        ),
+        label: Text(text, overflow: TextOverflow.ellipsis),
       ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
@@ -61,6 +61,13 @@ bool get isTablet {
   final logicalShortestSide =
       firstView.physicalSize.shortestSide / firstView.devicePixelRatio;
   return logicalShortestSide > 600;
+}
+
+bool get isSmartwatch {
+  final view = WidgetsBinding.instance.platformDispatcher.views.first;
+  final logicalShortestSide =
+      view.physicalSize.shortestSide / view.devicePixelRatio;
+  return logicalShortestSide < 250;
 }
 
 extension BuildContextX on BuildContext {

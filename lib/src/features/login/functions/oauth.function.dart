@@ -11,7 +11,6 @@ class Oauth {
     final clientSecret = ENV().clientSecret;
     var authUrl =
         'https://anilist.co/api/v2/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&response_type=code';
-    //print(authUrl);
     final result = await FlutterWebAuth2.authenticate(
       url: authUrl,
       callbackUrlScheme: 'kurumi',
@@ -27,7 +26,7 @@ class Oauth {
         'client_id': clientId,
         'client_secret': clientSecret,
         'redirect_uri': redirectUri,
-        'code': code
+        'code': code,
       },
     );
     final String? accessToken = response.data['access_token'];

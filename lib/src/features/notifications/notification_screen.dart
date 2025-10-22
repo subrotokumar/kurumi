@@ -262,8 +262,7 @@ class NotificationScreen extends StatelessWidget {
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        fontSize: 16,
+                                                      style: Poppins(
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         color: isAiring
@@ -281,6 +280,7 @@ class NotificationScreen extends StatelessWidget {
                                                         Alignment.centerLeft,
                                                     child: Text(
                                                       DateFormat().format(time),
+                                                      style: Poppins(),
                                                     ),
                                                   ),
                                                 ],
