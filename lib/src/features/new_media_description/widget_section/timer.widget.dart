@@ -1,11 +1,12 @@
-import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
 
 class Timer extends StatelessWidget {
-  const Timer({super.key, required this.data});
+  const Timer({super.key, required this.data, this.margin});
 
-  final GMediaDetailQueryData_Media? data;
+  // final GMediaDetailQueryData_Media? data;
+  final dynamic data;
+  final double? margin;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class Timer extends StatelessWidget {
     }
     return Container(
       height: 20,
-      margin: const EdgeInsets.symmetric(vertical: 14),
+      margin: EdgeInsets.symmetric(vertical: margin ?? 14),
       alignment: Alignment.center,
       color: diffHour < 24
           ? Colors.green.withValues(alpha: 0.7)

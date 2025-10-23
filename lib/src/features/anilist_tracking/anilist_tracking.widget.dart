@@ -60,13 +60,15 @@ class AnilistTrackingWidget extends ConsumerWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
+                          elevation: 0,
+                          visualDensity: VisualDensity.compact,
                         ),
-                        icon: Icon(PhosphorIcons.trash()),
+                        icon: Icon(PhosphorIconsBold.trash, size: 14),
                         label: Text(
                           'Delete Entry',
                           style: Poppins(
                             fontWeight: FontWeight.w500,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                         onPressed: () async {
@@ -127,20 +129,11 @@ class AnilistTrackingWidget extends ConsumerWidget {
                               margin: EdgeInsets.symmetric(
                                 vertical: 12,
                                 horizontal: 5,
-                              ).copyWith(top: 5),
+                              ),
                               width: double.infinity,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
-                                    'Status',
-                                    style: Poppins(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                  Gap(10),
                                   Wrap(
                                     alignment: WrapAlignment.center,
                                     runSpacing: 10,
@@ -184,242 +177,208 @@ class AnilistTrackingWidget extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          Gap(10),
+                          Gap(5),
                           Card(
-                            child: SizedBox(
-                              child: Column(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 7),
+                              child: Row(
                                 children: [
-                                  Gap(10),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            TextEditingController controller =
-                                                TextEditingController();
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                backgroundColor: Color(
-                                                  0xff272227,
-                                                ).withValues(alpha: 0.92),
-                                                content: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      'Progress',
-                                                      style: Poppins(
-                                                        fontSize: 24,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 16),
-                                                    TextField(
-                                                      controller: controller,
-                                                      onSubmitted: (v) =>
-                                                          setState(() {}),
-                                                      decoration: InputDecoration(
-                                                        hintText:
-                                                            'Current: ${mediaListEntry?.progress ?? ''}',
-                                                        border:
-                                                            const OutlineInputBorder(),
-                                                        isDense: true,
-                                                        // suffixIcon:
-                                                      ),
-                                                    ),
-                                                  ],
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        TextEditingController controller =
+                                            TextEditingController();
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            backgroundColor: Color(
+                                              0xff272227,
+                                            ).withValues(alpha: 0.92),
+                                            content: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  'Progress',
+                                                  style: Poppins(
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        context.pop(),
-                                                    child: Text(
-                                                      'CANCEL',
-                                                      style: Poppins(),
+                                                Gap(16),
+                                                TextField(
+                                                  controller: controller,
+                                                  onSubmitted: (v) =>
+                                                      setState(() {}),
+                                                  decoration: InputDecoration(
+                                                    hintText:
+                                                        'Current: ${mediaListEntry?.progress ?? ''}',
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    isDense: true,
+                                                    // suffixIcon:
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => context.pop(),
+                                                child: Text(
+                                                  'CANCEL',
+                                                  style: Poppins(),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    int? n = int.tryParse(
+                                                      controller.text,
+                                                    );
+                                                    if (n == null) return;
+                                                    if (media?.episodes !=
+                                                            null &&
+                                                        n >
+                                                            (media?.episodes ??
+                                                                n)) {
+                                                      n = media?.episodes;
+                                                    }
+                                                    progress = n ?? progress;
+                                                  });
+                                                  context.pop();
+                                                },
+                                                child: Text(
+                                                  'OK',
+                                                  style: Poppins(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          progress == null
+                                              ? 'Progress'
+                                              : '$progress ${media?.type == GMediaType.ANIME ? 'Ep' : 'Ch'}',
+                                          style: Poppins(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        String? val = await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            String value = '0.0';
+                                            return AlertDialog(
+                                              backgroundColor: Color(
+                                                0xff272227,
+                                              ).withValues(alpha: 0.92),
+                                              content: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    'Score',
+                                                    style: Poppins(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        int? n = int.tryParse(
-                                                          controller.text,
-                                                        );
-                                                        if (n == null) return;
-                                                        if (media?.episodes !=
-                                                                null &&
-                                                            n >
-                                                                (media?.episodes ??
-                                                                    n)) {
-                                                          n = media?.episodes;
-                                                        }
-                                                        progress =
-                                                            n ?? progress;
-                                                      });
-                                                      context.pop();
-                                                    },
-                                                    child: Text(
-                                                      'OK',
-                                                      style: Poppins(),
+                                                  SizedBox(
+                                                    height: 150,
+                                                    child: CupertinoPicker(
+                                                      magnification: 1.1,
+                                                      useMagnifier: true,
+                                                      itemExtent: 30,
+                                                      onSelectedItemChanged:
+                                                          (v) {
+                                                            double n =
+                                                                0 + v * .1;
+                                                            value = n
+                                                                .toStringAsFixed(
+                                                                  1,
+                                                                );
+                                                          },
+                                                      children: [
+                                                        for (
+                                                          double i = 0;
+                                                          i <= 10.0;
+                                                          i = i + 0.1
+                                                        )
+                                                          Text(
+                                                            i.toStringAsFixed(
+                                                              1,
+                                                            ),
+                                                          ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
                                               ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      context.pop(),
+                                                  child: Text(
+                                                    'CANCEL',
+                                                    style: Poppins(),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      context.pop(value),
+                                                  child: Text(
+                                                    'APPLY',
+                                                    style: Poppins(),
+                                                  ),
+                                                ),
+                                              ],
                                             );
                                           },
-                                          child: Column(
-                                            children: [
-                                              if (progress != null)
-                                                Text(
-                                                  'Progress',
-                                                  style: Poppins(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white70,
-                                                  ),
-                                                ),
-                                              if (score != null) Gap(10),
-                                              Center(
-                                                child: Text(
-                                                  progress == null
-                                                      ? 'Progress'
-                                                      : progress.toString(),
-                                                  style: Poppins(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
+                                        );
+                                        if (val != null) {
+                                          score = double.parse(val);
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              PhosphorIconsFill.star,
+                                              size: 14,
+                                            ),
+                                            Text(
+                                              " ${score == null ? ' Score' : score!.toStringAsFixed(1)}",
+                                              style: Poppins(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            String? val = await showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                String value = '0.0';
-                                                return AlertDialog(
-                                                  backgroundColor: Color(
-                                                    0xff272227,
-                                                  ).withValues(alpha: 0.92),
-                                                  content: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        'Score',
-                                                        style: Poppins(
-                                                          fontSize: 24,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 150,
-                                                        child: CupertinoPicker(
-                                                          magnification: 1.1,
-                                                          useMagnifier: true,
-                                                          itemExtent: 30,
-                                                          onSelectedItemChanged:
-                                                              (v) {
-                                                                double n =
-                                                                    0 + v * .1;
-                                                                value = n
-                                                                    .toStringAsFixed(
-                                                                      1,
-                                                                    );
-                                                              },
-                                                          children: [
-                                                            for (
-                                                              double i = 0;
-                                                              i <= 10.0;
-                                                              i = i + 0.1
-                                                            )
-                                                              Text(
-                                                                i.toStringAsFixed(
-                                                                  1,
-                                                                ),
-                                                              ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          context.pop(),
-                                                      child: Text(
-                                                        'CANCEL',
-                                                        style: Poppins(),
-                                                      ),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          context.pop(value),
-                                                      child: Text(
-                                                        'APPLY',
-                                                        style: Poppins(),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                            if (val != null) {
-                                              score = double.parse(val);
-                                              setState(() {});
-                                            }
-                                          },
-                                          child: Column(
-                                            children: [
-                                              if (score != null)
-                                                Text(
-                                                  ' Score ',
-                                                  style: Poppins(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white70,
-                                                  ),
-                                                ),
-                                              if (score != null) Gap(10),
-                                              Center(
-                                                child: Text(
-                                                  score == null
-                                                      ? 'Score'
-                                                      : score!.toStringAsFixed(
-                                                          1,
-                                                        ),
-                                                  style: Poppins(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                  Gap(10),
                                 ],
                               ),
                             ),
                           ),
-                          Gap(20),
+                          Gap(5),
                           Card(
                             child: Container(
-                              height: 50,
+                              height: 40,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                               ),

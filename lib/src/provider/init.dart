@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:anilist/anilist.dart';
 import 'package:ferry/ferry.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -38,7 +37,7 @@ class InitStatusNotifier extends StateNotifier<bool> {
     }
     final mediaListBox = await Hive.openBox('mediaListBox');
 
-    await Clipboard.setData(ClipboardData(text: accessToken ?? ""));
+    // await Clipboard.setData(ClipboardData(text: accessToken ?? ""));
 
     HttpLink httpLink = HttpLink(
       'https://graphql.anilist.co',

@@ -8,6 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/features/new_media_description/widget_section/end_drawer.dart';
 import 'package:kurumi/src/features/new_media_description/widget_section/stats.widget.dart';
 import 'package:kurumi/src/features/new_media_description/widget_section/theme_section.dart';
@@ -79,6 +80,8 @@ class _NewMediaScreenState extends ConsumerState<NewMediaScreen> {
           builder: (context, response, error) {
             if (response == null || response.loading) {
               return const MediaLoading();
+            } else if (error != null || response.data == null) {
+              return ErrorScreen();
             } else {
               final data = response.data?.Media;
               type = data?.type ?? type;

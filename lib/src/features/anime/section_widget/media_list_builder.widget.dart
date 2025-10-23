@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kurumi/src/features/new_media_description/widget_section/timer.widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -262,308 +263,370 @@ class _MediaListBuilderWidgetState extends State<MediaListBuilderWidget> {
                           },
                         );
                       },
-                      child: Container(
-                        margin: const EdgeInsets.all(10),
-                        height: 120,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: Hero(
-                                tag: '${mediaData?.media?.id ?? ''}',
-                                child: CachedNetworkImage(
-                                  height: 120,
-                                  fit: BoxFit.cover,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Gap(7),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            height: 120,
+                            child: Flex(
+                              direction: Axis.horizontal,
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
                                   width: 100,
-                                  imageUrl:
-                                      mediaData?.media?.coverImage?.large ??
-                                      mediaData?.media?.coverImage?.medium ??
-                                      '',
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: w - 100,
-                              child: Container(
-                                color:
-                                    mediaData?.media?.status ==
-                                        GMediaStatus.RELEASING
-                                    ? Colors.green
-                                    : AppTheme.background,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.background,
-                                    borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(16),
+                                  child: Hero(
+                                    tag: '${mediaData?.media?.id ?? ''}',
+                                    child: CachedNetworkImage(
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                      width: 100,
+                                      imageUrl:
+                                          mediaData?.media?.coverImage?.large ??
+                                          mediaData
+                                              ?.media
+                                              ?.coverImage
+                                              ?.medium ??
+                                          '',
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  width: w - 100,
                                   child: Container(
-                                    height: 120,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white10,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: double.maxFinite,
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 5,
-                                            horizontal: 10,
-                                          ),
-                                          child: Text(
-                                            mediaData
-                                                    ?.media
-                                                    ?.title
-                                                    ?.userPreferred ??
-                                                '',
-                                            maxLines: 3,
-                                            style: Poppins(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.85,
-                                              ),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
-                                          ),
+                                    color:
+                                        mediaData?.media?.status ==
+                                            GMediaStatus.RELEASING
+                                        ? Colors.green
+                                        : AppTheme.background,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.background,
+                                        borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(16),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                mediaData?.media?.format?.name
-                                                        .trim() ??
+                                      ),
+                                      child: Container(
+                                        height: 120,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white10,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: double.maxFinite,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 5,
+                                                    horizontal: 10,
+                                                  ),
+                                              child: Text(
+                                                mediaData
+                                                        ?.media
+                                                        ?.title
+                                                        ?.userPreferred ??
                                                     '',
-                                                style: GoogleFonts.poppins(
+                                                maxLines: 3,
+                                                style: Poppins(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.85),
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 13,
-                                                  color: Color(
-                                                    int.parse(
-                                                          col.substring(1, 7),
-                                                          radix: 16,
-                                                        ) +
-                                                        0xFF000000,
-                                                  ),
                                                 ),
                                               ),
-                                              const SizedBox(width: 8),
-                                              Consumer(
-                                                builder: (context, ref, child) {
-                                                  final pref = ref.watch(
-                                                    sharedfPrefProvider
-                                                        .notifier,
-                                                  );
-                                                  var showScore =
-                                                      pref.showScore;
-                                                  final score =
-                                                      mediaData
-                                                          ?.media
-                                                          ?.averageScore ??
-                                                      0;
-                                                  Color col;
-                                                  if (score > 85) {
-                                                    col = Colors.green;
-                                                  } else if (score > 70) {
-                                                    col = Colors.green.shade200;
-                                                  } else if (score > 50) {
-                                                    col = Colors.yellow
-                                                        .withValues(alpha: 0.8);
-                                                  } else if (score > 25) {
-                                                    col = Colors.orange;
-                                                  } else {
-                                                    col = Colors.red;
-                                                  }
-                                                  return Visibility(
-                                                    visible: showScore,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        const Icon(
-                                                          CupertinoIcons
-                                                              .square_fill_line_vertical_square,
-                                                          color: Colors.grey,
-                                                          size: 10,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                  ),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    mediaData
+                                                            ?.media
+                                                            ?.format
+                                                            ?.name
+                                                            .trim() ??
+                                                        '',
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 13,
+                                                      color: Color(
+                                                        int.parse(
+                                                              col.substring(
+                                                                1,
+                                                                7,
+                                                              ),
+                                                              radix: 16,
+                                                            ) +
+                                                            0xFF000000,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 8),
+                                                  Consumer(
+                                                    builder: (context, ref, child) {
+                                                      final pref = ref.watch(
+                                                        sharedfPrefProvider
+                                                            .notifier,
+                                                      );
+                                                      var showScore =
+                                                          pref.showScore;
+                                                      final score =
+                                                          mediaData
+                                                              ?.media
+                                                              ?.averageScore ??
+                                                          0;
+                                                      Color col;
+                                                      if (score > 85) {
+                                                        col = Colors.green;
+                                                      } else if (score > 70) {
+                                                        col = Colors
+                                                            .green
+                                                            .shade200;
+                                                      } else if (score > 50) {
+                                                        col = Colors.yellow
+                                                            .withValues(
+                                                              alpha: 0.8,
+                                                            );
+                                                      } else if (score > 25) {
+                                                        col = Colors.orange;
+                                                      } else {
+                                                        col = Colors.red;
+                                                      }
+                                                      return Visibility(
+                                                        visible: showScore,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            const Icon(
+                                                              CupertinoIcons
+                                                                  .square_fill_line_vertical_square,
+                                                              color:
+                                                                  Colors.grey,
+                                                              size: 10,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 8,
+                                                            ),
+                                                            Text(
+                                                              '${mediaData?.media?.averageScore}%',
+                                                              style: Poppins(
+                                                                color: col,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        const SizedBox(
-                                                          width: 8,
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  width: 55,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white10,
+                                                    border: const Border(
+                                                      right: BorderSide(
+                                                        color: Colors.white24,
+                                                        width: 0.5,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      widget.type ==
+                                                              GMediaType.ANIME
+                                                          ? 'EP'
+                                                          : 'CH',
+                                                      style: Poppins(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .blue
+                                                            .shade100,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                            alpha: 0.035,
+                                                          ),
+                                                      border: const Border(
+                                                        right: BorderSide(
+                                                          color: Colors.white24,
+                                                          width: 0.5,
                                                         ),
-                                                        Text(
-                                                          '${mediaData?.media?.averageScore}%',
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: RichText(
+                                                        text: TextSpan(
+                                                          text:
+                                                              '${mediaData?.media?.mediaListEntry?.progress ?? '0'}',
                                                           style: Poppins(
-                                                            color: col,
-                                                            fontSize: 12,
+                                                            fontSize: 13,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 16,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white10,
-                                                border: const Border(
-                                                  right: BorderSide(
-                                                    color: Colors.white24,
-                                                    width: 0.5,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  widget.type ==
-                                                          GMediaType.ANIME
-                                                      ? 'EP'
-                                                      : 'CH',
-                                                  style: Poppins(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.blue.shade100,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 3,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white
-                                                      .withValues(alpha: 0.035),
-                                                  border: const Border(
-                                                    right: BorderSide(
-                                                      color: Colors.white24,
-                                                      width: 0.5,
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    '${mediaData?.media?.mediaListEntry?.progress ?? '0'} / ${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '-' : (mediaData?.media?.chapters) ?? '-'}',
-                                                    style: Poppins(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Consumer(
-                                              builder: (context, ref, child) {
-                                                int pageIndex =
-                                                    widget.type ==
-                                                        GMediaType.ANIME
-                                                    ? ref.watch(
-                                                        animeTabProvider,
-                                                      )
-                                                    : ref.watch(
-                                                        mangaTabProvider,
-                                                      );
-                                                return Visibility(
-                                                  visible: pageIndex == 0,
-                                                  child: Expanded(
-                                                    flex: 1,
-                                                    child: Material(
-                                                      color: Colors.white
-                                                          .withValues(
-                                                            alpha: 0.05,
-                                                          ),
-                                                      child: InkWell(
-                                                        radius: 100,
-                                                        splashColor:
-                                                            Colors.white,
-                                                        onTap: () async =>
-                                                            plusEpisode(
-                                                              mediaData,
-                                                              client,
-                                                              request,
+                                                          children: [
+                                                            TextSpan(
+                                                              text: " / ",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .blue
+                                                                    .shade100,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
                                                             ),
-                                                        child: Icon(
-                                                          PhosphorIcons.plus(),
-                                                          size: 20,
-                                                          color: Colors
-                                                              .purple
-                                                              .shade100,
+                                                            TextSpan(
+                                                              text:
+                                                                  '${widget.type == GMediaType.ANIME ? (mediaData?.media?.episodes) ?? '-' : (mediaData?.media?.chapters) ?? '-'}',
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                );
-                                              },
-                                            ),
-                                            Consumer(
-                                              builder: (context, ref, child) {
-                                                int pageIndex =
-                                                    widget.type ==
-                                                        GMediaType.ANIME
-                                                    ? ref.watch(
-                                                        animeTabProvider,
-                                                      )
-                                                    : ref.watch(
-                                                        mangaTabProvider,
-                                                      );
-                                                return Visibility(
-                                                  visible: pageIndex == 0,
-                                                  child: Expanded(
-                                                    flex: 1,
-                                                    child: Material(
-                                                      color: Colors.white
-                                                          .withValues(
-                                                            alpha: 0.05,
-                                                          ),
-                                                      child: InkWell(
-                                                        radius: 100,
-                                                        splashColor:
-                                                            Colors.white,
-                                                        onTap: () async =>
-                                                            plusEpisode(
-                                                              mediaData,
-                                                              client,
-                                                              request,
-                                                              count: -1,
+                                                ),
+                                                Consumer(
+                                                  builder: (context, ref, child) {
+                                                    int pageIndex =
+                                                        widget.type ==
+                                                            GMediaType.ANIME
+                                                        ? ref.watch(
+                                                            animeTabProvider,
+                                                          )
+                                                        : ref.watch(
+                                                            mangaTabProvider,
+                                                          );
+                                                    return Visibility(
+                                                      visible:
+                                                          pageIndex == 0 ||
+                                                          pageIndex == 5,
+                                                      child: Expanded(
+                                                        flex: 1,
+                                                        child: Material(
+                                                          color: Colors.white
+                                                              .withValues(
+                                                                alpha: 0.05,
+                                                              ),
+                                                          child: InkWell(
+                                                            radius: 100,
+                                                            splashColor:
+                                                                Colors.white,
+                                                            onTap: () async =>
+                                                                plusEpisode(
+                                                                  mediaData,
+                                                                  client,
+                                                                  request,
+                                                                ),
+                                                            child: Icon(
+                                                              PhosphorIconsBold
+                                                                  .plus,
+                                                              size: 18,
+                                                              color: Colors
+                                                                  .purple
+                                                                  .shade100,
                                                             ),
-                                                        child: Icon(
-                                                          PhosphorIcons.minus(),
-                                                          size: 20,
-                                                          color: Colors
-                                                              .purple
-                                                              .shade100,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
+                                                    );
+                                                  },
+                                                ),
+                                                Consumer(
+                                                  builder: (context, ref, child) {
+                                                    int pageIndex =
+                                                        widget.type ==
+                                                            GMediaType.ANIME
+                                                        ? ref.watch(
+                                                            animeTabProvider,
+                                                          )
+                                                        : ref.watch(
+                                                            mangaTabProvider,
+                                                          );
+                                                    return Visibility(
+                                                      visible:
+                                                          pageIndex == 0 ||
+                                                          pageIndex == 5,
+                                                      child: Expanded(
+                                                        flex: 1,
+                                                        child: Material(
+                                                          color: Colors.white
+                                                              .withValues(
+                                                                alpha: 0.05,
+                                                              ),
+                                                          child: InkWell(
+                                                            radius: 100,
+                                                            splashColor:
+                                                                Colors.white,
+                                                            onTap: () async =>
+                                                                plusEpisode(
+                                                                  mediaData,
+                                                                  client,
+                                                                  request,
+                                                                  count: -1,
+                                                                ),
+                                                            child: Icon(
+                                                              PhosphorIconsBold
+                                                                  .minus,
+                                                              size: 18,
+                                                              color: Colors
+                                                                  .purple
+                                                                  .shade100,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              border: Border(top: BorderSide(width: .5)),
+                            ),
+                            child: Timer(data: mediaData?.media, margin: 0),
+                          ),
+                          Gap(7),
+                        ],
                       ),
                     );
                   },
