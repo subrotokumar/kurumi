@@ -125,7 +125,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> whatsNewWidget(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
     await Future.delayed(2.seconds);
-    if (pref.getBool('whatsnew@$kVersion') != false) {
+    if (pref.getBool('whatsnew@$kVersion') != true) {
+      if (!context.mounted) return;
       showModalBottomSheet(
         context: context,
         backgroundColor: kTransparentColor,

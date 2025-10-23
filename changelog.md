@@ -1,3 +1,7 @@
+## v2.2.1
+Feat: 
+  - Added Next airing information on Anime Medialist screen
+
 ## v2.2.0
 
 Feat: 
