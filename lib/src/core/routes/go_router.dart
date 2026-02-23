@@ -9,6 +9,7 @@ import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/new_media_description/new_media_screen.dart';
 import 'package:kurumi/src/features/news/news_screen.dart';
+import 'package:kurumi/src/features/post/post_screen.dart';
 import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
 import 'package:kurumi/src/features/search_media/image_search_page.dart';
@@ -50,6 +51,11 @@ final router = Provider<GoRouter>(
           final page = int.tryParse(state.extra.toString());
           return ActivityScreen(page: page);
         },
+      ),
+      GoRoute(
+        name: AppRouteConstant.PostScreen.name,
+        path: AppRouteConstant.PostScreen.path,
+        builder: (context, state) => PostScreen(),
       ),
       GoRoute(
         name: AppRouteConstant.SettingScreen.name,

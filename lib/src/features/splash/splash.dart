@@ -36,7 +36,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
     timer = Timer(3500.milliseconds, () {
       if (ref.read(initStatus)) {
-        context.go('/home');
+        context.go('home');
       } else {
         log.i('login');
         context.goNamed(AppRouteConstant.LoginScreen.name);
