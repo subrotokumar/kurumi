@@ -1,5 +1,4 @@
 import 'package:anilist/anilist.dart';
-import 'package:anilist/src/activities_query.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +8,6 @@ import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/core/core.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-// filter:"all"
-// hasReplies:true
-// isFollowing:false
-// page:1
-// type:"global"
 
 class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({super.key});
@@ -27,34 +20,30 @@ class PostScreenState extends ConsumerState<PostScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final userID = ref.watch(userId);
     final client = ref.watch(mediaListClientProvider);
-
+    final request = GActivitiesQueryReq(
+      (b) => b
+        ..vars.hasReplies = false
+        ..vars.isFollowing = false
+        ..vars.page = 1,
+    );
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text('Social'),
+        titleTextStyle: Poppins(fontWeight: FontWeight.w400, fontSize: 20),
+        actions: [],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await client
-              .request(
-                GActivitiesQueryReq(
-                  (b) => b
-                    ..vars.hasReplies = true
-                    ..vars.isFollowing = false
-                    ..vars.page = 1,
-                ),
-              )
-              .first;
+          await client.request(request).first;
         },
         child: Operation(
           client: client!,
-          operationRequest: GActivitiesQueryReq(
-            (b) => b
-              ..vars.hasReplies = true
-              ..vars.isFollowing = false
-              ..vars.page = 1,
-          ),
+          operationRequest: request,
           builder: (context, response, error) {
             if (response == null || response.loading) {
-              return const CircularProgressIndicator();
+              return Center(child: const CircularProgressIndicator());
             } else if (error != null || response.data == null) {
               return ErrorScreen();
             } else {
@@ -83,22 +72,28 @@ class PostScreenState extends ConsumerState<PostScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadiusGeometry.circular(15),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    listActivity?.user?.avatar?.large ?? '',
-                                height: 30,
-                                width: 30,
-                                fit: BoxFit.cover,
+                            CircleAvatar(
+                              backgroundColor: colorFromString(
+                                textActivity?.user?.name ?? '',
+                              ),
+                              radius: 13,
+                              child: ClipRRect(
+                                borderRadius: BorderRadiusGeometry.circular(13),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      listActivity?.user?.avatar?.large ?? '',
+                                  height: 26,
+                                  width: 26,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             Gap(10),
                             Text(
                               textActivity?.user?.name ?? '',
                               style: Poppins(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 16,
                                 color: Colors.blue.shade50,
                               ),
                             ),
@@ -107,6 +102,11 @@ class PostScreenState extends ConsumerState<PostScreen> {
                               timeAgoFromUnix(
                                 textActivity?.createdAt ??
                                     DateTime.now().millisecondsSinceEpoch,
+                              ),
+                              style: Poppins(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 15,
+                                color: Colors.grey,
                               ),
                             ),
                             Spacer(),
@@ -117,7 +117,10 @@ class PostScreenState extends ConsumerState<PostScreen> {
                           visible: textActivity?.text != null,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(textActivity?.text ?? ''),
+                            // child: Text(textActivity?.text ?? ''),
+                            child: AniListRenderer(
+                              content: textActivity?.text ?? '',
+                            ),
                           ),
                         ),
                         Visibility(
@@ -125,49 +128,87 @@ class PostScreenState extends ConsumerState<PostScreen> {
                               listActivity?.media?.coverImage?.large != null,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white10.withValues(alpha: 0.05),
-                              ),
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadiusGeometry.circular(
-                                      8,
+                            child: GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  AppRouteConstant.MediaScreen.name,
+                                  pathParameters: {
+                                    'id': (listActivity?.media?.id ?? 0)
+                                        .toString(),
+                                    'title':
+                                        listActivity
+                                            ?.media
+                                            ?.title
+                                            ?.userPreferred ??
+                                        '',
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 9,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white.withValues(alpha: 0.03),
+                                ),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius:
+                                          BorderRadiusGeometry.circular(8),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            listActivity
+                                                ?.media
+                                                ?.coverImage
+                                                ?.large ??
+                                            '',
+                                        height: 120,
+                                        width: 90,
+                                      ),
                                     ),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          listActivity
-                                              ?.media
-                                              ?.coverImage
-                                              ?.large ??
-                                          '',
-                                      height: 120,
-                                      width: 90,
+                                    Gap(12),
+                                    Builder(
+                                      builder: (context) {
+                                        final progress =
+                                            listActivity?.media?.type ==
+                                                GMediaType.MANGA
+                                            ? 'Read chapter'
+                                            : 'Watched episode';
+                                        return SizedBox(
+                                          width: size.width * .6,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text:
+                                                  '$progress ${listActivity?.progress} of ',
+                                              style: Poppins(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Colors.blue.shade50,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      '${listActivity?.media?.title?.userPreferred}',
+                                                  style: Poppins(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: colorFromString(
+                                                      '${listActivity?.media?.title?.userPreferred}',
+                                                      lightness: 0.7,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ),
-                                  Gap(12),
-                                  Builder(
-                                    builder: (context) {
-                                      final progress =
-                                          listActivity?.media?.type ==
-                                              GMediaType.MANGA
-                                          ? 'Read chapter '
-                                          : 'Watched episode ';
-                                      return SizedBox(
-                                        width: size.width * .6,
-                                        child: Text(
-                                          '$progress ${listActivity?.progress} of ${listActivity?.media?.title?.userPreferred}',
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -178,6 +219,12 @@ class PostScreenState extends ConsumerState<PostScreen> {
                             _buildSocialIconButton(
                               icon: PhosphorIconsRegular.heart,
                               count: textActivity?.likeCount,
+                              activeIcon: textActivity?.isLiked == true
+                                  ? PhosphorIconsFill.heart
+                                  : null,
+                              activeColor: textActivity?.isLiked == true
+                                  ? Colors.red.shade300
+                                  : null,
                             ),
                             Gap(10),
                             _buildSocialIconButton(
@@ -202,7 +249,12 @@ class PostScreenState extends ConsumerState<PostScreen> {
     );
   }
 
-  _buildSocialIconButton({required IconData icon, int? count}) {
+  _buildSocialIconButton({
+    required IconData icon,
+    int? count,
+    IconData? activeIcon,
+    Color? activeColor,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       decoration: BoxDecoration(
@@ -212,7 +264,11 @@ class PostScreenState extends ConsumerState<PostScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 18),
+          Icon(
+            activeIcon ?? icon,
+            color: activeColor ?? Colors.white,
+            size: 18,
+          ),
           if (count != null) Gap(5),
           if (count != null)
             Align(

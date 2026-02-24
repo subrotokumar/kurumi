@@ -14,6 +14,7 @@ export './routes/router.dart';
 
 //* Utils
 export './utils/utils.functions.dart';
+export 'utils/anilist_markdown.dart';
 
 //* Themes
 export './themes/app_theme.dart';

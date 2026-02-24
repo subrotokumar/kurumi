@@ -103,3 +103,18 @@ String formatTimeAgo(DateTime dateTime) {
     return '${(difference.inDays / 365).floor()}y';
   }
 }
+
+Color colorFromString(
+  String input, {
+  double saturation = 0.6,
+  double lightness = 0.5,
+}) {
+  final hash = input.hashCode;
+
+  // Convert hash to positive value
+  final hue = (hash % 360).abs().toDouble();
+
+  final hsl = HSLColor.fromAHSL(1.0, hue, saturation, lightness);
+
+  return hsl.toColor();
+}
