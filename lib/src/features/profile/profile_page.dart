@@ -114,7 +114,11 @@ class _ProfilePageState extends State<ProfilePage>
                                       ),
                                       onPressed: () {
                                         HapticFeedback.mediumImpact();
-                                        ThreeXThreeRoute().push(context);
+                                        context.push(
+                                          AppRouteConstant
+                                              .ThreeXThreeScreen
+                                              .path,
+                                        );
                                       },
                                     ),
                                   ),

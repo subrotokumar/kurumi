@@ -1,3 +1,5 @@
+// dart format width=80
+
 /// GENERATED CODE - DO NOT MODIFY BY HAND
 /// *****************************************************
 ///  FlutterGen
@@ -5,7 +7,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart' as _lottie;
@@ -79,8 +81,13 @@ class $AssetsLottiesGen {
   LottieGenImage get weee => const LottieGenImage('assets/lotties/weee.json');
 
   /// List of all assets
-  List<LottieGenImage> get values =>
-      [ghibliTribute, loadingGifAnimation, train, ufo, weee];
+  List<LottieGenImage> get values => [
+    ghibliTribute,
+    loadingGifAnimation,
+    train,
+    ufo,
+    weee,
+  ];
 }
 
 class $AssetsMetaGen {
@@ -165,28 +172,28 @@ class $AssetsImagesSplashGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        aot,
-        chainsawMan,
-        cyberpunk,
-        fateZero,
-        fullmetalAlchemist,
-        gintama,
-        hunterXHunter,
-        jujutsuKaisen,
-        kaguyaSama,
-        lightning,
-        naruto,
-        oshiNoKo,
-        spritedAway,
-        spyXFamily,
-        vinlandSaga,
-        voiletEvergarden,
-        yourName
-      ];
+    aot,
+    chainsawMan,
+    cyberpunk,
+    fateZero,
+    fullmetalAlchemist,
+    gintama,
+    hunterXHunter,
+    jujutsuKaisen,
+    kaguyaSama,
+    lightning,
+    naruto,
+    oshiNoKo,
+    spritedAway,
+    spyXFamily,
+    vinlandSaga,
+    voiletEvergarden,
+    yourName,
+  ];
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const $AssetsGifsGen gifs = $AssetsGifsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
@@ -200,12 +207,14 @@ class AssetGenImage {
     this._assetName, {
     this.size,
     this.flavors = const {},
+    this.animation,
   });
 
   final String _assetName;
 
   final Size? size;
   final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
 
   Image image({
     Key? key,
@@ -225,10 +234,10 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -260,15 +269,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
@@ -276,11 +278,20 @@ class AssetGenImage {
   String get keyName => _assetName;
 }
 
-class LottieGenImage {
-  const LottieGenImage(
-    this._assetName, {
-    this.flavors = const {},
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
   });
+
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
+}
+
+class LottieGenImage {
+  const LottieGenImage(this._assetName, {this.flavors = const {}});
 
   final String _assetName;
   final Set<String> flavors;
@@ -297,11 +308,8 @@ class LottieGenImage {
     _lottie.LottieImageProviderFactory? imageProviderFactory,
     Key? key,
     AssetBundle? bundle,
-    Widget Function(
-      BuildContext,
-      Widget,
-      _lottie.LottieComposition?,
-    )? frameBuilder,
+    Widget Function(BuildContext, Widget, _lottie.LottieComposition?)?
+    frameBuilder,
     ImageErrorWidgetBuilder? errorBuilder,
     double? width,
     double? height,
@@ -311,6 +319,9 @@ class LottieGenImage {
     bool? addRepaintBoundary,
     FilterQuality? filterQuality,
     void Function(String)? onWarning,
+    _lottie.LottieDecoder? decoder,
+    _lottie.RenderCache? renderCache,
+    bool? backgroundLoading,
   }) {
     return _lottie.Lottie.asset(
       _assetName,
@@ -335,6 +346,9 @@ class LottieGenImage {
       addRepaintBoundary: addRepaintBoundary,
       filterQuality: filterQuality,
       onWarning: onWarning,
+      decoder: decoder,
+      renderCache: renderCache,
+      backgroundLoading: backgroundLoading,
     );
   }
 

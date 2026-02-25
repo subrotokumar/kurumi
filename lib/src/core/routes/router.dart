@@ -2,12 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kurumi/src/features/character_detail/character_detail_screen.dart';
-import 'package:kurumi/src/features/other_search/other_search.dart';
-import 'package:kurumi/src/features/three_x_three/three_x_three_screen.dart';
 export 'package:go_router/go_router.dart';
-
-part 'router.g.dart';
 
 class AppRouteConstant {
   static Route HomeScreen = Route('home', '/home');
@@ -26,6 +21,12 @@ class AppRouteConstant {
   static Route FavAnimeScreen = Route('FavAnime', '/user/:username/favorites');
   static Route SearchFilterScreen = Route('FilterScreen', '/search/filter');
   static Route NewsScreenScreen = Route('NewsScreen', '/news');
+  static Route OtherSearchScreen = Route("OtherScreen", "/search/other");
+  static Route ThreeXThreeScreen = Route('3x3', "/3x3");
+  static Route CharacterDetailScreen = Route(
+    'CharacterDetail',
+    '/character/:id/:name',
+  );
 }
 
 class Route {
@@ -34,25 +35,13 @@ class Route {
   Route(this.name, this.path);
 }
 
-@TypedGoRoute<CharacterDetailRoute>(path: '/character/:id/:name')
-class CharacterDetailRoute extends GoRouteData {
-  final int id;
-  final String name;
-  const CharacterDetailRoute({required this.id, required this.name});
+class CharacterDetailRoute {
+  int id;
+  String name;
 
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      CharacterDetailScreen(id: id);
-}
+  CharacterDetailRoute({required this.id, required this.name});
 
-@TypedGoRoute<OtherSearchRoute>(path: '/search/other')
-class OtherSearchRoute extends GoRouteData {
-  @override
-  Widget build(context, state) => const OtherSearch();
-}
-
-@TypedGoRoute<ThreeXThreeRoute>(path: '/9x9')
-class ThreeXThreeRoute extends GoRouteData {
-  @override
-  Widget build(context, state) => const ThreeXThreeScreen();
+  Future<void> push(BuildContext context) async {
+    context.push(AppRouteConstant.CharacterDetailScreen.path);
+  }
 }

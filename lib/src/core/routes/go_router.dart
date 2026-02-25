@@ -4,11 +4,13 @@ import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:kurumi/src/features/activity/activity_screen.dart';
+import 'package:kurumi/src/features/character_detail/character_detail_screen.dart';
 import 'package:kurumi/src/features/favourite/favourite_screen.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
 import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/new_media_description/new_media_screen.dart';
 import 'package:kurumi/src/features/news/news_screen.dart';
+import 'package:kurumi/src/features/other_search/other_search.dart';
 import 'package:kurumi/src/features/post/post_screen.dart';
 import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
@@ -17,6 +19,7 @@ import 'package:kurumi/src/features/search_media/widget/search_filter_screen.dar
 import 'package:kurumi/src/features/search_media/search_media_page.dart';
 import 'package:kurumi/src/features/settings/settings.dart';
 import 'package:kurumi/src/features/splash/splash.dart';
+import 'package:kurumi/src/features/three_x_three/three_x_three_screen.dart';
 import 'package:kurumi/src/features/va/voice_artist.dart';
 import 'package:kurumi/src/provider/init.dart';
 
@@ -26,7 +29,6 @@ final router = Provider<GoRouter>(
   (ref) => GoRouter(
     debugLogDiagnostics: true,
     routes: [
-      ...$appRoutes,
       GoRoute(
         name: 'nativeSplash',
         path: '/',
@@ -156,6 +158,27 @@ final router = Provider<GoRouter>(
         path: AppRouteConstant.NewsScreenScreen.path,
         builder: (context, state) {
           return const NewsScreen();
+        },
+      ),
+      GoRoute(
+        name: AppRouteConstant.OtherSearchScreen.name,
+        path: AppRouteConstant.OtherSearchScreen.path,
+        builder: (context, state) {
+          return const OtherSearch();
+        },
+      ),
+      GoRoute(
+        path: AppRouteConstant.CharacterDetailScreen.path,
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final _ = state.pathParameters['name']!;
+          return CharacterDetailScreen(id: id);
+        },
+      ),
+      GoRoute(
+        path: AppRouteConstant.ThreeXThreeScreen.path,
+        builder: (context, state) {
+          return ThreeXThreeScreen();
         },
       ),
     ],

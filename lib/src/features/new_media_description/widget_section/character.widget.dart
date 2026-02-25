@@ -5,10 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:kurumi/src/core/core.dart';
 
 class CharactersWidget extends StatelessWidget {
-  const CharactersWidget({
-    super.key,
-    required this.data,
-  });
+  const CharactersWidget({super.key, required this.data});
 
   final GMediaDetailQueryData_Media? data;
 
@@ -17,7 +14,8 @@ class CharactersWidget extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Visibility(
-      visible: data?.characters?.edges != null &&
+      visible:
+          data?.characters?.edges != null &&
           (data?.characters?.edges?.isNotEmpty ?? false),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,10 +25,7 @@ class CharactersWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               'CHARACTERS',
-              style: Poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Poppins(fontSize: 20, fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(
@@ -41,8 +36,9 @@ class CharactersWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: data?.characters?.edges?.length ?? 0,
               itemBuilder: (context, index) {
-                final characterData =
-                    data?.characters?.edges?.elementAt(index)?.node;
+                final characterData = data?.characters?.edges
+                    ?.elementAt(index)
+                    ?.node;
                 return Container(
                   width: 80,
                   margin: const EdgeInsets.only(left: 12),
@@ -53,12 +49,16 @@ class CharactersWidget extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           HapticFeedback.mediumImpact();
+
                           CharacterDetailRoute(
-                                  id: characterData?.id ?? -1,
-                                  name: characterData?.name?.full
-                                          ?.replaceAll(' ', '-') ??
-                                      'NA')
-                              .push(context);
+                            id: characterData?.id ?? -1,
+                            name:
+                                characterData?.name?.full?.replaceAll(
+                                  ' ',
+                                  '-',
+                                ) ??
+                                'NA',
+                          ).push(context);
                         },
                         child: Hero(
                           tag: characterData?.image?.large ?? '',
@@ -68,7 +68,8 @@ class CharactersWidget extends StatelessWidget {
                               height: 80,
                               width: 80,
                               fit: BoxFit.cover,
-                              imageUrl: characterData?.image?.large ??
+                              imageUrl:
+                                  characterData?.image?.large ??
                                   characterData?.image?.medium ??
                                   '',
                             ),

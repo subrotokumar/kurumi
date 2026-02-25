@@ -139,6 +139,7 @@ class SubTabWidget extends StatelessWidget {
       Colors.orange,
       Colors.purple,
     ];
+    double optionGap = 8;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       margin: const EdgeInsets.only(top: 30, bottom: 20),
@@ -206,6 +207,28 @@ class SubTabWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Card(
+                    color: Colors.indigo,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        HapticFeedback.mediumImpact();
+                        context.push(AppRouteConstant.PostScreen.path);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          PhosphorIcons.shootingStar(iconStyle),
+                          size: iconWidth,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Gap(optionGap),
+                  Card(
                     color: color[3].withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -230,7 +253,7 @@ class SubTabWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Gap(10),
+                  Gap(optionGap),
                   Card(
                     color: color[2].withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
@@ -256,7 +279,7 @@ class SubTabWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Gap(10),
+                  Gap(optionGap),
                   Card(
                     color: color[1].withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
@@ -320,7 +343,7 @@ class SubTabWidget extends StatelessWidget {
                       );
                     },
                   ),
-                  const Gap(10),
+                  Gap(optionGap),
                   Card(
                     color: color[0].withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
@@ -329,7 +352,8 @@ class SubTabWidget extends StatelessWidget {
                     ),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () => OtherSearchRoute().push(context),
+                      onTap: () =>
+                          context.push(AppRouteConstant.OtherSearchScreen.path),
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: Icon(
@@ -340,7 +364,7 @@ class SubTabWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Gap(10),
+                  Gap(optionGap),
                   Card(
                     color: color[4].withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(

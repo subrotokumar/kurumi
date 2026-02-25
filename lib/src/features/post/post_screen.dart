@@ -17,22 +17,55 @@ class PostScreen extends ConsumerStatefulWidget {
 }
 
 class PostScreenState extends ConsumerState<PostScreen> {
+  String view = 'Global';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final client = ref.watch(mediaListClientProvider);
     final request = GActivitiesQueryReq(
       (b) => b
-        ..vars.hasReplies = false
-        ..vars.isFollowing = false
+        ..vars.hasReplies = true
+        ..vars.isFollowing = view == 'Following'
+        // ..vars.activityType = GActivityType.MEDIA_LIST
         ..vars.page = 1,
     );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Social'),
+        title: Row(
+          children: [
+            Text('Social'),
+            Card(
+              child: Text('  Preview  ', style: Poppins(color: Colors.red)),
+            ),
+          ],
+        ),
         titleTextStyle: Poppins(fontWeight: FontWeight.w400, fontSize: 20),
-        actions: [],
+        actions: [
+          ...['Following', 'Global'].map(
+            (e) => GestureDetector(
+              onTap: () {
+                if (e == view) return;
+                setState(() => view = e);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                decoration: BoxDecoration(
+                  color: view == e ? Colors.blue.shade400 : Colors.white10,
+                ),
+                child: Text(
+                  e,
+                  style: Poppins(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Gap(20),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -177,6 +210,16 @@ class PostScreenState extends ConsumerState<PostScreen> {
                                                 GMediaType.MANGA
                                             ? 'Read chapter'
                                             : 'Watched episode';
+                                        String title =
+                                            listActivity
+                                                ?.media
+                                                ?.title
+                                                ?.userPreferred ??
+                                            '';
+                                        if (title.length > 100) {
+                                          title =
+                                              "${title.substring(0, 100)} ...";
+                                        }
                                         return SizedBox(
                                           width: size.width * .6,
                                           child: RichText(
@@ -190,8 +233,7 @@ class PostScreenState extends ConsumerState<PostScreen> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text:
-                                                      '${listActivity?.media?.title?.userPreferred}',
+                                                  text: title,
                                                   style: Poppins(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 16,
@@ -255,30 +297,34 @@ class PostScreenState extends ConsumerState<PostScreen> {
     IconData? activeIcon,
     Color? activeColor,
   }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-      decoration: BoxDecoration(
-        border: Border.all(width: 0.8, color: Colors.white24),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            activeIcon ?? icon,
-            color: activeColor ?? Colors.white,
-            size: 18,
-          ),
-          if (count != null) Gap(5),
-          if (count != null)
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                '$count',
-                style: Poppins(fontWeight: FontWeight.w400, fontSize: 16),
-              ),
+    return GestureDetector(
+      onTap: () =>
+          showSnackBar(context, 'Coming soon. Feature under development!'),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.8, color: Colors.white24),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              activeIcon ?? icon,
+              color: activeColor ?? Colors.white,
+              size: 18,
             ),
-        ],
+            if (count != null) Gap(5),
+            if (count != null)
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  '$count',
+                  style: Poppins(fontWeight: FontWeight.w400, fontSize: 16),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

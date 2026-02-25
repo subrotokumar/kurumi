@@ -1,7 +1,7 @@
 name: kurumi
 description: Unofficial anilist client
 publish_to: "none"
-version: 2.2.1+60
+version: 3.0.0+61
 
 environment:
   sdk: ^3.9.2
@@ -64,7 +64,6 @@ flutter_gen:
 
   integrations:
     flutter_svg: true
-    flare_flutter: false
     rive: false
     lottie: true
 
