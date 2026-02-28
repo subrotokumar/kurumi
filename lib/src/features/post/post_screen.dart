@@ -6,8 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/core/core.dart';
+import 'package:kurumi/src/features/post/filter_dialog.dart';
+import 'package:kurumi/src/features/post/filter_state.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({super.key});
@@ -17,7 +20,17 @@ class PostScreen extends ConsumerStatefulWidget {
 }
 
 class PostScreenState extends ConsumerState<PostScreen> {
-  String view = 'Global';
+  PostFilterState state = PostFilterState(view: "Global", activity: 'All');
+
+  @override
+  void initState() {
+    final sharedPref = ref.read(sharedfPrefProvider);
+    final stateValue = sharedPref?.getString("PostFilterState");
+    if (stateValue == null) return;
+    state = PostFilterState.fromJson(stateValue.toString());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,16 +38,26 @@ class PostScreenState extends ConsumerState<PostScreen> {
     final request = GActivitiesQueryReq(
       (b) => b
         ..vars.hasReplies = true
-        ..vars.isFollowing = view == 'Following'
-        // ..vars.activityType = GActivityType.MEDIA_LIST
+        ..vars.isFollowing = state.view == 'Following'
+        ..vars.activityType = switch (state.activity) {
+          "List Progress" => GActivityType.MEDIA_LIST,
+          "Text Status" => GActivityType.TEXT,
+          _ => null,
+        }
         ..vars.page = 1,
     );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        leading: GestureDetector(
+          onTap: () => context.pop(),
+          child: SizedBox(child: Icon(PhosphorIconsBold.caretLeft)),
+        ),
+        leadingWidth: 50,
         title: Row(
           children: [
-            Text('Social'),
+            Text('Activity '),
             Card(
               child: Text('  Preview  ', style: Poppins(color: Colors.red)),
             ),
@@ -42,29 +65,27 @@ class PostScreenState extends ConsumerState<PostScreen> {
         ),
         titleTextStyle: Poppins(fontWeight: FontWeight.w400, fontSize: 20),
         actions: [
-          ...['Following', 'Global'].map(
-            (e) => GestureDetector(
-              onTap: () {
-                if (e == view) return;
-                setState(() => view = e);
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                decoration: BoxDecoration(
-                  color: view == e ? Colors.blue.shade400 : Colors.white10,
-                ),
-                child: Text(
-                  e,
-                  style: Poppins(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
-                    color: Colors.white,
+          // IconButton(onPressed: () {}, icon: Icon(PhosphorIcons.notePencil())),
+          IconButton(
+            onPressed: () async {
+              PostFilterState newState = await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: AppTheme.secondaryColor.withValues(
+                    alpha: 0.9,
                   ),
+                  content: PostFilterDialog(state: state),
                 ),
-              ),
-            ),
+              );
+              if (newState != state) {
+                setState(() => state = newState);
+                ref
+                    .read(sharedfPrefProvider)
+                    ?.setString("PostFilterState", newState.toJson());
+              }
+            },
+            icon: Icon(PhosphorIcons.slidersHorizontal()),
           ),
-          Gap(20),
         ],
       ),
       body: RefreshIndicator(
@@ -276,6 +297,13 @@ class PostScreenState extends ConsumerState<PostScreen> {
                             Spacer(),
                             _buildSocialIconButton(
                               icon: PhosphorIconsRegular.shareFat,
+                              onTap: () => SharePlus.instance.share(
+                                ShareParams(
+                                  uri: Uri.parse(
+                                    "https://anilist.co/activity/${listActivity?.id ?? -1}",
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -296,10 +324,16 @@ class PostScreenState extends ConsumerState<PostScreen> {
     int? count,
     IconData? activeIcon,
     Color? activeColor,
+    VoidCallback? onTap,
   }) {
     return GestureDetector(
-      onTap: () =>
-          showSnackBar(context, 'Coming soon. Feature under development!'),
+      onTap: () {
+        if (onTap == null) {
+          showSnackBar(context, 'Coming soon. Feature under development!');
+          return;
+        }
+        onTap();
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         decoration: BoxDecoration(

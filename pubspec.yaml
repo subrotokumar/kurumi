@@ -1,7 +1,7 @@
 name: kurumi
 description: Unofficial anilist client
 publish_to: "none"
-version: 3.0.0+61
+version: 3.0.1+62
 
 environment:
   sdk: ^3.9.2
@@ -51,6 +51,7 @@ dependencies:
   flutter_heatmap_calendar: ^1.0.5
   syncfusion_flutter_charts: ^32.2.7
   image_picker: ^1.2.0
+  html_unescape: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -42,6 +42,10 @@ class CharacterDetailRoute {
   CharacterDetailRoute({required this.id, required this.name});
 
   Future<void> push(BuildContext context) async {
-    context.push(AppRouteConstant.CharacterDetailScreen.path);
+    context.push(
+      AppRouteConstant.CharacterDetailScreen.path
+          .replaceAll(":id", id.toString())
+          .replaceAll(":name", name),
+    );
   }
 }

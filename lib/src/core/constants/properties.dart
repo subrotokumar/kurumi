@@ -6,7 +6,7 @@ const kBlackColor = Colors.black;
 const kTransparentColor = Colors.transparent;
 final kBackgroundColor = AppTheme.background;
 final kSecondaryColor = AppTheme.secondaryColor;
-const kVersion = "3.0.0";
+const kVersion = "3.0.1";
 
 const List kChanges = [
   {
