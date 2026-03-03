@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  ThemeData darkTheme = ThemeData.dark(
-    useMaterial3: true,
-  );
-  ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-  );
+  ThemeData darkTheme = ThemeData.dark(useMaterial3: true);
+  ThemeData lightTheme = ThemeData(useMaterial3: true);
 
   ThemeMode get themeMode => ThemeMode.light;
 
@@ -15,6 +11,7 @@ class AppTheme {
   static Color secondaryColor = const Color(0xff15161b);
 }
 
-final inter = GoogleFonts.inter();
+// ignore: constant_identifier_names
+const Inter = GoogleFonts.inter;
 // ignore: constant_identifier_names
 const Poppins = GoogleFonts.poppins;

@@ -39,11 +39,7 @@ class Top100Media extends StatelessWidget {
 }
 
 class Top50Media extends ConsumerWidget {
-  const Top50Media({
-    super.key,
-    required this.type,
-    required this.page,
-  });
+  const Top50Media({super.key, required this.type, required this.page});
 
   final GMediaType type;
   final int page;
@@ -74,10 +70,7 @@ class Top50Media extends ConsumerWidget {
                 highlightColor: Colors.black12,
                 child: const Card(
                   margin: EdgeInsets.symmetric(horizontal: 5),
-                  child: SizedBox(
-                    height: 120,
-                    width: 100,
-                  ),
+                  child: SizedBox(height: 120, width: 100),
                 ),
               ),
             ),
@@ -87,11 +80,7 @@ class Top50Media extends ConsumerWidget {
           return Container(
             height: 170,
             decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                )
-              ],
+              boxShadow: [BoxShadow(color: Colors.black12)],
             ),
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -111,21 +100,22 @@ class Top50Media extends ConsumerWidget {
                             'id': (data?.elementAt(index)?.id ?? 0).toString(),
                             'title':
                                 data?.elementAt(index)?.title?.userPreferred ??
-                                    '',
+                                '',
                           },
                         );
                       },
                       child: Column(
                         children: [
                           ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(discoverPageImageRadius),
+                            borderRadius: BorderRadius.circular(
+                              discoverPageImageRadius,
+                            ),
                             child: CachedNetworkImage(
                               height: 130,
                               width: 100,
                               imageUrl:
                                   data?.elementAt(index)?.coverImage?.large ??
-                                      '',
+                                  '',
                               fit: BoxFit.cover,
                               imageBuilder: (context, imageProvider) {
                                 return MediaTitle(
@@ -143,24 +133,18 @@ class Top50Media extends ConsumerWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: const BoxDecoration(
-                          color: Colors.white30,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(
-                              discoverPageImageRadius,
-                            ),
-                            bottomRight: Radius.circular(10),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black,
-                              blurRadius: 12,
-                            )
-                          ]),
+                        color: Colors.white30,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(discoverPageImageRadius),
+                          bottomRight: Radius.circular(10),
+                        ),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black, blurRadius: 12),
+                        ],
+                      ),
                       child: Text(
                         '${(page - 1) * 50 + index + 1}',
-                        style: inter.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Inter(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -190,10 +174,7 @@ class MediaTitle extends StatelessWidget {
       height: 130,
       width: 100,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: imageProvider,
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
       ),
       alignment: Alignment.bottomRight,
       child: Container(

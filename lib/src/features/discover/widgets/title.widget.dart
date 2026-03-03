@@ -14,7 +14,7 @@ class TrendingNowTitle extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: 'TRENDING  ',
-          style: inter.copyWith(
+          style: Inter(
             fontWeight: FontWeight.w600,
             color: const Color(0xff39FF14).withValues(alpha: 0.7),
             letterSpacing: 2,
@@ -23,7 +23,7 @@ class TrendingNowTitle extends StatelessWidget {
           children: <TextSpan>[
             TextSpan(
               text: 'NOW ',
-              style: inter.copyWith(color: Colors.white.withValues(alpha: 0.8)),
+              style: Inter(color: Colors.white.withValues(alpha: 0.8)),
             ),
           ],
         ),
@@ -49,7 +49,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
                 return RichText(
                   text: TextSpan(
                     text: 'POPULAR  THIS  ',
-                    style: inter.copyWith(
+                    style: Inter(
                       fontWeight: FontWeight.w600,
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 2,
@@ -58,7 +58,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'SEASON',
-                        style: inter.copyWith(
+                        style: Inter(
                           color: const Color(
                             0xffFFFF33,
                           ).withValues(alpha: 0.65),
@@ -71,7 +71,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
                 return RichText(
                   text: TextSpan(
                     text: 'ALL TIME  ',
-                    style: inter.copyWith(
+                    style: Inter(
                       fontWeight: FontWeight.w600,
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 2,
@@ -80,7 +80,7 @@ class PopularThisSeasonTitle extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'POPULAR',
-                        style: inter.copyWith(color: const Color(0xffFFFF33)),
+                        style: Inter(color: const Color(0xffFFFF33)),
                       ),
                     ],
                   ),
@@ -109,7 +109,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
               ? RichText(
                   text: TextSpan(
                     text: 'UPCOMING  ',
-                    style: inter.copyWith(
+                    style: Inter(
                       fontWeight: FontWeight.w600,
                       color: const Color(0xff1589FF).withValues(alpha: 0.7),
                       letterSpacing: 2,
@@ -121,7 +121,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'NEXT',
-                        style: inter.copyWith(
+                        style: Inter(
                           color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
@@ -131,7 +131,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
               : RichText(
                   text: TextSpan(
                     text: 'POPULAR  ',
-                    style: inter.copyWith(
+                    style: Inter(
                       fontWeight: FontWeight.w600,
                       color: const Color.fromARGB(
                         255,
@@ -145,7 +145,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'MANHWA',
-                        style: inter.copyWith(
+                        style: Inter(
                           color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
@@ -172,7 +172,7 @@ class Top100AnimeTitle extends ConsumerWidget {
           RichText(
             text: TextSpan(
               text: 'TOP  100  ',
-              style: inter.copyWith(
+              style: Inter(
                 color: Colors.white.withValues(alpha: 0.8),
                 fontWeight: FontWeight.w600,
                 letterSpacing: 2,
@@ -182,7 +182,7 @@ class Top100AnimeTitle extends ConsumerWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: type.name,
-                  style: inter.copyWith(
+                  style: Inter(
                     color: const Color(0xffFF6600).withValues(alpha: 0.7),
                   ),
                 ),

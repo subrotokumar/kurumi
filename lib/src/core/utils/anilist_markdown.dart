@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:kurumi/src/core/core.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,6 +48,14 @@ class YouTubeNode extends PostNode {
   YouTubeNode({required this.url, required this.videoId});
 }
 
+enum RichLinkType { twitter, reddit, github, anilist }
+
+class RichLinkNode extends PostNode {
+  final String url;
+  final RichLinkType type;
+  RichLinkNode(this.url, this.type);
+}
+
 class BlockNode extends PostNode {
   final List<PostNode> children;
   BlockNode(this.children);
@@ -89,9 +99,43 @@ class AniListParser {
     r'\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)',
   );
 
-  static List<PostNode> parse(String input) {
+  static final _multiLineLinkRegex = RegExp(
+    r'\[([^\]]*)\]\(\s*\n\s*([^)\n]+?)\s*\n?\s*\)',
+  );
+
+  /// Returns a [RichLinkType] for known domains, or null for generic URLs.
+  static RichLinkType? _classifyUrl(String url) {
+    final host = Uri.tryParse(url)?.host ?? '';
+    if (host == 'twitter.com' ||
+        host == 'www.twitter.com' ||
+        host == 'x.com' ||
+        host == 'www.x.com' ||
+        host == 't.co' ||
+        host == 'mobile.twitter.com')
+      return RichLinkType.twitter;
+    if (host == 'reddit.com' ||
+        host == 'www.reddit.com' ||
+        host == 'old.reddit.com' ||
+        host == 'redd.it')
+      return RichLinkType.reddit;
+    if (host == 'github.com' || host == 'www.github.com') {
+      return RichLinkType.github;
+    }
+    if (host == 'anilist.co' || host == 'www.anilist.co') {
+      return RichLinkType.anilist;
+    }
+    return null;
+  }
+
+  static List<PostNode> parse(BuildContext context, String input) {
     input = _unescape.convert(input);
     input = _decodeNumericEntities(input);
+
+    // Collapse multi-line markdown links FIRST, before any other processing
+    input = input.replaceAllMapped(
+      _multiLineLinkRegex,
+      (m) => '[${m.group(1)}](${m.group(2)!.trim()})',
+    );
 
     input = input.replaceAllMapped(
       RegExp(r'<center\s*/?>', caseSensitive: false),
@@ -136,7 +180,7 @@ class AniListParser {
         dotAll: true,
       ),
       (m) =>
-          m.group(1)!.trim().split('\n').map((l) => '> $l').join('\n') + '\n',
+          '${m.group(1)!.trim().split('\n').map((l) => '> $l').join('\n')}\n',
     );
 
     final nodes = <PostNode>[];
@@ -145,14 +189,16 @@ class AniListParser {
 
     for (final match in blockRegex.allMatches(input)) {
       if (match.start > currentIndex) {
-        nodes.addAll(_parseSegment(input.substring(currentIndex, match.start)));
+        nodes.addAll(
+          _parseSegment(context, input.substring(currentIndex, match.start)),
+        );
       }
-      nodes.add(BlockNode(_parseSegment(match.group(1)!)));
+      nodes.add(BlockNode(_parseSegment(context, match.group(1)!)));
       currentIndex = match.end;
     }
 
     if (currentIndex < input.length) {
-      nodes.addAll(_parseSegment(input.substring(currentIndex)));
+      nodes.addAll(_parseSegment(context, input.substring(currentIndex)));
     }
 
     return nodes;
@@ -170,14 +216,29 @@ class AniListParser {
         );
   }
 
-  static List<PostNode> _parseSegment(String input) {
+  static List<PostNode> _parseSegment(BuildContext context, String input) {
     final nodes = <PostNode>[];
-    // Join lines where a markdown link has the URL on a new line: [...](  \n url \n )
+
+    // Secondary safety net: collapse multi-line links that survive into segments
     input = input.replaceAllMapped(
-      RegExp(r'\[([^\]]*)\]\(\s*\n\s*([^)\n]+)\s*\n?\s*\)'),
+      _multiLineLinkRegex,
       (m) => '[${m.group(1)}](${m.group(2)!.trim()})',
     );
-    final lines = input.split('\n');
+
+    String replaceHtmlHeaders(String input) {
+      final regex = RegExp(r'<h([1-6])>', caseSensitive: false);
+
+      return input.replaceAllMapped(regex, (m) {
+        int level = int.parse(m.group(1)!);
+        return '${'#' * level} ';
+      });
+    }
+
+    final lines = replaceHtmlHeaders(input)
+        .replaceAll("</p>", "")
+        .replaceAll("!~", "")
+        .replaceAll("~!", "")
+        .split('\n');
     int i = 0;
 
     while (i < lines.length) {
@@ -189,23 +250,21 @@ class AniListParser {
         continue;
       }
 
-      // Setext-style headers (underline with == or --)
       if (i + 1 < lines.length) {
         final next = lines[i + 1].trim();
         if (RegExp(r'^={2,}$').hasMatch(next)) {
-          nodes.add(HeaderNode(_parseInlineSpans(trimmed), 1));
+          nodes.add(HeaderNode(_parseInlineSpans(context, trimmed), 1));
           i += 2;
           continue;
         }
         if (RegExp(r'^-{2,}$').hasMatch(next) &&
             !RegExp(r'^[-*+]\s').hasMatch(trimmed)) {
-          nodes.add(HeaderNode(_parseInlineSpans(trimmed), 2));
+          nodes.add(HeaderNode(_parseInlineSpans(context, trimmed), 2));
           i += 2;
           continue;
         }
       }
 
-      // Horizontal rule: ---, ***, - - -, * * *, ___
       if (RegExp(r'^(\s*[-*_]\s*){3,}$').hasMatch(trimmed) &&
           !RegExp(r'^[-*+]\s').hasMatch(trimmed)) {
         nodes.add(HorizontalRuleNode());
@@ -213,12 +272,11 @@ class AniListParser {
         continue;
       }
 
-      // ATX header
       final headerMatch = RegExp(r'^(#{1,5})\s+(.+)').firstMatch(trimmed);
       if (headerMatch != null) {
         nodes.add(
           HeaderNode(
-            _parseInlineSpans(headerMatch.group(2)!.trim()),
+            _parseInlineSpans(context, headerMatch.group(2)!.trim()),
             headerMatch.group(1)!.length,
           ),
         );
@@ -226,18 +284,18 @@ class AniListParser {
         continue;
       }
 
-      // Blockquote
       if (trimmed.startsWith('>')) {
         final quoteLines = <String>[];
         while (i < lines.length && lines[i].trim().startsWith('>')) {
           quoteLines.add(lines[i].trim().replaceFirst(RegExp(r'^>\s?'), ''));
           i++;
         }
-        nodes.add(BlockquoteNode(_parseSegment(quoteLines.join('\n'))));
+        nodes.add(
+          BlockquoteNode(_parseSegment(context, quoteLines.join('\n'))),
+        );
         continue;
       }
 
-      // Ordered list
       if (RegExp(r'^\d+\.\s').hasMatch(trimmed)) {
         final items = <List<PostNode>>[];
         while (i < lines.length &&
@@ -246,14 +304,13 @@ class AniListParser {
             RegExp(r'^\d+\.\s+'),
             '',
           );
-          items.add(_parseInlineOrMedia(content));
+          items.add(_parseInlineOrMedia(context, content));
           i++;
         }
         nodes.add(ListNode(ordered: true, items: items));
         continue;
       }
 
-      // Unordered list
       if (RegExp(r'^[-*+]\s').hasMatch(trimmed)) {
         final items = <List<PostNode>>[];
         while (i < lines.length &&
@@ -262,15 +319,14 @@ class AniListParser {
             RegExp(r'^[-*+]\s+'),
             '',
           );
-          items.add(_parseInlineOrMedia(content));
+          items.add(_parseInlineOrMedia(context, content));
           i++;
         }
         nodes.add(ListNode(ordered: false, items: items));
         continue;
       }
 
-      // Inline / media line
-      final inlineNodes = _parseInlineOrMedia(trimmed);
+      final inlineNodes = _parseInlineOrMedia(context, trimmed);
 
       if (inlineNodes.isNotEmpty &&
           inlineNodes.every((n) => n is ImageNode || n is LinkedImageNode)) {
@@ -286,12 +342,14 @@ class AniListParser {
     return nodes;
   }
 
-  static List<PostNode> _parseInlineOrMedia(String input) {
+  static List<PostNode> _parseInlineOrMedia(
+    BuildContext context,
+    String input,
+  ) {
     final nodes = <PostNode>[];
     final linkedImages = <int, LinkedImageNode>{};
     var processed = input;
 
-    // ── Standard Markdown linked image [![alt](img)](link) ───────────────────
     processed = processed.replaceAllMapped(_linkedMdImgRegex, (m) {
       final imgUrl = m.group(2)!.trim();
       final linkUrl = m.group(3)!.trim();
@@ -304,7 +362,6 @@ class AniListParser {
       return '\x00LINKEDIMG$idx\x00';
     });
 
-    // ── AniList-style linked image [ img###(url) ](link) ─────────────────────
     processed = processed.replaceAllMapped(_linkedImgRegex, (m) {
       final innerRaw = m.group(1)!;
       final linkUrl = m.group(5)!.trim();
@@ -362,6 +419,7 @@ class AniListParser {
     for (final match in combinedRegex.allMatches(processed)) {
       if (match.start > index) {
         _addTextOrPlaceholders(
+          context,
           processed.substring(index, match.start),
           nodes,
           linkedImages,
@@ -375,8 +433,9 @@ class AniListParser {
         final url = match.group(2) ?? '';
         final id = _extractYouTubeId(url);
         if (id != null) nodes.add(YouTubeNode(url: url, videoId: id));
-      } else if (_extractYouTubeId(full) != null) {
-        nodes.add(YouTubeNode(url: full, videoId: _extractYouTubeId(full)!));
+      } else if (match.group(9) != null || _extractYouTubeId(full) != null) {
+        final id = _extractYouTubeId(full);
+        if (id != null) nodes.add(YouTubeNode(url: full, videoId: id));
       } else if (lower.startsWith('img')) {
         final widthStr = match.group(4) ?? '';
         final url = match.group(5) ?? '';
@@ -395,30 +454,42 @@ class AniListParser {
         final url = match.group(7) ?? '';
         if (url.isNotEmpty) nodes.add(ImageNode(url: url));
       } else if (lower.startsWith('webm')) {
-        final url = match.group(9) ?? '';
+        final url = match.group(8) ?? '';
         if (url.isNotEmpty) nodes.add(VideoNode(url));
       } else if (full.startsWith('http')) {
-        nodes.add(TextNode(_buildLinkSpan(full, full)));
+        final richType = _classifyUrl(full);
+        if (richType != null) {
+          nodes.add(RichLinkNode(full, richType));
+        } else {
+          nodes.add(TextNode(_buildLinkSpan(context, full, full)));
+        }
       }
 
       index = match.end;
     }
 
     if (index < processed.length) {
-      _addTextOrPlaceholders(processed.substring(index), nodes, linkedImages);
+      _addTextOrPlaceholders(
+        context,
+        processed.substring(index),
+        nodes,
+        linkedImages,
+      );
     }
 
     return nodes;
   }
 
   static void _addTextOrPlaceholders(
+    BuildContext context,
     String text,
     List<PostNode> nodes,
     Map<int, LinkedImageNode> linkedImages,
   ) {
     if (linkedImages.isEmpty) {
-      if (text.trim().isNotEmpty)
-        nodes.add(TextNode(_parseInlineSpansToSpan(text)));
+      if (text.trim().isNotEmpty) {
+        nodes.add(TextNode(_parseInlineSpansToSpan(context, text)));
+      }
       return;
     }
 
@@ -426,8 +497,9 @@ class AniListParser {
     for (final m in RegExp(r'\x00LINKEDIMG(\d+)\x00').allMatches(text)) {
       if (m.start > cursor) {
         final fragment = text.substring(cursor, m.start);
-        if (fragment.trim().isNotEmpty)
-          nodes.add(TextNode(_parseInlineSpansToSpan(fragment)));
+        if (fragment.trim().isNotEmpty) {
+          nodes.add(TextNode(_parseInlineSpansToSpan(context, fragment)));
+        }
       }
       final idx = int.parse(m.group(1)!);
       if (linkedImages.containsKey(idx)) nodes.add(linkedImages[idx]!);
@@ -436,16 +508,18 @@ class AniListParser {
 
     if (cursor < text.length) {
       final fragment = text.substring(cursor);
-      if (fragment.trim().isNotEmpty)
-        nodes.add(TextNode(_parseInlineSpansToSpan(fragment)));
+      if (fragment.trim().isNotEmpty) {
+        nodes.add(TextNode(_parseInlineSpansToSpan(context, fragment)));
+      }
     }
   }
 
   static String? _extractYouTubeId(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null) return null;
-    if (uri.host.contains('youtu.be'))
+    if (uri.host.contains('youtu.be')) {
       return uri.pathSegments.isNotEmpty ? uri.pathSegments.first : null;
+    }
     if (uri.queryParameters.containsKey('v')) return uri.queryParameters['v'];
     if (uri.pathSegments.contains('shorts')) {
       final idx = uri.pathSegments.indexOf('shorts');
@@ -454,12 +528,11 @@ class AniListParser {
     return null;
   }
 
-  static InlineSpan _parseInlineSpansToSpan(String text) {
-    final spans = _parseInlineSpans(text);
+  static InlineSpan _parseInlineSpansToSpan(BuildContext context, String text) {
+    final spans = _parseInlineSpans(context, text);
     return spans.length == 1 ? spans.first : TextSpan(children: spans);
   }
 
-  // Inline HTML tags mapped to formatting flags before regex matching
   static String _expandHtmlInline(String text) {
     return text
         .replaceAllMapped(
@@ -489,6 +562,7 @@ class AniListParser {
   }
 
   static List<InlineSpan> _parseInlineSpans(
+    BuildContext context,
     String text, {
     bool bold = false,
     bool italic = false,
@@ -496,6 +570,11 @@ class AniListParser {
     bool code = false,
   }) {
     text = _expandHtmlInline(text);
+
+    // Remove orphaned opening: [label]( with no closing )
+    text = text.replaceAll(RegExp(r'\[[^\]]*\]\(\s*$', multiLine: true), '');
+    // Remove orphaned closing paren left alone at the start of a line/fragment
+    text = text.replaceAll(RegExp(r'^\s*\)\s*', multiLine: true), '');
 
     final spans = <InlineSpan>[];
 
@@ -534,6 +613,7 @@ class AniListParser {
         spans.add(
           TextSpan(
             children: _parseInlineSpans(
+              context,
               m.group(3) ?? '',
               bold: true,
               italic: true,
@@ -545,6 +625,7 @@ class AniListParser {
         spans.add(
           TextSpan(
             children: _parseInlineSpans(
+              context,
               m.group(5) ?? '',
               bold: true,
               italic: italic,
@@ -556,6 +637,7 @@ class AniListParser {
         spans.add(
           TextSpan(
             children: _parseInlineSpans(
+              context,
               m.group(6) ?? '',
               bold: bold,
               italic: true,
@@ -567,6 +649,7 @@ class AniListParser {
         spans.add(
           TextSpan(
             children: _parseInlineSpans(
+              context,
               m.group(7) ?? '',
               bold: bold,
               italic: true,
@@ -578,6 +661,7 @@ class AniListParser {
         spans.add(
           TextSpan(
             children: _parseInlineSpans(
+              context,
               m.group(8) ?? '',
               bold: bold,
               italic: italic,
@@ -589,16 +673,18 @@ class AniListParser {
         spans.add(
           TextSpan(
             text: m.group(9),
-            style: const TextStyle(
-              fontFamily: 'monospace',
-              backgroundColor: Color(0x44FFFFFF),
+            style: Inter(
+              backgroundColor: const Color(0x44FFFFFF),
               color: Colors.white,
               fontSize: 13,
             ),
           ),
         );
       } else if (m.group(10) != null) {
-        spans.add(_buildLinkSpan(m.group(10) ?? '', m.group(11) ?? ''));
+        final label = m.group(10) ?? '';
+        final url = m.group(11) ?? '';
+        final displayLabel = label.trim().isEmpty ? url : label;
+        spans.add(_buildLinkSpan(context, displayLabel, url));
       }
 
       cursor = m.end;
@@ -628,7 +714,7 @@ class AniListParser {
   }) {
     return TextSpan(
       text: text,
-      style: TextStyle(
+      style: Inter(
         fontSize: code ? 13 : 15,
         color: Colors.white70,
         fontWeight: bold ? FontWeight.bold : FontWeight.normal,
@@ -636,22 +722,36 @@ class AniListParser {
         decoration: strikethrough
             ? TextDecoration.lineThrough
             : TextDecoration.none,
-        fontFamily: code ? 'monospace' : null,
       ),
     );
   }
 
-  static InlineSpan _buildLinkSpan(String label, String url) {
+  static InlineSpan _buildLinkSpan(
+    BuildContext context,
+    String label,
+    String url,
+  ) {
     return TextSpan(
       text: label,
-      style: const TextStyle(
+      style: Inter(
         color: Colors.blue,
         decoration: TextDecoration.underline,
         fontSize: 15,
       ),
       recognizer: TapGestureRecognizer()
-        ..onTap = () =>
-            launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
+        ..onTap = () {
+          if (url.startsWith("https://anilist.co/anime") ||
+              url.startsWith("https://anilist.co/manga") ||
+              url.startsWith("https://anilist.co/character")) {
+            url = url.replaceAll("https://anilist.co", "");
+            if (RegExp(r'\d$').hasMatch(url)) {
+              url += "/kurumi";
+            }
+            context.push(url);
+          } else {
+            launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+          }
+        },
     );
   }
 }
@@ -684,10 +784,175 @@ class _SpoilerInlineState extends State<_SpoilerInline> {
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: Text(
           widget.text,
-          style: TextStyle(
+          style: Inter(
             fontSize: 15,
             color: _revealed ? Colors.white70 : Colors.transparent,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RICH LINK CARD  (Twitter · Reddit · GitHub · AniList)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _RichLinkCard extends StatelessWidget {
+  final String url;
+  final RichLinkType type;
+
+  const _RichLinkCard({required this.url, required this.type});
+
+  Color get _accent {
+    switch (type) {
+      case RichLinkType.twitter:
+        return Colors.white;
+      case RichLinkType.reddit:
+        return const Color(0xFFFF4500);
+      case RichLinkType.github:
+        return Colors.white;
+      case RichLinkType.anilist:
+        return const Color(0xFF02A9FF);
+    }
+  }
+
+  /// Human-readable label derived from the URL structure.
+  String get _label {
+    final uri = Uri.tryParse(url);
+    if (uri == null) return url;
+    final seg = uri.pathSegments.where((s) => s.isNotEmpty).toList();
+
+    switch (type) {
+      case RichLinkType.twitter:
+        if (seg.isNotEmpty) {
+          final isStatus = seg.length >= 3 && seg[1] == 'status';
+          return isStatus ? '@${seg[0]} on X' : '@${seg[0]}';
+        }
+        return 'X / Twitter';
+
+      case RichLinkType.reddit:
+        final rIdx = seg.indexOf('r');
+        if (rIdx != -1 && rIdx + 1 < seg.length) {
+          final sub = seg[rIdx + 1];
+          final isPost = seg.length > rIdx + 3;
+          return isPost ? 'r/$sub — post' : 'r/$sub';
+        }
+        return 'Reddit';
+
+      case RichLinkType.github:
+        if (seg.length >= 2) {
+          final base = '${seg[0]}/${seg[1]}';
+          return seg.length > 2 ? '$base — ${seg[2]}' : base;
+        }
+        return 'GitHub';
+
+      case RichLinkType.anilist:
+        if (seg.length >= 2) {
+          final kind = seg[0];
+          final title = seg.length >= 3 ? seg[2].replaceAll('-', ' ') : seg[1];
+          return '${kind[0].toUpperCase()}${kind.substring(1)}: $title';
+        }
+        return 'AniList';
+    }
+  }
+
+  Widget _buildIcon() {
+    switch (type) {
+      case RichLinkType.twitter:
+        return Text(
+          '𝕏',
+          style: Inter(
+            color: _accent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      case RichLinkType.reddit:
+        return Container(
+          width: 26,
+          height: 26,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFF4500),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'r/',
+            style: Inter(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      case RichLinkType.github:
+        return const Icon(Icons.code_rounded, color: Colors.white, size: 22);
+      case RichLinkType.anilist:
+        return Text(
+          'AL',
+          style: Inter(
+            color: const Color(0xFF02A9FF),
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (type == RichLinkType.anilist) {
+          String _url = url;
+          _url = _url.replaceAll("https://anilist.co", "");
+          if (RegExp(r'\d$').hasMatch(url)) {
+            _url += "kurumi";
+          }
+          context.push(_url);
+        } else {
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: .06),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.white12),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildIcon(),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _label,
+                    style: Inter(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    url,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Inter(color: Colors.white38, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.open_in_new, color: Colors.white38, size: 16),
+          ],
         ),
       ),
     );
@@ -705,7 +970,7 @@ class AniListRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nodes = AniListParser.parse(content);
+    final nodes = AniListParser.parse(context, content.replaceAll("~~~", ""));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: nodes.map((e) => _buildNode(context, e)).toList(),
@@ -728,7 +993,7 @@ class AniListRenderer extends StatelessWidget {
         child: RichText(
           text: TextSpan(
             children: node.spans,
-            style: TextStyle(
+            style: Inter(
               fontSize: size,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -770,10 +1035,7 @@ class AniListRenderer extends StatelessWidget {
                     width: 24,
                     child: Text(
                       bullet,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 15,
-                      ),
+                      style: Inter(color: Colors.white70, fontSize: 15),
                     ),
                   ),
                   Expanded(
@@ -799,8 +1061,9 @@ class AniListRenderer extends StatelessWidget {
           spacing: 4,
           runSpacing: 4,
           children: node.images.map((img) {
-            if (img is LinkedImageNode)
+            if (img is LinkedImageNode) {
               return _buildLinkedImageWidget(context, img);
+            }
             if (img is ImageNode) return _buildImageWidget(context, img);
             return const SizedBox();
           }).toList(),
@@ -820,6 +1083,10 @@ class AniListRenderer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: _buildImageWidget(context, node),
       );
+    }
+
+    if (node is RichLinkNode) {
+      return _RichLinkCard(url: node.url, type: node.type);
     }
 
     if (node is YouTubeNode) {
@@ -895,7 +1162,7 @@ class AniListRenderer extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: .05),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: Colors.white12),
         ),
@@ -954,24 +1221,102 @@ class AniListRenderer extends StatelessWidget {
           : node.width;
     }
 
-    return CachedNetworkImage(
-      imageUrl: node.url,
-      width: width,
-      fit: BoxFit.contain,
-      placeholder: (context, url) => Shimmer.fromColors(
-        baseColor: Colors.white24,
-        highlightColor: Colors.black12,
-        child: Container(width: width ?? 200, height: 150, color: Colors.grey),
-      ),
-      errorWidget: (context, url, error) => Container(
-        width: width ?? 100,
-        height: 80,
-        alignment: Alignment.center,
-        color: Colors.black26,
-        child: const Icon(
-          PhosphorIconsFill.imageBroken,
-          color: Colors.white54,
-          size: 32,
+    return ClipRRect(
+      borderRadius: BorderRadiusGeometry.circular(8),
+      child: GestureDetector(
+        onTap: () {
+          bool loading = false;
+          showDialog(
+            // fullscreenDialog: true,
+            context: context,
+            builder: (context) {
+              var width = MediaQuery.of(context).size.width;
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(8),
+                ),
+                scrollable: true,
+                elevation: 0,
+                backgroundColor: AppTheme.secondaryColor.withValues(alpha: 0.8),
+                contentPadding: const EdgeInsets.all(10),
+                content: ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: CachedNetworkImage(
+                    imageUrl: node.url,
+                    width: width,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                actions: [
+                  StatefulBuilder(
+                    builder: (context, updateState) {
+                      return Card(
+                        color: Colors.white10,
+                        child: Visibility(
+                          visible: !loading,
+                          replacement: Icon(
+                            PhosphorIcons.spinner(),
+                            size: 44,
+                          ).animate(onComplete: (c) => c.repeat()).rotate(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  updateState(() => loading = true);
+                                  await saveImageToGallery(context, node.url);
+                                  updateState(() => loading = false);
+                                },
+                                icon: Icon(PhosphorIcons.download()),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  updateState(() => loading = true);
+                                  await shareImage(context, node.url);
+                                  updateState(() => loading = false);
+                                },
+                                icon: Icon(PhosphorIcons.shareFat()),
+                              ),
+                              IconButton(
+                                onPressed: () => context.pop(),
+                                icon: Icon(PhosphorIcons.x()),
+                              ),
+                            ],
+                          ).animate().scaleX(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: CachedNetworkImage(
+          imageUrl: node.url,
+          width: width,
+          fit: BoxFit.contain,
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.white24,
+            highlightColor: Colors.black12,
+            child: Container(
+              width: width ?? 200,
+              height: 150,
+              color: Colors.grey,
+            ),
+          ),
+          errorWidget: (context, url, error) => Container(
+            width: width ?? 100,
+            height: 80,
+            alignment: Alignment.center,
+            color: Colors.black26,
+            child: const Icon(
+              PhosphorIconsFill.imageBroken,
+              color: Colors.white54,
+              size: 32,
+            ),
+          ),
         ),
       ),
     );

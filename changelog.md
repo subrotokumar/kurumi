@@ -1,3 +1,7 @@
+## v3.1.0
+Feat:
+  - Enhanced UI for Social Activity Screen (Preview)
+
 ## v3.0.0
 Feat:
   - Added Social Activity Screen (Preview)

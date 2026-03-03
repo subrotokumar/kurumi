@@ -1,8 +1,15 @@
 // ignore_for_file: dead_code, non_constant_identifier_names
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:logger/logger.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:gal/gal.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Col {
   static Color parseHex(String? color, {int? base}) {
@@ -101,6 +108,48 @@ String formatTimeAgo(DateTime dateTime) {
     return '${(difference.inDays / 30).floor()}m';
   } else {
     return '${(difference.inDays / 365).floor()}y';
+  }
+}
+
+Future<void> saveImageToGallery(BuildContext context, String url) async {
+  try {
+    bool hasAccess = await Gal.hasAccess();
+    if (!hasAccess) await Gal.requestAccess();
+    hasAccess = await Gal.hasAccess(toAlbum: true);
+    if (!hasAccess) await Gal.requestAccess(toAlbum: true);
+    final ext = url.split('.').last.split('?').first;
+    final Directory tempDir = await getTemporaryDirectory();
+    final imagePath =
+        '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.$ext';
+    await Dio().download(url, imagePath);
+    await Gal.putImage(imagePath);
+
+    if (context.mounted) {
+      showSnackBar(context, "Saved to gallery");
+    }
+  } catch (e) {
+    if (context.mounted) {
+      showSnackBar(context, "Failed to save image");
+    }
+  }
+}
+
+Future<void> shareImage(BuildContext context, String url) async {
+  try {
+    bool hasAccess = await Gal.hasAccess();
+    if (!hasAccess) await Gal.requestAccess();
+    hasAccess = await Gal.hasAccess(toAlbum: true);
+    if (!hasAccess) await Gal.requestAccess(toAlbum: true);
+    final ext = url.split('.').last.split('?').first;
+    final Directory tempDir = await getTemporaryDirectory();
+    final imagePath =
+        '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.$ext';
+    await Dio().download(url, imagePath);
+    SharePlus.instance.share(ShareParams(files: [XFile(imagePath)]));
+  } catch (e) {
+    if (context.mounted) {
+      showSnackBar(context, "Failed to share image");
+    }
   }
 }
 
