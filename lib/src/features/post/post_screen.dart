@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:kurumi/src/common/error_screen.dart';
 import 'package:kurumi/src/core/core.dart';
-import 'package:kurumi/src/features/post/wingets/filter_dialog.dart';
+import 'package:kurumi/src/features/post/function/like_toggle.dart';
 import 'package:kurumi/src/features/post/models/filter_state.dart';
 import 'package:kurumi/src/provider/provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -147,11 +147,7 @@ class PostScreenState extends ConsumerState<PostScreen> {
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
                 scrolledUnderElevation: 0,
-                // leading: GestureDetector(
-                //   onTap: () => context.pop(),
-                //   child: SizedBox(child: Icon(PhosphorIconsBold.caretLeft)),
-                // ),
-                // leadingWidth: 50,
+
                 leading: SizedBox(),
                 leadingWidth: 0,
                 titleTextStyle: Poppins(
@@ -159,38 +155,6 @@ class PostScreenState extends ConsumerState<PostScreen> {
                   fontSize: 20,
                 ),
                 actions: [
-                  if (false)
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          showBar = !showBar;
-                        });
-                      },
-                      icon: Icon(PhosphorIcons.sliders()),
-                    ),
-
-                  // IconButton(onPressed: () {}, icon: Icon(PhosphorIcons.notePencil())),
-                  if (false)
-                    IconButton(
-                      onPressed: () async {
-                        PostFilterState newState = await showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            backgroundColor: AppTheme.secondaryColor.withValues(
-                              alpha: 0.9,
-                            ),
-                            content: PostFilterDialog(state: state),
-                          ),
-                        );
-                        if (newState != state) {
-                          setState(() => state = newState);
-                          ref
-                              .read(sharedfPrefProvider)
-                              ?.setString("PostFilterState", newState.toJson());
-                        }
-                      },
-                      icon: Icon(PhosphorIcons.slidersHorizontal()),
-                    ),
                   Row(
                     children: [
                       Text(
@@ -227,8 +191,7 @@ class PostScreenState extends ConsumerState<PostScreen> {
                       final activities =
                           response.data?.Page?.activities?.toList() ?? [];
                       return ListView.separated(
-                        separatorBuilder: (context, index) =>
-                            Divider(thickness: .5),
+                        separatorBuilder: (c, i) => Divider(thickness: .5),
                         itemCount: activities.length,
                         itemBuilder: (context, index) {
                           final textActivity =
@@ -240,221 +203,278 @@ class PostScreenState extends ConsumerState<PostScreen> {
                                 activities[index]?.toJson() ?? {},
                               );
 
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 5,
-                            ),
-
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: colorFromString(
-                                        textActivity?.user?.name ?? '',
-                                      ),
-                                      radius: 13,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadiusGeometry.circular(13),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              listActivity
-                                                  ?.user
-                                                  ?.avatar
-                                                  ?.large ??
-                                              '',
-                                          height: 26,
-                                          width: 26,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Gap(10),
-                                    Text(
-                                      textActivity?.user?.name ?? '',
-                                      style: Poppins(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16,
-                                        color: Colors.blue.shade50,
-                                      ),
-                                    ),
-                                    Gap(10),
-                                    Text(
-                                      timeAgoFromUnix(
-                                        textActivity?.createdAt ??
-                                            DateTime.now()
-                                                .millisecondsSinceEpoch,
-                                      ),
-                                      style: Poppins(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 15,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(PhosphorIcons.dotsThree()),
-                                  ],
-                                ),
-                                Visibility(
-                                  visible: textActivity?.text != null,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    // child: Text(textActivity?.text ?? ''),
-                                    child: AniListRenderer(
-                                      content: textActivity?.text ?? '',
-                                    ),
+                          void toggleLike() async {
+                            final cache = client.cache.readQuery(request);
+                            final newData = activities[index]?.toJson();
+                            newData?["likeCount"] =
+                                (textActivity?.likeCount ?? 0) +
+                                (textActivity?.isLiked ?? true ? -1 : 1);
+                            newData?["isLiked"] = !(textActivity!.isLiked!);
+                            final updatedCache = cache?.rebuild(
+                              (b) => b
+                                ..Page.activities.removeAt(index)
+                                ..Page.activities.insert(
+                                  index,
+                                  GActivitiesQueryData_Page_activities.fromJson(
+                                    newData ?? {},
                                   ),
                                 ),
-                                Visibility(
-                                  visible:
-                                      listActivity?.media?.coverImage?.large !=
-                                      null,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        context.pushNamed(
-                                          AppRouteConstant.MediaScreen.name,
-                                          pathParameters: {
-                                            'id': (listActivity?.media?.id ?? 0)
-                                                .toString(),
-                                            'title':
+                            );
+                            client.cache.writeQuery(request, updatedCache);
+                          }
+
+                          return GestureDetector(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 5,
+                              ),
+
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: colorFromString(
+                                          textActivity?.user?.name ?? '',
+                                        ),
+                                        radius: 13,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadiusGeometry.circular(13),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
                                                 listActivity
-                                                    ?.media
-                                                    ?.title
-                                                    ?.userPreferred ??
+                                                    ?.user
+                                                    ?.avatar
+                                                    ?.large ??
                                                 '',
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 6,
-                                          vertical: 9,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
-                                          ),
-                                          color: Colors.white.withValues(
-                                            alpha: 0.03,
+                                            height: 26,
+                                            width: 26,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                        child: Row(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadiusGeometry.circular(
-                                                    8,
-                                                  ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    listActivity
-                                                        ?.media
-                                                        ?.coverImage
-                                                        ?.large ??
-                                                    '',
-                                                height: 120,
-                                                width: 90,
-                                              ),
+                                      ),
+                                      Gap(10),
+                                      Text(
+                                        textActivity?.user?.name ?? '',
+                                        style: Poppins(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 16,
+                                          color: Colors.blue.shade50,
+                                        ),
+                                      ),
+                                      Gap(10),
+                                      Text(
+                                        timeAgoFromUnix(
+                                          textActivity?.createdAt ??
+                                              DateTime.now()
+                                                  .millisecondsSinceEpoch,
+                                        ),
+                                        style: Poppins(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(PhosphorIcons.dotsThree()),
+                                    ],
+                                  ),
+                                  Visibility(
+                                    visible: textActivity?.text != null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                      ),
+                                      child: AniListRenderer(
+                                        content: textActivity?.text ?? '',
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible:
+                                        listActivity
+                                            ?.media
+                                            ?.coverImage
+                                            ?.large !=
+                                        null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            AppRouteConstant.MediaScreen.name,
+                                            pathParameters: {
+                                              'id':
+                                                  (listActivity?.media?.id ?? 0)
+                                                      .toString(),
+                                              'title':
+                                                  listActivity
+                                                      ?.media
+                                                      ?.title
+                                                      ?.userPreferred ??
+                                                  '',
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 6,
+                                            vertical: 9,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
                                             ),
-                                            Gap(12),
-                                            Builder(
-                                              builder: (context) {
-                                                final progress =
-                                                    listActivity?.media?.type ==
-                                                        GMediaType.MANGA
-                                                    ? 'Read chapter'
-                                                    : 'Watched episode';
-                                                String title =
-                                                    listActivity
-                                                        ?.media
-                                                        ?.title
-                                                        ?.userPreferred ??
-                                                    '';
-                                                if (title.length > 100) {
-                                                  title =
-                                                      "${title.substring(0, 100)} ...";
-                                                }
-                                                return SizedBox(
-                                                  width: size.width * .5,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          '$progress ${listActivity?.progress} of ',
-                                                      style: Poppins(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 15,
-                                                        color:
-                                                            Colors.blue.shade50,
-                                                      ),
-                                                      children: [
-                                                        TextSpan(
-                                                          text: title,
-                                                          style: Poppins(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 15,
-                                                            color: colorFromString(
-                                                              '${listActivity?.media?.title?.userPreferred}',
-                                                              lightness: 0.7,
+                                            color: Colors.white.withValues(
+                                              alpha: 0.03,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadiusGeometry.circular(
+                                                      8,
+                                                    ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      listActivity
+                                                          ?.media
+                                                          ?.coverImage
+                                                          ?.large ??
+                                                      '',
+                                                  height: 120,
+                                                  width: 90,
+                                                ),
+                                              ),
+                                              Gap(12),
+                                              Builder(
+                                                builder: (context) {
+                                                  final progress =
+                                                      listActivity
+                                                              ?.media
+                                                              ?.type ==
+                                                          GMediaType.MANGA
+                                                      ? 'Read chapter'
+                                                      : 'Watched episode';
+                                                  String title =
+                                                      listActivity
+                                                          ?.media
+                                                          ?.title
+                                                          ?.userPreferred ??
+                                                      '';
+                                                  if (title.length > 100) {
+                                                    title =
+                                                        "${title.substring(0, 100)} ...";
+                                                  }
+                                                  return SizedBox(
+                                                    width: size.width * .5,
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            '$progress ${listActivity?.progress} of ',
+                                                        style: Poppins(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15,
+                                                          color: Colors
+                                                              .blue
+                                                              .shade50,
+                                                        ),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: title,
+                                                            style: Poppins(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 15,
+                                                              color: colorFromString(
+                                                                '${listActivity?.media?.title?.userPreferred}',
+                                                                lightness: 0.7,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Gap(12),
-                                Row(
-                                  children: [
-                                    _buildSocialIconButton(
-                                      icon: PhosphorIconsRegular.heart,
-                                      count: textActivity?.likeCount,
-                                      activeIcon: textActivity?.isLiked == true
-                                          ? PhosphorIconsFill.heart
-                                          : null,
-                                      activeColor: textActivity?.isLiked == true
-                                          ? Colors.red.shade300
-                                          : null,
-                                    ),
-                                    Gap(10),
-                                    _buildSocialIconButton(
-                                      icon: PhosphorIconsRegular.chat,
-                                      count: textActivity?.replyCount,
-                                    ),
-                                    Spacer(),
-                                    _buildSocialIconButton(
-                                      icon: PhosphorIconsRegular.shareFat,
-                                      onTap: () => SharePlus.instance.share(
-                                        ShareParams(
-                                          uri: Uri.parse(
-                                            "https://anilist.co/activity/${listActivity?.id ?? -1}",
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  Gap(12),
+                                  Row(
+                                    children: [
+                                      _buildSocialIconButton(
+                                        onTap: () async {
+                                          final success =
+                                              await toggleLikeToPost(
+                                                client,
+                                                id: textActivity?.id,
+                                              );
+                                          if (!success ||
+                                              textActivity?.likeCount == null ||
+                                              textActivity?.isLiked == null) {
+                                            return;
+                                          }
+                                          toggleLike();
+                                        },
+                                        icon: PhosphorIconsRegular.heart,
+                                        count: textActivity?.likeCount,
+                                        activeIcon:
+                                            textActivity?.isLiked == true
+                                            ? PhosphorIconsFill.heart
+                                            : null,
+                                        activeColor:
+                                            textActivity?.isLiked == true
+                                            ? Colors.red.shade300
+                                            : null,
+                                      ),
+                                      Gap(10),
+                                      _buildSocialIconButton(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            AppRouteConstant
+                                                .PostDetailScreen
+                                                .name,
+                                            pathParameters: {
+                                              "postId": (listActivity?.id ?? "")
+                                                  .toString(),
+                                            },
+                                            extra: activities[index],
+                                          );
+                                        },
+                                        icon: PhosphorIconsRegular.chat,
+                                        count: textActivity?.replyCount,
+                                      ),
+                                      Spacer(),
+                                      _buildSocialIconButton(
+                                        icon: PhosphorIconsRegular.shareFat,
+                                        onTap: () => SharePlus.instance.share(
+                                          ShareParams(
+                                            uri: Uri.parse(
+                                              "https://anilist.co/activity/${listActivity?.id ?? -1}",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

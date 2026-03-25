@@ -8,6 +8,8 @@ class AppRouteConstant {
   static Route HomeScreen = Route('home', '/home');
   static Route SplashScreen = Route('splash', '/splash');
   static Route PostScreen = Route('posts', '/posts');
+  static Route PostDetailScreen = Route('post-detail', '/posts/:postId');
+
   static Route LoginScreen = Route('login', '/login');
   static Route ErrorScreen = Route('error', '/error');
   static Route SearchScreen = Route('search', '/search');

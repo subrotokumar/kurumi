@@ -11,6 +11,7 @@ import 'package:kurumi/src/features/login/login.dart';
 import 'package:kurumi/src/features/new_media_description/new_media_screen.dart';
 import 'package:kurumi/src/features/news/news_screen.dart';
 import 'package:kurumi/src/features/other_search/other_search.dart';
+import 'package:kurumi/src/features/post/post_detail_screen.dart';
 import 'package:kurumi/src/features/post/post_screen.dart';
 import 'package:kurumi/src/features/reviews/review_by_id_screen.dart';
 import 'package:kurumi/src/features/reviews/review_screen.dart';
@@ -58,6 +59,14 @@ final router = Provider<GoRouter>(
         name: AppRouteConstant.PostScreen.name,
         path: AppRouteConstant.PostScreen.path,
         builder: (context, state) => PostScreen(),
+      ),
+      GoRoute(
+        name: AppRouteConstant.PostDetailScreen.name,
+        path: AppRouteConstant.PostDetailScreen.path,
+        builder: (context, state) {
+          final post = state.extra as GActivitiesQueryData_Page_activities?;
+          return PostDetailScreen(post: post);
+        },
       ),
       GoRoute(
         name: AppRouteConstant.SettingScreen.name,
@@ -114,6 +123,7 @@ final router = Provider<GoRouter>(
           return NewMediaScreen(id: id, title: title);
         },
       ),
+
       GoRoute(
         name: AppRouteConstant.VAScreen.name,
         path: AppRouteConstant.VAScreen.path,
