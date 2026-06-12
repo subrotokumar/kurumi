@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:logger/logger.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:gal/gal.dart';
 import 'package:share_plus/share_plus.dart';
@@ -28,7 +27,7 @@ Widget get LoadingWidget => Center(
   ),
 );
 
-showSnackBar(
+void showSnackBar(
   BuildContext context,
   String text, {
   Duration duration = const Duration(seconds: 2),

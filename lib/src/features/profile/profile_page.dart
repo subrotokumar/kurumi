@@ -3,7 +3,9 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 
 import 'package:kurumi/src/core/routes/router.dart';
@@ -15,6 +17,7 @@ import 'package:kurumi/src/features/profile/widgets/fav_manga_gridview.dart';
 import 'package:kurumi/src/features/profile/widgets/high_light_widget.dart';
 import 'package:kurumi/src/features/profile/widgets/overview_section.dart';
 import 'package:kurumi/src/provider/provider.dart';
+import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 final statsProvider = StateProvider<bool>((ref) => true);
@@ -71,179 +74,204 @@ class _ProfilePageState extends State<ProfilePage>
                           children: [
                             SizedBox(
                               height: 250,
-                              child: Stack(
-                                children: [
-                                  CachedNetworkImage(
-                                    width: size.width,
-                                    height: 250,
-                                    imageUrl: data?.bannerImage ?? '',
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) =>
-                                        Assets.gifs.aurora.image(
-                                          width: size.width,
-                                          height: 250,
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.transparent,
-                                          AppTheme.background,
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 60,
-                                    top: 30,
-                                    child: IconButton(
-                                      style: IconButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
+                              child: LiquidGlassLayer(
+                                settings: LiquidGlassSettings(
+                                  blur: 10,
+                                  glassColor: Colors.white10,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    CachedNetworkImage(
+                                      width: size.width,
+                                      height: 250,
+                                      imageUrl: data?.bannerImage ?? '',
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) =>
+                                          Assets.gifs.aurora.image(
+                                            width: size.width,
+                                            height: 250,
+                                            fit: BoxFit.fitWidth,
                                           ),
-                                        ),
-                                        backgroundColor: Colors.black38,
-                                      ),
-                                      icon: const Icon(
-                                        PhosphorIconsBold.dotsNine,
-                                      ),
-                                      onPressed: () {
-                                        HapticFeedback.mediumImpact();
-                                        context.push(
-                                          AppRouteConstant
-                                              .ThreeXThreeScreen
-                                              .path,
-                                        );
-                                      },
                                     ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    top: 30,
-                                    child: IconButton(
-                                      style: IconButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.transparent,
+                                            AppTheme.background,
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 70,
+                                      top: 30,
+                                      child: LiquidGlassLayer(
+                                        child: LiquidGlass(
+                                          shape: LiquidRoundedSuperellipse(
+                                            borderRadius: 16,
                                           ),
-                                        ),
-                                        backgroundColor: Colors.black38,
-                                      ),
-                                      icon: Icon(PhosphorIcons.gear()),
-                                      onPressed: () {
-                                        HapticFeedback.mediumImpact();
-                                        context.pushNamed(
-                                          AppRouteConstant.SettingScreen.name,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 10,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 5,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          InkWell(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      data?.avatar?.medium ??
-                                                      '',
-                                                  height: 100,
-                                                  width: 100,
-                                                  fit: BoxFit.cover,
-                                                ),
+                                          child: IconButton(
+                                            style: IconButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
                                             ),
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                data?.statistics?.anime?.count
-                                                        .toString() ??
-                                                    '0',
-                                                style: Poppins(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Text('Anime', style: Poppins()),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                data?.statistics?.manga?.count
-                                                        .toString() ??
-                                                    '0',
-                                                style: Poppins(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Text('Manga', style: Poppins()),
-                                            ],
-                                          ),
-                                          Consumer(
-                                            builder: (context, ref, child) {
-                                              final val = ref.watch(
-                                                statsProvider,
+                                            iconSize: 30,
+                                            icon: const Icon(
+                                              PhosphorIconsBold.dotsNine,
+                                            ),
+                                            onPressed: () {
+                                              HapticFeedback.mediumImpact();
+                                              context.push(
+                                                AppRouteConstant
+                                                    .ThreeXThreeScreen
+                                                    .path,
                                               );
-                                              return IconButton(
-                                                style: IconButton.styleFrom(
-                                                  backgroundColor: val
-                                                      ? Colors.green.withValues(
-                                                          alpha: 0.2,
-                                                        )
-                                                      : Colors.white10,
-                                                  shape: RoundedRectangleBorder(
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 10,
+                                      top: 30,
+                                      child: LiquidGlassLayer(
+                                        child: LiquidGlass(
+                                          shape: LiquidRoundedSuperellipse(
+                                            borderRadius: 16,
+                                          ),
+                                          child: IconButton(
+                                            style: IconButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              // backgroundColor: Colors.black38,
+                                            ),
+                                            iconSize: 30,
+                                            icon: Icon(PhosphorIcons.gear()),
+                                            onPressed: () {
+                                              HapticFeedback.mediumImpact();
+                                              context.pushNamed(
+                                                AppRouteConstant
+                                                    .SettingScreen
+                                                    .name,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 10,
+                                      left: 0,
+                                      right: 0,
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 5,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            InkWell(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                           10,
                                                         ),
                                                   ),
-                                                  padding: const EdgeInsets.all(
-                                                    12,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl:
+                                                        data?.avatar?.medium ??
+                                                        '',
+                                                    height: 100,
+                                                    width: 100,
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                onPressed: () => ref
-                                                    .read(
-                                                      statsProvider.notifier,
-                                                    )
-                                                    .update((state) => !val),
-                                                icon: Icon(
-                                                  PhosphorIcons.chartPieSlice(),
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  data?.statistics?.anime?.count
+                                                          .toString() ??
+                                                      '0',
+                                                  style: Poppins(
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                                Text('Anime', style: Poppins()),
+                                              ],
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  data?.statistics?.manga?.count
+                                                          .toString() ??
+                                                      '0',
+                                                  style: Poppins(
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                Text('Manga', style: Poppins()),
+                                              ],
+                                            ),
+                                            Consumer(
+                                              builder: (context, ref, child) {
+                                                final val = ref.watch(
+                                                  statsProvider,
+                                                );
+                                                return IconButton(
+                                                  style: IconButton.styleFrom(
+                                                    backgroundColor: val
+                                                        ? Colors.green
+                                                              .withValues(
+                                                                alpha: 0.2,
+                                                              )
+                                                        : Colors.white10,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            10,
+                                                          ),
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          12,
+                                                        ),
+                                                  ),
+                                                  onPressed: () => ref
+                                                      .read(
+                                                        statsProvider.notifier,
+                                                      )
+                                                      .update((state) => !val),
+                                                  icon: Icon(
+                                                    PhosphorIcons.chartPieSlice(),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             Align(
@@ -362,7 +390,7 @@ class _ProfilePageState extends State<ProfilePage>
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Icon(PhosphorIconsRegular.monitorPlay),
+                            child: Icon(Icons.catching_pokemon),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0),

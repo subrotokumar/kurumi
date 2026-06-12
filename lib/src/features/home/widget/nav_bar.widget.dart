@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:kurumi/src/features/home/homepage.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
 class NavBar extends ConsumerStatefulWidget {
   const NavBar({required this.pageController, super.key});
@@ -24,7 +25,7 @@ class _NavBarState extends ConsumerState<NavBar> {
     init();
   }
 
-  init() async {
+  Future<void> init() async {
     pref = await SharedPreferences.getInstance();
   }
 
@@ -52,91 +53,58 @@ class _NavBarState extends ConsumerState<NavBar> {
     final current = ref.watch(currentIndex);
     final isNavVisible = ref.watch(navBarVisibilityProvider);
     double width = MediaQuery.of(context).size.width;
+    final icons = [
+      PhosphorIcons.house,
+      PhosphorIcons.cat,
+      PhosphorIcons.notebook,
+      PhosphorIcons.bell,
+      PhosphorIcons.user,
+    ];
     return AnimatedSlide(
       duration: const Duration(milliseconds: 300),
       offset: isNavVisible ? Offset.zero : const Offset(0, 2),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
         opacity: isNavVisible ? 1 : 0,
-        child: Container(
-          height: 45,
-          width: width - 50,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 50, 50, 50).withValues(alpha: 0.9),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                splashRadius: 22,
-                onPressed: () {
-                  changePage(0);
-                },
-                icon: LineIcon.atom(
-                  size: 22,
-                  color: current == 0 ? Colors.yellow : Colors.white,
-                ),
-              ),
-              SizedBox(
-                height: 44,
-                width: 44,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: -3,
-                      child: IconButton(
-                        splashRadius: 22,
-                        onPressed: () {
-                          changePage(1);
-                          ref
-                              .read(animeTabProvider.notifier)
-                              .update((state) => 0);
-                        },
-                        icon: Assets.icons.icNaruto.image(
-                          color: (current == 1) ? Colors.yellow : Colors.white,
-                          height: 21,
-                        ),
-                      ),
+        child: SizedBox(
+          width: width - 60,
+          child: LiquidGlassLayer(
+            settings: LiquidGlassSettings(blur: 10, glassColor: Colors.white10),
+            child: LiquidGlass(
+              shape: LiquidRoundedSuperellipse(borderRadius: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < 5; i++)
+                    Builder(
+                      builder: (context) {
+                        final isActive = current == i;
+                        final iconBackgroud = isActive
+                            ? Colors.white.withValues(alpha: 0.5)
+                            : Colors.transparent;
+                        return IconButton(
+                          splashRadius: 25,
+                          onPressed: () {
+                            changePage(i);
+                          },
+                          style: IconButton.styleFrom(
+                            backgroundColor: iconBackgroud,
+                            fixedSize: Size(60, 30),
+                          ),
+                          iconSize: 26,
+                          isSelected: isActive,
+                          selectedIcon: Icon(
+                            icons.elementAt(i)(PhosphorIconsStyle.fill),
+                          ).animate().elevation(),
+                          color: Colors.white,
+                          icon: Icon(icons.elementAt(i)()),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                ],
               ),
-              IconButton(
-                splashRadius: 22,
-                onPressed: () {
-                  changePage(2);
-                  ref.read(mangaTabProvider.notifier).update((state) => 0);
-                },
-                icon: LineIcon.book(
-                  color: (current == 2) ? Colors.yellow : Colors.white,
-                  size: 24,
-                ),
-              ),
-              IconButton(
-                splashRadius: 22,
-                onPressed: () {
-                  changePage(3);
-                },
-                icon: Icon(
-                  Icons.catching_pokemon_sharp,
-                  size: 22,
-                  color: current == 3 ? Colors.yellow : Colors.white,
-                ),
-              ),
-              IconButton(
-                splashRadius: 22,
-                onPressed: () {
-                  changePage(4);
-                },
-                icon: LineIcon.userNinja(
-                  color: (current == 4) ? Colors.yellow : Colors.white,
-                  size: 22,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

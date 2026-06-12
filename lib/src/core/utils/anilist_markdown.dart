@@ -111,13 +111,15 @@ class AniListParser {
         host == 'x.com' ||
         host == 'www.x.com' ||
         host == 't.co' ||
-        host == 'mobile.twitter.com')
+        host == 'mobile.twitter.com') {
       return RichLinkType.twitter;
+    }
     if (host == 'reddit.com' ||
         host == 'www.reddit.com' ||
         host == 'old.reddit.com' ||
-        host == 'redd.it')
+        host == 'redd.it') {
       return RichLinkType.reddit;
+    }
     if (host == 'github.com' || host == 'www.github.com') {
       return RichLinkType.github;
     }
