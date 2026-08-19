@@ -13,17 +13,17 @@ class TrendingNowTitle extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
       child: RichText(
         text: TextSpan(
-          text: 'TRENDING  ',
-          style: Inter(
-            fontWeight: FontWeight.w600,
+          text: 'TRENDING ',
+          style: Anton(
+            fontWeight: FontWeight.w500,
             color: const Color(0xff39FF14).withValues(alpha: 0.7),
             letterSpacing: 2,
-            fontSize: 18,
+            fontSize: 20,
           ),
           children: <TextSpan>[
             TextSpan(
               text: 'NOW ',
-              style: Inter(color: Colors.white.withValues(alpha: 0.8)),
+              style: Anton(color: Colors.white.withValues(alpha: 0.8)),
             ),
           ],
         ),
@@ -48,17 +48,17 @@ class PopularThisSeasonTitle extends StatelessWidget {
               if (type == GMediaType.ANIME) {
                 return RichText(
                   text: TextSpan(
-                    text: 'POPULAR  THIS  ',
-                    style: Inter(
-                      fontWeight: FontWeight.w600,
+                    text: 'POPULAR THIS ',
+                    style: Anton(
+                      fontWeight: FontWeight.w500,
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 2,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'SEASON',
-                        style: Inter(
+                        style: Anton(
                           color: const Color(
                             0xffFFFF33,
                           ).withValues(alpha: 0.65),
@@ -70,17 +70,21 @@ class PopularThisSeasonTitle extends StatelessWidget {
               } else {
                 return RichText(
                   text: TextSpan(
-                    text: 'ALL TIME  ',
-                    style: Inter(
-                      fontWeight: FontWeight.w600,
+                    text: 'ALL TIME ',
+                    style: Anton(
+                      fontWeight: FontWeight.w500,
                       color: Colors.white.withValues(alpha: 0.8),
                       letterSpacing: 2,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'POPULAR',
-                        style: Inter(color: const Color(0xffFFFF33)),
+                        style: Anton(
+                          color: const Color(0xffFFFF33),
+                          letterSpacing: 2,
+                          fontSize: 20,
+                        ),
                       ),
                     ],
                   ),
@@ -108,12 +112,12 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
           type == GMediaType.ANIME
               ? RichText(
                   text: TextSpan(
-                    text: 'UPCOMING  ',
-                    style: Inter(
-                      fontWeight: FontWeight.w600,
+                    text: 'UPCOMING ',
+                    style: Anton(
+                      fontWeight: FontWeight.w500,
                       color: const Color(0xff1589FF).withValues(alpha: 0.7),
                       letterSpacing: 2,
-                      fontSize: 18,
+                      fontSize: 20,
                       shadows: [
                         const Shadow(color: Colors.black, blurRadius: 20),
                       ],
@@ -121,7 +125,7 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'NEXT',
-                        style: Inter(
+                        style: Anton(
                           color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
@@ -130,9 +134,9 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                 )
               : RichText(
                   text: TextSpan(
-                    text: 'POPULAR  ',
-                    style: Inter(
-                      fontWeight: FontWeight.w600,
+                    text: 'POPULAR ',
+                    style: Anton(
+                      fontWeight: FontWeight.w500,
                       color: const Color.fromARGB(
                         255,
                         52,
@@ -140,12 +144,12 @@ class UpcomingNextSeasonAnimeTitle extends ConsumerWidget {
                         253,
                       ).withValues(alpha: 0.8),
                       letterSpacing: 2,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'MANHWA',
-                        style: Inter(
+                        style: Anton(
                           color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
@@ -171,18 +175,18 @@ class Top100AnimeTitle extends ConsumerWidget {
         children: [
           RichText(
             text: TextSpan(
-              text: 'TOP  100  ',
-              style: Inter(
+              text: 'TOP 100 ',
+              style: Anton(
                 color: Colors.white.withValues(alpha: 0.8),
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 letterSpacing: 2,
-                fontSize: 18,
+                fontSize: 20,
                 shadows: [const Shadow(color: Colors.black, blurRadius: 20)],
               ),
               children: <TextSpan>[
                 TextSpan(
                   text: type.name,
-                  style: Inter(
+                  style: Anton(
                     color: const Color(0xffFF6600).withValues(alpha: 0.7),
                   ),
                 ),

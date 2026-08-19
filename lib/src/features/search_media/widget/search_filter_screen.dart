@@ -3,6 +3,7 @@ import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -99,7 +100,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       };
                     }),
                     subtitle: 'Media Type',
-                    title: mediaType.name,
+                    title: toTitleCase(mediaType.name),
                   ),
                   const SizedBox(width: 12),
                   Consumer(
@@ -122,7 +123,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                           setState(() {});
                         },
                         subtitle: 'Search View',
-                        title: view.name,
+                        title: toTitleCase(view.name),
                       );
                     },
                   ),
@@ -178,10 +179,13 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                                       )
                                         Text(
                                           i.toString(),
-                                          style: TextStyle(
+                                          style: Poppins(
                                             color: currentYear == i
                                                 ? Colors.amber
                                                 : null,
+                                            fontWeight: currentYear == i
+                                                ? FontWeight.w500
+                                                : FontWeight.w400,
                                           ),
                                         ),
                                     ],
@@ -254,10 +258,24 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                                     },
                                     children: [
                                       const Text('ALL'),
-                                      Text(GMediaSeason.WINTER.name),
-                                      Text(GMediaSeason.SPRING.name),
-                                      Text(GMediaSeason.SUMMER.name),
-                                      Text(GMediaSeason.FALL.name),
+                                      for (var season in [
+                                        GMediaSeason.WINTER,
+                                        GMediaSeason.SPRING,
+                                        GMediaSeason.SUMMER,
+                                        GMediaSeason.FALL,
+                                      ])
+                                        Text(
+                                          toTitleCase(season.name),
+                                          style: Poppins(
+                                            color: getCurrentSeason() == season
+                                                ? Colors.yellow
+                                                : null,
+                                            fontWeight:
+                                                getCurrentSeason() == season
+                                                ? FontWeight.w500
+                                                : FontWeight.w400,
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -281,7 +299,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       );
                     },
                     subtitle: 'Season',
-                    title: season == null ? 'All' : season!.name,
+                    title: season == null ? 'All' : toTitleCase(season!.name),
                   ),
                 ],
               ),
@@ -308,15 +326,15 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                             indicatorSize: TabBarIndicatorSize.tab,
                             tabs: [
                               Text(
-                                ' GENRE ${genre.isNotEmpty ? '(${genre.length})' : ''}',
-                                style: const TextStyle(
+                                ' Genre ${genre.isNotEmpty ? '(${genre.length})' : ''}',
+                                style: Poppins(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                 ),
                               ),
                               Text(
-                                ' TAG ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
-                                style: const TextStyle(
+                                ' Tag ${tagIn.isNotEmpty ? '(${tagIn.length})' : ''}',
+                                style: Poppins(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                 ),
@@ -354,7 +372,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: OutlinedButton(
+                      child: ElevatedButton(
                         onPressed: () => {
                           setState(() {
                             year = null;
@@ -363,20 +381,11 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                             genre = {};
                           }),
                         },
-                        child: const Text('CLEAR'),
+                        child: Text('Clear', style: Poppins()),
                       ),
                     ),
-                    // Flexible(
-                    //   child: OutlinedButton(
-                    //     onPressed: () {
-                    //       Set<String> a = {}, b = {};
-                    //       context.pop((mediaType, null, null, a, b));
-                    //     },
-                    //     child: const Text('RESET'),
-                    //   ),
-                    // ),
                     Flexible(
-                      child: OutlinedButton(
+                      child: ElevatedButton(
                         onPressed: () {
                           context.pop((
                             mediaType,
@@ -387,7 +396,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                             studio,
                           ));
                         },
-                        child: const Text('APPLY'),
+                        child: Text('Apply', style: Poppins()),
                       ),
                     ),
                   ],
@@ -408,53 +417,106 @@ class TagSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    final alpha = [for (int i = 65; i <= 90; i++) String.fromCharCode(i), '*'];
+    return ListView.separated(
+      separatorBuilder: (context, index) => Divider(color: Colors.white10),
       shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 7 / 2.5,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-      ),
-      itemCount: AnilistConstant.mediaTags.length,
+      itemCount: alpha.length,
       itemBuilder: (context, index) {
-        final e = AnilistConstant.mediaTags.elementAt(index);
-        return StatefulBuilder(
-          builder: (context, newState) {
-            bool flag = tagIn.contains(e);
-            return Consumer(
-              builder: (context, ref, child) {
-                return GestureDetector(
-                  onTap: () {
-                    flag ? tagIn.remove(e) : tagIn.add(e);
-                    ref.read(_refreshProvider.notifier).update((s) => !s);
-                    newState(() {});
-                  },
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: flag
-                          ? Colors.green.withValues(alpha: .4)
-                          : Colors.black38,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      e,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
-                    ),
+        final head = alpha.elementAt(index);
+        final list = AnilistConstant.mediaTags
+            .where(
+              (e) =>
+                  e.startsWith(head) ||
+                  (head == '*' && e.startsWith(RegExp(r'[0-9]'))),
+            )
+            .toList();
+        if (list.isEmpty) return SizedBox();
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                alignment: Alignment.center,
+                width: 30,
+                child: Text(
+                  '$head ',
+                  style: Poppins(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 25,
+                    color: Colors.white70,
                   ),
-                );
-              },
-            );
-          },
+                ),
+              ),
+              Expanded(
+                child: Wrap(
+                  children: [
+                    for (int index = 0; index < list.length; index++)
+                      Builder(
+                        builder: (context) {
+                          final e = list.elementAt(index);
+                          return StatefulBuilder(
+                            builder: (context, newState) {
+                              bool flag = tagIn.contains(e);
+                              return Consumer(
+                                builder: (context, ref, child) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      flag ? tagIn.remove(e) : tagIn.add(e);
+                                      ref
+                                          .read(_refreshProvider.notifier)
+                                          .update((s) => !s);
+                                      newState(() {});
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 3,
+                                          ),
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 3,
+                                            horizontal: 5,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: flag
+                                                ? Colors.green.withValues(
+                                                    alpha: .4,
+                                                  )
+                                                : Colors.black26,
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            e,
+                                            style: Poppins(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.8,
+                                              ),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 17,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

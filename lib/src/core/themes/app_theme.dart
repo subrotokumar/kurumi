@@ -15,3 +15,4 @@ class AppTheme {
 const Inter = GoogleFonts.inter;
 // ignore: constant_identifier_names
 const Poppins = GoogleFonts.poppins;
+const Anton = GoogleFonts.anton;

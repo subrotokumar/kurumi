@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kurumi/src/core/utils/utils.functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:kurumi/src/features/home/homepage.dart';
@@ -67,42 +68,45 @@ class _NavBarState extends ConsumerState<NavBar> {
         duration: const Duration(milliseconds: 300),
         opacity: isNavVisible ? 1 : 0,
         child: SizedBox(
-          width: width - 60,
+          width: isTablet ? 350 : width - 60,
           child: LiquidGlassLayer(
-            settings: LiquidGlassSettings(blur: 10, glassColor: Colors.white10),
+            settings: LiquidGlassSettings(blur: 4, glassColor: Colors.black26),
             child: LiquidGlass(
               shape: LiquidRoundedSuperellipse(borderRadius: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < 5; i++)
-                    Builder(
-                      builder: (context) {
-                        final isActive = current == i;
-                        final iconBackgroud = isActive
-                            ? Colors.white.withValues(alpha: 0.5)
-                            : Colors.transparent;
-                        return IconButton(
-                          splashRadius: 25,
-                          onPressed: () {
-                            changePage(i);
-                          },
-                          style: IconButton.styleFrom(
-                            backgroundColor: iconBackgroud,
-                            fixedSize: Size(60, 30),
-                          ),
-                          iconSize: 26,
-                          isSelected: isActive,
-                          selectedIcon: Icon(
-                            icons.elementAt(i)(PhosphorIconsStyle.fill),
-                          ).animate().elevation(),
-                          color: Colors.white,
-                          icon: Icon(icons.elementAt(i)()),
-                        );
-                      },
-                    ),
-                ],
+              child: Container(
+                padding: EdgeInsets.all(2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    for (int i = 0; i < 5; i++)
+                      Builder(
+                        builder: (context) {
+                          final isActive = current == i;
+                          final iconBackgroud = isActive
+                              ? Colors.white.withValues(alpha: 0.3)
+                              : Colors.transparent;
+                          return IconButton(
+                            splashRadius: 24,
+                            onPressed: () {
+                              changePage(i);
+                            },
+                            style: IconButton.styleFrom(
+                              backgroundColor: iconBackgroud,
+                              fixedSize: Size(60, 25),
+                            ),
+                            iconSize: 24,
+                            isSelected: isActive,
+                            selectedIcon: Icon(
+                              icons.elementAt(i)(PhosphorIconsStyle.fill),
+                            ),
+                            color: Colors.white,
+                            icon: Icon(icons.elementAt(i)()),
+                          );
+                        },
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -3,9 +3,7 @@ import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 
 import 'package:kurumi/src/core/routes/router.dart';
@@ -109,6 +107,10 @@ class _ProfilePageState extends State<ProfilePage>
                                       right: 70,
                                       top: 30,
                                       child: LiquidGlassLayer(
+                                        settings: LiquidGlassSettings(
+                                          blur: 1,
+                                          glassColor: Colors.transparent,
+                                        ),
                                         child: LiquidGlass(
                                           shape: LiquidRoundedSuperellipse(
                                             borderRadius: 16,
@@ -121,6 +123,7 @@ class _ProfilePageState extends State<ProfilePage>
                                               ),
                                             ),
                                             iconSize: 30,
+                                            color: Colors.white,
                                             icon: const Icon(
                                               PhosphorIconsBold.dotsNine,
                                             ),
@@ -140,6 +143,10 @@ class _ProfilePageState extends State<ProfilePage>
                                       right: 10,
                                       top: 30,
                                       child: LiquidGlassLayer(
+                                        settings: LiquidGlassSettings(
+                                          blur: 1,
+                                          glassColor: Colors.transparent,
+                                        ),
                                         child: LiquidGlass(
                                           shape: LiquidRoundedSuperellipse(
                                             borderRadius: 16,
@@ -153,6 +160,7 @@ class _ProfilePageState extends State<ProfilePage>
                                               // backgroundColor: Colors.black38,
                                             ),
                                             iconSize: 30,
+                                            color: Colors.white,
                                             icon: Icon(PhosphorIcons.gear()),
                                             onPressed: () {
                                               HapticFeedback.mediumImpact();

@@ -1,3 +1,11 @@
+## v3.2.0
+Impro:
+  - Enhanced UI for main Nav bar, Search Filter Screen
+
+## v3.2.0
+Feat:
+  - Enhanced UI for Social Activity Screen (Preview)
+
 ## v3.1.0
 Feat:
   - Enhanced UI for Social Activity Screen (Preview)

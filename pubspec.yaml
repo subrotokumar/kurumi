@@ -1,7 +1,7 @@
 name: kurumi
 description: Unofficial anilist client
 publish_to: "none"
-version: 3.3.0+66
+version: 3.4.0+67
 
 environment:
   sdk: ^3.9.2

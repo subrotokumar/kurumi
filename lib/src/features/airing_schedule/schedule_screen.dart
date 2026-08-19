@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:kurumi/src/core/assets/assets.dart';
@@ -16,18 +18,16 @@ class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen(this.controller, {super.key});
   final PageController controller;
 
-  final List days = const <Widget>[
-    Text('SUNDAY'),
-    Text('MONDAY'),
-    Text('TUESDAY'),
-    Text('WEDNESDAY'),
-    Text('THURSDAY'),
-    Text('FRIDAY'),
-    Text('SATURDAY'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+        .map(
+          (day) => Text(
+            day,
+            style: Anton(fontSize: 25, fontWeight: FontWeight.bold, height: 1),
+          ),
+        )
+        .toList();
     DateTime time = DateTime.now().subtract(const Duration(days: 1));
     DateTime start = DateTime(time.year, time.month, time.day, 0, 0);
     Size size = MediaQuery.of(context).size;
@@ -78,11 +78,11 @@ class ScheduleScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Airing Schedule',
-                            style: TextStyle(
+                            style: Poppins(
                               fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           IconButton(
@@ -93,7 +93,10 @@ class ScheduleScreen extends StatelessWidget {
                                 curve: Curves.linear,
                               );
                             },
-                            icon: const Icon(Icons.notifications),
+                            icon: Icon(
+                              PhosphorIcons.bell(PhosphorIconsStyle.fill),
+                              size: 20,
+                            ),
                           ),
                         ],
                       ),
@@ -112,23 +115,29 @@ class ScheduleScreen extends StatelessWidget {
                         horizontal: 16,
                         vertical: 5,
                       ),
+                      tabAlignment: TabAlignment.start,
                       tabs: [
                         for (int i = 0; i < 7; i++)
                           Column(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              days[(time.weekday + i) % 7],
                               Builder(
                                 builder: (context) {
                                   final t = DateFormat().format(
                                     time.add(Duration(days: i)),
                                   );
+                                  final tt = t
+                                      .substring(0, t.indexOf(','))
+                                      .split(' ');
                                   return Text(
-                                    t.substring(0, t.indexOf(',')),
-                                    style: const TextStyle(fontSize: 12),
+                                    '${tt.elementAt(0).substring(0, 3).toUpperCase()} ${tt.elementAt(1)}',
+                                    style: Anton(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   );
                                 },
                               ),
+                              days[(time.weekday + i) % 7],
                             ],
                           ),
                       ],

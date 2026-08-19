@@ -6,12 +6,17 @@ const kBlackColor = Colors.black;
 const kTransparentColor = Colors.transparent;
 final kBackgroundColor = AppTheme.background;
 final kSecondaryColor = AppTheme.secondaryColor;
-const kVersion = "3.3.0";
+const kVersion = "3.4.0";
 
 const List kChanges = [
   {
     "id": 1,
     "title": "Social Activity (PREVIEW)",
     "detail": ["Added social activity screen in preview mode!"],
+  },
+  {
+    "id": 2,
+    "title": "Improvement",
+    "detail": ["UI Improvement"],
   },
 ];

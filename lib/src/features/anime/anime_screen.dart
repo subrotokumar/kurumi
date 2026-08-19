@@ -35,26 +35,29 @@ class _AnimeScreenState extends ConsumerState<AnimeScreen> {
               Container(
                 width: 40,
                 color: AppTheme.secondaryColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 60,
-                      child: Center(
-                        child: IconButton(
-                          onPressed: () {
-                            context.pushNamed(
-                              AppRouteConstant.SearchScreen.name,
-                              extra: {'mediaType': GMediaType.ANIME},
-                            );
-                          },
-                          icon: const Icon(Icons.search_rounded),
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              context.pushNamed(
+                                AppRouteConstant.SearchScreen.name,
+                                extra: {'mediaType': GMediaType.ANIME},
+                              );
+                            },
+                            icon: const Icon(Icons.search_rounded),
+                          ),
                         ),
                       ),
-                    ),
-                    Gap(5),
-                    VerticleNavigationBar(controller: controller),
-                  ],
+                      Gap(5),
+                      VerticleNavigationBar(controller: controller),
+                    ],
+                  ),
                 ),
               ),
               Container(

@@ -39,29 +39,32 @@ class _MangaScreenState extends ConsumerState<MangaScreen> {
               Container(
                 width: 40,
                 color: AppTheme.secondaryColor,
+                alignment: Alignment.topCenter,
                 child: Consumer(
                   builder: (context, ref, child) {
                     ref.watch(mangaTabProvider);
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 60,
-                          child: Center(
-                            child: IconButton(
-                              onPressed: () {
-                                context.pushNamed(
-                                  AppRouteConstant.SearchScreen.name,
-                                  extra: {'mediaType': GMediaType.MANGA},
-                                );
-                              },
-                              icon: const Icon(Icons.search_rounded),
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            child: Center(
+                              child: IconButton(
+                                onPressed: () {
+                                  context.pushNamed(
+                                    AppRouteConstant.SearchScreen.name,
+                                    extra: {'mediaType': GMediaType.MANGA},
+                                  );
+                                },
+                                icon: const Icon(Icons.search_rounded),
+                              ),
                             ),
                           ),
-                        ),
-                        Gap(5),
-                        VerticleNavigationBar(controller: controller),
-                      ],
+                          Gap(5),
+                          VerticleNavigationBar(controller: controller),
+                        ],
+                      ),
                     );
                   },
                 ),

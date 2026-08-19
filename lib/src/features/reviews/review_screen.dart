@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:anilist/anilist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kurumi/src/core/routes/router.dart';
 import 'package:kurumi/src/core/themes/app_theme.dart';
 import 'package:kurumi/src/core/utils/utils.functions.dart';
+import 'package:gap/gap.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({required this.id, required this.reviewData, super.key});
@@ -54,7 +58,7 @@ class ReviewScreen extends ConsumerWidget {
                             physics: const ClampingScrollPhysics(),
                             selectable: true,
                             styleSheet: MarkdownStyleSheet(
-                              p: const TextStyle(fontSize: 16),
+                              p: Inter(fontSize: 16),
                               blockquoteDecoration: const BoxDecoration(
                                 color: Colors.white12,
                               ),
@@ -64,23 +68,28 @@ class ReviewScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 12),
                       SizedBox(
-                        height: 24,
+                        height: 25,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Icon(
+                              PhosphorIconsFill.thumbsUp,
+                              color: Colors.grey,
+                            ),
+                            Gap(5),
                             Text(
                               '${reviewData.score} / 100',
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 22,
+                                fontSize: 18,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      Gap(20),
                       Visibility(
                         visible: false,
                         child: Row(
@@ -186,7 +195,7 @@ class ReviewScreen extends ConsumerWidget {
                             Text(
                               '${reviewData.media?.title?.userPreferred}',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: Anton(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 24,
                                 color: Colors.grey.shade300,
@@ -201,7 +210,7 @@ class ReviewScreen extends ConsumerWidget {
                                 child: Text(
                                   reviewData.user?.name ?? '',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: Poppins(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
                                     color: Colors.blue.shade100,
@@ -209,8 +218,7 @@ class ReviewScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            Container(height: 1, color: Colors.white),
+                            Gap(12),
                           ],
                         ),
                       ),
@@ -224,16 +232,15 @@ class ReviewScreen extends ConsumerWidget {
                         style: IconButton.styleFrom(
                           foregroundColor: Theme.of(context).iconTheme.color,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(12),
+                            side: BorderSide(width: 0.2, color: Colors.white),
                           ),
                           fixedSize: const Size.square(25),
                           backgroundColor: Colors.black26,
                         ),
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
+                        onPressed: () => context.pop(),
+                        icon: Icon(
+                          PhosphorIcons.caretLeft(),
                           size: 25,
                           shadows: [Shadow(color: Colors.black, blurRadius: 5)],
                         ),

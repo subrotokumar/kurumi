@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:anilist/anilist.dart';
 import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/assets/assets.dart';
 import 'package:logger/logger.dart';
@@ -165,4 +166,26 @@ Color colorFromString(
   final hsl = HSLColor.fromAHSL(1.0, hue, saturation, lightness);
 
   return hsl.toColor();
+}
+
+GMediaSeason getCurrentSeason() {
+  final month = DateTime.now().month;
+  return switch (month) {
+    12 || 1 || 2 => GMediaSeason.WINTER,
+    3 || 4 || 5 => GMediaSeason.SPRING,
+    6 || 7 || 8 => GMediaSeason.SUMMER,
+    _ => GMediaSeason.FALL, // 9, 10, 11
+  };
+}
+
+String toTitleCase(String input) {
+  if (input.trim().isEmpty) return input;
+  return input
+      .split(' ')
+      .map(
+        (word) => word.isEmpty
+            ? word
+            : word[0].toUpperCase() + word.substring(1).toLowerCase(),
+      )
+      .join(' ');
 }

@@ -24,7 +24,7 @@ class InitStatusNotifier extends StateNotifier<bool> {
 
     final accessToken = await FlutterSecureStorage().read(
       key: 'AniListAccessToken',
-      aOptions: const AndroidOptions(encryptedSharedPreferences: true),
+      aOptions: const AndroidOptions(),
     );
     await Hive.initFlutter();
     final box = await Hive.openBox('anilist_graphql');

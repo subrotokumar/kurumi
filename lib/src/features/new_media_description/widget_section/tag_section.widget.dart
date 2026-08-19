@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kurumi/src/core/core.dart';
 
 class TagSection extends StatefulWidget {
-  const TagSection({
-    super.key,
-    required this.data,
-  });
+  const TagSection({super.key, required this.data});
 
   final GMediaDetailQueryData_Media? data;
 
@@ -30,10 +27,7 @@ class _TagSectionState extends State<TagSection> {
             children: [
               Text(
                 'TAGS',
-                style: Poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: Poppins(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               const Spacer(),
               GestureDetector(
@@ -58,41 +52,45 @@ class _TagSectionState extends State<TagSection> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(width: 20),
-              for (int index = 0;
-                  index < (widget.data?.tags?.length ?? 0);
-                  index++)
-                Builder(builder: (context) {
-                  bool isSpoiler =
-                      (widget.data?.tags?.elementAt(index)?.isMediaSpoiler ??
-                          false);
-                  if (isSpoiler && !showSpoiler) return Container();
-                  return Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
-                    decoration: BoxDecoration(
+              for (
+                int index = 0;
+                index < (widget.data?.tags?.length ?? 0);
+                index++
+              )
+                Builder(
+                  builder: (context) {
+                    bool isSpoiler =
+                        (widget.data?.tags?.elementAt(index)?.isMediaSpoiler ??
+                        false);
+                    if (isSpoiler && !showSpoiler) return Container();
+                    return Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: Colors.white24,
-                        )),
-                    child: InkWell(
-                      onTap: () {
-                        context.pushNamed(
-                          AppRouteConstant.SearchScreen.name,
-                          extra: {
-                            'mediaType': widget.data?.type,
-                            'tags': widget.data?.tags?[index]?.name,
-                            'hide': true
-                          },
-                        );
-                      },
-                      child: Text(
-                        '${widget.data?.tags?[index]?.name ?? ''}  ${widget.data?.tags?[index]?.rank ?? '0'}%',
-                        style:
-                            TextStyle(color: isSpoiler ? Colors.amber : null),
+                        border: Border.all(color: Colors.white24),
                       ),
-                    ),
-                  );
-                }),
+                      child: InkWell(
+                        onTap: () {
+                          context.pushNamed(
+                            AppRouteConstant.SearchScreen.name,
+                            extra: {
+                              'mediaType': widget.data?.type,
+                              'tags': widget.data?.tags?[index]?.name,
+                              'hide': true,
+                            },
+                          );
+                        },
+                        child: Text(
+                          '${widget.data?.tags?[index]?.name ?? ''}  ${widget.data?.tags?[index]?.rank ?? '0'}%',
+                          style: TextStyle(
+                            color: isSpoiler ? Colors.amber : null,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               const SizedBox(width: 20),
             ],
           ),

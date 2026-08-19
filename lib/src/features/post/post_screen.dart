@@ -282,7 +282,7 @@ class PostScreenState extends ConsumerState<PostScreen> {
                                         ),
                                       ),
                                       Spacer(),
-                                      Icon(PhosphorIcons.dotsThree()),
+                                      // Icon(PhosphorIcons.dotsThree()),
                                     ],
                                   ),
                                   Visibility(
